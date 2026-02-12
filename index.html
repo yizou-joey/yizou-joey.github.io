@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yi Zou - Homepage</title>
+    <title>Yi ZOU - Homepage</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -47,7 +48,6 @@
               </div>
               <nav class="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-2 font-inter text-[12px] text-muted sm:text-[14px] md:w-auto md:gap-[32px] md:text-[15px]">
                 <a href="index.html" class="font-semibold text-ink">About</a>
-                <a href="#research" class="hover:text-ink">Research</a>
                 <a href="publications.html" class="hover:text-ink">Publications</a>
               </nav>
             </div>
@@ -102,7 +102,7 @@
                     EMAIL
                   </a>
                   <a
-                    href="https://github.com/Youdnot"
+                    href="https://github.com/yizou-joey"
                     class="flex items-center gap-2 text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
                   >
                     <svg
@@ -117,7 +117,7 @@
                     </svg>
                     GITHUB
                   </a>
-                  <a
+                  <!-- <a
                     href="files/CV_EN.pdf"
                     class="flex items-center gap-2 text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
                   >
@@ -135,7 +135,7 @@
                       />
                     </svg>
                     CV (Updated Oct. 2025)
-                  </a>
+                  </a> -->
                 </div>
               </div>
             </div>
@@ -146,31 +146,7 @@
                 <span class="text-[28px] text-muted sm:text-[36px] md:text-[48px]">邹一</span>
               </div>
               <p class="w-full max-w-[627px] text-[16px] leading-relaxed text-ink text-left font-inter sm:text-[18px] md:text-[20px]">
-                Hi there! I am a second-year MPhil Student in
-                <a
-                  href="https://cma.hkust-gz.edu.cn/"
-                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
-                  >Computational Media and Art Thrust</a
-                >
-                at
-                <a
-                  href="https://www.hkust-gz.edu.cn/"
-                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
-                  >The Hong Kong University of Science and Technology (Guangzhou)</a
-                >.
-                I am supervised by
-                <a
-                  href="https://scholar.google.com/citations?user=dcDrhzMAAAAJ&hl=en"
-                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
-                  >Prof. Pan HUI</a
-                >
-                and
-                <a
-                  href="https://scholar.google.com/citations?user=UJPH5ioAAAAJ&hl=en&oi=ao"
-                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
-                  >Prof. Hai-Ning LIANG</a
-                >.
-                My research interest is Understanding Human Behavior in eXtended Reality.
+                <span id="bio-intro">Loading bio...</span>
               </p>
             </div>
           </div>
@@ -188,11 +164,11 @@
         <section id="publications" class="w-full bg-stone py-[50px]">
           <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[28px] px-4">
             <div class="flex w-full items-center p-[10px]">
-              <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px]">Selected Papers</h2>
-            </div>
-            <div class="flex w-full flex-col items-center justify-center px-0 md:px-[40px]">
-              <div id="publications-list" class="flex w-full flex-col items-center gap-[30px]"></div>
-            </div>
+               <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px]">Research Projects</h2>
+             </div>
+             <div class="flex w-full flex-col items-center justify-center px-0 md:px-[40px]">
+               <div id="publications-list" class="flex w-full flex-col items-center gap-[30px]"></div>
+             </div>
           </div>
         </section>
 
@@ -209,6 +185,7 @@
       const publicationsList = document.getElementById("publications-list");
       const newsList = document.getElementById("news-list");
       const teachingList = document.getElementById("teaching-list");
+      const bioIntro = document.getElementById("bio-intro");
 
       const parseListData = (text) => {
         const lines = text.replace(/\r/g, "").split("\n");
@@ -265,6 +242,7 @@
         );
         html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
         html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        html = html.replace(/\n/g, "<br />");
         html = html.replace(/\\n/g, "<br />");
         return html;
       };
@@ -427,6 +405,22 @@
         errorMessage:
           '<p class="font-inter text-[14px] text-muted">Teaching unavailable.</p>',
       });
+
+      fetch("contents/bio.md")
+        .then((response) => response.text())
+        .then((markdown) => {
+          if (!bioIntro) return;
+          const text = (markdown || "").trim();
+          if (!text) {
+            bioIntro.textContent = "";
+            return;
+          }
+          bioIntro.innerHTML = renderInlineMarkdown(text);
+        })
+        .catch(() => {
+          if (!bioIntro) return;
+          bioIntro.textContent = "Bio unavailable.";
+        });
     </script>
   </body>
 </html>

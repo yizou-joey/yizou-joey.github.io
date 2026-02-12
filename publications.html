@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yi Zou - Publications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              inter: ["Inter", "sans-serif"],
+              serifSc: ["Noto Serif SC", "serif"],
+            },
+            colors: {
+              ink: "#15120f",
+              muted: "#787774",
+              paper: "#f7f4ef",
+              stone: "#f6f5f4",
+              line: "#e9e7e3",
+              chip: "#262189",
+            },
+            boxShadow: {
+              card: "1px 1px 1px 0px rgba(0,0,0,0.25)",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+    <body class="bg-white text-ink">
+    <div class="relative size-full">
+      <div class="flex flex-col items-center gap-[40px] md:gap-[60px] w-full">
+        <header class="w-full">
+          <div class="bg-white flex w-full items-center justify-center">
+            <div class="flex w-[1440px] max-w-full flex-col items-center gap-3 px-4 py-3 md:h-[50px] md:flex-row md:justify-between md:gap-6 md:py-0">
+              <div class="flex w-[24px] items-center justify-center">
+                <span class="font-serifSc text-[24px] text-ink">Yi</span>
+              </div>
+              <nav class="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-2 font-inter text-[12px] text-muted sm:text-[14px] md:w-auto md:gap-[32px] md:text-[15px]">
+                <a href="index.html" class="hover:text-ink">About</a>
+                <a href="index.html#research" class="hover:text-ink">Research</a>
+                <a href="publications.html" class="font-semibold text-ink">Publications</a>
+              </nav>
+            </div>
+          </div>
+          <div class="h-px w-full bg-line"></div>
+          <!-- <div class="h-[200px] w-full bg-gradient-to-b from-[#f7f6f3] via-[#e9e7e3] to-[#d3d1cb]"></div> -->
+        </header>
+
+        <section class="w-full max-w-[1000px] px-4">
+          <div class="flex w-full items-center p-[10px]">
+            <h1 class="font-inter text-[30px] font-semibold leading-[32px] sm:text-[36px] md:text-[40px]">
+              Publications
+            </h1>
+          </div>
+        </section>
+
+        <section class="w-full bg-stone py-[40px]">
+          <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[30px] px-4">
+            <div id="publications-by-year" class="flex w-full flex-col gap-[32px]"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const publicationsByYear = document.getElementById("publications-by-year");
+
+      const parseListData = (text) => {
+        const lines = text.replace(/\r/g, "").split("\n");
+        const items = [];
+        let current = null;
+
+        const pushCurrent = () => {
+          if (!current) return;
+          const hasContent = Object.values(current).some((value) => value && value.trim());
+          if (hasContent) items.push(current);
+          current = null;
+        };
+
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+
+          if (!line) continue;
+
+          if (line.startsWith("- ")) {
+            pushCurrent();
+            current = {};
+            const content = line.slice(2);
+            const [key, ...rest] = content.split(":");
+            if (key && rest.length) {
+              current[key.trim()] = rest.join(":").trim();
+            }
+            continue;
+          }
+
+          if (!current) continue;
+
+          const [key, ...rest] = line.split(":");
+          if (!key || !rest.length) continue;
+          current[key.trim()] = rest.join(":").trim();
+        }
+
+        pushCurrent();
+        return items;
+      };
+
+      const escapeHtml = (value) =>
+        value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+
+      const renderInlineMarkdown = (value) => {
+        if (!value) return "";
+        let html = escapeHtml(value);
+        html = html.replace(
+          /\[([^\]]+)\]\(([^)]+)\)/g,
+          '<a href="$2" class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60">$1</a>'
+        );
+        html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        html = html.replace(/\\n/g, "<br />");
+        return html;
+      };
+
+      const renderAuthors = (value) => {
+        if (!value) return "";
+        const token = "__CORR_STAR__";
+        const escaped = value.replace(/\\\*/g, token);
+        let html = renderInlineMarkdown(escaped);
+        html = html.replace(new RegExp(token, "g"), "<sup>*</sup>");
+        html = html.replace(/\*/g, "<sup>*</sup>");
+        return html;
+      };
+
+      const buildPublicationCard = (item) => {
+        const article = document.createElement("article");
+        article.className =
+          "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
+
+        const container = document.createElement("div");
+        container.className = "flex flex-col items-start gap-[14px]";
+
+        const venue = document.createElement("div");
+        venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";
+        const venueColor = item.venueColor || "#262189";
+        venue.style.backgroundColor = venueColor;
+
+        const venueText = document.createElement("span");
+        venueText.className = "font-inter text-[14px] font-semibold text-paper";
+        venueText.textContent = item.venue || "";
+        venue.appendChild(venueText);
+
+        const title = document.createElement("h3");
+        title.className = "font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
+        title.innerHTML = renderInlineMarkdown(item.title || "");
+
+        const authors = document.createElement("p");
+        authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
+        authors.innerHTML = renderAuthors(item.authors || "");
+
+        const description = document.createElement("p");
+        description.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
+        description.innerHTML = renderInlineMarkdown(item.description || "");
+
+        container.appendChild(venue);
+        container.appendChild(title);
+        container.appendChild(authors);
+        container.appendChild(description);
+        article.appendChild(container);
+        return article;
+      };
+
+      const buildYearSection = (year, items) => {
+        const section = document.createElement("section");
+        section.className = "flex w-full flex-col items-center gap-[20px]";
+
+        const header = document.createElement("div");
+        header.className = "flex w-full items-center p-[10px]";
+
+        const title = document.createElement("h2");
+        title.className = "font-inter text-[24px] font-semibold leading-[28.8px] sm:text-[28px]";
+        title.textContent = year;
+        header.appendChild(title);
+
+        const list = document.createElement("div");
+        list.className = "flex w-full flex-col items-center gap-[30px]";
+        items.forEach((item) => list.appendChild(buildPublicationCard(item)));
+
+        section.appendChild(header);
+        section.appendChild(list);
+        return section;
+      };
+
+      fetch("contents/publications.md")
+        .then((response) => response.text())
+        .then((markdown) => {
+          const items = parseListData(markdown);
+          if (!items.length) {
+            publicationsByYear.innerHTML =
+              '<p class="font-inter text-[14px] text-muted">No publications yet.</p>';
+            return;
+          }
+
+          const sortedItems = [...items].sort((a, b) => {
+            const aDate = Date.parse(a.date || "") || 0;
+            const bDate = Date.parse(b.date || "") || 0;
+            if (aDate === bDate) return 0;
+            return bDate - aDate;
+          });
+
+          const groups = new Map();
+          sortedItems.forEach((item) => {
+            const year = (item.date || "").slice(0, 4) || "Unknown";
+            if (!groups.has(year)) groups.set(year, []);
+            groups.get(year).push(item);
+          });
+
+          Array.from(groups.entries())
+            .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+            .forEach(([year, groupItems]) => {
+              publicationsByYear.appendChild(buildYearSection(year, groupItems));
+            });
+        })
+        .catch(() => {
+          publicationsByYear.innerHTML =
+            '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>';
+        });
+    </script>
+  </body>
+</html>

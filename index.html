@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yi Zou - Homepage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              inter: ["Inter", "sans-serif"],
+              serifSc: ["Noto Serif SC", "serif"],
+            },
+            colors: {
+              ink: "#15120f",
+              muted: "#787774",
+              paper: "#f7f4ef",
+              stone: "#f6f5f4",
+              line: "#e9e7e3",
+              chip: "#262189",
+            },
+            boxShadow: {
+              card: "1px 1px 1px 0px rgba(0,0,0,0.25)",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+    <body class="bg-white text-ink">
+      <div class="relative size-full">
+      <div class="flex flex-col items-center gap-[60px] md:gap-[80px] w-full">
+        <!-- Header -->
+        <header class="w-full">
+          <div class="bg-white flex w-full items-center justify-center">
+            <div class="flex w-[1440px] max-w-full flex-col items-center gap-3 px-4 py-3 md:h-[50px] md:flex-row md:justify-between md:gap-6 md:py-0">
+              <div class="flex w-[24px] items-center justify-center">
+                <span class="font-serifSc text-[24px] text-ink">Yi</span>
+              </div>
+              <nav class="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-2 font-inter text-[12px] text-muted sm:text-[14px] md:w-auto md:gap-[32px] md:text-[15px]">
+                <a href="index.html" class="font-semibold text-ink">About</a>
+                <a href="#research" class="hover:text-ink">Research</a>
+                <a href="publications.html" class="hover:text-ink">Publications</a>
+              </nav>
+            </div>
+          </div>
+          <div class="h-px w-full bg-line"></div>
+          <div class="h-[300px] w-full bg-gradient-to-b from-[#f7f6f3] via-[#e9e7e3] to-[#d3d1cb]"></div>
+        </header>
+
+        <!-- Intro -->
+        <section id="about" class="flex w-full max-w-[1000px] items-center justify-center px-4 py-2 md:h-[363px] md:p-[10px]">
+            <div class="flex w-full flex-col items-center justify-between gap-10 md:flex-row md:gap-0">
+            <div class="flex flex-col items-center justify-center gap-[10px]">
+              <div class="flex items-center justify-center overflow-hidden rounded-[20px]">
+                <img
+                  src="files/about-profile.jpg"
+                  alt="Profile"
+                  class="h-[160px] w-[160px] object-cover sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px]"
+                />
+              </div>
+              <div class="flex flex-col items-center justify-center px-[20px]">
+                <div class="flex flex-col items-start gap-[15px] py-[10px] font-inter text-[14px]">
+                  <div class="flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="h-4 w-4 text-muted"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"
+                      />
+                      <path
+                        d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+                      />
+                    </svg>
+                    <p>Guangzhou, China</p>
+                  </div>
+                  <a
+                    href="mailto:yzou906@connect.hkust-gz.edu.cn"
+                    class="flex items-center gap-2 text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="h-4 w-4 text-muted"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"
+                      />
+                    </svg>
+                    EMAIL
+                  </a>
+                  <a
+                    href="https://github.com/Youdnot"
+                    class="flex items-center gap-2 text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="h-4 w-4 text-muted"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                      />
+                    </svg>
+                    GITHUB
+                  </a>
+                  <a
+                    href="files/CV_EN.pdf"
+                    class="flex items-center gap-2 text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      class="h-4 w-4 text-muted"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"
+                      />
+                      <path
+                        d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5"
+                      />
+                    </svg>
+                    CV (Updated Oct. 2025)
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col items-start gap-6 md:gap-[49px]">
+              <div class="flex flex-wrap items-center gap-3 font-serifSc md:gap-[30px]">
+                <h1 class="text-[36px] text-ink sm:text-[48px] md:text-[64px]">Yi ZOU</h1>
+                <span class="text-[28px] text-muted sm:text-[36px] md:text-[48px]">Joey</span>
+                <span class="text-[28px] text-muted sm:text-[36px] md:text-[48px]">邹一</span>
+              </div>
+              <p class="w-full max-w-[627px] text-[16px] leading-relaxed text-ink text-left font-inter sm:text-[18px] md:text-[20px]">
+                Hi there! I am a second-year MPhil Student in
+                <a
+                  href="https://cma.hkust-gz.edu.cn/"
+                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >Computational Media and Art Thrust</a
+                >
+                at
+                <a
+                  href="https://www.hkust-gz.edu.cn/"
+                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >The Hong Kong University of Science and Technology (Guangzhou)</a
+                >.
+                I am supervised by
+                <a
+                  href="https://scholar.google.com/citations?user=dcDrhzMAAAAJ&hl=en"
+                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >Prof. Pan HUI</a
+                >
+                and
+                <a
+                  href="https://scholar.google.com/citations?user=UJPH5ioAAAAJ&hl=en&oi=ao"
+                  class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >Prof. Hai-Ning LIANG</a
+                >.
+                My research interest is Understanding Human Behavior in eXtended Reality.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent News -->
+        <section id="research" class="flex w-full max-w-[1000px] flex-col items-center gap-[28px] px-4">
+          <div class="flex w-full items-center p-[10px]">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px]">Recent News</h2>
+          </div>
+          <div id="news-list" class="flex w-full flex-col items-center gap-[16px] p-[10px]"></div>
+        </section>
+
+        <!-- Selected Papers -->
+        <section id="publications" class="w-full bg-stone py-[50px]">
+          <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[28px] px-4">
+            <div class="flex w-full items-center p-[10px]">
+              <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px]">Selected Papers</h2>
+            </div>
+            <div class="flex w-full flex-col items-center justify-center px-0 md:px-[40px]">
+              <div id="publications-list" class="flex w-full flex-col items-center gap-[30px]"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Teaching -->
+        <section id="teaching" class="flex w-full max-w-[1000px] flex-col items-center gap-[28px] px-4 pb-[90px]">
+          <div class="flex w-full items-center p-[10px]">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px]">Teaching</h2>
+          </div>
+          <div id="teaching-list" class="mx-auto flex w-full max-w-[880px] flex-col gap-[12px]"></div>
+        </section>
+      </div>
+    </div>
+    <script>
+      const publicationsList = document.getElementById("publications-list");
+      const newsList = document.getElementById("news-list");
+      const teachingList = document.getElementById("teaching-list");
+
+      const parseListData = (text) => {
+        const lines = text.replace(/\r/g, "").split("\n");
+        const items = [];
+        let current = null;
+
+        const pushCurrent = () => {
+          if (!current) return;
+          const hasContent = Object.values(current).some((value) => value && value.trim());
+          if (hasContent) items.push(current);
+          current = null;
+        };
+
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+
+          if (!line) continue;
+
+          if (line.startsWith("- ")) {
+            pushCurrent();
+            current = {};
+            const content = line.slice(2);
+            const [key, ...rest] = content.split(":");
+            if (key && rest.length) {
+              current[key.trim()] = rest.join(":").trim();
+            }
+            continue;
+          }
+
+          if (!current) continue;
+
+          const [key, ...rest] = line.split(":");
+          if (!key || !rest.length) continue;
+          current[key.trim()] = rest.join(":").trim();
+        }
+
+        pushCurrent();
+        return items;
+      };
+
+      const escapeHtml = (value) =>
+        value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+
+      const renderInlineMarkdown = (value) => {
+        if (!value) return "";
+        let html = escapeHtml(value);
+        html = html.replace(
+          /\[([^\]]+)\]\(([^)]+)\)/g,
+          '<a href="$2" class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60">$1</a>'
+        );
+        html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+        html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+        html = html.replace(/\\n/g, "<br />");
+        return html;
+      };
+
+      const renderAuthors = (value) => {
+        if (!value) return "";
+        const token = "__CORR_STAR__";
+        const escaped = value.replace(/\\\*/g, token);
+        let html = renderInlineMarkdown(escaped);
+        html = html.replace(new RegExp(token, "g"), "<sup>*</sup>");
+        html = html.replace(/\*/g, "<sup>*</sup>");
+        return html;
+      };
+
+      const buildPublicationCard = (item) => {
+        const article = document.createElement("article");
+        article.className =
+          "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
+
+        const container = document.createElement("div");
+        container.className = "flex flex-col items-start gap-[14px]";
+
+        const venue = document.createElement("div");
+        venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";
+        const venueColor = item.venueColor || "#262189";
+        venue.style.backgroundColor = venueColor;
+
+        const venueText = document.createElement("span");
+        venueText.className = "font-inter text-[14px] font-semibold text-paper";
+        venueText.textContent = item.venue || "";
+        venue.appendChild(venueText);
+
+        const title = document.createElement("h3");
+        title.className = "font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
+        title.innerHTML = renderInlineMarkdown(item.title || "");
+
+        const authors = document.createElement("p");
+        authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
+        authors.innerHTML = renderAuthors(item.authors || "");
+
+        const description = document.createElement("p");
+        description.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
+        description.innerHTML = renderInlineMarkdown(item.description || "");
+
+        container.appendChild(venue);
+        container.appendChild(title);
+        container.appendChild(authors);
+        container.appendChild(description);
+        article.appendChild(container);
+        return article;
+      };
+
+      const buildNewsItem = (item) => {
+        const row = document.createElement("div");
+        row.className = "flex w-full max-w-[900px] items-start gap-[17px]";
+
+        const dateWrap = document.createElement("div");
+        dateWrap.className = "flex h-full items-center";
+
+        const dateChip = document.createElement("div");
+        dateChip.className = "rounded-[6px] bg-[#f1f1ef] px-[9px] py-[2px] whitespace-nowrap";
+
+        const dateText = document.createElement("span");
+        dateText.className = "font-inter text-[13px] font-medium leading-[16.8px] text-muted";
+        dateText.textContent = item.date || "";
+
+        dateChip.appendChild(dateText);
+        dateWrap.appendChild(dateChip);
+
+        const content = document.createElement("p");
+        content.className = "font-inter text-[16px] leading-relaxed text-ink sm:text-[18px] md:text-[20px]";
+        content.innerHTML = renderInlineMarkdown(item.text || "");
+
+        row.appendChild(dateWrap);
+        row.appendChild(content);
+        return row;
+      };
+
+      const buildTeachingItem = (item) => {
+        const card = document.createElement("div");
+        card.className = "w-full rounded-[8px] border border-line p-[20px]";
+
+        const grid = document.createElement("div");
+        grid.className =
+          "grid w-full grid-cols-1 items-center gap-2 sm:grid-cols-[170px_1fr] sm:gap-3";
+
+        const role = document.createElement("span");
+        role.className = "font-inter text-[18px] font-semibold sm:text-[16px]";
+        role.textContent = item.role || "";
+
+        const detail = document.createElement("span");
+        detail.className =
+          "font-inter text-[14px] leading-relaxed text-muted sm:text-[16px] sm:justify-self-end sm:text-right";
+        detail.innerHTML = renderInlineMarkdown(item.detail || "");
+
+        grid.appendChild(role);
+        grid.appendChild(detail);
+        card.appendChild(grid);
+        return card;
+      };
+
+      const renderList = ({
+        url,
+        container,
+        buildItem,
+        emptyMessage,
+        errorMessage,
+        sort,
+      }) => {
+        fetch(url)
+          .then((response) => response.text())
+          .then((markdown) => {
+            const items = parseListData(markdown);
+            if (!items.length) {
+              container.innerHTML = emptyMessage;
+              return;
+            }
+            const sortedItems = sort ? [...items].sort(sort) : items;
+            sortedItems.forEach((item) => {
+              container.appendChild(buildItem(item));
+            });
+          })
+          .catch(() => {
+            container.innerHTML = errorMessage;
+          });
+      };
+
+      renderList({
+        url: "contents/publications.md",
+        container: publicationsList,
+        buildItem: buildPublicationCard,
+        emptyMessage:
+          '<p class="font-inter text-[14px] text-muted">No publications yet.</p>',
+        errorMessage:
+          '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>',
+      });
+
+      renderList({
+        url: "contents/news.md",
+        container: newsList,
+        buildItem: buildNewsItem,
+        emptyMessage:
+          '<p class="font-inter text-[14px] text-muted">No news yet.</p>',
+        errorMessage:
+          '<p class="font-inter text-[14px] text-muted">News unavailable.</p>',
+        sort: (a, b) => {
+          const aTime = Date.parse(a.date || "") || 0;
+          const bTime = Date.parse(b.date || "") || 0;
+          if (aTime === bTime) return 0;
+          return bTime - aTime;
+        },
+      });
+
+      renderList({
+        url: "contents/teaching.md",
+        container: teachingList,
+        buildItem: buildTeachingItem,
+        emptyMessage:
+          '<p class="font-inter text-[14px] text-muted">No teaching entries yet.</p>',
+        errorMessage:
+          '<p class="font-inter text-[14px] text-muted">Teaching unavailable.</p>',
+      });
+    </script>
+  </body>
+</html>

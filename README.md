@@ -8,3 +8,7 @@ Hi, I'm Yi ZOU (Joey), a second-year MPhil student in Computational Media and Ar
 - Publications: `contents/publications.md`
 - News: `contents/news.md`
 - Teaching: `contents/teaching.md`
+
+## Special thanks
+
+- Visitor analytics powered by [GoatCounter](https://www.goatcounter.com/).

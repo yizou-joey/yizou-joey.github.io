@@ -257,10 +257,31 @@
         return html;
       };
 
+      const buildLinkButton = (url, iconPath, label, hoverColor) => {
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.className = `flex items-center gap-[6px] rounded-[6px] border border-line px-3 py-1.5 font-inter text-[13px] text-muted transition-colors hover:border-transparent hover:text-white`;
+        a.innerHTML = `
+          <img src="${iconPath}" class="h-4 w-4 flex-shrink-0" alt="${label}" />
+          <span class="hidden sm:inline rounded-[4px] px-2 py-0.5 transition-colors ${hoverColor}">${label}</span>
+        `;
+        a.addEventListener('mouseenter', () => {
+          a.querySelector('span').classList.remove('text-muted');
+          a.querySelector('span').classList.add('text-white');
+        });
+        a.addEventListener('mouseleave', () => {
+          a.querySelector('span').classList.remove('text-white');
+          a.querySelector('span').classList.add('text-muted');
+        });
+        return a;
+      };
+
       const buildPublicationCard = (item) => {
         const article = document.createElement("article");
         article.className =
-          "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
+          "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px] relative";
 
         const container = document.createElement("div");
         container.className = "flex flex-col items-start gap-[14px]";
@@ -291,6 +312,57 @@
         container.appendChild(title);
         container.appendChild(authors);
         container.appendChild(description);
+
+        const linksContainer = document.createElement("div");
+        linksContainer.className = "flex flex-wrap items-center gap-[8px] mt-2";
+
+        if (item.pdf) {
+          linksContainer.appendChild(buildLinkButton(item.pdf, "icons/file-earmark.svg", "PDF", "hover:bg-[#DC2626]"));
+        }
+        if (item.arxiv) {
+          linksContainer.appendChild(buildLinkButton(item.arxiv, "icons/arxiv.svg", "arXiv", "hover:bg-[#B31B1B]"));
+        }
+        if (item.youtube) {
+          linksContainer.appendChild(buildLinkButton(item.youtube, "icons/youtube.svg", "YouTube", "hover:bg-[#FF0000]"));
+        }
+        if (item.code) {
+          linksContainer.appendChild(buildLinkButton(item.code, "icons/code-slash.svg", "Code", "hover:bg-[#181717]"));
+        }
+
+        container.appendChild(linksContainer);
+
+        if (item.project) {
+          const moreButton = document.createElement("a");
+          moreButton.href = item.project;
+          moreButton.target = "_blank";
+          moreButton.rel = "noopener noreferrer";
+          moreButton.className = `
+            absolute bottom-[16px] right-[16px] sm:bottom-[20px] sm:right-[20px] md:bottom-[24px] md:right-[24px]
+            flex items-center gap-[6px] rounded-[6px] px-3 py-1.5 font-inter text-[13px]
+            bg-transparent text-muted transition-all duration-200 group
+            hover:bg-[${venueColor}] hover:text-white
+          `;
+          moreButton.style.backgroundColor = "transparent";
+          moreButton.onmouseenter = () => {
+            moreButton.style.backgroundColor = venueColor;
+            moreButton.style.color = "white";
+          };
+          moreButton.onmouseleave = () => {
+            moreButton.style.backgroundColor = "transparent";
+            moreButton.style.color = "#787774";
+          };
+          moreButton.innerHTML = `
+            <span class="inline-flex sm:hidden">
+              <img src="icons/arrow-down-right.svg" class="h-4 w-4" alt="More" />
+            </span>
+            <span class="hidden sm:inline group-hover:hidden">
+              <img src="icons/arrow-down-right.svg" class="h-4 w-4" alt="More" />
+            </span>
+            <span class="hidden group-hover:inline transition-opacity duration-200">Show Details</span>
+          `;
+          container.appendChild(moreButton);
+        }
+
         article.appendChild(container);
         return article;
       };

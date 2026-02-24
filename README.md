@@ -5,3 +5,4 @@ Hi, I'm Yi ZOU, a second-year MPhil student in Computational Media and Art Thrus
 ## Special thanks
 
 - Visitor analytics powered by [GoatCounter](https://www.goatcounter.com/).
+- Icons from [Bootstrap Icons](https://icons.getbootstrap.com/)

@@ -28,7 +28,7 @@ const buildNewsItem = (item) => {
 const buildTeachingItem = (item) => {
   const entry = item || {};
   const card = document.createElement("div");
-  card.className = "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[20px] md:p-[15px]";
+  card.className = "card-surface w-full max-w-[833px] rounded-xl p-[24px] sm:p-[20px] md:p-[15px]";
 
   const grid = document.createElement("div");
   grid.className =

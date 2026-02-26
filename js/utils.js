@@ -229,7 +229,7 @@ const buildPublicationCard = (item) => {
   const entry = item || {};
   const article = document.createElement("article");
   article.className =
-    "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
+    "card-surface w-full max-w-[833px] rounded-xl p-[24px] sm:p-[28px] md:p-[40px]";
 
   const container = document.createElement("div");
   container.className = "flex flex-col items-start gap-[10px]";

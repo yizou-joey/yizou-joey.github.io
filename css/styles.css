@@ -3,8 +3,13 @@
   --color-muted: #787774;
   --color-paper: #f7f4ef;
   --color-stone: #f6f5f4;
-  --color-line: #e9e7e3;
+  --color-line: #f2f1ee;
   --color-chip: #262189;
+  --shadow-card-subtle: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
+  --shadow-card-subtle-hover:
+  0 2px 6px 0px rgba(15, 23, 42, 0.18),
+  0 8px 16px -6px rgba(15, 23, 42, 0.14);
+
 
   --space-section: 60px;
   --space-section-md: 80px;
@@ -43,6 +48,17 @@
   border-color: var(--color-line);
 }
 
+.card-surface {
+  border: 1px solid var(--color-line);
+  background: #fff;
+  box-shadow: none;
+  transition: box-shadow 180ms ease;
+}
+
+.card-surface:focus-within {
+  box-shadow: var(--shadow-card-subtle-hover);
+}
+
 .font-inter {
   font-family: var(--font-inter);
 }
@@ -78,5 +94,11 @@
 @media (min-width: 768px) {
   .section-gap {
     gap: var(--space-section-md);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-surface:hover {
+    box-shadow: var(--shadow-card-subtle-hover);
   }
 }

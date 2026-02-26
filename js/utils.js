@@ -68,6 +68,55 @@ const renderAuthors = (value) => {
   return html;
 };
 
+const MONTH_NUMBER_BY_NAME = {
+  jan: 0,
+  feb: 1,
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
+};
+
+const getDateSortValue = (value) => {
+  const text = (value || "").trim();
+  if (!text) return 0;
+
+  const isoDate = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isoDate) {
+    const [, year, month, day] = isoDate;
+    return Date.UTC(Number(year), Number(month) - 1, Number(day));
+  }
+
+  const isoYearMonth = text.match(/^(\d{4})-(\d{2})$/);
+  if (isoYearMonth) {
+    const [, year, month] = isoYearMonth;
+    return Date.UTC(Number(year), Number(month) - 1, 1);
+  }
+
+  const isoYear = text.match(/^(\d{4})$/);
+  if (isoYear) {
+    return Date.UTC(Number(isoYear[1]), 0, 1);
+  }
+
+  const monthYear = text.match(/^([A-Za-z]{3,9})\.?,?\s+(\d{4})$/);
+  if (monthYear) {
+    const [, monthName, year] = monthYear;
+    const monthIndex = MONTH_NUMBER_BY_NAME[monthName.slice(0, 3).toLowerCase()];
+    if (typeof monthIndex === "number") {
+      return Date.UTC(Number(year), monthIndex, 1);
+    }
+  }
+
+  const fallback = Date.parse(text);
+  return Number.isFinite(fallback) ? fallback : 0;
+};
+
 const buildPublicationCard = (item) => {
   const article = document.createElement("article");
   article.className =

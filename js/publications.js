@@ -23,7 +23,12 @@ const publicationsByYear = document.getElementById("publications-by-year");
 
 if (publicationsByYear) {
   fetch("contents/publications.md")
-    .then((response) => response.text())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch publications: ${response.status}`);
+      }
+      return response.text();
+    })
     .then((markdown) => {
       const items = parseListData(markdown);
       if (!items.length) {
@@ -33,8 +38,8 @@ if (publicationsByYear) {
       }
 
       const sortedItems = [...items].sort((a, b) => {
-        const aDate = Date.parse(a.date || "") || 0;
-        const bDate = Date.parse(b.date || "") || 0;
+        const aDate = getDateSortValue(a.date);
+        const bDate = getDateSortValue(b.date);
         if (aDate === bDate) return 0;
         return bDate - aDate;
       });

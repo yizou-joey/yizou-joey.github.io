@@ -8,56 +8,45 @@ This document describes how this GitHub Pages academic homepage is structured an
 - Added corresponding author markers: `\*` and `*` in `authors` render as superscript.
 - Added a `publications.html` page and updated the homepage nav to point to it.
 - Renamed `content` to `contents`.
-- **Refactored JS**: Separated shared utilities, page-specific logic, and Tailwind config into separate files.
-- **Shared Tailwind config**: Centralized font families, colors, box shadows, and spacing in `js/tailwind-config.js`.
+- **Refactored JS**: Separated shared utilities and page-specific logic into separate files.
+- **Shared CSS tokens**: Centralized font families, colors, and spacing in `css/styles.css`.
 
 ## File Structure
 
 ```
+css/
+└── styles.css           # Shared CSS tokens and semantic utility classes
+
 js/
-├── tailwind-config.js   # Shared Tailwind config (font, colors, spacing)
 ├── utils.js             # Shared rendering utilities (parseListData, escapeHtml, etc.)
 ├── index.js             # Index page specific logic
 └── publications.js      # Publications page specific logic
 ```
 
-## Tailwind Config
+## Shared CSS Tokens
 
-Shared configuration is in `js/tailwind-config.js`:
+Shared styling tokens and semantic utility classes are in `css/styles.css`:
 
-```javascript
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        inter: ["Inter", "sans-serif"],
-        serifSc: ["Noto Serif SC", "serif"],
-      },
-      colors: {
-        ink: "#15120f",
-        muted: "#787774",
-        paper: "#f7f4ef",
-        stone: "#f6f5f4",
-        line: "#e9e7e3",
-        chip: "#262189",
-      },
-      spacing: {
-        section: "60px",
-        "section-md": "80px",
-        "section-py": "50px",
-      },
-    },
-  },
-};
+```css
+:root {
+  --color-ink: #15120f;
+  --color-muted: #787774;
+  --color-paper: #f7f4ef;
+  --color-stone: #f6f5f4;
+  --color-line: #e9e7e3;
+  --space-section: 60px;
+  --space-section-md: 80px;
+  --space-section-py: 50px;
+}
 ```
 
-### Using custom spacing
+### Using semantic spacing classes
 
-In HTML, use the config keys directly (without brackets):
+In HTML, use the shared CSS utility classes:
 
 ```html
-<div class="gap-section md:gap-section-md">
-<section class="py-section-py">
+<div class="section-gap">
+<section class="section-py">
 ```
 
 ## Pages

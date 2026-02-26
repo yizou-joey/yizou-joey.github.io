@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waveform Timeline - Test</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      .waveform-wrapper {
+        height: 60px;
+      }
+      .waveform-line {
+        transition: height 150ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 150ms ease;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-ink">
+    <div class="relative size-full">
+      <div class="flex flex-col items-center section-gap w-full">
+        <!-- Header -->
+        <header class="w-full">
+          <div class="bg-white flex w-full items-center justify-center">
+            <div class="flex w-[1440px] max-w-full flex-col items-center gap-3 px-4 py-3 md:h-[50px] md:flex-row md:justify-between md:gap-6 md:py-0">
+              <div class="flex w-[24px] items-center justify-center">
+                <span class="font-serifSc text-[24px] text-ink">Yi</span>
+              </div>
+              <nav class="flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-2 font-inter text-[12px] text-muted sm:text-[14px] md:w-auto md:gap-[32px] md:text-[15px]">
+                <a href="index.html" class="hover:text-ink">About</a>
+                <a href="publications.html" class="hover:text-ink">Publications</a>
+              </nav>
+            </div>
+          </div>
+          <div class="h-px w-full bg-line"></div>
+        </header>
+
+        <!-- Waveform Navigation Container -->
+        <div class="w-full max-w-[1000px] px-4">
+          <div class="border border-line rounded-lg bg-stone overflow-hidden">
+            <div id="waveform" class="waveform-wrapper flex items-end justify-center gap-[9px] px-4">
+              <!-- 2026 -->
+              <a href="#section-2026" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <!-- Decorative lines -->
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
+              </div>
+              
+              <!-- 2025 -->
+              <a href="#section-2025" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
+              </div>
+              
+              <!-- 2024 -->
+              <a href="#section-2024" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
+              </div>
+              
+              <!-- 2023 -->
+              <a href="#section-2023" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
+              </div>
+              
+              <!-- 2022 -->
+              <a href="#section-2022" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
+              </div>
+              
+              <!-- 2021 -->
+              <a href="#section-2021" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div>
+              </div>
+              
+              <!-- 2020 -->
+              <a href="#section-2020" class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
+              </a>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Sections -->
+        <div class="flex flex-col items-center gap-[28px] w-full max-w-[1000px] px-4 pb-[90px]">
+          
+          <!-- 2026 Section -->
+          <section id="section-2026" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2026</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">January 2026</p>
+                <p class="text-[16px] text-ink">Started new research position</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2025 Section -->
+          <section id="section-2025" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2025</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">December 2025</p>
+                <p class="text-[16px] text-ink">Published paper in Nature</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">June 2025</p>
+                <p class="text-[16px] text-ink">Attended international conference</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">January 2025</p>
+                <p class="text-[16px] text-ink">Started PhD program</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2024 Section -->
+          <section id="section-2024" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2024</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">November 2024</p>
+                <p class="text-[16px] text-ink">Received best paper award</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">August 2024</p>
+                <p class="text-[16px] text-ink">Completed internship at Tech Corp</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">March 2024</p>
+                <p class="text-[16px] text-ink">First author publication</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2023 Section -->
+          <section id="section-2023" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2023</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">December 2023</p>
+                <p class="text-[16px] text-ink">Graduated with Master's degree</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">July 2023</p>
+                <p class="text-[16px] text-ink">Presented at research symposium</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2022 Section -->
+          <section id="section-2022" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2022</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">September 2022</p>
+                <p class="text-[16px] text-ink">Started Master's program</p>
+              </div>
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">May 2022</p>
+                <p class="text-[16px] text-ink">Graduated with Bachelor's degree</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2021 Section -->
+          <section id="section-2021" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2021</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">July 2021</p>
+                <p class="text-[16px] text-ink">Research assistant position</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2020 Section -->
+          <section id="section-2020" class="w-full">
+            <h2 class="font-inter text-[28px] font-semibold leading-[28.8px] sm:text-[32px] md:text-[36px] mb-6">2020</h2>
+            <div class="flex flex-col gap-4">
+              <div class="border-l-2 border-line pl-4 py-1">
+                <p class="text-[16px] text-muted">September 2020</p>
+                <p class="text-[16px] text-ink">Started university</p>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const waveform = document.getElementById('waveform');
+      const lines = waveform.querySelectorAll('.waveform-line');
+      const maxDistance = 120;
+      const maxHeight = 52;
+      const minHeight = 6;
+
+      function getDistance(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      }
+
+      waveform.addEventListener('mousemove', (e) => {
+        const rect = waveform.getBoundingClientRect();
+        const cursorX = e.clientX;
+        const cursorY = e.clientY;
+
+        lines.forEach((line) => {
+          const lineRect = line.getBoundingClientRect();
+          const lineX = lineRect.left + lineRect.width / 2;
+          const lineY = lineRect.top + lineRect.height / 2;
+
+          const distance = getDistance(cursorX, cursorY, lineX, lineY);
+          const baseHeight = parseInt(line.dataset.baseHeight);
+          const isMilestone = line.dataset.isMilestone === 'true';
+
+          const maxExpand = isMilestone ? maxHeight : maxHeight - 4;
+
+          if (distance < maxDistance) {
+            const factor = 1 - (distance / maxDistance);
+            const newHeight = baseHeight + (maxExpand - baseHeight) * factor;
+            line.style.height = `${Math.max(newHeight, baseHeight)}px`;
+            
+            if (isMilestone) {
+              line.style.backgroundColor = `rgb(38 33 137 / ${0.3 + factor * 0.7})`;
+            }
+          } else {
+            line.style.height = `${baseHeight}px`;
+            if (isMilestone) {
+              line.style.backgroundColor = '';
+            }
+          }
+        });
+      });
+
+      waveform.addEventListener('mouseleave', () => {
+        lines.forEach((line) => {
+          const baseHeight = parseInt(line.dataset.baseHeight);
+          line.style.height = `${baseHeight}px`;
+          if (line.dataset.isMilestone === 'true') {
+            line.style.backgroundColor = '';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

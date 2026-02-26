@@ -1,3 +1,7 @@
+# Design Elements
+
+- [Minimap](https://rauno.me/craft/minimap)
+
 # Inspirations
 
 - [CMU Augmented Perception Lab | Augmented Perception Lab at Carnegie Mellon University in Pittsburgh.](https://augmented-perception.org/)

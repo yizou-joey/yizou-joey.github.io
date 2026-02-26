@@ -1,4 +1,67 @@
+:root {
+  --color-ink: #15120f;
+  --color-muted: #787774;
+  --color-paper: #f7f4ef;
+  --color-stone: #f6f5f4;
+  --color-line: #e9e7e3;
+  --color-chip: #262189;
+
+  --space-section: 60px;
+  --space-section-md: 80px;
+  --space-section-py: 50px;
+
+  --font-inter: "Inter", sans-serif;
+  --font-serif-sc: "Noto Serif SC", serif;
+}
+
 ::selection {
   background-color: #fef08a;
-  color: #15120f;
+  color: var(--color-ink);
+}
+
+.text-ink {
+  color: var(--color-ink);
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.text-paper {
+  color: var(--color-paper);
+}
+
+.bg-stone {
+  background-color: var(--color-stone);
+}
+
+.bg-line {
+  background-color: var(--color-line);
+}
+
+.border-line {
+  border-color: var(--color-line);
+}
+
+.font-inter {
+  font-family: var(--font-inter);
+}
+
+.font-serifSc {
+  font-family: var(--font-serif-sc);
+}
+
+.section-gap {
+  gap: var(--space-section);
+}
+
+.section-py {
+  padding-top: var(--space-section-py);
+  padding-bottom: var(--space-section-py);
+}
+
+@media (min-width: 768px) {
+  .section-gap {
+    gap: var(--space-section-md);
+  }
 }

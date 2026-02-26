@@ -56,7 +56,12 @@ const renderList = ({
   sort,
 }) => {
   fetch(url)
-    .then((response) => response.text())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${url}: ${response.status}`);
+      }
+      return response.text();
+    })
     .then((markdown) => {
       const items = parseListData(markdown);
       if (!items.length) {
@@ -100,8 +105,8 @@ if (newsList) {
     errorMessage:
       '<p class="font-inter text-[14px] text-muted">News unavailable.</p>',
     sort: (a, b) => {
-      const aTime = Date.parse(a.date || "") || 0;
-      const bTime = Date.parse(b.date || "") || 0;
+      const aTime = getDateSortValue(a.date);
+      const bTime = getDateSortValue(b.date);
       if (aTime === bTime) return 0;
       return bTime - aTime;
     },
@@ -122,7 +127,12 @@ if (teachingList) {
 
 if (bioIntro) {
   fetch("contents/bio.md")
-    .then((response) => response.text())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch bio: ${response.status}`);
+      }
+      return response.text();
+    })
     .then((markdown) => {
       if (!bioIntro) return;
       const text = (markdown || "").trim();

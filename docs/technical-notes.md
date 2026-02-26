@@ -84,7 +84,7 @@ Each file uses list entries:
 - `date` (required, ISO `YYYY-MM-DD` for sorting and yearly grouping)
 - `venue`
 - `venueColor` (hex color)
-- `title` (supports inline markdown; `\n` for line breaks)
+- `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)
 - `authors` (use `\*` or `*` for corresponding author marker)
 - `description` (supports inline markdown)
 - `youtubeUrl` (optional, renders a `YouTube` supplemental chip)

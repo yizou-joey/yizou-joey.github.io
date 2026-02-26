@@ -51,6 +51,15 @@
   font-family: var(--font-serif-sc);
 }
 
+.publication-title {
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.28;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
 .section-gap {
   gap: var(--space-section);
 }

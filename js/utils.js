@@ -68,12 +68,13 @@ const applyInlineItalic = (html) => html.replace(italicMarkdownPattern, "<em>$1<
 
 const applyInlineBreaks = (html) => html.replace(/\n/g, "<br />").replace(/\\n/g, "<br />");
 
-const renderInlineMarkdown = (value) => {
+const renderInlineMarkdown = (value, { preserveLineBreaks = true } = {}) => {
   if (!value) return "";
   const escaped = escapeHtml(String(value));
   const withLinks = applyInlineLinks(escaped);
   const withBold = applyInlineBold(withLinks);
   const withItalic = applyInlineItalic(withBold);
+  if (!preserveLineBreaks) return withItalic;
   return applyInlineBreaks(withItalic);
 };
 
@@ -244,8 +245,14 @@ const buildPublicationCard = (item) => {
   venue.appendChild(venueText);
 
   const title = document.createElement("h3");
-  title.className = "font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
-  title.innerHTML = renderInlineMarkdown(entry.title || "");
+  const normalizedTitle = String(entry.title || "")
+    .replace(/\\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  title.className = "publication-title font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
+  title.innerHTML = renderInlineMarkdown(normalizedTitle, {
+    preserveLineBreaks: false,
+  });
 
   const authors = document.createElement("p");
   authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";

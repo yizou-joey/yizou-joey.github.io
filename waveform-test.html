@@ -18,10 +18,27 @@
         scroll-behavior: smooth;
       }
       .waveform-wrapper {
-        height: 60px;
+        height: 64px;
+        padding: 8px 0;
+      }
+      #waveform > a,
+      #waveform > div {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .waveform-line {
-        transition: height 150ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 150ms ease;
+        border-radius: 999px;
+        width: 1px !important;
+        background-color: rgba(120, 119, 116, 0.56) !important;
+        will-change: height;
+      }
+      .waveform-line[data-is-milestone="true"] {
+        background-color: rgba(21, 18, 15, 0.72) !important;
+      }
+      .waveform-shell {
+        background: #f6f5f4;
       }
     </style>
   </head>
@@ -46,106 +63,45 @@
 
         <!-- Waveform Navigation Container -->
         <div class="w-full max-w-[1000px] px-4">
-          <div class="border border-line rounded-lg bg-stone overflow-hidden">
-            <div id="waveform" class="waveform-wrapper flex items-end justify-center gap-[9px] px-4">
-              <!-- 2026 -->
-              <a href="#section-2026" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <!-- Decorative lines -->
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
-              </div>
-              
-              <!-- 2025 -->
-              <a href="#section-2025" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
-              </div>
-              
-              <!-- 2024 -->
-              <a href="#section-2024" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
-              </div>
-              
-              <!-- 2023 -->
-              <a href="#section-2023" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
-              </div>
-              
-              <!-- 2022 -->
-              <a href="#section-2022" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div>
-              </div>
-              
-              <!-- 2021 -->
-              <a href="#section-2021" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div>
-              </div>
-              
-              <!-- 2020 -->
-              <a href="#section-2020" class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div>
-              </a>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div>
-              </div>
-              <div class="flex flex-col items-center">
-                <div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div>
-              </div>
+          <div class="waveform-shell border border-line rounded-lg overflow-hidden">
+            <div id="waveform" class="waveform-wrapper flex items-center justify-center gap-[8px] px-4">
+              <a href="#section-2026" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+
+              <a href="#section-2025" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div></div>
+
+              <a href="#section-2024" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+
+              <a href="#section-2023" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+
+              <a href="#section-2022" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[16px] bg-muted/60" data-base-height="16"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[14px] bg-muted/50" data-base-height="14"></div></div>
+
+              <a href="#section-2021" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[10px] bg-muted/40" data-base-height="10"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[18px] bg-muted/60" data-base-height="18"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[8px] bg-muted/30" data-base-height="8"></div></div>
+              <div class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[12px] bg-muted/40" data-base-height="12"></div></div>
+
+              <a href="#section-2020" class="flex flex-col items-center"><div class="waveform-line w-[1px] h-[24px] bg-ink" data-base-height="24" data-is-milestone="true"></div></a>
             </div>
           </div>
         </div>
@@ -260,57 +216,167 @@
 
     <script>
       const waveform = document.getElementById('waveform');
-      const lines = waveform.querySelectorAll('.waveform-line');
-      const maxDistance = 120;
-      const maxHeight = 52;
-      const minHeight = 6;
+      const lines = Array.from(waveform.querySelectorAll('.waveform-line'));
 
-      function getDistance(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+      const influenceRadius = 116;
+      const maxVelocity = 2.1;
+      const minHeight = 4;
+      let maxHeight = 48;
+      const epsilon = 0.02;
+
+      const physics = {
+        stiffnessActive: 0.1,
+        dampingActive: 0.76,
+        stiffnessRelease: 0.06,
+        dampingRelease: 0.74,
+      };
+
+      const states = lines.map((line) => {
+        const baseHeight = Number(line.dataset.baseHeight);
+        return {
+          line,
+          baseHeight,
+          currentHeight: baseHeight,
+          targetHeight: baseHeight,
+          velocity: 0,
+          isMilestone: line.dataset.isMilestone === 'true',
+          hasUndershot: false,
+        };
+      });
+
+      let pointerX = 0;
+      let pointerActive = false;
+      let rafId = null;
+
+      function clamp(value, low, high) {
+        return Math.min(high, Math.max(low, value));
       }
 
-      waveform.addEventListener('mousemove', (e) => {
-        const rect = waveform.getBoundingClientRect();
-        const cursorX = e.clientX;
-        const cursorY = e.clientY;
+      function smoothstep(edge0, edge1, x) {
+        const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+        return t * t * (3 - 2 * t);
+      }
 
-        lines.forEach((line) => {
-          const lineRect = line.getBoundingClientRect();
-          const lineX = lineRect.left + lineRect.width / 2;
-          const lineY = lineRect.top + lineRect.height / 2;
+      function updateMaxHeight() {
+        const styles = window.getComputedStyle(waveform);
+        const paddingTop = Number.parseFloat(styles.paddingTop) || 0;
+        const paddingBottom = Number.parseFloat(styles.paddingBottom) || 0;
+        maxHeight = Math.max(minHeight + 2, waveform.clientHeight - paddingTop - paddingBottom - 2);
 
-          const distance = getDistance(cursorX, cursorY, lineX, lineY);
-          const baseHeight = parseInt(line.dataset.baseHeight);
-          const isMilestone = line.dataset.isMilestone === 'true';
+        states.forEach((state) => {
+          state.currentHeight = clamp(state.currentHeight, minHeight, maxHeight);
+          state.targetHeight = clamp(state.targetHeight, minHeight, maxHeight);
+        });
+      }
 
-          const maxExpand = isMilestone ? maxHeight : maxHeight - 4;
+      function computeTargets() {
+        states.forEach((state) => {
+          if (!pointerActive) {
+            state.targetHeight = state.baseHeight;
+            return;
+          }
 
-          if (distance < maxDistance) {
-            const factor = 1 - (distance / maxDistance);
-            const newHeight = baseHeight + (maxExpand - baseHeight) * factor;
-            line.style.height = `${Math.max(newHeight, baseHeight)}px`;
-            
-            if (isMilestone) {
-              line.style.backgroundColor = `rgb(38 33 137 / ${0.3 + factor * 0.7})`;
+          const rect = state.line.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const distance = Math.abs(pointerX - centerX);
+          const falloff = 1 - smoothstep(0, influenceRadius, distance);
+          const lift = state.isMilestone ? 18 : 14;
+          state.targetHeight = clamp(state.baseHeight + falloff * lift, minHeight, maxHeight);
+        });
+      }
+
+      function render(state) {
+        state.line.style.height = `${state.currentHeight.toFixed(2)}px`;
+        if (!state.isMilestone) return;
+
+        const lift = Math.max(0, state.currentHeight - state.baseHeight);
+        const alpha = 0.68 + clamp(lift / 34, 0, 1) * 0.24;
+        state.line.style.backgroundColor = `rgb(21 18 15 / ${alpha.toFixed(3)})`;
+      }
+
+      function step() {
+        let keepRunning = false;
+
+        states.forEach((state) => {
+          const stiffness = pointerActive ? physics.stiffnessActive : physics.stiffnessRelease;
+          const damping = pointerActive ? physics.dampingActive : physics.dampingRelease;
+          const force = stiffness * (state.targetHeight - state.currentHeight);
+          state.velocity = (state.velocity + force) * damping;
+          state.velocity = clamp(state.velocity, -maxVelocity, maxVelocity);
+
+          state.currentHeight = clamp(state.currentHeight + state.velocity, minHeight, maxHeight);
+
+          if (!pointerActive) {
+            if (!state.hasUndershot && state.currentHeight < state.baseHeight) {
+              state.hasUndershot = true;
             }
-          } else {
-            line.style.height = `${baseHeight}px`;
-            if (isMilestone) {
-              line.style.backgroundColor = '';
+
+            if (state.hasUndershot && state.currentHeight >= state.baseHeight && state.velocity > 0) {
+              state.currentHeight = state.baseHeight;
+              state.targetHeight = state.baseHeight;
+              state.velocity = 0;
             }
           }
+
+          render(state);
+
+          if (
+            Math.abs(state.velocity) > epsilon ||
+            Math.abs(state.targetHeight - state.currentHeight) > epsilon
+          ) {
+            keepRunning = true;
+          }
         });
+
+        if (keepRunning) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          rafId = null;
+        }
+      }
+
+      function ensureAnimation() {
+        if (rafId !== null) return;
+        rafId = requestAnimationFrame(step);
+      }
+
+      function setPointer(clientX) {
+        pointerX = clientX;
+        states.forEach((state) => {
+          state.hasUndershot = false;
+        });
+        pointerActive = true;
+        computeTargets();
+        ensureAnimation();
+      }
+
+      function releasePointer() {
+        pointerActive = false;
+        computeTargets();
+        ensureAnimation();
+      }
+
+      waveform.addEventListener('mousemove', (event) => {
+        setPointer(event.clientX);
       });
 
       waveform.addEventListener('mouseleave', () => {
-        lines.forEach((line) => {
-          const baseHeight = parseInt(line.dataset.baseHeight);
-          line.style.height = `${baseHeight}px`;
-          if (line.dataset.isMilestone === 'true') {
-            line.style.backgroundColor = '';
-          }
-        });
+        releasePointer();
       });
+
+      window.addEventListener('blur', () => {
+        releasePointer();
+      });
+
+      window.addEventListener('resize', () => {
+        updateMaxHeight();
+        computeTargets();
+        ensureAnimation();
+      });
+
+      updateMaxHeight();
+      computeTargets();
+      states.forEach((state) => render(state));
     </script>
   </body>
 </html>

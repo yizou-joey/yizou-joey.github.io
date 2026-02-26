@@ -69,6 +69,12 @@
   padding-bottom: var(--space-section-py);
 }
 
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
 @media (min-width: 768px) {
   .section-gap {
     gap: var(--space-section-md);

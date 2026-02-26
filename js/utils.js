@@ -1,39 +1,47 @@
+const getNormalizedLines = (text) => String(text || "").replace(/\r/g, "").split("\n");
+
+const parseKeyValueLine = (line) => {
+  const [key, ...rest] = line.split(":");
+  if (!key || !rest.length) return null;
+  return {
+    key: key.trim(),
+    value: rest.join(":").trim(),
+  };
+};
+
+const hasItemContent = (item) =>
+  Object.values(item).some((value) => typeof value === "string" && value.trim());
+
 const parseListData = (text) => {
-  const lines = text.replace(/\r/g, "").split("\n");
+  const lines = getNormalizedLines(text);
   const items = [];
   let current = null;
 
-  const pushCurrent = () => {
+  const finalizeCurrent = () => {
     if (!current) return;
-    const hasContent = Object.values(current).some((value) => value && value.trim());
-    if (hasContent) items.push(current);
+    if (hasItemContent(current)) items.push(current);
     current = null;
   };
 
   for (const rawLine of lines) {
     const line = rawLine.trim();
-
     if (!line) continue;
 
     if (line.startsWith("- ")) {
-      pushCurrent();
+      finalizeCurrent();
       current = {};
-      const content = line.slice(2);
-      const [key, ...rest] = content.split(":");
-      if (key && rest.length) {
-        current[key.trim()] = rest.join(":").trim();
-      }
+      const firstEntry = parseKeyValueLine(line.slice(2));
+      if (firstEntry) current[firstEntry.key] = firstEntry.value;
       continue;
     }
 
     if (!current) continue;
-
-    const [key, ...rest] = line.split(":");
-    if (!key || !rest.length) continue;
-    current[key.trim()] = rest.join(":").trim();
+    const entry = parseKeyValueLine(line);
+    if (!entry) continue;
+    current[entry.key] = entry.value;
   }
 
-  pushCurrent();
+  finalizeCurrent();
   return items;
 };
 
@@ -44,18 +52,29 @@ const escapeHtml = (value) =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
-const renderInlineMarkdown = (value) => {
-  if (!value) return "";
-  let html = escapeHtml(value);
-  html = html.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
+const linkMarkdownPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+const boldMarkdownPattern = /\*\*([^*]+)\*\*/g;
+const italicMarkdownPattern = /\*([^*]+)\*/g;
+
+const applyInlineLinks = (html) =>
+  html.replace(
+    linkMarkdownPattern,
     '<a href="$2" class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60">$1</a>'
   );
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-  html = html.replace(/\n/g, "<br />");
-  html = html.replace(/\\n/g, "<br />");
-  return html;
+
+const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1</strong>");
+
+const applyInlineItalic = (html) => html.replace(italicMarkdownPattern, "<em>$1</em>");
+
+const applyInlineBreaks = (html) => html.replace(/\n/g, "<br />").replace(/\\n/g, "<br />");
+
+const renderInlineMarkdown = (value) => {
+  if (!value) return "";
+  const escaped = escapeHtml(String(value));
+  const withLinks = applyInlineLinks(escaped);
+  const withBold = applyInlineBold(withLinks);
+  const withItalic = applyInlineItalic(withBold);
+  return applyInlineBreaks(withItalic);
 };
 
 const renderAuthors = (value) => {
@@ -66,6 +85,39 @@ const renderAuthors = (value) => {
   html = html.replace(new RegExp(token, "g"), "<sup>*</sup>");
   html = html.replace(/\*/g, "<sup>*</sup>");
   return html;
+};
+
+const fetchTextOrThrow = async (url) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  }
+  return response.text();
+};
+
+const renderEmpty = (container, html) => {
+  if (!container) return;
+  container.innerHTML = html;
+};
+
+const renderError = (container, html) => {
+  if (!container) return;
+  container.innerHTML = html;
+};
+
+const loadList = async ({ url, sortFn }) => {
+  const markdown = await fetchTextOrThrow(url);
+  const items = parseListData(markdown);
+  if (!sortFn) return items;
+  return [...items].sort(sortFn);
+};
+
+const renderItems = ({ container, items, buildItem }) => {
+  if (!container || !Array.isArray(items) || typeof buildItem !== "function") return;
+  items.forEach((item) => {
+    const node = buildItem(item || {});
+    if (node) container.appendChild(node);
+  });
 };
 
 const MONTH_NUMBER_BY_NAME = {
@@ -118,6 +170,7 @@ const getDateSortValue = (value) => {
 };
 
 const buildPublicationCard = (item) => {
+  const entry = item || {};
   const article = document.createElement("article");
   article.className =
     "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
@@ -127,25 +180,25 @@ const buildPublicationCard = (item) => {
 
   const venue = document.createElement("div");
   venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";
-  const venueColor = item.venueColor || "#262189";
+  const venueColor = entry.venueColor || "#262189";
   venue.style.backgroundColor = venueColor;
 
   const venueText = document.createElement("span");
   venueText.className = "font-inter text-[14px] font-semibold text-paper";
-  venueText.textContent = item.venue || "";
+  venueText.textContent = entry.venue || "";
   venue.appendChild(venueText);
 
   const title = document.createElement("h3");
   title.className = "font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
-  title.innerHTML = renderInlineMarkdown(item.title || "");
+  title.innerHTML = renderInlineMarkdown(entry.title || "");
 
   const authors = document.createElement("p");
   authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
-  authors.innerHTML = renderAuthors(item.authors || "");
+  authors.innerHTML = renderAuthors(entry.authors || "");
 
   const description = document.createElement("p");
   description.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
-  description.innerHTML = renderInlineMarkdown(item.description || "");
+  description.innerHTML = renderInlineMarkdown(entry.description || "");
 
   container.appendChild(venue);
   container.appendChild(title);

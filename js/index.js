@@ -1,4 +1,5 @@
 const buildNewsItem = (item) => {
+  const entry = item || {};
   const row = document.createElement("div");
   row.className = "flex w-full max-w-[900px] items-start gap-[17px]";
 
@@ -10,14 +11,14 @@ const buildNewsItem = (item) => {
 
   const dateText = document.createElement("span");
   dateText.className = "font-inter text-[13px] font-medium leading-[16.8px] text-muted";
-  dateText.textContent = item.date || "";
+  dateText.textContent = entry.date || "";
 
   dateChip.appendChild(dateText);
   dateWrap.appendChild(dateChip);
 
   const content = document.createElement("p");
   content.className = "font-inter text-[16px] leading-relaxed text-ink sm:text-[18px] md:text-[20px]";
-  content.innerHTML = renderInlineMarkdown(item.text || "");
+  content.innerHTML = renderInlineMarkdown(entry.text || "");
 
   row.appendChild(dateWrap);
   row.appendChild(content);
@@ -25,6 +26,7 @@ const buildNewsItem = (item) => {
 };
 
 const buildTeachingItem = (item) => {
+  const entry = item || {};
   const card = document.createElement("div");
   card.className = "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[20px] md:p-[15px]";
 
@@ -34,12 +36,12 @@ const buildTeachingItem = (item) => {
 
   const role = document.createElement("span");
   role.className = "font-inter text-[18px] font-semibold sm:text-[16px]";
-  role.textContent = item.role || "";
+  role.textContent = entry.role || "";
 
   const detail = document.createElement("span");
   detail.className =
     "font-inter text-[14px] leading-relaxed text-muted sm:text-[16px] sm:justify-self-end sm:text-right";
-  detail.innerHTML = renderInlineMarkdown(item.detail || "");
+  detail.innerHTML = renderInlineMarkdown(entry.detail || "");
 
   grid.appendChild(role);
   grid.appendChild(detail);
@@ -47,74 +49,68 @@ const buildTeachingItem = (item) => {
   return card;
 };
 
-const renderList = ({
+const compareByDateDesc = (a, b) => {
+  const aTime = getDateSortValue(a?.date);
+  const bTime = getDateSortValue(b?.date);
+  if (aTime === bTime) return 0;
+  return bTime - aTime;
+};
+
+const renderListSection = async ({
   url,
   container,
   buildItem,
   emptyMessage,
   errorMessage,
-  sort,
+  sortFn,
 }) => {
-  fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then((markdown) => {
-      const items = parseListData(markdown);
-      if (!items.length) {
-        container.innerHTML = emptyMessage;
-        return;
-      }
-      const sortedItems = sort ? [...items].sort(sort) : items;
-      sortedItems.forEach((item) => {
-        container.appendChild(buildItem(item));
-      });
-    })
-    .catch(() => {
-      container.innerHTML = errorMessage;
+  if (!container) return;
+  try {
+    const items = await loadList({ url, sortFn });
+    if (!items.length) {
+      renderEmpty(container, emptyMessage);
+      return;
+    }
+    renderItems({
+      container,
+      items,
+      buildItem,
     });
+  } catch {
+    renderError(container, errorMessage);
+  }
 };
 
-const publicationsList = document.getElementById("publications-list");
-const newsList = document.getElementById("news-list");
-const teachingList = document.getElementById("teaching-list");
-const bioIntro = document.getElementById("bio-intro");
-
-if (publicationsList) {
-  renderList({
+const renderPublicationsSection = async () => {
+  const publicationsList = document.getElementById("publications-list");
+  if (!publicationsList) return;
+  await renderListSection({
     url: "contents/publications.md",
     container: publicationsList,
     buildItem: buildPublicationCard,
-    emptyMessage:
-      '<p class="font-inter text-[14px] text-muted">No publications yet.</p>',
+    emptyMessage: '<p class="font-inter text-[14px] text-muted">No publications yet.</p>',
     errorMessage:
       '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>',
   });
-}
+};
 
-if (newsList) {
-  renderList({
+const renderNewsSection = async () => {
+  const newsList = document.getElementById("news-list");
+  if (!newsList) return;
+  await renderListSection({
     url: "contents/news.md",
     container: newsList,
     buildItem: buildNewsItem,
-    emptyMessage:
-      '<p class="font-inter text-[14px] text-muted">No news yet.</p>',
-    errorMessage:
-      '<p class="font-inter text-[14px] text-muted">News unavailable.</p>',
-    sort: (a, b) => {
-      const aTime = getDateSortValue(a.date);
-      const bTime = getDateSortValue(b.date);
-      if (aTime === bTime) return 0;
-      return bTime - aTime;
-    },
+    emptyMessage: '<p class="font-inter text-[14px] text-muted">No news yet.</p>',
+    errorMessage: '<p class="font-inter text-[14px] text-muted">News unavailable.</p>',
+    sortFn: compareByDateDesc,
   });
-}
+};
 
-if (teachingList) {
-  renderList({
+const renderTeachingSection = async () => {
+  const teachingList = document.getElementById("teaching-list");
+  if (!teachingList) return;
+  await renderListSection({
     url: "contents/teaching.md",
     container: teachingList,
     buildItem: buildTeachingItem,
@@ -123,27 +119,26 @@ if (teachingList) {
     errorMessage:
       '<p class="font-inter text-[14px] text-muted">Teaching unavailable.</p>',
   });
-}
+};
 
-if (bioIntro) {
-  fetch("contents/bio.md")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch bio: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then((markdown) => {
-      if (!bioIntro) return;
-      const text = (markdown || "").trim();
-      if (!text) {
-        bioIntro.textContent = "";
-        return;
-      }
-      bioIntro.innerHTML = renderInlineMarkdown(text);
-    })
-    .catch(() => {
-      if (!bioIntro) return;
-      bioIntro.textContent = "Bio unavailable.";
-    });
-}
+const renderBioSection = async () => {
+  const bioIntro = document.getElementById("bio-intro");
+  if (!bioIntro) return;
+
+  try {
+    const markdown = await fetchTextOrThrow("contents/bio.md");
+    const text = (markdown || "").trim();
+    if (!text) {
+      bioIntro.textContent = "";
+      return;
+    }
+    bioIntro.innerHTML = renderInlineMarkdown(text);
+  } catch {
+    bioIntro.textContent = "Bio unavailable.";
+  }
+};
+
+renderPublicationsSection();
+renderNewsSection();
+renderTeachingSection();
+renderBioSection();

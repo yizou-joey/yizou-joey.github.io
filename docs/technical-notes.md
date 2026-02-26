@@ -9,6 +9,7 @@ This document describes how this GitHub Pages academic homepage is structured an
 - Added a `publications.html` page and updated the homepage nav to point to it.
 - Renamed `content` to `contents`.
 - **Refactored JS**: Separated shared utilities and page-specific logic into separate files.
+- **Behavior-preserving cleanup**: Kept rendered output/content rules the same while improving readability and defensive handling in JS.
 - **Shared CSS tokens**: Centralized font families, colors, and spacing in `css/styles.css`.
 
 ## File Structure
@@ -18,10 +19,21 @@ css/
 └── styles.css           # Shared CSS tokens and semantic utility classes
 
 js/
-├── utils.js             # Shared rendering utilities (parseListData, escapeHtml, etc.)
+├── utils.js             # Shared rendering + data loading utilities
 ├── index.js             # Index page specific logic
 └── publications.js      # Publications page specific logic
 ```
+
+### Shared JS pipeline
+
+Main list-driven sections now use shared helpers in `js/utils.js`:
+
+- `fetchTextOrThrow(url)` for fetch + status checking
+- `loadList({ url, sortFn })` for fetch + markdown parse + optional sort
+- `renderItems({ container, items, buildItem })` for DOM rendering
+- `renderEmpty(container, html)` and `renderError(container, html)` for section fallback states
+
+This refactor is intended to improve robustness/readability without changing user-facing behavior.
 
 ## Shared CSS Tokens
 

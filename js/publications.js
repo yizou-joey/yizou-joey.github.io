@@ -19,46 +19,56 @@ const buildYearSection = (year, items) => {
   return section;
 };
 
-const publicationsByYear = document.getElementById("publications-by-year");
+const compareByDateDesc = (a, b) => {
+  const aDate = getDateSortValue(a?.date);
+  const bDate = getDateSortValue(b?.date);
+  if (aDate === bDate) return 0;
+  return bDate - aDate;
+};
 
-if (publicationsByYear) {
-  fetch("contents/publications.md")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch publications: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then((markdown) => {
-      const items = parseListData(markdown);
-      if (!items.length) {
-        publicationsByYear.innerHTML =
-          '<p class="font-inter text-[14px] text-muted">No publications yet.</p>';
-        return;
-      }
+const groupPublicationsByYear = (items) => {
+  const groups = new Map();
+  items.forEach((item) => {
+    const year = (item?.date || "").slice(0, 4) || "Unknown";
+    if (!groups.has(year)) groups.set(year, []);
+    groups.get(year).push(item);
+  });
+  return groups;
+};
 
-      const sortedItems = [...items].sort((a, b) => {
-        const aDate = getDateSortValue(a.date);
-        const bDate = getDateSortValue(b.date);
-        if (aDate === bDate) return 0;
-        return bDate - aDate;
-      });
-
-      const groups = new Map();
-      sortedItems.forEach((item) => {
-        const year = (item.date || "").slice(0, 4) || "Unknown";
-        if (!groups.has(year)) groups.set(year, []);
-        groups.get(year).push(item);
-      });
-
-      Array.from(groups.entries())
-        .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
-        .forEach(([year, groupItems]) => {
-          publicationsByYear.appendChild(buildYearSection(year, groupItems));
-        });
-    })
-    .catch(() => {
-      publicationsByYear.innerHTML =
-        '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>';
+const renderPublicationYearGroups = (container, groups) => {
+  Array.from(groups.entries())
+    .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+    .forEach(([year, items]) => {
+      container.appendChild(buildYearSection(year, items));
     });
-}
+};
+
+const renderPublicationsByYear = async () => {
+  const publicationsByYear = document.getElementById("publications-by-year");
+  if (!publicationsByYear) return;
+
+  try {
+    const items = await loadList({
+      url: "contents/publications.md",
+      sortFn: compareByDateDesc,
+    });
+    if (!items.length) {
+      renderEmpty(
+        publicationsByYear,
+        '<p class="font-inter text-[14px] text-muted">No publications yet.</p>'
+      );
+      return;
+    }
+
+    const groups = groupPublicationsByYear(items);
+    renderPublicationYearGroups(publicationsByYear, groups);
+  } catch {
+    renderError(
+      publicationsByYear,
+      '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>'
+    );
+  }
+};
+
+renderPublicationsByYear();

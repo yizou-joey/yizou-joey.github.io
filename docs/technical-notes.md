@@ -87,6 +87,13 @@ Each file uses list entries:
 - `title` (supports inline markdown; `\n` for line breaks)
 - `authors` (use `\*` or `*` for corresponding author marker)
 - `description` (supports inline markdown)
+- `youtubeUrl` (optional, renders a `YouTube` supplemental chip)
+- `arxivUrl` (optional, renders an `arXiv` supplemental chip)
+- `pdfUrl` (optional, renders a `PDF` supplemental chip; supports relative paths such as `files/...`)
+
+If any supplemental URL fields are present, publication cards render a compact chip row below
+the description. Chips use local monochrome SVG icons from `files/icons/`, keep neutral styling,
+and open links in a new tab.
 
 ### News fields
 

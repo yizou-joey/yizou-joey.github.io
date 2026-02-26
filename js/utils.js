@@ -169,6 +169,61 @@ const getDateSortValue = (value) => {
   return Number.isFinite(fallback) ? fallback : 0;
 };
 
+const PUBLICATION_SUPPLEMENT_FIELDS = [
+  {
+    key: "youtubeUrl",
+    label: "YouTube",
+    iconPath: "files/icons/youtube.svg",
+  },
+  {
+    key: "arxivUrl",
+    label: "arXiv",
+    iconPath: "files/icons/arxiv.svg",
+  },
+  {
+    key: "pdfUrl",
+    label: "PDF",
+    iconPath: "files/icons/pdf.svg",
+  },
+];
+
+const getPublicationSupplementLinks = (entry) =>
+  PUBLICATION_SUPPLEMENT_FIELDS.map((field) => {
+    const href = (entry?.[field.key] || "").trim();
+    if (!href) return null;
+    return {
+      href,
+      label: field.label,
+      iconPath: field.iconPath,
+    };
+  }).filter(Boolean);
+
+const buildSupplementChip = ({ href, label, iconPath }) => {
+  const link = document.createElement("a");
+  link.className =
+    "inline-flex h-[30px] w-[110px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[7px] font-inter text-[13px] font-normal leading-none text-muted sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+
+  const icon = document.createElement("img");
+  icon.src = iconPath;
+  icon.alt = "";
+  icon.setAttribute("aria-hidden", "true");
+  const isYouTube = label === "YouTube";
+  icon.className = isYouTube
+    ? "block h-[62%] w-auto shrink-0 opacity-95"
+    : "block h-[58%] w-auto shrink-0 opacity-90";
+
+  const text = document.createElement("span");
+  text.className = "leading-none";
+  text.textContent = label;
+
+  link.appendChild(icon);
+  link.appendChild(text);
+  return link;
+};
+
 const buildPublicationCard = (item) => {
   const entry = item || {};
   const article = document.createElement("article");
@@ -176,7 +231,7 @@ const buildPublicationCard = (item) => {
     "w-full max-w-[833px] rounded-xl border border-line bg-white p-[24px] sm:p-[28px] md:p-[40px]";
 
   const container = document.createElement("div");
-  container.className = "flex flex-col items-start gap-[14px]";
+  container.className = "flex flex-col items-start gap-[10px]";
 
   const venue = document.createElement("div");
   venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";
@@ -200,10 +255,22 @@ const buildPublicationCard = (item) => {
   description.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
   description.innerHTML = renderInlineMarkdown(entry.description || "");
 
+  const supplements = getPublicationSupplementLinks(entry);
+
   container.appendChild(venue);
   container.appendChild(title);
   container.appendChild(authors);
   container.appendChild(description);
+
+  if (supplements.length) {
+    const supplementsRow = document.createElement("div");
+    supplementsRow.className = "mt-1 flex w-full flex-wrap items-center gap-2";
+    supplements.forEach((supplement) =>
+      supplementsRow.appendChild(buildSupplementChip(supplement))
+    );
+    container.appendChild(supplementsRow);
+  }
+
   article.appendChild(container);
   return article;
 };

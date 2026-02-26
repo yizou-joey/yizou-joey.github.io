@@ -6,7 +6,7 @@ const buildYearSection = (year, items) => {
   header.className = "flex w-full items-center p-[10px]";
 
   const title = document.createElement("h2");
-  title.className = "font-inter text-[24px] font-semibold leading-[28.8px] sm:text-[28px]";
+  title.className = "font-inter text-[24px] font-semibold leading-[29px] sm:text-[28px]";
   title.textContent = year;
   header.appendChild(title);
 

@@ -10,7 +10,7 @@ const buildNewsItem = (item) => {
   dateChip.className = "rounded-[6px] bg-[#f1f1ef] px-[9px] py-[2px] whitespace-nowrap";
 
   const dateText = document.createElement("span");
-  dateText.className = "font-inter text-[13px] font-medium leading-[16.8px] text-muted";
+  dateText.className = "font-inter text-[13px] font-medium leading-[17px] text-muted";
   dateText.textContent = entry.date || "";
 
   dateChip.appendChild(dateText);

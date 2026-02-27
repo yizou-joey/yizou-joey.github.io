@@ -294,7 +294,7 @@ const ensureSiteFooter = () => {
 
   const year = new Date().getFullYear();
   const footerText = document.createElement("span");
-  footerText.textContent = `© Copyright ${year} Yi ZOU. Powered by GitHub Pages.`;
+  footerText.textContent = `© ${year} Yi ZOU. Powered by GitHub Pages.`;
 
   inner.appendChild(footerText);
   footer.appendChild(inner);

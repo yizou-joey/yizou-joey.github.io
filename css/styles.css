@@ -14,6 +14,9 @@
   --space-section: 60px;
   --space-section-md: 80px;
   --space-section-py: 50px;
+  --space-gutter-fluid: clamp(16px, 3vw, 32px);
+  --space-col-gap-fluid: clamp(20px, 4vw, 56px);
+  --space-col-gap-tight: clamp(14px, 2.5vw, 28px);
 
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
@@ -89,6 +92,19 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
+}
+
+.page-gutter {
+  padding-left: var(--space-gutter-fluid);
+  padding-right: var(--space-gutter-fluid);
+}
+
+.content-gap {
+  gap: var(--space-col-gap-fluid);
+}
+
+.content-gap-tight {
+  gap: var(--space-col-gap-tight);
 }
 
 @media (min-width: 768px) {

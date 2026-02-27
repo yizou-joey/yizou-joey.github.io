@@ -1,5 +1,6 @@
 # Design Elements
 
+- [Notion](https://www.notion.com/)
 - [Minimap](https://rauno.me/craft/minimap)
 
 # Inspirations

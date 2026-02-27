@@ -281,3 +281,24 @@ const buildPublicationCard = (item) => {
   article.appendChild(container);
   return article;
 };
+
+const ensureSiteFooter = () => {
+  if (!document.body || document.querySelector('[data-site-footer="true"]')) return;
+
+  const footer = document.createElement("footer");
+  footer.className = "site-footer";
+  footer.setAttribute("data-site-footer", "true");
+
+  const inner = document.createElement("div");
+  inner.className = "site-footer-inner";
+
+  const year = new Date().getFullYear();
+  const footerText = document.createElement("span");
+  footerText.textContent = `© Copyright ${year} Yi ZOU. Powered by GitHub Pages.`;
+
+  inner.appendChild(footerText);
+  footer.appendChild(inner);
+  document.body.appendChild(footer);
+};
+
+ensureSiteFooter();

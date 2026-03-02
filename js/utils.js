@@ -202,7 +202,7 @@ const getPublicationSupplementLinks = (entry) =>
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
   link.className =
-    "inline-flex h-[30px] w-[110px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[7px] font-inter text-[13px] font-normal leading-none text-muted sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
+    "inline-flex h-[30px] w-[110px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[7px] font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";

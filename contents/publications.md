@@ -4,7 +4,7 @@
   title: Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   description: NIDIT Workshop
-  <!-- youtubeUrl: https://www.youtube.com/watch?v=vr2026-demo-01 -->
+  youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
 

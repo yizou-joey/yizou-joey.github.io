@@ -170,6 +170,51 @@ const getDateSortValue = (value) => {
   return Number.isFinite(fallback) ? fallback : 0;
 };
 
+const PUBLICATION_TYPE_ORDER = ["C", "J", "W", "P"];
+const PUBLICATION_TYPE_LABEL = {
+  C: "Conference",
+  J: "Journal",
+  W: "Workshop",
+  P: "Poster",
+};
+
+const normalizePublicationType = (value) => {
+  const normalized = String(value || "")
+    .trim()
+    .toUpperCase();
+  return PUBLICATION_TYPE_ORDER.includes(normalized) ? normalized : "W";
+};
+
+const compareByDateAsc = (a, b) => {
+  const aTime = getDateSortValue(a?.date);
+  const bTime = getDateSortValue(b?.date);
+  if (aTime === bTime) return 0;
+  return aTime - bTime;
+};
+
+const assignPublicationIdsByType = (items) => {
+  const groups = new Map();
+  (items || []).forEach((item) => {
+    const type = normalizePublicationType(item?.type);
+    if (!groups.has(type)) groups.set(type, []);
+    groups.get(type).push(item);
+  });
+
+  const withIds = [];
+  PUBLICATION_TYPE_ORDER.forEach((type) => {
+    const sorted = [...(groups.get(type) || [])].sort(compareByDateAsc);
+    sorted.forEach((item, index) => {
+      withIds.push({
+        ...(item || {}),
+        type,
+        publicationId: `${type}${index + 1}`,
+      });
+    });
+  });
+
+  return withIds;
+};
+
 const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
     key: "youtubeUrl",
@@ -233,6 +278,29 @@ const buildPublicationCard = (item) => {
 
   const container = document.createElement("div");
   container.className = "flex flex-col items-start gap-[10px]";
+
+  if (entry.publicationId || entry.type) {
+    const metaRow = document.createElement("div");
+    metaRow.className = "mb-1 flex w-full flex-wrap items-center gap-2";
+
+    if (entry.publicationId) {
+      const idChip = document.createElement("span");
+      idChip.className =
+        "inline-flex items-center rounded-[6px] bg-[#f1f1ef] px-2 py-1 font-inter text-[12px] font-semibold text-ink";
+      idChip.textContent = entry.publicationId;
+      metaRow.appendChild(idChip);
+    }
+
+    if (entry.type) {
+      const typeChip = document.createElement("span");
+      typeChip.className =
+        "inline-flex items-center rounded-[6px] border border-line px-2 py-1 font-inter text-[12px] text-muted";
+      typeChip.textContent = PUBLICATION_TYPE_LABEL[normalizePublicationType(entry.type)] || "Workshop";
+      metaRow.appendChild(typeChip);
+    }
+
+    container.appendChild(metaRow);
+  }
 
   const venue = document.createElement("div");
   venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";

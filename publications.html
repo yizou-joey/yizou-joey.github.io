@@ -43,7 +43,35 @@
 
         <section class="w-full bg-stone section-py">
           <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[30px] px-4">
-            <div id="publications-by-year" class="flex w-full flex-col gap-[32px]"></div>
+            <div class="publication-toolbar card-surface w-full rounded-xl p-4 sm:p-5">
+              <p id="publications-summary" class="font-inter text-[14px] text-muted">
+                Loading publication summary...
+              </p>
+              <div class="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div
+                  id="publication-view-toggle"
+                  class="inline-flex w-fit items-center rounded-[8px] border border-line bg-white p-1"
+                  role="tablist"
+                  aria-label="Publication view"
+                >
+                  <button type="button" class="publication-toggle-btn is-active" data-view="list">
+                    Structured List
+                  </button>
+                  <button type="button" class="publication-toggle-btn" data-view="cards">
+                    Cards
+                  </button>
+                </div>
+                <div id="publication-type-filters" class="flex flex-wrap items-center gap-2">
+                  <button type="button" class="publication-filter-btn is-active" data-type="ALL">All</button>
+                  <button type="button" class="publication-filter-btn" data-type="C">C</button>
+                  <button type="button" class="publication-filter-btn" data-type="J">J</button>
+                  <button type="button" class="publication-filter-btn" data-type="W">W</button>
+                  <button type="button" class="publication-filter-btn" data-type="P">P</button>
+                </div>
+              </div>
+            </div>
+            <div id="publications-structured-list" class="flex w-full flex-col gap-[14px]"></div>
+            <div id="publications-by-year" class="hidden w-full flex-col gap-[32px]"></div>
           </div>
         </section>
       </div>

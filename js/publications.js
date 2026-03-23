@@ -78,6 +78,35 @@ const buildPublicationTypeChip = (entry) => {
   return chip;
 };
 
+const buildVenueYearChipGroup = (entry, publicationYear) => {
+  const venueLabel = String(entry?.venueAcronym || entry?.venue || "").trim();
+  const yearLabel = String(publicationYear || "").trim();
+  if (!venueLabel || !yearLabel) return null;
+
+  const group = document.createElement("span");
+  group.className = "publication-venue-year-group";
+
+  const venueChip = buildListMetaChip(venueLabel);
+  venueChip.classList.add("publication-venue-chip");
+  venueChip.tabIndex = 0;
+
+  const yearChip = buildListMetaChip(yearLabel);
+  yearChip.classList.add("publication-year-chip");
+  yearChip.tabIndex = 0;
+
+  const mergedChip = buildListMetaChip(`${venueLabel} ${yearLabel}`);
+  mergedChip.classList.add("publication-venue-year-merged-chip");
+  const venueColor = String(entry?.venueColor || "").trim() || "#262189";
+  mergedChip.style.backgroundColor = venueColor;
+  mergedChip.style.borderColor = venueColor;
+  mergedChip.style.color = "#f7f4ef";
+
+  group.appendChild(venueChip);
+  group.appendChild(yearChip);
+  group.appendChild(mergedChip);
+  return group;
+};
+
 const buildStructuredPublicationRow = (item) => {
   const entry = item || {};
   const publicationYear = String(entry.date || "").slice(0, 4);
@@ -111,13 +140,21 @@ const buildStructuredPublicationRow = (item) => {
   middle.appendChild(title);
   middle.appendChild(authors);
 
-  if (publicationYear) {
-    topLeft.appendChild(buildListMetaChip(publicationYear));
+  if (entry.publicationId) {
+    topLeft.appendChild(buildListMetaChip(entry.publicationId, "strong"));
   }
   topLeft.appendChild(buildPublicationTypeChip(entry));
 
-  if (entry.venueAcronym || entry.venue) {
-    topLeft.appendChild(buildListMetaChip(entry.venueAcronym || entry.venue));
+  const venueYearGroup = buildVenueYearChipGroup(entry, publicationYear);
+  if (venueYearGroup) {
+    topLeft.appendChild(venueYearGroup);
+  } else {
+    if (entry.venueAcronym || entry.venue) {
+      topLeft.appendChild(buildListMetaChip(entry.venueAcronym || entry.venue));
+    }
+    if (publicationYear) {
+      topLeft.appendChild(buildListMetaChip(publicationYear));
+    }
   }
   if (entry.award) {
     topLeft.appendChild(buildListMetaChip(entry.award, "award"));
@@ -130,11 +167,6 @@ const buildStructuredPublicationRow = (item) => {
     supplements.forEach((supplement) => linksWrap.appendChild(buildSupplementChip(supplement)));
     topRight.appendChild(linksWrap);
   }
-
-  const idBadge = document.createElement("span");
-  idBadge.className = "publication-id-badge";
-  idBadge.textContent = entry.publicationId || "--";
-  topRight.appendChild(idBadge);
 
   top.appendChild(topLeft);
   top.appendChild(topRight);

@@ -189,20 +189,6 @@
   align-self: start;
 }
 
-.publication-id-badge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  border-radius: 6px;
-  background: #f1f1ef;
-  padding: 0 10px;
-  font-family: var(--font-inter);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--color-ink);
-}
-
 .publication-row-main {
   display: flex;
   min-width: 0;
@@ -241,10 +227,11 @@
 }
 
 .publication-list-chip-strong {
-  border-color: #dedbd6;
-  background: #f7f6f3;
+  border: 2px solid #d5d2cc;
+  background: #f8f7f4;
   color: var(--color-ink);
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .publication-list-chip-award {
@@ -278,6 +265,68 @@
   font-weight: 400;
   line-height: 1;
   color: var(--color-muted);
+}
+
+.publication-venue-year-group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.publication-venue-chip,
+.publication-year-chip,
+.publication-venue-year-merged-chip {
+  transition: opacity 190ms ease, transform 190ms ease;
+}
+
+.publication-venue-year-merged-chip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(2px) scale(0.985);
+  pointer-events: none;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .publication-venue-year-group:hover .publication-venue-chip,
+  .publication-venue-year-group:hover .publication-year-chip {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.985);
+  }
+
+  .publication-venue-year-group:hover .publication-venue-year-merged-chip {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.publication-venue-year-group:focus-within .publication-venue-chip,
+.publication-venue-year-group:focus-within .publication-year-chip {
+  opacity: 0;
+  transform: translateY(-2px) scale(0.985);
+}
+
+.publication-venue-year-group:focus-within .publication-venue-year-merged-chip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.publication-venue-year-group:focus-within {
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px rgba(38, 33, 137, 0.24);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .publication-venue-chip,
+  .publication-year-chip,
+  .publication-venue-year-merged-chip {
+    transition: opacity 120ms linear;
+    transform: none !important;
+  }
 }
 
 @media (max-width: 740px) {

@@ -56,7 +56,7 @@ const buildPublicationTypeChip = (entry) => {
   const workshopLabel = String(entry?.workshopLabel || "").trim();
 
   const chip = document.createElement("span");
-  chip.className = "publication-list-chip publication-list-chip-strong publication-type-chip";
+  chip.className = "publication-list-chip publication-type-chip";
 
   const mainText = document.createElement("span");
   mainText.className = "publication-type-chip-label";
@@ -64,10 +64,15 @@ const buildPublicationTypeChip = (entry) => {
   chip.appendChild(mainText);
 
   if (type === "W" && workshopLabel) {
-    const nested = document.createElement("span");
-    nested.className = "publication-type-chip-nested";
-    nested.textContent = workshopLabel;
-    chip.appendChild(nested);
+    const divider = document.createElement("span");
+    divider.className = "publication-type-chip-divider";
+    divider.setAttribute("aria-hidden", "true");
+    chip.appendChild(divider);
+
+    const note = document.createElement("span");
+    note.className = "publication-type-chip-note";
+    note.textContent = workshopLabel;
+    chip.appendChild(note);
   }
 
   return chip;
@@ -76,8 +81,6 @@ const buildPublicationTypeChip = (entry) => {
 const buildStructuredPublicationRow = (item) => {
   const entry = item || {};
   const publicationYear = String(entry.date || "").slice(0, 4);
-  const publicationType = normalizePublicationType(entry.type);
-  const hasWorkshopLabel = publicationType === "W" && String(entry.workshopLabel || "").trim();
 
   const article = document.createElement("article");
   article.className = "publication-row card-surface w-full rounded-xl";
@@ -105,13 +108,8 @@ const buildStructuredPublicationRow = (item) => {
   authors.className = "font-inter text-[14px] leading-relaxed text-ink sm:text-[15px]";
   authors.innerHTML = renderAuthors(entry.authors || "");
 
-  const description = document.createElement("p");
-  description.className = "font-inter text-[14px] leading-relaxed text-muted sm:text-[15px]";
-  description.innerHTML = renderInlineMarkdown(entry.description || "");
-
   middle.appendChild(title);
   middle.appendChild(authors);
-  if (entry.description && !hasWorkshopLabel) middle.appendChild(description);
 
   if (publicationYear) {
     topLeft.appendChild(buildListMetaChip(publicationYear));

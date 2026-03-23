@@ -255,23 +255,27 @@
 }
 
 .publication-type-chip {
-  gap: 6px;
+  gap: 8px;
+  font-weight: 400;
 }
 
 .publication-type-chip-label {
   line-height: 1;
 }
 
-.publication-type-chip-nested {
+.publication-type-chip-divider {
+  display: inline-flex;
+  width: 1px;
+  height: 16px;
+  background: #dbd8d2;
+}
+
+.publication-type-chip-note {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
-  border: 1px solid #dbd8d2;
-  background: #fff;
-  padding: 2px 7px;
   font-family: var(--font-inter);
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 400;
   line-height: 1;
   color: var(--color-muted);
 }

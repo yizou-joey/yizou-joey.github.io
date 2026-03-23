@@ -44,10 +44,7 @@
         <section class="w-full bg-stone section-py">
           <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[30px] px-4">
             <div class="publication-toolbar card-surface w-full rounded-xl p-4 sm:p-5">
-              <p id="publications-summary" class="font-inter text-[14px] text-muted">
-                Loading publication summary...
-              </p>
-              <div class="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div class="publication-toolbar-row publication-toolbar-row-top">
                 <div
                   id="publication-view-toggle"
                   class="inline-flex w-fit items-center rounded-[8px] border border-line bg-white p-1"
@@ -55,18 +52,60 @@
                   aria-label="Publication view"
                 >
                   <button type="button" class="publication-toggle-btn is-active" data-view="list">
-                    Structured List
+                    Table
                   </button>
                   <button type="button" class="publication-toggle-btn" data-view="cards">
                     Cards
                   </button>
                 </div>
-                <div id="publication-type-filters" class="flex flex-wrap items-center gap-2">
-                  <button type="button" class="publication-filter-btn is-active" data-type="ALL">All</button>
-                  <button type="button" class="publication-filter-btn" data-type="C">C</button>
-                  <button type="button" class="publication-filter-btn" data-type="J">J</button>
-                  <button type="button" class="publication-filter-btn" data-type="W">W</button>
-                  <button type="button" class="publication-filter-btn" data-type="P">P</button>
+                <p id="publications-summary" class="publication-toolbar-summary font-inter text-[14px] text-muted">
+                  Loading publication summary...
+                </p>
+              </div>
+              <div class="mt-3 flex flex-col gap-3">
+                <div class="publication-toolbar-row publication-toolbar-row-bottom">
+                  <div id="publication-type-filters" class="flex flex-wrap items-center gap-2">
+                    <button type="button" class="publication-filter-btn is-active" data-type="ALL">All</button>
+                    <button type="button" class="publication-filter-btn" data-type="C">C</button>
+                    <button type="button" class="publication-filter-btn" data-type="J">J</button>
+                    <button type="button" class="publication-filter-btn" data-type="W">W</button>
+                    <button type="button" class="publication-filter-btn" data-type="P">P</button>
+                  </div>
+                  <div class="publication-toolbar-search-actions">
+                    <div class="publication-search-wrap">
+                      <input
+                        id="publication-search-input"
+                        class="publication-search-input"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search publications"
+                      />
+                    </div>
+                    <div class="publication-filter-actions">
+                      <button id="publication-more-filters" type="button" class="publication-filter-btn">
+                        Filters
+                      </button>
+                      <button id="publication-clear-filters" type="button" class="publication-filter-btn">
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div id="publication-advanced-filters" class="publication-advanced-filters is-collapsed">
+                  <div class="publication-attribute-filters">
+                    <label class="publication-select-label">
+                      <span>Year</span>
+                      <select id="publication-year-filter" class="publication-select">
+                        <option value="ALL">All years</option>
+                      </select>
+                    </label>
+                    <label class="publication-select-label">
+                      <span>Venue</span>
+                      <select id="publication-venue-filter" class="publication-select">
+                        <option value="ALL">All venues</option>
+                      </select>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

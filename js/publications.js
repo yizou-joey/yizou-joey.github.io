@@ -3,8 +3,51 @@ const PUBLICATION_VIEW = {
   CARDS: "cards",
 };
 
+const SORT_DIRECTION = {
+  ASC: "asc",
+  DESC: "desc",
+};
+
 const DEFAULT_VIEW = PUBLICATION_VIEW.LIST;
 const DEFAULT_FILTER = "ALL";
+
+const DEFAULT_FILTERS = {
+  type: DEFAULT_FILTER,
+  year: DEFAULT_FILTER,
+  venue: DEFAULT_FILTER,
+  query: "",
+};
+
+const DEFAULT_SORT = {
+  key: "date",
+  direction: SORT_DIRECTION.DESC,
+};
+
+const SORT_LABEL_BY_KEY = {
+  publicationId: "ID",
+  title: "Title",
+  type: "Type",
+  venue: "Venue",
+  year: "Year",
+  date: "Date",
+};
+
+const DEFAULT_DIRECTION_BY_KEY = {
+  publicationId: SORT_DIRECTION.ASC,
+  title: SORT_DIRECTION.ASC,
+  type: SORT_DIRECTION.ASC,
+  venue: SORT_DIRECTION.ASC,
+  year: SORT_DIRECTION.DESC,
+  date: SORT_DIRECTION.DESC,
+};
+
+const TABLE_COLUMNS = [
+  { key: "publicationId", label: "ID", sortable: true },
+  { key: "title", label: "Title", sortable: true },
+  { key: "type", label: "Type", sortable: true },
+  { key: "venue", label: "Venue", sortable: true },
+  { key: "year", label: "Year", sortable: true },
+];
 
 const compareByDateDesc = (a, b) => {
   const aDate = getDateSortValue(a?.date);
@@ -16,14 +59,20 @@ const compareByDateDesc = (a, b) => {
 const getPublicationsState = () => ({
   allItems: [],
   activeView: DEFAULT_VIEW,
-  activeType: DEFAULT_FILTER,
+  filters: { ...DEFAULT_FILTERS },
+  sort: { ...DEFAULT_SORT },
+  advancedFiltersOpen: false,
 });
 
-const getFilteredItems = (items, activeType) => {
-  const sorted = [...(items || [])].sort(compareByDateDesc);
-  if (activeType === DEFAULT_FILTER) return sorted;
-  return sorted.filter((item) => normalizePublicationType(item?.type) === activeType);
+const getPublicationYear = (item) => {
+  const year = String(item?.date || "").slice(0, 4).trim();
+  return year || "Unknown";
 };
+
+const getPublicationVenueLabel = (item) =>
+  String(item?.venueAcronym || item?.venue || "Unknown Venue").trim();
+
+const normalizeSearchText = (value) => String(value || "").trim().toLowerCase();
 
 const buildTypeSummaryText = (items) => {
   const countByType = new Map();
@@ -38,6 +87,110 @@ const buildTypeSummaryText = (items) => {
   });
 
   return pieces.length ? pieces.join("  ·  ") : "No publications yet.";
+};
+
+const matchesFilters = (item, filters) => {
+  if ((filters?.type || DEFAULT_FILTER) !== DEFAULT_FILTER) {
+    if (normalizePublicationType(item?.type) !== filters.type) return false;
+  }
+
+  if ((filters?.year || DEFAULT_FILTER) !== DEFAULT_FILTER) {
+    if (getPublicationYear(item) !== filters.year) return false;
+  }
+
+  if ((filters?.venue || DEFAULT_FILTER) !== DEFAULT_FILTER) {
+    if (getPublicationVenueLabel(item) !== filters.venue) return false;
+  }
+
+  const query = normalizeSearchText(filters?.query);
+  if (query) {
+    const haystack = [
+      item?.publicationId,
+      item?.title,
+      item?.authors,
+      item?.venue,
+      item?.venueAcronym,
+      item?.award,
+      getPublicationYear(item),
+      PUBLICATION_TYPE_LABEL[normalizePublicationType(item?.type)],
+    ]
+      .map((value) => normalizeSearchText(value))
+      .join(" ");
+
+    if (!haystack.includes(query)) return false;
+  }
+
+  return true;
+};
+
+const getFilteredItems = (items, filters) =>
+  (items || []).filter((item) => matchesFilters(item || {}, filters || DEFAULT_FILTERS));
+
+const compareText = (a, b) => String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
+
+const parsePublicationId = (value) => {
+  const text = String(value || "").trim().toUpperCase();
+  const match = text.match(/^([A-Z]+)(\d+)$/);
+  if (!match) return { prefix: text, index: 0 };
+  return {
+    prefix: match[1],
+    index: Number(match[2]) || 0,
+  };
+};
+
+const comparePublicationIds = (a, b) => {
+  const aId = parsePublicationId(a?.publicationId);
+  const bId = parsePublicationId(b?.publicationId);
+
+  const prefixCompare = compareText(aId.prefix, bId.prefix);
+  if (prefixCompare !== 0) return prefixCompare;
+  if (aId.index === bId.index) return 0;
+  return aId.index - bId.index;
+};
+
+const compareBySortKey = (a, b, key) => {
+  if (key === "publicationId") {
+    return comparePublicationIds(a, b);
+  }
+
+  if (key === "title") {
+    return compareText(a?.title, b?.title);
+  }
+
+  if (key === "type") {
+    return compareText(
+      PUBLICATION_TYPE_LABEL[normalizePublicationType(a?.type)] || normalizePublicationType(a?.type),
+      PUBLICATION_TYPE_LABEL[normalizePublicationType(b?.type)] || normalizePublicationType(b?.type)
+    );
+  }
+
+  if (key === "venue") {
+    return compareText(getPublicationVenueLabel(a), getPublicationVenueLabel(b));
+  }
+
+  if (key === "year") {
+    const aYear = Number(getPublicationYear(a)) || 0;
+    const bYear = Number(getPublicationYear(b)) || 0;
+    if (aYear === bYear) return 0;
+    return aYear - bYear;
+  }
+
+  const aDate = getDateSortValue(a?.date);
+  const bDate = getDateSortValue(b?.date);
+  if (aDate === bDate) return 0;
+  return aDate - bDate;
+};
+
+const getSortedItems = (items, sort) => {
+  const sortKey = sort?.key || DEFAULT_SORT.key;
+  const direction = sort?.direction || DEFAULT_SORT.direction;
+  const multiplier = direction === SORT_DIRECTION.ASC ? 1 : -1;
+
+  return [...(items || [])].sort((a, b) => {
+    const primary = compareBySortKey(a, b, sortKey) * multiplier;
+    if (primary !== 0) return primary;
+    return compareByDateDesc(a, b);
+  });
 };
 
 const buildListMetaChip = (text, tone = "default") => {
@@ -78,106 +231,100 @@ const buildPublicationTypeChip = (entry) => {
   return chip;
 };
 
-const buildVenueYearChipGroup = (entry, publicationYear) => {
-  const venueLabel = String(entry?.venueAcronym || entry?.venue || "").trim();
-  const yearLabel = String(publicationYear || "").trim();
-  if (!venueLabel || !yearLabel) return null;
-
-  const group = document.createElement("span");
-  group.className = "publication-venue-year-group";
-
-  const venueChip = buildListMetaChip(venueLabel);
-  venueChip.classList.add("publication-venue-chip");
-  venueChip.tabIndex = 0;
-
-  const yearChip = buildListMetaChip(yearLabel);
-  yearChip.classList.add("publication-year-chip");
-  yearChip.tabIndex = 0;
-
-  const mergedChip = buildListMetaChip(`${venueLabel} ${yearLabel}`);
-  mergedChip.classList.add("publication-venue-year-merged-chip");
+const buildTableVenueBadge = (entry) => {
+  const badge = document.createElement("span");
+  badge.className = "publication-table-venue-badge";
+  badge.textContent = getPublicationVenueLabel(entry);
   const venueColor = String(entry?.venueColor || "").trim() || "#262189";
-  mergedChip.style.backgroundColor = venueColor;
-  mergedChip.style.borderColor = venueColor;
-  mergedChip.style.color = "#f7f4ef";
-
-  group.appendChild(venueChip);
-  group.appendChild(yearChip);
-  group.appendChild(mergedChip);
-  return group;
+  badge.style.backgroundColor = venueColor;
+  return badge;
 };
 
-const buildStructuredPublicationRow = (item) => {
-  const entry = item || {};
-  const publicationYear = String(entry.date || "").slice(0, 4);
+const getSortIndicator = (state, key) => {
+  const isActive = state.sort.key === key;
+  if (!isActive) return "↕";
+  return state.sort.direction === SORT_DIRECTION.ASC ? "↑" : "↓";
+};
 
-  const article = document.createElement("article");
-  article.className = "publication-row card-surface w-full rounded-xl";
+const buildTableHeaderCell = (state, column) => {
+  const th = document.createElement("th");
+  th.scope = "col";
 
-  const content = document.createElement("div");
-  content.className = "publication-row-inner";
+  if (!column.sortable) {
+    th.className = "publication-table-header-cell";
+    th.textContent = column.label;
+    return th;
+  }
 
-  const top = document.createElement("div");
-  top.className = "publication-row-top";
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "publication-table-sort-btn";
+  button.setAttribute("data-sort-key", column.key);
 
-  const topLeft = document.createElement("div");
-  topLeft.className = "publication-row-top-left";
+  const isActive = state.sort.key === column.key;
+  button.classList.toggle("is-active", isActive);
 
-  const topRight = document.createElement("div");
-  topRight.className = "publication-row-top-right";
+  const label = document.createElement("span");
+  label.className = "publication-table-sort-label";
+  label.textContent = column.label;
 
-  const middle = document.createElement("div");
-  middle.className = "publication-row-main";
+  const indicator = document.createElement("span");
+  indicator.className = "publication-table-sort-indicator";
+  indicator.textContent = getSortIndicator(state, column.key);
+
+  button.appendChild(label);
+  button.appendChild(indicator);
+  th.appendChild(button);
+  return th;
+};
+
+const buildTableRow = (item) => {
+  const tr = document.createElement("tr");
+  tr.className = "publication-table-row";
+
+  const idCell = document.createElement("td");
+  idCell.className = "publication-table-cell publication-table-cell-id";
+  if (item.publicationId) {
+    idCell.appendChild(buildListMetaChip(item.publicationId, "strong"));
+  } else {
+    idCell.textContent = "-";
+  }
+
+  const titleCell = document.createElement("td");
+  titleCell.className = "publication-table-cell publication-table-cell-title";
 
   const title = document.createElement("h3");
-  title.className = "publication-title font-inter text-[18px] font-semibold sm:text-[20px]";
-  title.innerHTML = renderInlineMarkdown(entry.title || "", { preserveLineBreaks: false });
+  title.className = "publication-title publication-table-title font-inter text-[16px] font-semibold sm:text-[17px]";
+  title.innerHTML = renderInlineMarkdown(item.title || "", { preserveLineBreaks: false });
 
   const authors = document.createElement("p");
-  authors.className = "font-inter text-[14px] leading-relaxed text-ink sm:text-[15px]";
-  authors.innerHTML = renderAuthors(entry.authors || "");
+  authors.className = "font-inter text-[13px] leading-relaxed text-muted sm:text-[14px]";
+  authors.innerHTML = renderAuthors(item.authors || "");
 
-  middle.appendChild(title);
-  middle.appendChild(authors);
+  titleCell.appendChild(title);
+  titleCell.appendChild(authors);
 
-  if (entry.publicationId) {
-    topLeft.appendChild(buildListMetaChip(entry.publicationId, "strong"));
-  }
-  topLeft.appendChild(buildPublicationTypeChip(entry));
+  const typeCell = document.createElement("td");
+  typeCell.className = "publication-table-cell";
+  typeCell.appendChild(buildPublicationTypeChip(item));
 
-  const venueYearGroup = buildVenueYearChipGroup(entry, publicationYear);
-  if (venueYearGroup) {
-    topLeft.appendChild(venueYearGroup);
-  } else {
-    if (entry.venueAcronym || entry.venue) {
-      topLeft.appendChild(buildListMetaChip(entry.venueAcronym || entry.venue));
-    }
-    if (publicationYear) {
-      topLeft.appendChild(buildListMetaChip(publicationYear));
-    }
-  }
-  if (entry.award) {
-    topLeft.appendChild(buildListMetaChip(entry.award, "award"));
-  }
+  const venueCell = document.createElement("td");
+  venueCell.className = "publication-table-cell";
+  venueCell.appendChild(buildTableVenueBadge(item));
 
-  const supplements = getPublicationSupplementLinks(entry);
-  if (supplements.length) {
-    const linksWrap = document.createElement("div");
-    linksWrap.className = "publication-row-links";
-    supplements.forEach((supplement) => linksWrap.appendChild(buildSupplementChip(supplement)));
-    topRight.appendChild(linksWrap);
-  }
+  const yearCell = document.createElement("td");
+  yearCell.className = "publication-table-cell publication-table-cell-year";
+  yearCell.appendChild(buildListMetaChip(getPublicationYear(item)));
 
-  top.appendChild(topLeft);
-  top.appendChild(topRight);
-
-  content.appendChild(top);
-  content.appendChild(middle);
-  article.appendChild(content);
-  return article;
+  tr.appendChild(idCell);
+  tr.appendChild(titleCell);
+  tr.appendChild(typeCell);
+  tr.appendChild(venueCell);
+  tr.appendChild(yearCell);
+  return tr;
 };
 
-const renderStructuredList = (container, items) => {
+const renderPublicationTable = (container, items, state) => {
   if (!container) return;
   container.innerHTML = "";
 
@@ -189,7 +336,25 @@ const renderStructuredList = (container, items) => {
     return;
   }
 
-  items.forEach((item) => container.appendChild(buildStructuredPublicationRow(item)));
+  const wrapper = document.createElement("div");
+  wrapper.className = "publication-table-wrap card-surface w-full rounded-xl";
+
+  const table = document.createElement("table");
+  table.className = "publication-table";
+
+  const thead = document.createElement("thead");
+  const headRow = document.createElement("tr");
+  headRow.className = "publication-table-head-row";
+  TABLE_COLUMNS.forEach((column) => headRow.appendChild(buildTableHeaderCell(state, column)));
+
+  const tbody = document.createElement("tbody");
+  items.forEach((item) => tbody.appendChild(buildTableRow(item)));
+
+  thead.appendChild(headRow);
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  wrapper.appendChild(table);
+  container.appendChild(wrapper);
 };
 
 const buildYearSection = (year, items) => {
@@ -216,7 +381,7 @@ const buildYearSection = (year, items) => {
 const groupPublicationsByYear = (items) => {
   const groups = new Map();
   items.forEach((item) => {
-    const year = (item?.date || "").slice(0, 4) || "Unknown";
+    const year = getPublicationYear(item);
     if (!groups.has(year)) groups.set(year, []);
     groups.get(year).push(item);
   });
@@ -243,6 +408,18 @@ const renderPublicationYearGroups = (container, items) => {
     });
 };
 
+const getSortSummaryText = (sort) => {
+  const label = SORT_LABEL_BY_KEY[sort.key] || "Date";
+  const directionText = sort.direction === SORT_DIRECTION.ASC ? "A → Z" : "Z → A";
+  if (sort.key === "year" || sort.key === "date") {
+    return `${label} (${sort.direction === SORT_DIRECTION.ASC ? "oldest first" : "newest first"})`;
+  }
+  return `${label} (${directionText})`;
+};
+
+const hasAdvancedFiltersActive = (state) =>
+  state.filters.year !== DEFAULT_FILTER || state.filters.venue !== DEFAULT_FILTER;
+
 const syncViewUI = (state) => {
   const listContainer = document.getElementById("publications-structured-list");
   const cardsContainer = document.getElementById("publications-by-year");
@@ -257,10 +434,72 @@ const syncViewUI = (state) => {
     button.setAttribute("aria-selected", isActive ? "true" : "false");
   });
 
-  document.querySelectorAll(".publication-filter-btn").forEach((button) => {
-    const isActive = button.getAttribute("data-type") === state.activeType;
+  document.querySelectorAll(".publication-filter-btn[data-type]").forEach((button) => {
+    const isActive = button.getAttribute("data-type") === state.filters.type;
     button.classList.toggle("is-active", isActive);
   });
+
+  const searchInput = document.getElementById("publication-search-input");
+  if (searchInput && searchInput.value !== state.filters.query) {
+    searchInput.value = state.filters.query;
+  }
+
+  const yearFilter = document.getElementById("publication-year-filter");
+  if (yearFilter) yearFilter.value = state.filters.year;
+
+  const venueFilter = document.getElementById("publication-venue-filter");
+  if (venueFilter) venueFilter.value = state.filters.venue;
+
+  const advancedWrap = document.getElementById("publication-advanced-filters");
+  const moreFiltersButton = document.getElementById("publication-more-filters");
+  const showAdvanced = state.advancedFiltersOpen || hasAdvancedFiltersActive(state);
+  if (advancedWrap) {
+    advancedWrap.classList.toggle("is-collapsed", !showAdvanced);
+  }
+  if (moreFiltersButton) {
+    const activeCount =
+      Number(state.filters.year !== DEFAULT_FILTER) + Number(state.filters.venue !== DEFAULT_FILTER);
+    moreFiltersButton.textContent = activeCount ? `Filters (${activeCount})` : "Filters";
+    moreFiltersButton.classList.toggle("is-active", showAdvanced);
+    moreFiltersButton.setAttribute("aria-expanded", showAdvanced ? "true" : "false");
+  }
+};
+
+const refreshAttributeFilterOptions = (state) => {
+  const yearFilter = document.getElementById("publication-year-filter");
+  const venueFilter = document.getElementById("publication-venue-filter");
+
+  if (yearFilter) {
+    const previous = state.filters.year || DEFAULT_FILTER;
+    const years = Array.from(new Set(state.allItems.map((item) => getPublicationYear(item))))
+      .sort((a, b) => b.localeCompare(a));
+
+    yearFilter.innerHTML = `<option value="${DEFAULT_FILTER}">All years</option>`;
+    years.forEach((year) => {
+      const option = document.createElement("option");
+      option.value = year;
+      option.textContent = year;
+      yearFilter.appendChild(option);
+    });
+
+    state.filters.year = years.includes(previous) ? previous : DEFAULT_FILTER;
+  }
+
+  if (venueFilter) {
+    const previous = state.filters.venue || DEFAULT_FILTER;
+    const venues = Array.from(new Set(state.allItems.map((item) => getPublicationVenueLabel(item))))
+      .sort((a, b) => a.localeCompare(b));
+
+    venueFilter.innerHTML = `<option value="${DEFAULT_FILTER}">All venues</option>`;
+    venues.forEach((venue) => {
+      const option = document.createElement("option");
+      option.value = venue;
+      option.textContent = venue;
+      venueFilter.appendChild(option);
+    });
+
+    state.filters.venue = venues.includes(previous) ? previous : DEFAULT_FILTER;
+  }
 };
 
 const renderPublications = (state) => {
@@ -268,16 +507,21 @@ const renderPublications = (state) => {
   const listContainer = document.getElementById("publications-structured-list");
   const cardsContainer = document.getElementById("publications-by-year");
 
-  const filteredItems = getFilteredItems(state.allItems, state.activeType);
+  const filteredItems = getFilteredItems(state.allItems, state.filters);
+  const sortedListItems = getSortedItems(filteredItems, state.sort);
+  const sortedCardItems = [...filteredItems].sort(compareByDateDesc);
 
   if (summary) {
-    const head = `${state.allItems.length} total publication${state.allItems.length === 1 ? "" : "s"}`;
+    const total = state.allItems.length;
+    const visible = filteredItems.length;
+    const head = `${total} total publication${total === 1 ? "" : "s"}`;
     const body = buildTypeSummaryText(state.allItems);
-    summary.textContent = `${head}  ·  ${body}`;
+    const focus = `${visible} shown`;
+    summary.textContent = `${head}  ·  ${body}  ·  ${focus}`;
   }
 
-  renderStructuredList(listContainer, filteredItems);
-  renderPublicationYearGroups(cardsContainer, filteredItems);
+  renderPublicationTable(listContainer, sortedListItems, state);
+  renderPublicationYearGroups(cardsContainer, sortedCardItems);
   syncViewUI(state);
 };
 
@@ -294,8 +538,52 @@ const wirePublicationControls = (state) => {
   document.getElementById("publication-type-filters")?.addEventListener("click", (event) => {
     const target = event.target.closest("button[data-type]");
     if (!target) return;
-    const nextType = target.getAttribute("data-type") || DEFAULT_FILTER;
-    state.activeType = nextType;
+    state.filters.type = target.getAttribute("data-type") || DEFAULT_FILTER;
+    renderPublications(state);
+  });
+
+  document.getElementById("publication-search-input")?.addEventListener("input", (event) => {
+    state.filters.query = String(event.target.value || "").trimStart();
+    renderPublications(state);
+  });
+
+  document.getElementById("publication-year-filter")?.addEventListener("change", (event) => {
+    state.filters.year = String(event.target.value || DEFAULT_FILTER);
+    renderPublications(state);
+  });
+
+  document.getElementById("publication-venue-filter")?.addEventListener("change", (event) => {
+    state.filters.venue = String(event.target.value || DEFAULT_FILTER);
+    renderPublications(state);
+  });
+
+  document.getElementById("publication-clear-filters")?.addEventListener("click", () => {
+    state.filters = { ...DEFAULT_FILTERS };
+    state.sort = { ...DEFAULT_SORT };
+    state.advancedFiltersOpen = false;
+    renderPublications(state);
+  });
+
+  document.getElementById("publication-more-filters")?.addEventListener("click", () => {
+    state.advancedFiltersOpen = !state.advancedFiltersOpen;
+    renderPublications(state);
+  });
+
+  document.getElementById("publications-structured-list")?.addEventListener("click", (event) => {
+    const target = event.target.closest("button[data-sort-key]");
+    if (!target) return;
+
+    const key = target.getAttribute("data-sort-key");
+    if (!key) return;
+
+    if (state.sort.key === key) {
+      state.sort.direction =
+        state.sort.direction === SORT_DIRECTION.ASC ? SORT_DIRECTION.DESC : SORT_DIRECTION.ASC;
+    } else {
+      state.sort.key = key;
+      state.sort.direction = DEFAULT_DIRECTION_BY_KEY[key] || SORT_DIRECTION.ASC;
+    }
+
     renderPublications(state);
   });
 };
@@ -315,6 +603,7 @@ const renderPublicationsByYear = async () => {
 
     state.allItems = assignPublicationIdsByType(items);
 
+    refreshAttributeFilterOptions(state);
     wirePublicationControls(state);
     renderPublications(state);
   } catch {

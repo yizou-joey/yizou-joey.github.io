@@ -170,6 +170,21 @@ const getDateSortValue = (value) => {
   return Number.isFinite(fallback) ? fallback : 0;
 };
 
+const PUBLICATION_TYPE_ORDER = ["C", "J", "W", "P"];
+const PUBLICATION_TYPE_LABEL = {
+  C: "Conference",
+  J: "Journal",
+  W: "Workshop",
+  P: "Poster",
+};
+
+const normalizePublicationType = (value) => {
+  const normalized = String(value || "")
+    .trim()
+    .toUpperCase();
+  return PUBLICATION_TYPE_ORDER.includes(normalized) ? normalized : "W";
+};
+
 const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
     key: "youtubeUrl",
@@ -227,6 +242,9 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
 
 const buildPublicationCard = (item) => {
   const entry = item || {};
+  const type = normalizePublicationType(entry.type);
+  const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
+  const workshopLabel = String(entry.workshopLabel || "").trim();
   const article = document.createElement("article");
   article.className =
     "card-surface w-full max-w-[833px] rounded-xl p-[24px] sm:p-[28px] md:p-[40px]";
@@ -234,15 +252,42 @@ const buildPublicationCard = (item) => {
   const container = document.createElement("div");
   container.className = "flex flex-col items-start gap-[10px]";
 
+  const metaRow = document.createElement("div");
+  metaRow.className = "mb-1 flex w-full flex-wrap items-center gap-2";
+
+  const typeChip = document.createElement("span");
+  typeChip.className =
+    "inline-flex min-h-[30px] items-center gap-2 rounded-full border border-line bg-white px-3 py-1 font-inter text-[12px] leading-none text-muted";
+
+  const typeText = document.createElement("span");
+  typeText.textContent = typeLabel;
+  typeChip.appendChild(typeText);
+
+  if (type === "W" && workshopLabel) {
+    const divider = document.createElement("span");
+    divider.className = "inline-flex h-4 w-px bg-[#dbd8d2]";
+    divider.setAttribute("aria-hidden", "true");
+    typeChip.appendChild(divider);
+
+    const note = document.createElement("span");
+    note.className = "text-[12px] leading-none text-muted";
+    note.textContent = workshopLabel;
+    typeChip.appendChild(note);
+  }
+
   const venue = document.createElement("div");
-  venue.className = "w-fit rounded-[6px] px-3 py-1 text-center";
+  venue.className = "inline-flex min-h-[30px] items-center rounded-full border px-3 py-1 text-center";
   const venueColor = entry.venueColor || "#262189";
   venue.style.backgroundColor = venueColor;
+  venue.style.borderColor = venueColor;
 
   const venueText = document.createElement("span");
-  venueText.className = "font-inter text-[14px] font-semibold text-paper";
+  venueText.className = "font-inter text-[13px] font-semibold leading-none text-paper sm:text-[14px]";
   venueText.textContent = entry.venue || "";
   venue.appendChild(venueText);
+
+  metaRow.appendChild(venue);
+  metaRow.appendChild(typeChip);
 
   const title = document.createElement("h3");
   const normalizedTitle = String(entry.title || "")
@@ -258,16 +303,11 @@ const buildPublicationCard = (item) => {
   authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
   authors.innerHTML = renderAuthors(entry.authors || "");
 
-  const description = document.createElement("p");
-  description.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
-  description.innerHTML = renderInlineMarkdown(entry.description || "");
-
   const supplements = getPublicationSupplementLinks(entry);
 
-  container.appendChild(venue);
+  container.appendChild(metaRow);
   container.appendChild(title);
   container.appendChild(authors);
-  container.appendChild(description);
 
   if (supplements.length) {
     const supplementsRow = document.createElement("div");

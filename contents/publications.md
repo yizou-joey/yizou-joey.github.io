@@ -1,4 +1,6 @@
 - date: 2026-01-01
+  type: W
+  workshopLabel: NIDIT
   venue: IEEE VR 2026
   venueColor: #262189
   title: Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning
@@ -9,6 +11,7 @@
   <!-- pdfUrl: files/CV_EN.pdf -->
 
 - date: 2026-01-01
+  type: P
   venue: IEEE VR 2026
   venueColor: #262189
   title: DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR

@@ -230,8 +230,7 @@ const getPublicationSupplementLinks = (entry) =>
 
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
-  link.className =
-    "radius-chip inline-flex h-[30px] items-center justify-center gap-1.5 border border-transparent bg-[#f1f1ef] px-[10px] whitespace-nowrap font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
+  link.className = "publication-resource-chip";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -242,11 +241,10 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
   icon.setAttribute("aria-hidden", "true");
   const isYouTube = iconPath.includes("youtube.svg");
   icon.className = isYouTube
-    ? "block h-[16px] w-auto shrink-0 opacity-95"
-    : "block h-[15px] w-[15px] shrink-0 opacity-90";
+    ? "publication-resource-icon is-youtube"
+    : "publication-resource-icon";
 
   const text = document.createElement("span");
-  text.className = "leading-none";
   text.textContent = label;
 
   link.appendChild(icon);
@@ -260,11 +258,13 @@ const buildPublicationCard = (item) => {
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
   const article = document.createElement("article");
-  article.className =
-    "card-surface radius-card w-full max-w-[833px] p-[24px] sm:p-[28px] md:p-[40px]";
+  article.className = "card-surface radius-card publication-ticket section-aligned-card";
+
+  const main = document.createElement("div");
+  main.className = "publication-ticket-main";
 
   const container = document.createElement("div");
-  container.className = "flex flex-col items-start gap-[10px]";
+  container.className = "publication-ticket-content";
 
   const metaRow = document.createElement("div");
   metaRow.className = "mb-1 flex w-full flex-wrap items-center gap-2";
@@ -320,16 +320,23 @@ const buildPublicationCard = (item) => {
   container.appendChild(title);
   container.appendChild(authors);
 
+  main.appendChild(container);
+  article.appendChild(main);
+
   if (supplements.length) {
-    const supplementsRow = document.createElement("div");
-    supplementsRow.className = "mt-1 flex w-full flex-wrap items-center gap-2";
-    supplements.forEach((supplement) =>
-      supplementsRow.appendChild(buildSupplementChip(supplement))
-    );
-    container.appendChild(supplementsRow);
+    const stub = document.createElement("aside");
+    stub.className = "publication-ticket-stub";
+
+    const stack = document.createElement("div");
+    stack.className = `publication-ticket-stub-stack${
+      supplements.length === 1 ? " is-single" : ""
+    }`;
+    supplements.forEach((supplement) => stack.appendChild(buildSupplementChip(supplement)));
+
+    stub.appendChild(stack);
+    article.appendChild(stub);
   }
 
-  article.appendChild(container);
   return article;
 };
 

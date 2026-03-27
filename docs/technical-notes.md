@@ -82,6 +82,7 @@ Each file uses list entries:
 ### Publications fields
 
 - `date` (required, ISO `YYYY-MM-DD` for sorting and yearly grouping)
+- `selected` (optional boolean; when `true`, the item appears in the homepage research/publications section)
 - `venue`
 - `venueColor` (hex color)
 - `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)

@@ -84,14 +84,31 @@ const renderListSection = async ({
 const renderPublicationsSection = async () => {
   const publicationsList = document.getElementById("publications-list");
   if (!publicationsList) return;
-  await renderListSection({
-    url: "contents/publications.md",
-    container: publicationsList,
-    buildItem: buildPublicationCard,
-    emptyMessage: '<p class="font-inter text-[14px] text-muted">No publications yet.</p>',
-    errorMessage:
-      '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>',
-  });
+  try {
+    const allItems = await loadList({
+      url: "contents/publications.md",
+    });
+    const selectedItems = allItems.filter((item) => parseBooleanLike(item?.selected));
+
+    if (!selectedItems.length) {
+      renderEmpty(
+        publicationsList,
+        '<p class="font-inter text-[14px] text-muted">No selected publications yet.</p>'
+      );
+      return;
+    }
+
+    renderItems({
+      container: publicationsList,
+      items: selectedItems,
+      buildItem: buildPublicationCard,
+    });
+  } catch {
+    renderError(
+      publicationsList,
+      '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>'
+    );
+  }
 };
 
 const renderNewsSection = async () => {

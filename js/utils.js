@@ -113,6 +113,16 @@ const loadList = async ({ url, sortFn }) => {
   return [...items].sort(sortFn);
 };
 
+const parseBooleanLike = (value) => {
+  if (typeof value === "boolean") return value;
+  const normalized = String(value || "")
+    .trim()
+    .toLowerCase();
+  if (["true", "1", "yes", "y", "on"].includes(normalized)) return true;
+  if (["false", "0", "no", "n", "off"].includes(normalized)) return false;
+  return false;
+};
+
 const renderItems = ({ container, items, buildItem }) => {
   if (!container || !Array.isArray(items) || typeof buildItem !== "function") return;
   items.forEach((item) => {
@@ -261,7 +271,7 @@ const buildPublicationCard = (item) => {
 
   const typeChip = document.createElement("span");
   typeChip.className =
-    "radius-chip inline-flex min-h-[30px] items-center gap-2 border border-line bg-white px-3 py-1 font-inter text-[12px] leading-none text-muted";
+    "radius-chip inline-flex min-h-[30px] items-center gap-2 border border-line bg-white px-3 py-1 font-inter text-[13px] leading-none text-muted sm:text-[14px]";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -274,7 +284,7 @@ const buildPublicationCard = (item) => {
     typeChip.appendChild(divider);
 
     const note = document.createElement("span");
-    note.className = "text-[12px] leading-none text-muted";
+    note.className = "text-[13px] leading-none text-muted sm:text-[14px]";
     note.textContent = workshopLabel;
     typeChip.appendChild(note);
   }

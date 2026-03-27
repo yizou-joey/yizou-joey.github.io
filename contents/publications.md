@@ -1,19 +1,20 @@
-<!-- Example publication item (commented out, includes all supported attributes)
-- date: 2026-01-01
-  type: W
-  workshopLabel: Example Workshop
-  venue: Example Conference 2026
-  venueColor: "#262189"
-  title: Example Publication Title
-  authors: First AUTHOR, Second AUTHOR, Corresponding AUTHOR\*
-  description: Short description of this publication.
-  youtubeUrl: https://www.youtube.com/watch?v=example
-  youtubeLabel: Demo
-  arxivUrl: https://arxiv.org/abs/0000.00000
-  pdfUrl: files/example.pdf
--->
+# Example publication item (commented out, parser-safe):
+# date: 2026-01-01
+# selected: false
+# type: W
+# workshopLabel: Example Workshop
+# venue: Example Conference 2026
+# venueColor: "#262189"
+# title: Example Publication Title
+# authors: First AUTHOR, Second AUTHOR, Corresponding AUTHOR\*
+# description: Short description of this publication.
+# youtubeUrl: https://www.youtube.com/watch?v=example
+# youtubeLabel: Demo
+# arxivUrl: https://arxiv.org/abs/0000.00000
+# pdfUrl: files/example.pdf
 
 - date: 2026-01-01
+  selected: true
   type: W
   workshopLabel: NIDIT
   venue: IEEE VR 2026
@@ -27,6 +28,7 @@
   <!-- pdfUrl: files/CV_EN.pdf -->
 
 - date: 2026-01-01
+  selected: true
   type: P
   venue: IEEE VR 2026
   venueColor: #262189

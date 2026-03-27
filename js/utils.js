@@ -271,7 +271,7 @@ const buildPublicationCard = (item) => {
 
   const typeChip = document.createElement("span");
   typeChip.className =
-    "radius-chip inline-flex min-h-[30px] items-center gap-2 border border-line bg-white px-3 py-1 font-inter text-[13px] leading-none text-muted sm:text-[14px]";
+    "publication-type-chip radius-chip inline-flex min-h-[30px] items-center gap-2 border bg-white px-3 py-1 font-inter text-[13px] leading-none text-ink sm:text-[14px]";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -284,7 +284,7 @@ const buildPublicationCard = (item) => {
     typeChip.appendChild(divider);
 
     const note = document.createElement("span");
-    note.className = "text-[13px] leading-none text-muted sm:text-[14px]";
+    note.className = "text-[13px] leading-none text-ink sm:text-[14px]";
     note.textContent = workshopLabel;
     typeChip.appendChild(note);
   }

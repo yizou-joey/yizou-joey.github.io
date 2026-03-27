@@ -197,9 +197,24 @@ const normalizePublicationType = (value) => {
 
 const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
+    key: "paperUrl",
+    label: "Paper",
+    iconPath: "files/icons/pdf.svg",
+  },
+  {
     key: "youtubeUrl",
     label: "Video",
     customLabelKey: "youtubeLabel",
+    iconPath: "files/icons/youtube.svg",
+  },
+  {
+    key: "videoUrl",
+    label: "Video",
+    iconPath: "files/icons/youtube.svg",
+  },
+  {
+    key: "demoUrl",
+    label: "Demo",
     iconPath: "files/icons/youtube.svg",
   },
   {
@@ -212,21 +227,33 @@ const PUBLICATION_SUPPLEMENT_FIELDS = [
     label: "PDF",
     iconPath: "files/icons/pdf.svg",
   },
+  {
+    key: "slidesUrl",
+    label: "Slides",
+    iconPath: "files/icons/pdf.svg",
+  },
+  {
+    key: "codeUrl",
+    label: "Code",
+    iconPath: "files/icons/github.svg",
+  },
 ];
 
 const getPublicationSupplementLinks = (entry) =>
-  PUBLICATION_SUPPLEMENT_FIELDS.map((field) => {
+  PUBLICATION_SUPPLEMENT_FIELDS.reduce((acc, field) => {
     const href = (entry?.[field.key] || "").trim();
-    if (!href) return null;
+    if (!href) return acc;
+    if (acc.some((item) => item.href === href)) return acc;
     const customLabel = field.customLabelKey
       ? String(entry?.[field.customLabelKey] || "").trim()
       : "";
-    return {
+    acc.push({
       href,
       label: customLabel || field.label,
       iconPath: field.iconPath,
-    };
-  }).filter(Boolean);
+    });
+    return acc;
+  }, []);
 
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
@@ -266,12 +293,14 @@ const buildPublicationCard = (item) => {
   const container = document.createElement("div");
   container.className = "publication-ticket-content";
 
-  const metaRow = document.createElement("div");
-  metaRow.className = "mb-1 flex w-full flex-wrap items-center gap-2";
+  const identityStrip = document.createElement("div");
+  identityStrip.className = "publication-identity-strip";
+
+  const identityBadges = document.createElement("div");
+  identityBadges.className = "publication-identity-badges";
 
   const typeChip = document.createElement("span");
-  typeChip.className =
-    "publication-type-chip radius-chip inline-flex min-h-[30px] items-center gap-2 border bg-white px-3 py-1 font-inter text-[13px] leading-none text-ink sm:text-[14px]";
+  typeChip.className = "publication-meta-chip publication-type-chip";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -279,44 +308,54 @@ const buildPublicationCard = (item) => {
 
   if (type === "W" && workshopLabel) {
     const divider = document.createElement("span");
-    divider.className = "inline-flex h-4 w-px bg-[#dbd8d2]";
+    divider.className = "publication-type-divider";
     divider.setAttribute("aria-hidden", "true");
     typeChip.appendChild(divider);
 
     const note = document.createElement("span");
-    note.className = "text-[13px] leading-none text-ink sm:text-[14px]";
+    note.className = "publication-type-note";
     note.textContent = workshopLabel;
     typeChip.appendChild(note);
   }
 
   const venue = document.createElement("div");
-  venue.className = "radius-chip inline-flex min-h-[30px] items-center border px-3 py-1 text-center";
+  venue.className = "publication-meta-chip publication-venue-chip";
   const venueColor = entry.venueColor || "#262189";
   venue.style.backgroundColor = venueColor;
   venue.style.borderColor = venueColor;
 
   const venueText = document.createElement("span");
-  venueText.className = "font-inter text-[13px] font-semibold leading-none text-paper sm:text-[14px]";
+  venueText.className = "publication-venue-chip-text";
   venueText.textContent = entry.venue || "";
   venue.appendChild(venueText);
 
-  metaRow.appendChild(venue);
-  metaRow.appendChild(typeChip);
+  identityBadges.appendChild(venue);
+  identityBadges.appendChild(typeChip);
+
+  const statusLabel = String(entry.award || entry.status || "").trim();
+  identityStrip.appendChild(identityBadges);
+
+  if (statusLabel) {
+    const statusChip = document.createElement("span");
+    statusChip.className = "publication-meta-chip publication-status-chip";
+    statusChip.textContent = statusLabel;
+    identityStrip.appendChild(statusChip);
+  }
 
   const title = document.createElement("h3");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  title.className = "publication-title font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
+  title.className = "publication-title";
   title.innerHTML = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
 
   const authors = document.createElement("p");
-  authors.className = "font-inter text-[14px] leading-relaxed sm:text-[15px] md:text-[16px]";
+  authors.className = "publication-authors";
   authors.innerHTML = renderAuthors(entry.authors || "");
 
   const supplements = getPublicationSupplementLinks(entry);
 
-  container.appendChild(metaRow);
+  container.appendChild(identityStrip);
   container.appendChild(title);
   container.appendChild(authors);
 

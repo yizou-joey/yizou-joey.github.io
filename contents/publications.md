@@ -21,7 +21,7 @@
   title: Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
-  youtubeLabel: Presentation
+  youtubeLabel: Demo
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
 
@@ -33,4 +33,4 @@
   title: DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR
   authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
-  youtubeLabel: Demo
+  youtubeLabel: Presentation

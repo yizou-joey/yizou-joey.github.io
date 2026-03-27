@@ -304,10 +304,7 @@ const buildPublicationCard = (item) => {
   metaRow.appendChild(typeChip);
 
   const title = document.createElement("h3");
-  const normalizedTitle = String(entry.title || "")
-    .replace(/\\n/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
   title.className = "publication-title font-inter text-[18px] font-semibold sm:text-[20px] md:text-[24px]";
   title.innerHTML = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,

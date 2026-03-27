@@ -87,14 +87,13 @@ Each file uses list entries:
 - `venueColor` (hex color)
 - `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)
 - `authors` (use `\*` or `*` for corresponding author marker)
-- `description` (supports inline markdown)
 - `youtubeUrl` (optional, renders a video supplemental chip with YouTube icon)
 - `youtubeLabel` (optional, custom text for the YouTube/video chip, e.g. `presentation video` or `demo video`)
 - `arxivUrl` (optional, renders an `arXiv` supplemental chip)
 - `pdfUrl` (optional, renders a `PDF` supplemental chip; supports relative paths such as `files/...`)
 
 If any supplemental URL fields are present, publication cards render a compact chip row below
-the description. Chips use local monochrome SVG icons from `files/icons/`, keep neutral styling,
+the authors. Chips use local monochrome SVG icons from `files/icons/`, keep neutral styling,
 and open links in a new tab.
 
 ### News fields

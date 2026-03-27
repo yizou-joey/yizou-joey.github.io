@@ -7,6 +7,7 @@
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   description: NIDIT Workshop
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
+  youtubeLabel: Presentation
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
 
@@ -18,3 +19,4 @@
   authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
   description: Poster
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
+  youtubeLabel: Demo

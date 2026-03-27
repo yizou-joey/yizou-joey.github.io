@@ -87,7 +87,8 @@ Each file uses list entries:
 - `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)
 - `authors` (use `\*` or `*` for corresponding author marker)
 - `description` (supports inline markdown)
-- `youtubeUrl` (optional, renders a `YouTube` supplemental chip)
+- `youtubeUrl` (optional, renders a video supplemental chip with YouTube icon)
+- `youtubeLabel` (optional, custom text for the YouTube/video chip, e.g. `presentation video` or `demo video`)
 - `arxivUrl` (optional, renders an `arXiv` supplemental chip)
 - `pdfUrl` (optional, renders a `PDF` supplemental chip; supports relative paths such as `files/...`)
 

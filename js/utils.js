@@ -188,7 +188,8 @@ const normalizePublicationType = (value) => {
 const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
     key: "youtubeUrl",
-    label: "YouTube",
+    label: "Video",
+    customLabelKey: "youtubeLabel",
     iconPath: "files/icons/youtube.svg",
   },
   {
@@ -207,9 +208,12 @@ const getPublicationSupplementLinks = (entry) =>
   PUBLICATION_SUPPLEMENT_FIELDS.map((field) => {
     const href = (entry?.[field.key] || "").trim();
     if (!href) return null;
+    const customLabel = field.customLabelKey
+      ? String(entry?.[field.customLabelKey] || "").trim()
+      : "";
     return {
       href,
-      label: field.label,
+      label: customLabel || field.label,
       iconPath: field.iconPath,
     };
   }).filter(Boolean);
@@ -217,7 +221,7 @@ const getPublicationSupplementLinks = (entry) =>
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
   link.className =
-    "inline-flex h-[30px] w-[110px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[7px] font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
+    "inline-flex h-[30px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[10px] whitespace-nowrap font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -226,10 +230,10 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
   icon.src = iconPath;
   icon.alt = "";
   icon.setAttribute("aria-hidden", "true");
-  const isYouTube = label === "YouTube";
+  const isYouTube = iconPath.includes("youtube.svg");
   icon.className = isYouTube
-    ? "block h-[62%] w-auto shrink-0 opacity-95"
-    : "block h-[58%] w-auto shrink-0 opacity-90";
+    ? "block h-[16px] w-auto shrink-0 opacity-95"
+    : "block h-[15px] w-[15px] shrink-0 opacity-90";
 
   const text = document.createElement("span");
   text.className = "leading-none";

@@ -1,3 +1,18 @@
+<!-- Example publication item (commented out, includes all supported attributes)
+- date: 2026-01-01
+  type: W
+  workshopLabel: Example Workshop
+  venue: Example Conference 2026
+  venueColor: "#262189"
+  title: Example Publication Title
+  authors: First AUTHOR, Second AUTHOR, Corresponding AUTHOR\*
+  description: Short description of this publication.
+  youtubeUrl: https://www.youtube.com/watch?v=example
+  youtubeLabel: Demo
+  arxivUrl: https://arxiv.org/abs/0000.00000
+  pdfUrl: files/example.pdf
+-->
+
 - date: 2026-01-01
   type: W
   workshopLabel: NIDIT

@@ -20,6 +20,10 @@
 
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
+
+  /* Corner system: one token for cards and one token for chips/controls. */
+  --radius-card: 24px;
+  --radius-chip: 12px;
 }
 
 ::selection {
@@ -56,6 +60,14 @@
   background: #fff;
   box-shadow: none;
   transition: box-shadow 180ms ease;
+}
+
+.radius-card {
+  border-radius: var(--radius-card);
+}
+
+.radius-chip {
+  border-radius: var(--radius-chip);
 }
 
 .card-surface:focus-within {

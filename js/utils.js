@@ -221,7 +221,7 @@ const getPublicationSupplementLinks = (entry) =>
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
   link.className =
-    "inline-flex h-[30px] items-center justify-center gap-1.5 rounded-[6px] border border-transparent bg-[#f1f1ef] px-[10px] whitespace-nowrap font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
+    "radius-chip inline-flex h-[30px] items-center justify-center gap-1.5 border border-transparent bg-[#f1f1ef] px-[10px] whitespace-nowrap font-inter text-[13px] font-normal leading-none text-ink sm:text-[14px] transition-colors duration-150 hover:border-line hover:bg-[#ecebe8] hover:text-ink";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -251,7 +251,7 @@ const buildPublicationCard = (item) => {
   const workshopLabel = String(entry.workshopLabel || "").trim();
   const article = document.createElement("article");
   article.className =
-    "card-surface w-full max-w-[833px] rounded-xl p-[24px] sm:p-[28px] md:p-[40px]";
+    "card-surface radius-card w-full max-w-[833px] p-[24px] sm:p-[28px] md:p-[40px]";
 
   const container = document.createElement("div");
   container.className = "flex flex-col items-start gap-[10px]";
@@ -261,7 +261,7 @@ const buildPublicationCard = (item) => {
 
   const typeChip = document.createElement("span");
   typeChip.className =
-    "inline-flex min-h-[30px] items-center gap-2 rounded-full border border-line bg-white px-3 py-1 font-inter text-[12px] leading-none text-muted";
+    "radius-chip inline-flex min-h-[30px] items-center gap-2 border border-line bg-white px-3 py-1 font-inter text-[12px] leading-none text-muted";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -280,7 +280,7 @@ const buildPublicationCard = (item) => {
   }
 
   const venue = document.createElement("div");
-  venue.className = "inline-flex min-h-[30px] items-center rounded-full border px-3 py-1 text-center";
+  venue.className = "radius-chip inline-flex min-h-[30px] items-center border px-3 py-1 text-center";
   const venueColor = entry.venueColor || "#262189";
   venue.style.backgroundColor = venueColor;
   venue.style.borderColor = venueColor;

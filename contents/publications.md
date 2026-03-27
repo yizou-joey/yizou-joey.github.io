@@ -22,6 +22,7 @@
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
   youtubeLabel: Demo
+  slidesUrl: files/slides/2026.03.22 NIDIT Presentation.pdf
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
 

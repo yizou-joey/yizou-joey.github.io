@@ -230,7 +230,7 @@ const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
     key: "slidesUrl",
     label: "Slides",
-    iconPath: "files/icons/pdf.svg",
+    iconPath: "files/icons/slides.svg",
   },
   {
     key: "codeUrl",

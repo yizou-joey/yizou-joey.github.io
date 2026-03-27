@@ -91,6 +91,7 @@ Each file uses list entries:
 - `youtubeLabel` (optional, custom text for the YouTube/video chip, e.g. `presentation video` or `demo video`)
 - `arxivUrl` (optional, renders an `arXiv` supplemental chip)
 - `pdfUrl` (optional, renders a `PDF` supplemental chip; supports relative paths such as `files/...`)
+- `slidesUrl` (optional, renders a `Slides` supplemental chip; supports relative paths such as `files/...`)
 
 If any supplemental URL fields are present, publication cards render a compact chip row below
 the authors. Chips use local monochrome SVG icons from `files/icons/`, keep neutral styling,

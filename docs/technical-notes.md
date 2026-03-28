@@ -87,6 +87,8 @@ Each file uses list entries:
 - `venueColor` (hex color)
 - `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)
 - `authors` (use `\*` or `*` for corresponding author marker)
+- `award` (optional, canonical field for award badge text, e.g. `Best Paper Honorable Mention`)
+- `status` (optional legacy fallback; used only when `award` is missing/empty)
 - `youtubeUrl` (optional, renders a video supplemental chip with YouTube icon)
 - `youtubeLabel` (optional, custom text for the YouTube/video chip, e.g. `presentation video` or `demo video`)
 - `arxivUrl` (optional, renders an `arXiv` supplemental chip)

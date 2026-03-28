@@ -88,6 +88,11 @@ const renderAuthors = (value) => {
   return html;
 };
 
+const normalizeInlineText = (value) =>
+  String(value || "")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const fetchTextOrThrow = async (url) => {
   const response = await fetch(url);
   if (!response.ok) {
@@ -233,6 +238,11 @@ const PUBLICATION_SUPPLEMENT_FIELDS = [
     iconPath: "files/icons/slides.svg",
   },
   {
+    key: "posterUrl",
+    label: "Poster",
+    iconPath: "files/icons/poster.svg",
+  },
+  {
     key: "codeUrl",
     label: "Code",
     iconPath: "files/icons/github.svg",
@@ -330,16 +340,24 @@ const buildPublicationCard = (item) => {
   venue.appendChild(venueText);
 
   identityBadges.appendChild(venue);
-  identityBadges.appendChild(typeChip);
 
-  const statusLabel = String(entry.award || entry.status || "").trim();
+  const awardLabel = normalizeInlineText(entry.award);
+  const fallbackStatusLabel = normalizeInlineText(entry.status);
+  const statusLabel = awardLabel || fallbackStatusLabel;
   identityStrip.appendChild(identityBadges);
+
+  identityBadges.appendChild(typeChip);
 
   if (statusLabel) {
     const statusChip = document.createElement("span");
     statusChip.className = "publication-meta-chip publication-status-chip";
-    statusChip.textContent = statusLabel;
-    identityStrip.appendChild(statusChip);
+
+    const statusText = document.createElement("span");
+    statusText.className = "publication-status-chip-text";
+    statusText.textContent = statusLabel;
+
+    statusChip.appendChild(statusText);
+    identityBadges.appendChild(statusChip);
   }
 
   const title = document.createElement("h3");

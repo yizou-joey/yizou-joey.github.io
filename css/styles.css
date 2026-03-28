@@ -18,9 +18,9 @@
   --color-publication-authors: #6f6e6a;
   --color-publication-chip-bg: #f7f5ef;
   --color-publication-chip-border: #dfdcd4;
-  --color-publication-status-bg: #fff4dd;
-  --color-publication-status-border: #f0d8a7;
-  --color-publication-status-text: #6f4c06;
+  --color-publication-award-bg: transparent;
+  --color-publication-award-border: #efbf04;
+  --color-publication-award-text: #efbf04;
   --shadow-card-subtle: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
   --shadow-card-subtle-hover:
   0 2px 6px 0px rgba(15, 23, 42, 0.18),
@@ -180,8 +180,8 @@
 }
 
 .publication-venue-chip {
-  border-color: var(--color-publication-accent);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .publication-venue-chip-text {
@@ -214,10 +214,21 @@
 }
 
 .publication-status-chip {
-  flex-shrink: 0;
-  border-color: var(--color-publication-status-border);
-  background: var(--color-publication-status-bg);
-  color: var(--color-publication-status-text);
+  min-width: 0;
+  display: inline-flex;
+  max-width: min(100%, 320px);
+  align-items: center;
+  border-color: var(--color-publication-award-border);
+  background: var(--color-publication-award-bg);
+  color: var(--color-publication-award-text);
+  font-weight: 700;
+}
+
+.publication-status-chip-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .publication-authors {
@@ -385,6 +396,19 @@
 
   .publication-ticket-stub-stack.is-single {
     justify-content: center;
+  }
+
+  .publication-status-chip {
+    max-width: min(100%, 320px);
+    align-items: flex-start;
+  }
+
+  .publication-status-chip-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    white-space: normal;
+    line-height: 1.15;
   }
 
   .publication-resource-chip {

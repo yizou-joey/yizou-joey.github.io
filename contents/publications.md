@@ -7,6 +7,7 @@
 # venueColor: "#262189"
 # title: Example Publication Title
 # authors: First AUTHOR, Second AUTHOR, Corresponding AUTHOR\*
+# award: Best Paper Honorable Mention
 # youtubeUrl: https://www.youtube.com/watch?v=example
 # youtubeLabel: Demo
 # arxivUrl: https://arxiv.org/abs/0000.00000
@@ -22,7 +23,8 @@
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
   youtubeLabel: Demo
-  slidesUrl: files/slides/2026.03.22 NIDIT Presentation.pdf
+  slidesUrl: files/materials/2026.03.22 NIDIT Presentation.pdf
+  
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
 
@@ -35,3 +37,5 @@
   authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
   youtubeLabel: Presentation
+  posterUrl: files/materials/Poster-1153.pdf
+  award: Best Poster

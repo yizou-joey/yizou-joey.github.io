@@ -27,14 +27,17 @@
   0 8px 16px -6px rgba(15, 23, 42, 0.14);
 
 
-  --space-section: 60px;
-  --space-section-md: 80px;
-  --space-section-py: 50px;
+  --space-section: 40px;
+  --space-section-md: 40px;
+  --space-section-py: 40px;
   --space-gutter-fluid: clamp(16px, 3vw, 32px);
   --space-col-gap-fluid: clamp(20px, 4vw, 56px);
   --space-col-gap-tight: clamp(14px, 2.5vw, 28px);
   --publication-stub-width: clamp(150px, 15vw, 186px);
   --space-title-inline-inset: 18px;
+  --space-card-inline: 18px;
+  --space-card-inline-sm: 20px;
+  --space-card-inline-md: 24px;
   --publication-resource-width: 168px;
 
   --font-inter: "Inter", sans-serif;
@@ -133,7 +136,7 @@
 .publication-ticket-main {
   min-width: 0;
   flex: 1 1 auto;
-  padding: 18px;
+  padding: 18px var(--space-card-inline);
 }
 
 .publication-ticket-content {
@@ -364,6 +367,51 @@
   margin-right: auto;
 }
 
+.news-item {
+  padding: 10px var(--space-card-inline);
+}
+
+.teaching-card {
+  padding: 14px var(--space-card-inline);
+}
+
+.news-item-inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.news-date-chip {
+  margin: 0;
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  border: 1px solid var(--color-publication-chip-border);
+  border-radius: var(--radius-chip);
+  background: var(--color-publication-chip-bg);
+  padding: 0 11px;
+  white-space: nowrap;
+}
+
+.news-date-text {
+  font-family: var(--font-inter);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #3c3c3c;
+}
+
+.news-text {
+  margin: 0;
+  font-family: var(--font-inter);
+  font-size: clamp(0.94rem, 0.9rem + 0.18vw, 1.03rem);
+  line-height: 1.55;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
 @media (min-width: 768px) {
   .section-gap {
     gap: var(--space-section-md);
@@ -372,13 +420,25 @@
 
 @media (min-width: 640px) {
   .publication-ticket-main {
-    padding: 20px 22px;
+    padding: 20px var(--space-card-inline-sm);
+  }
+
+  .news-item {
+    padding: 10px var(--space-card-inline-sm);
+  }
+
+  .teaching-card {
+    padding: 14px var(--space-card-inline-sm);
   }
 }
 
 @media (min-width: 768px) {
   .publication-ticket-main {
-    padding: 22px 24px;
+    padding: 22px var(--space-card-inline-md);
+  }
+
+  .teaching-card {
+    padding: 10px var(--space-card-inline-md);
   }
 }
 
@@ -446,6 +506,11 @@
 
   .publication-title {
     text-wrap: pretty;
+  }
+
+  .news-item-inner {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }
 

@@ -1,34 +1,34 @@
 const buildNewsItem = (item) => {
   const entry = item || {};
-  const row = document.createElement("div");
-  row.className = "flex w-full max-w-[900px] items-start gap-[17px]";
+  const row = document.createElement("article");
+  row.className = "news-item card-surface radius-teaching section-aligned-card";
 
-  const dateWrap = document.createElement("div");
-  dateWrap.className = "flex h-full items-center";
+  const inner = document.createElement("div");
+  inner.className = "news-item-inner";
 
-  const dateChip = document.createElement("div");
-  dateChip.className = "rounded-[6px] bg-[#f1f1ef] px-[9px] py-[2px] whitespace-nowrap";
+  const dateChip = document.createElement("p");
+  dateChip.className = "news-date-chip";
 
   const dateText = document.createElement("span");
-  dateText.className = "font-inter text-[13px] font-medium leading-[17px] text-muted";
+  dateText.className = "news-date-text";
   dateText.textContent = entry.date || "";
 
   dateChip.appendChild(dateText);
-  dateWrap.appendChild(dateChip);
 
   const content = document.createElement("p");
-  content.className = "font-inter text-[16px] leading-relaxed text-ink sm:text-[18px] md:text-[20px]";
+  content.className = "news-text";
   content.innerHTML = renderInlineMarkdown(entry.text || "");
 
-  row.appendChild(dateWrap);
-  row.appendChild(content);
+  inner.appendChild(dateChip);
+  inner.appendChild(content);
+  row.appendChild(inner);
   return row;
 };
 
 const buildTeachingItem = (item) => {
   const entry = item || {};
   const card = document.createElement("div");
-  card.className = "card-surface radius-teaching section-aligned-card p-[20px] sm:p-[20px] md:p-[10px]";
+  card.className = "teaching-card card-surface radius-teaching section-aligned-card";
 
   const grid = document.createElement("div");
   grid.className =

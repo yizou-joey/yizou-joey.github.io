@@ -3,6 +3,7 @@
 # selected: false
 # type: W
 # workshopLabel: Example Workshop
+# typeLink: https://example.com/publication-type
 # venue: Example Conference 2026
 # venueColor: "#262189"
 # title: Example Publication Title
@@ -17,6 +18,7 @@
   selected: true
   type: W
   workshopLabel: NIDIT
+  typeLink: https://sites.google.com/view/nidit/nidit-2026
   venue: IEEE VR 2026
   venueColor: #262189
   title: Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning

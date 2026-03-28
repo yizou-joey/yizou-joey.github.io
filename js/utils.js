@@ -289,11 +289,29 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
   return link;
 };
 
+const buildPublicationTypeLabelNode = ({ label, href }) => {
+  if (!href) {
+    const text = document.createElement("span");
+    text.className = "publication-type-note";
+    text.textContent = label;
+    return text;
+  }
+
+  const link = document.createElement("a");
+  link.className = "publication-type-note publication-type-note-link";
+  link.href = href;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = label;
+  return link;
+};
+
 const buildPublicationCard = (item) => {
   const entry = item || {};
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
+  const publicationTypeLink = String(entry.typeLink || entry.workshopUrl || "").trim();
   const article = document.createElement("article");
   article.className = "card-surface radius-card publication-ticket section-aligned-card";
 
@@ -322,10 +340,22 @@ const buildPublicationCard = (item) => {
     divider.setAttribute("aria-hidden", "true");
     typeChip.appendChild(divider);
 
-    const note = document.createElement("span");
-    note.className = "publication-type-note";
-    note.textContent = workshopLabel;
+    const note = buildPublicationTypeLabelNode({
+      label: workshopLabel,
+      href: publicationTypeLink,
+    });
     typeChip.appendChild(note);
+  } else {
+    const typeTextNode = document.createElement(publicationTypeLink ? "a" : "span");
+    typeTextNode.textContent = typeLabel;
+    if (publicationTypeLink) {
+      typeTextNode.className = "publication-type-note publication-type-note-link";
+      typeTextNode.href = publicationTypeLink;
+      typeTextNode.target = "_blank";
+      typeTextNode.rel = "noopener noreferrer";
+    }
+
+    typeChip.replaceChildren(typeTextNode);
   }
 
   const venue = document.createElement("div");

@@ -38,4 +38,4 @@
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
   youtubeLabel: Presentation
   posterUrl: files/materials/Poster-1153.pdf
-  award: Best Poster
+  award: Best Poster Award

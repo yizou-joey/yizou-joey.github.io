@@ -418,21 +418,30 @@
 
   .publication-status-chip {
     max-width: min(100%, 320px);
-    align-items: flex-start;
+    align-items: center;
   }
 
   .publication-status-chip-text {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    white-space: normal;
-    line-height: 1.15;
+    display: block;
+    white-space: nowrap;
+    line-height: 1;
   }
 
   .publication-resource-chip {
     width: min(100%, var(--publication-resource-width));
     min-height: 30px;
     padding: 0 11px;
+  }
+
+  .publication-ticket-stub-stack.is-pair {
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  .publication-ticket-stub-stack.is-pair .publication-resource-chip {
+    width: auto;
+    min-width: 0;
+    flex: 1 1 0;
   }
 
   .publication-title {

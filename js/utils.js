@@ -415,9 +415,13 @@ const buildPublicationCard = (item) => {
     stub.className = "publication-ticket-stub";
 
     const stack = document.createElement("div");
-    stack.className = `publication-ticket-stub-stack${
-      supplements.length === 1 ? " is-single" : ""
-    }`;
+    const stackStateClass =
+      supplements.length === 1
+        ? " is-single"
+        : supplements.length === 2
+          ? " is-pair"
+          : "";
+    stack.className = `publication-ticket-stub-stack${stackStateClass}`;
     supplements.forEach((supplement) => stack.appendChild(buildSupplementChip(supplement)));
 
     stub.appendChild(stack);

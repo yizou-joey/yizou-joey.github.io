@@ -24,6 +24,7 @@
       property="og:description"
       content="Research, publications, teaching, and updates from Yi ZOU (Joey), an MPhil student at HKUST (Guangzhou) working on HCI, XR, and adaptive user interfaces."
     />
+    <meta property="og:type" content="website" />
     <link rel="icon" href="files/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -59,30 +60,38 @@
             <div class="flex w-full flex-col items-center justify-between content-gap lg:flex-row">
             <div class="flex flex-col items-center justify-center gap-[10px] lg:shrink-0 lg:basis-[240px]">
               <div class="flex items-center justify-center overflow-hidden rounded-[20px]">
-                <img
-                  src="files/about-profile.jpg"
-                  alt="Profile Picture"
-                  class="h-[160px] w-[160px] object-cover sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px]"
-                />
+                <picture>
+                  <source srcset="files/about-profile.avif" type="image/avif" />
+                  <img
+                    src="files/about-profile.jpg"
+                    alt="Profile Picture"
+                    width="1280"
+                    height="1280"
+                    fetchpriority="high"
+                    decoding="async"
+                    class="h-[160px] w-[160px] object-cover sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px]"
+                  />
+                </picture>
               </div>
               <div class="flex flex-col items-center justify-center px-[20px]">
                 <div class="flex flex-col items-start gap-[15px] py-[10px] font-inter text-[14px]">
                   <div class="contact-row">
-                    <img src="files/icons/location.svg" alt="" aria-hidden="true" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
                     <p class="text-muted">Guangzhou, China</p>
                   </div>
                   <a
                     href="mailto:yzou906@connect.hkust-gz.edu.cn"
                     class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
                   >
-                    <img src="files/icons/email.svg" alt="" aria-hidden="true" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
                     Email
                   </a>
                   <a
                     href="https://github.com/yizou-joey"
+                    rel="me"
                     class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
                   >
-                    <img src="files/icons/github.svg" alt="" aria-hidden="true" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
                     GitHub
                   </a>
                   <!-- <a
@@ -137,8 +146,8 @@
         </section>
       </div>
     </div>
-    <script src="js/utils.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/utils.js" defer></script>
+    <script src="js/index.js" defer></script>
 
     <script
       data-goatcounter="https://joeyzou.goatcounter.com/count"

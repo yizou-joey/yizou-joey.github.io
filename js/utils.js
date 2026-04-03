@@ -93,12 +93,26 @@ const normalizeInlineText = (value) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const fetchTextCache = new Map();
+
 const fetchTextOrThrow = async (url) => {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  if (!fetchTextCache.has(url)) {
+    fetchTextCache.set(
+      url,
+      (async () => {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${url}: ${response.status}`);
+        }
+        return response.text();
+      })().catch((error) => {
+        fetchTextCache.delete(url);
+        throw error;
+      })
+    );
   }
-  return response.text();
+
+  return fetchTextCache.get(url);
 };
 
 const renderEmpty = (container, html) => {
@@ -275,6 +289,10 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
   const icon = document.createElement("img");
   icon.src = iconPath;
   icon.alt = "";
+  icon.loading = "lazy";
+  icon.decoding = "async";
+  icon.width = iconPath.includes("youtube.svg") ? 16 : 14;
+  icon.height = iconPath.includes("youtube.svg") ? 16 : 14;
   icon.setAttribute("aria-hidden", "true");
   const isYouTube = iconPath.includes("youtube.svg");
   icon.className = isYouTube

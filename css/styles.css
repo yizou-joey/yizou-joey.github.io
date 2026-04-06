@@ -1,21 +1,12 @@
 :root {
   --color-ink: #15120f;
   --color-muted: #787774;
+  --color-page-bg: rgb(253, 253, 252);
   --color-paper: #f7f4ef;
-  --color-stone: #f6f5f4;
   --color-line: #f2f1ee;
-  --color-line-strong: #e2e0da;
-  --color-chip: #262189;
-  --color-stub-bg: #f7f7f3;
-  --color-stub-border: #ebeae3;
-  --color-resource-chip-bg: #fcfcf9;
-  --color-resource-chip-border: #e6e4dc;
-  --color-resource-chip-hover: #f7f6f1;
-  --color-publication-accent: #262189;
   --color-publication-rail-bg: #f8f7f3;
   --color-publication-rail-border: #e7e5dd;
-  --color-publication-title: #121212;
-  --color-publication-authors: #6f6e6a;
+  --color-publication-title: #000000;
   --color-publication-chip-bg: #f7f5ef;
   --color-publication-chip-border: #dfdcd4;
   --color-publication-award-bg: transparent;
@@ -49,6 +40,10 @@
   --radius-chip: 12px;
 }
 
+body {
+  background-color: var(--color-page-bg);
+}
+
 ::selection {
   background-color: #fef08a;
   color: var(--color-ink);
@@ -62,20 +57,8 @@
   color: var(--color-muted);
 }
 
-.text-paper {
-  color: var(--color-paper);
-}
-
-.bg-stone {
-  background-color: var(--color-stone);
-}
-
 .bg-line {
   background-color: var(--color-line);
-}
-
-.border-line {
-  border-color: var(--color-line);
 }
 
 .card-surface {
@@ -559,7 +542,7 @@
 .site-footer {
   width: 100%;
   border-top: 1px solid var(--color-line);
-  background: #fff;
+  background: var(--color-page-bg);
 }
 
 .site-footer-inner {

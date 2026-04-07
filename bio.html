@@ -6,15 +6,15 @@
     <title>Yi ZOU</title>
     <meta
       name="description"
-      content="Publications and research projects by Yi ZOU in human-computer interaction, extended reality, context-aware systems, and adaptive user interfaces."
+      content="Bio and educational background of Yi ZOU, including current MPhil study at HKUST (Guangzhou) and undergraduate education at SCUT."
     />
     <meta
       property="og:title"
-      content="Yi ZOU | Publications"
+      content="Yi ZOU | Bio"
     />
     <meta
       property="og:description"
-      content="Browse publications and research projects by Yi ZOU across HCI, XR, and adaptive interface design."
+      content="Read Yi ZOU's background and education timeline across HKUST (Guangzhou) and SCUT."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" href="files/favicon.svg" type="image/svg+xml" />
@@ -27,9 +27,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
-    <body class="text-ink">
+  <body class="text-ink">
     <div class="relative size-full">
-      <div class="flex flex-col items-center section-gap w-full">
+      <div class="flex w-full flex-col items-center section-gap">
         <header class="w-full">
           <div class="flex w-full items-center justify-center">
             <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 py-3 md:h-[50px] md:gap-6 md:py-0">
@@ -38,33 +38,39 @@
               </div>
               <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
                 <a href="index.html" class="site-header-link">About</a>
-                <a href="bio.html" class="site-header-link">Bio</a>
-                <a href="publications.html" class="site-header-link" aria-current="page">Publications</a>
+                <a href="bio.html" class="site-header-link" aria-current="page">Bio</a>
+                <a href="publications.html" class="site-header-link">Publications</a>
               </nav>
             </div>
           </div>
           <div class="h-px w-full bg-line"></div>
-          <!-- <div class="h-[200px] w-full bg-gradient-to-b from-[#f7f6f3] via-[#e9e7e3] to-[#d3d1cb]"></div> -->
         </header>
 
-        <section class="w-full max-w-[1000px] px-4">
+        <section class="w-full max-w-[1000px] page-gutter">
           <div class="flex w-full items-center p-[10px]">
-            <h1 class="type-title-page">
-              Publications
-            </h1>
+            <h1 class="type-title-page">Bio</h1>
           </div>
         </section>
 
-        <section class="w-full section-py">
-          <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[30px] px-4">
-            <div id="publications-by-year" class="flex w-full flex-col gap-[32px]"></div>
+        <section class="w-full max-w-[1000px] page-gutter">
+          <div class="bio-lead-wrap">
+            <p id="bio-page-intro" class="type-body-lead text-ink">Loading bio...</p>
+          </div>
+        </section>
+
+        <section class="w-full max-w-[1000px] page-gutter section-py">
+          <div class="flex w-full flex-col items-center gap-[20px]">
+            <div class="flex w-full items-center p-[10px]">
+              <h2 class="type-title-subsection">Education</h2>
+            </div>
+            <div id="education-list" class="education-timeline" aria-live="polite"></div>
           </div>
         </section>
       </div>
     </div>
 
     <script src="js/utils.js" defer></script>
-    <script src="js/publications.js" defer></script>
+    <script src="js/bio.js" defer></script>
 
     <script
       data-goatcounter="https://joeyzou.goatcounter.com/count"

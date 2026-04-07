@@ -590,6 +590,109 @@ html {
   text-wrap: pretty;
 }
 
+.bio-lead-wrap {
+  width: calc(100% - (2 * var(--space-title-inline-inset)));
+  max-width: calc(100% - (2 * var(--space-title-inline-inset)));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bio-lead-wrap > p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.education-timeline {
+  position: relative;
+  width: calc(100% - (2 * var(--space-title-inline-inset)));
+  max-width: calc(100% - (2 * var(--space-title-inline-inset)));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.education-timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: var(--color-line);
+}
+
+.education-timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(120px, 168px) minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  border-bottom: 1px solid var(--color-line);
+  padding: 16px 0 16px 28px;
+}
+
+.education-timeline-item:last-child {
+  border-bottom: 0;
+}
+
+.education-timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 22px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  border: 1px solid #d8d5ce;
+  background: #fff;
+}
+
+.education-item-period {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-lead-size);
+  font-weight: 400;
+  line-height: var(--type-body-lead-line-height);
+  color: #003366;
+  margin: 0;
+  padding-top: 2px;
+}
+
+.education-item-content {
+  min-width: 0;
+}
+
+.education-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.education-item-institution {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.education-item-logo {
+  display: block;
+  width: auto;
+  max-width: 132px;
+  max-height: 36px;
+  object-fit: contain;
+  flex: 0 0 auto;
+  opacity: 0.95;
+}
+
+.education-item-summary {
+  margin: 6px 0 0;
+  text-wrap: pretty;
+}
+
+.education-item-location {
+  margin: 4px 0 0;
+}
+
 @media (min-width: 768px) {
   .section-gap {
     gap: var(--space-section-md);
@@ -698,6 +801,21 @@ html {
   .news-text {
     padding-inline: 11px;
     box-sizing: border-box;
+  }
+
+  .education-timeline-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 0 14px 28px;
+  }
+
+  .education-item-head {
+    align-items: flex-start;
+  }
+
+  .education-item-logo {
+    max-width: 110px;
+    max-height: 32px;
   }
 }
 

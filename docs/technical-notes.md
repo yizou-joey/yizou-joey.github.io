@@ -119,6 +119,14 @@ and open links in a new tab.
 - Update the publication card design.
 - Separate publication project page design.
 
+## Known Issues
+
+- **Bio education timeline period connector is not fully padding-responsive.**
+  The diagonal connector in the left time-phase column (`bio.html` education rows) can drift when
+  `padding-right`, date label offsets, or column widths are adjusted. It currently relies on runtime
+  geometry from rendered text and still needs a more robust anchoring strategy that is independent
+  from manual spacing tweaks.
+
 Potential actions:
 
 - Add support to embedded video links.

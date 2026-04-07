@@ -1,3 +1,64 @@
+const isEducationMobileLayout = () => window.matchMedia("(max-width: 767px)").matches;
+
+const updatePeriodConnector = (period) => {
+  if (!period) return;
+
+  const connector = period.querySelector(".education-item-period-connector");
+  const periodEnd = period.querySelector(".education-item-period-end");
+  const periodStart = period.querySelector(".education-item-period-start");
+
+  if (!connector || !periodEnd || !periodStart || !periodStart.textContent.trim()) {
+    return;
+  }
+
+  if (isEducationMobileLayout()) {
+    connector.style.width = "0";
+    connector.style.left = "0";
+    connector.style.top = "0";
+    connector.style.transform = "rotate(0deg)";
+    return;
+  }
+
+  const periodRect = period.getBoundingClientRect();
+  const endRect = periodEnd.getBoundingClientRect();
+  const startRect = periodStart.getBoundingClientRect();
+
+  const x1 = endRect.left - periodRect.left + endRect.width / 2;
+  const y1 = endRect.bottom - periodRect.top;
+  const x2 = startRect.left - periodRect.left + startRect.width / 2;
+  const y2 = startRect.top - periodRect.top;
+
+  const deltaX = x2 - x1;
+  const deltaY = y2 - y1;
+  const length = Math.hypot(deltaX, deltaY);
+
+  if (length < 1) {
+    connector.style.width = "0";
+    return;
+  }
+
+  const angle = (Math.atan2(deltaY, deltaX) * 180) / Math.PI;
+  connector.style.left = `${x1}px`;
+  connector.style.top = `${y1}px`;
+  connector.style.width = `${length}px`;
+  connector.style.transform = `rotate(${angle}deg)`;
+};
+
+const updateAllPeriodConnectors = () => {
+  const periods = document.querySelectorAll(".education-item-period");
+  periods.forEach(updatePeriodConnector);
+};
+
+let periodConnectorResizeBound = false;
+
+const ensurePeriodConnectorAutoLayout = () => {
+  if (periodConnectorResizeBound) return;
+  window.addEventListener("resize", () => {
+    updateAllPeriodConnectors();
+  });
+  periodConnectorResizeBound = true;
+};
+
 const buildEducationItem = (item) => {
   const entry = item || {};
 
@@ -33,7 +94,11 @@ const buildEducationItem = (item) => {
   periodStart.className = "education-item-period-start";
   periodStart.textContent = periodInfo.start || "";
 
+  const periodConnector = document.createElement("span");
+  periodConnector.className = "education-item-period-connector";
+
   period.appendChild(periodEnd);
+  period.appendChild(periodConnector);
   if (periodStart.textContent) {
     period.appendChild(periodStart);
   }
@@ -53,6 +118,12 @@ const buildEducationItem = (item) => {
     preserveLineBreaks: false,
   });
 
+  const subAffiliation = document.createElement("p");
+  subAffiliation.className = "education-item-subaffiliation";
+  subAffiliation.innerHTML = renderInlineMarkdown(entry.subAffiliation || "", {
+    preserveLineBreaks: false,
+  });
+
   const affiliation = document.createElement("p");
   affiliation.className = "education-item-affiliation";
   affiliation.innerHTML = renderInlineMarkdown(entry.institution || "", {
@@ -60,6 +131,9 @@ const buildEducationItem = (item) => {
   });
 
   center.appendChild(title);
+  if (subAffiliation.textContent) {
+    center.appendChild(subAffiliation);
+  }
   if (affiliation.textContent) {
     center.appendChild(affiliation);
   }
@@ -123,6 +197,18 @@ const renderEducationTimeline = async () => {
       items,
       buildItem: buildEducationItem,
     });
+
+    ensurePeriodConnectorAutoLayout();
+    requestAnimationFrame(() => {
+      updateAllPeriodConnectors();
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        requestAnimationFrame(() => {
+          updateAllPeriodConnectors();
+        });
+      });
+    }
   } catch {
     renderError(
       educationList,

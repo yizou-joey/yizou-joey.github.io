@@ -1,6 +1,8 @@
 :root {
   --type-scale: 0.92;
 
+  --color-ust-blue: #003366;
+  --color-ust-blue-soft: rgba(0, 51, 102, 0.28);
   --color-ink: #15120f;
   --color-muted: #787774;
   --color-page-bg: rgb(253, 253, 252);
@@ -622,11 +624,11 @@ html {
 
 .education-timeline-item {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr) 210px;
+  grid-template-columns: minmax(112px, 1fr) minmax(0, 2.6fr) 210px;
   align-items: start;
-  column-gap: 20px;
-  row-gap: 12px;
-  border-bottom: 1px solid rgba(0, 51, 102, 0.24);
+  column-gap: 10px;
+  row-gap: 8px;
+  border-bottom: 1px solid var(--color-ust-blue);
   padding: 24px 0;
 }
 
@@ -637,6 +639,23 @@ html {
 .education-item-period {
   font-family: var(--font-inter);
   margin: 0;
+  position: relative;
+  display: block;
+  align-self: stretch;
+  min-height: 0;
+  padding-right: 18px;
+}
+
+.education-item-period-connector {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  height: 1px;
+  background-color: var(--color-ust-blue-soft);
+  transform-origin: left center;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .education-item-period-end {
@@ -647,6 +666,10 @@ html {
   line-height: var(--type-title-minor-line-height);
   color: #234e7c;
   letter-spacing: -0.005em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 
 .education-item-period-end.is-current {
@@ -660,13 +683,18 @@ html {
 
 .education-item-period-start {
   margin: 0;
-  padding-top: 6px;
+  padding-top: 0;
   color: #4e6e8f;
   font-size: var(--type-body-sm-size);
   line-height: var(--type-body-sm-line-height);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  text-align: right;
+  z-index: 1;
 }
 
 .education-item-center {
@@ -690,7 +718,7 @@ html {
 
 .education-item-affiliation {
   margin: 0;
-  color: #335c85;
+  color: var(--color-ust-blue);
   font-family: var(--font-inter);
   font-size: var(--type-title-minor-size);
   font-weight: 500;
@@ -699,13 +727,24 @@ html {
   text-wrap: pretty;
 }
 
+.education-item-subaffiliation {
+  margin: 0;
+  color: #3d5f84;
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
+  font-weight: 500;
+  line-height: var(--type-body-line-height);
+  letter-spacing: -0.004em;
+  text-wrap: pretty;
+}
+
 .education-item-logo-wrap {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   width: 210px;
   height: 56px;
-  align-self: start;
+  align-self: center;
   justify-self: start;
   margin-left: 0;
   padding: 0;
@@ -859,6 +898,22 @@ html {
   .education-item-period-start {
     padding-top: 4px;
     font-size: var(--type-body-sm-size);
+    position: static;
+    text-align: left;
+  }
+
+  .education-item-period {
+    display: block;
+    min-height: 0;
+    padding-right: 0;
+  }
+
+  .education-item-period-end {
+    position: static;
+  }
+
+  .education-item-period-connector {
+    display: none;
   }
 }
 

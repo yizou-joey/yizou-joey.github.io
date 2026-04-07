@@ -75,6 +75,13 @@
 
 body {
   background-color: var(--color-page-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > .relative {
+  flex: 1 0 auto;
 }
 
 /* Keep layout width stable between pages with/without vertical overflow. */
@@ -145,7 +152,7 @@ html {
 
 .type-nav {
   font-family: var(--font-inter);
-  font-size: var(--type-nav-size);
+  font-size: var(--type-body-size);
   line-height: 1;
 }
 
@@ -234,8 +241,17 @@ html {
   letter-spacing: var(--type-label-tracking);
 }
 
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--color-page-bg);
+}
+
 .site-header-inner {
   min-width: 0;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .site-header-brand {
@@ -244,13 +260,13 @@ html {
 
 .site-header-nav {
   min-width: 0;
-  gap: clamp(2px, 0.6vw, 4px);
+  gap: clamp(0px, 0.2vw, 1px);
 }
 
 .site-header-link {
   display: inline-flex;
-  min-width: clamp(88px, 8.8vw, 120px);
-  height: 30px;
+  min-width: clamp(20px, 7vw, 60px);
+  height: 24px;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
@@ -273,15 +289,10 @@ html {
   .site-header-inner {
     padding-left: 12px;
     padding-right: 12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
-  .site-header-nav {
-    gap: 8px;
-  }
-
-  .type-nav {
-    font-size: calc(12px * var(--type-scale));
-  }
 }
 
 .publication-title {
@@ -859,6 +870,7 @@ html {
 
 .site-footer {
   width: 100%;
+  margin-top: auto;
   border-top: 1px solid var(--color-line);
   background: var(--color-page-bg);
 }
@@ -871,8 +883,16 @@ html {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 16px var(--space-gutter-fluid);
+  padding: 12px var(--space-gutter-fluid);
   color: var(--color-muted);
   text-align: center;
   text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .site-header-inner {
+    height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }

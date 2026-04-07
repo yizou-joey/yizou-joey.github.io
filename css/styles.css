@@ -20,9 +20,9 @@
   0 8px 16px -6px rgba(15, 23, 42, 0.14);
 
 
-  --space-section: 40px;
-  --space-section-md: 40px;
-  --space-section-py: 40px;
+  --space-section: 28px;
+  --space-section-md: 28px;
+  --space-section-py: 28px;
   --space-gutter-fluid: clamp(16px, 3vw, 32px);
   --space-col-gap-fluid: clamp(20px, 4vw, 56px);
   --space-col-gap-tight: clamp(14px, 2.5vw, 28px);
@@ -415,6 +415,7 @@ html {
 
 .publication-authors {
   margin: 0;
+  font-size: var(--type-body-size);
   line-height: 1.45;
   color: #141414;
   text-wrap: pretty;
@@ -556,6 +557,7 @@ html {
 
 .news-text {
   margin: 0;
+  font-size: var(--type-body-size);
   color: var(--color-ink);
   text-wrap: pretty;
 }

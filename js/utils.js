@@ -281,7 +281,7 @@ const getPublicationSupplementLinks = (entry) =>
 
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
-  link.className = "publication-resource-chip";
+  link.className = "publication-resource-chip type-label";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -346,7 +346,7 @@ const buildPublicationCard = (item) => {
   identityBadges.className = "publication-identity-badges";
 
   const typeChip = document.createElement("span");
-  typeChip.className = "publication-meta-chip publication-type-chip";
+  typeChip.className = "publication-meta-chip publication-type-chip type-label";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -377,13 +377,13 @@ const buildPublicationCard = (item) => {
   }
 
   const venue = document.createElement("div");
-  venue.className = "publication-meta-chip publication-venue-chip";
+  venue.className = "publication-meta-chip publication-venue-chip type-label";
   const venueColor = entry.venueColor || "#262189";
   venue.style.backgroundColor = venueColor;
   venue.style.borderColor = venueColor;
 
   const venueText = document.createElement("span");
-  venueText.className = "publication-venue-chip-text";
+  venueText.className = "publication-venue-chip-text type-label";
   venueText.textContent = entry.venue || "";
   venue.appendChild(venueText);
 
@@ -398,7 +398,7 @@ const buildPublicationCard = (item) => {
 
   if (statusLabel) {
     const statusChip = document.createElement("span");
-    statusChip.className = "publication-meta-chip publication-status-chip";
+    statusChip.className = "publication-meta-chip publication-status-chip type-label";
 
     const statusText = document.createElement("span");
     statusText.className = "publication-status-chip-text";
@@ -410,13 +410,13 @@ const buildPublicationCard = (item) => {
 
   const title = document.createElement("h3");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  title.className = "publication-title";
+  title.className = "publication-title type-title-card";
   title.innerHTML = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
 
   const authors = document.createElement("p");
-  authors.className = "publication-authors";
+  authors.className = "publication-authors type-body-sm";
   authors.innerHTML = renderAuthors(entry.authors || "");
 
   const supplements = getPublicationSupplementLinks(entry);
@@ -457,7 +457,7 @@ const ensureSiteFooter = () => {
   footer.setAttribute("data-site-footer", "true");
 
   const inner = document.createElement("div");
-  inner.className = "site-footer-inner";
+  inner.className = "site-footer-inner type-body-sm";
 
   const year = new Date().getFullYear();
   const footerText = document.createElement("span");

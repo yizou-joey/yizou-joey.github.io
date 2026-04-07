@@ -6,7 +6,7 @@ const buildYearSection = (year, items) => {
   header.className = "flex w-full items-center p-[10px]";
 
   const title = document.createElement("h2");
-  title.className = "font-inter text-[24px] font-semibold leading-[29px] sm:text-[28px]";
+  title.className = "type-title-subsection";
   title.textContent = year;
   header.appendChild(title);
 
@@ -56,7 +56,7 @@ const renderPublicationsByYear = async () => {
     if (!items.length) {
       renderEmpty(
         publicationsByYear,
-        '<p class="font-inter text-[14px] text-muted">No publications yet.</p>'
+        '<p class="type-body-sm text-muted">No publications yet.</p>'
       );
       return;
     }
@@ -66,7 +66,7 @@ const renderPublicationsByYear = async () => {
   } catch {
     renderError(
       publicationsByYear,
-      '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>'
+      '<p class="type-body-sm text-muted">Publications unavailable.</p>'
     );
   }
 };

@@ -1,4 +1,6 @@
 :root {
+  --type-scale: 0.92;
+
   --color-ink: #15120f;
   --color-muted: #787774;
   --color-page-bg: rgb(253, 253, 252);
@@ -33,6 +35,37 @@
 
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
+
+  --type-brand-size: calc(1.5rem * var(--type-scale));
+  --type-nav-size: calc(clamp(12px, 1.25vw, 15px) * var(--type-scale));
+  --type-title-hero-size: calc(clamp(2.25rem, 1.75rem + 2vw, 4rem) * var(--type-scale));
+  --type-title-hero-line-height: 0.98;
+  --type-title-hero-tracking: -0.03em;
+  --type-title-hero-sub-size: calc(clamp(1.75rem, 1.35rem + 1.4vw, 3rem) * var(--type-scale));
+  --type-title-hero-sub-line-height: 1.02;
+  --type-title-page-size: calc(clamp(1.875rem, 1.76rem + 0.7vw, 2.5rem) * var(--type-scale));
+  --type-title-page-line-height: 1.08;
+  --type-title-page-tracking: -0.02em;
+  --type-title-section-size: calc(clamp(1.75rem, 1.62rem + 0.55vw, 2.25rem) * var(--type-scale));
+  --type-title-section-line-height: 1.08;
+  --type-title-section-tracking: -0.018em;
+  --type-title-subsection-size: calc(clamp(1.5rem, 1.42rem + 0.36vw, 1.75rem) * var(--type-scale));
+  --type-title-subsection-line-height: 1.16;
+  --type-title-subsection-tracking: -0.015em;
+  --type-title-card-size: calc(clamp(1.02rem, 0.92rem + 0.48vw, 1.38rem) * var(--type-scale));
+  --type-title-card-line-height: 1.26;
+  --type-title-card-tracking: -0.008em;
+  --type-title-minor-size: calc(clamp(1rem, 0.95rem + 0.2vw, 1.125rem) * var(--type-scale));
+  --type-title-minor-line-height: 1.35;
+  --type-body-lead-size: calc(clamp(1rem, 0.95rem + 0.3vw, 1.25rem) * var(--type-scale));
+  --type-body-lead-line-height: 1.7;
+  --type-body-size: calc(clamp(0.94rem, 0.9rem + 0.18vw, 1.03rem) * var(--type-scale));
+  --type-body-line-height: 1.55;
+  --type-body-sm-size: calc(0.875rem * var(--type-scale));
+  --type-body-sm-line-height: 1.6;
+  --type-label-size: calc(0.78125rem * var(--type-scale));
+  --type-label-line-height: 1;
+  --type-label-tracking: 0.01em;
 
   /* Corner system: one token for cards and one token for chips/controls. */
   --radius-card: 24px;
@@ -92,6 +125,103 @@ body {
   font-family: var(--font-serif-sc);
 }
 
+.type-brand {
+  font-family: var(--font-serif-sc);
+  font-size: var(--type-brand-size);
+  line-height: 1;
+}
+
+.type-nav {
+  font-family: var(--font-inter);
+  font-size: var(--type-nav-size);
+  line-height: 1;
+}
+
+.type-title-hero {
+  font-family: var(--font-serif-sc);
+  font-size: var(--type-title-hero-size);
+  font-weight: 400;
+  line-height: var(--type-title-hero-line-height);
+  letter-spacing: var(--type-title-hero-tracking);
+}
+
+.type-title-hero-sub {
+  font-family: var(--font-serif-sc);
+  font-size: var(--type-title-hero-sub-size);
+  font-weight: 400;
+  line-height: var(--type-title-hero-sub-line-height);
+  letter-spacing: -0.02em;
+}
+
+.type-title-page {
+  font-family: var(--font-inter);
+  font-size: var(--type-title-page-size);
+  font-weight: 600;
+  line-height: var(--type-title-page-line-height);
+  letter-spacing: var(--type-title-page-tracking);
+}
+
+.type-title-section {
+  font-family: var(--font-inter);
+  font-size: var(--type-title-section-size);
+  font-weight: 600;
+  line-height: var(--type-title-section-line-height);
+  letter-spacing: var(--type-title-section-tracking);
+}
+
+.type-title-card {
+  font-family: var(--font-inter);
+  font-size: var(--type-title-card-size);
+  font-weight: 600;
+  line-height: var(--type-title-card-line-height);
+  letter-spacing: var(--type-title-card-tracking);
+}
+
+.type-title-subsection {
+  font-family: var(--font-inter);
+  font-size: var(--type-title-subsection-size);
+  font-weight: 600;
+  line-height: var(--type-title-subsection-line-height);
+  letter-spacing: var(--type-title-subsection-tracking);
+}
+
+.type-title-minor {
+  font-family: var(--font-inter);
+  font-size: var(--type-title-minor-size);
+  font-weight: 600;
+  line-height: var(--type-title-minor-line-height);
+  letter-spacing: -0.01em;
+}
+
+.type-body-lead {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-lead-size);
+  font-weight: 400;
+  line-height: var(--type-body-lead-line-height);
+}
+
+.type-body {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
+  font-weight: 400;
+  line-height: var(--type-body-line-height);
+}
+
+.type-body-sm {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-sm-size);
+  font-weight: 400;
+  line-height: var(--type-body-sm-line-height);
+}
+
+.type-label {
+  font-family: var(--font-inter);
+  font-size: var(--type-label-size);
+  font-weight: 600;
+  line-height: var(--type-label-line-height);
+  letter-spacing: var(--type-label-tracking);
+}
+
 .site-header-inner {
   min-width: 0;
 }
@@ -103,8 +233,6 @@ body {
 .site-header-nav {
   min-width: 0;
   gap: clamp(14px, 2.8vw, 32px);
-  font-size: clamp(12px, 1.25vw, 15px);
-  line-height: 1;
 }
 
 @media (max-width: 420px) {
@@ -115,7 +243,10 @@ body {
 
   .site-header-nav {
     gap: 12px;
-    font-size: 11px;
+  }
+
+  .type-nav {
+    font-size: calc(11px * var(--type-scale));
   }
 }
 
@@ -123,11 +254,6 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  font-family: var(--font-inter);
-  font-size: clamp(1.02rem, 0.92rem + 0.48vw, 1.38rem);
-  font-weight: 600;
-  letter-spacing: -0.008em;
-  line-height: 1.26;
   color: var(--color-publication-title);
   overflow-wrap: anywhere;
 }
@@ -182,11 +308,6 @@ body {
   border-radius: var(--radius-chip);
   background: var(--color-publication-chip-bg);
   padding: 0 11px;
-  font-family: var(--font-inter);
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.01em;
   color: #2c2b29;
   text-transform: uppercase;
   white-space: nowrap;
@@ -198,11 +319,7 @@ body {
 }
 
 .publication-venue-chip-text {
-  font-family: var(--font-inter);
-  font-size: 12.5px;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.01em;
   color: var(--color-paper);
 }
 
@@ -264,8 +381,6 @@ body {
 
 .publication-authors {
   margin: 0;
-  font-family: var(--font-inter);
-  font-size: clamp(0.86rem, 0.81rem + 0.18vw, 0.98rem);
   line-height: 1.45;
   color: #141414;
   text-wrap: pretty;
@@ -306,10 +421,7 @@ body {
   background: #faf9f6;
   box-shadow: none;
   padding: 0 11px;
-  font-family: var(--font-inter);
-  font-size: 12.5px;
   font-weight: 400;
-  line-height: 1;
   color: #3c3c3c;
   white-space: nowrap;
   transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
@@ -405,19 +517,11 @@ body {
 }
 
 .news-date-text {
-  font-family: var(--font-inter);
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.01em;
   color: #3c3c3c;
 }
 
 .news-text {
   margin: 0;
-  font-family: var(--font-inter);
-  font-size: clamp(0.94rem, 0.9rem + 0.18vw, 1.03rem);
-  line-height: 1.55;
   color: var(--color-ink);
   text-wrap: pretty;
 }
@@ -554,9 +658,6 @@ body {
   justify-content: center;
   gap: 10px;
   padding: 16px var(--space-gutter-fluid);
-  font-family: var(--font-inter);
-  font-size: 12px;
-  line-height: 1.4;
   color: var(--color-muted);
   text-align: center;
   text-wrap: balance;

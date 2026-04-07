@@ -10,13 +10,13 @@ const buildNewsItem = (item) => {
   dateChip.className = "news-date-chip";
 
   const dateText = document.createElement("span");
-  dateText.className = "news-date-text";
+  dateText.className = "news-date-text type-label";
   dateText.textContent = entry.date || "";
 
   dateChip.appendChild(dateText);
 
   const content = document.createElement("p");
-  content.className = "news-text";
+  content.className = "news-text type-body";
   content.innerHTML = renderInlineMarkdown(entry.text || "");
 
   inner.appendChild(dateChip);
@@ -35,12 +35,12 @@ const buildTeachingItem = (item) => {
     "grid w-full grid-cols-1 items-center gap-2 sm:grid-cols-[170px_1fr] sm:gap-3";
 
   const role = document.createElement("span");
-  role.className = "font-inter text-[18px] font-semibold sm:text-[16px]";
+  role.className = "type-title-minor";
   role.textContent = entry.role || "";
 
   const detail = document.createElement("span");
   detail.className =
-    "font-inter text-[14px] leading-relaxed text-muted sm:text-[16px] sm:justify-self-end sm:text-right";
+    "type-body text-muted sm:justify-self-end sm:text-right";
   detail.innerHTML = renderInlineMarkdown(entry.detail || "");
 
   grid.appendChild(role);
@@ -93,7 +93,7 @@ const renderPublicationsSection = async () => {
     if (!selectedItems.length) {
       renderEmpty(
         publicationsList,
-        '<p class="font-inter text-[14px] text-muted">No selected publications yet.</p>'
+        '<p class="type-body-sm text-muted">No selected publications yet.</p>'
       );
       return;
     }
@@ -106,7 +106,7 @@ const renderPublicationsSection = async () => {
   } catch {
     renderError(
       publicationsList,
-      '<p class="font-inter text-[14px] text-muted">Publications unavailable.</p>'
+      '<p class="type-body-sm text-muted">Publications unavailable.</p>'
     );
   }
 };
@@ -118,8 +118,8 @@ const renderNewsSection = async () => {
     url: "contents/news.md",
     container: newsList,
     buildItem: buildNewsItem,
-    emptyMessage: '<p class="font-inter text-[14px] text-muted">No news yet.</p>',
-    errorMessage: '<p class="font-inter text-[14px] text-muted">News unavailable.</p>',
+    emptyMessage: '<p class="type-body-sm text-muted">No news yet.</p>',
+    errorMessage: '<p class="type-body-sm text-muted">News unavailable.</p>',
     sortFn: compareByDateDesc,
   });
 };
@@ -132,9 +132,9 @@ const renderTeachingSection = async () => {
     container: teachingList,
     buildItem: buildTeachingItem,
     emptyMessage:
-      '<p class="font-inter text-[14px] text-muted">No teaching entries yet.</p>',
+      '<p class="type-body-sm text-muted">No teaching entries yet.</p>',
     errorMessage:
-      '<p class="font-inter text-[14px] text-muted">Teaching unavailable.</p>',
+      '<p class="type-body-sm text-muted">Teaching unavailable.</p>',
   });
 };
 

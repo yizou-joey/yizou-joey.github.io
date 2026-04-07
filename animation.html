@@ -13,7 +13,10 @@ Code
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rose Three</title>
   <style>
-    :root { color-scheme: dark; }
+    :root {
+      color-scheme: dark;
+      --type-scale: 0.92;
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -47,11 +50,11 @@ Code
       text-align: center;
     }
     .title {
-      font-size: 22px;
+      font-size: calc(22px * var(--type-scale));
       font-weight: 700;
     }
     .tag {
-      font-size: 13px;
+      font-size: calc(13px * var(--type-scale));
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(255,255,255,0.58);
@@ -63,7 +66,7 @@ Code
       border-radius: 14px;
       background: rgba(255,255,255,0.03);
       color: rgba(255,255,255,0.82);
-      font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font: calc(13px * var(--type-scale))/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
       white-space: pre-wrap;
     }
     .back-link {
@@ -76,7 +79,7 @@ Code
       background: rgba(255,255,255,0.04);
       color: #fff;
       text-decoration: none;
-      font-size: 13px;
+      font-size: calc(13px * var(--type-scale));
       line-height: 1;
       transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
     }

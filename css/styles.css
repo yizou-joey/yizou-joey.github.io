@@ -37,7 +37,7 @@
   --font-serif-sc: "Noto Serif SC", serif;
 
   --type-brand-size: calc(1.5rem * var(--type-scale));
-  --type-nav-size: calc(clamp(12px, 1.25vw, 15px) * var(--type-scale));
+  --type-nav-size: calc(clamp(13px, 1.35vw, 16px) * var(--type-scale));
   --type-title-hero-size: calc(clamp(2.25rem, 1.75rem + 2vw, 4rem) * var(--type-scale));
   --type-title-hero-line-height: 0.98;
   --type-title-hero-tracking: -0.03em;
@@ -75,6 +75,18 @@
 
 body {
   background-color: var(--color-page-bg);
+}
+
+/* Keep layout width stable between pages with/without vertical overflow. */
+html {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+@supports not (scrollbar-gutter: stable) {
+  html {
+    overflow-y: scroll;
+  }
 }
 
 ::selection {
@@ -246,7 +258,7 @@ body {
   }
 
   .type-nav {
-    font-size: calc(11px * var(--type-scale));
+    font-size: calc(12px * var(--type-scale));
   }
 }
 

@@ -603,94 +603,113 @@ html {
 }
 
 .education-timeline {
-  position: relative;
   width: calc(100% - (2 * var(--space-title-inline-inset)));
   max-width: calc(100% - (2 * var(--space-title-inline-inset)));
   margin-left: auto;
   margin-right: auto;
 }
 
-.education-timeline::before {
-  content: "";
-  position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
-  width: 1px;
-  background: var(--color-line);
-}
-
 .education-timeline-item {
-  position: relative;
   display: grid;
-  grid-template-columns: minmax(120px, 168px) minmax(0, 1fr);
+  grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr) 210px;
   align-items: start;
-  gap: 16px;
-  border-bottom: 1px solid var(--color-line);
-  padding: 16px 0 16px 28px;
+  column-gap: 20px;
+  row-gap: 12px;
+  border-bottom: 1px solid rgba(0, 51, 102, 0.24);
+  padding: 24px 0;
 }
 
 .education-timeline-item:last-child {
   border-bottom: 0;
 }
 
-.education-timeline-item::before {
-  content: "";
-  position: absolute;
-  left: 3px;
-  top: 22px;
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  border: 1px solid #d8d5ce;
-  background: #fff;
-}
-
 .education-item-period {
   font-family: var(--font-inter);
-  font-size: var(--type-body-lead-size);
+  margin: 0;
+}
+
+.education-item-period-end {
+  margin: 0;
+  font-family: var(--font-inter);
+  font-size: var(--type-title-minor-size);
   font-weight: 400;
-  line-height: var(--type-body-lead-line-height);
+  line-height: var(--type-title-minor-line-height);
+  color: #234e7c;
+  letter-spacing: -0.005em;
+}
+
+.education-item-period-end.is-current {
+  font-family: var(--font-serif-sc);
+  font-size: clamp(1.45rem, 1.28rem + 0.6vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.12;
   color: #003366;
+  letter-spacing: -0.01em;
+}
+
+.education-item-period-start {
   margin: 0;
-  padding-top: 2px;
+  padding-top: 6px;
+  color: #4e6e8f;
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-line-height);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
-.education-item-content {
+.education-item-center {
   min-width: 0;
-}
-
-.education-item-head {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
 }
 
-.education-item-institution {
-  flex: 1 1 auto;
-  min-width: 0;
+.education-item-title {
   margin: 0;
+  color: #1a2530;
+  font-family: var(--font-inter);
+  font-size: var(--type-title-minor-size);
+  font-weight: 500;
+  line-height: var(--type-title-minor-line-height);
+  letter-spacing: -0.01em;
   text-wrap: pretty;
+}
+
+.education-item-affiliation {
+  margin: 0;
+  color: #335c85;
+  font-family: var(--font-inter);
+  font-size: var(--type-title-minor-size);
+  font-weight: 500;
+  line-height: var(--type-title-minor-line-height);
+  letter-spacing: -0.005em;
+  text-wrap: pretty;
+}
+
+.education-item-logo-wrap {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 210px;
+  height: 56px;
+  align-self: start;
+  justify-self: start;
+  margin-left: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .education-item-logo {
   display: block;
-  width: auto;
-  max-width: 132px;
-  max-height: 36px;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
   object-fit: contain;
   flex: 0 0 auto;
   opacity: 0.95;
-}
-
-.education-item-summary {
-  margin: 6px 0 0;
-  text-wrap: pretty;
-}
-
-.education-item-location {
-  margin: 4px 0 0;
 }
 
 @media (min-width: 768px) {
@@ -805,17 +824,30 @@ html {
 
   .education-timeline-item {
     grid-template-columns: 1fr;
-    gap: 6px;
-    padding: 14px 0 14px 28px;
+    gap: 12px;
+    padding: 18px 0;
   }
 
-  .education-item-head {
-    align-items: flex-start;
+  .education-item-center {
+    gap: 4px;
+  }
+
+  .education-item-logo-wrap {
+    justify-content: flex-start;
+    width: 170px;
+    height: 44px;
+    margin-left: 0;
+    padding: 0;
   }
 
   .education-item-logo {
-    max-width: 110px;
-    max-height: 32px;
+    width: 100%;
+    height: auto;
+  }
+
+  .education-item-period-start {
+    padding-top: 4px;
+    font-size: var(--type-body-sm-size);
   }
 }
 

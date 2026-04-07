@@ -4,36 +4,70 @@ const buildEducationItem = (item) => {
   const node = document.createElement("article");
   node.className = "education-timeline-item";
 
-  const period = document.createElement("p");
+  const splitPeriod = (value) => {
+    const text = normalizeInlineText(value || "");
+    if (!text) return { start: "", end: "" };
+    const parts = text.split(/\s*-\s*/);
+    if (parts.length < 2) {
+      return { start: "", end: text };
+    }
+    return {
+      start: normalizeInlineText(parts[0]),
+      end: normalizeInlineText(parts.slice(1).join(" - ")),
+    };
+  };
+
+  const periodInfo = splitPeriod(entry.period || "");
+
+  const period = document.createElement("div");
   period.className = "education-item-period";
-  period.textContent = normalizeInlineText(entry.period || "");
 
-  const content = document.createElement("div");
-  content.className = "education-item-content";
+  const periodEnd = document.createElement("p");
+  periodEnd.className = "education-item-period-end";
+  periodEnd.textContent = periodInfo.end || normalizeInlineText(entry.period || "");
+  if (/present/i.test(periodEnd.textContent)) {
+    periodEnd.classList.add("is-current");
+  }
 
-  const head = document.createElement("div");
-  head.className = "education-item-head";
+  const periodStart = document.createElement("p");
+  periodStart.className = "education-item-period-start";
+  periodStart.textContent = periodInfo.start || "";
 
-  const institution = document.createElement("h3");
-  institution.className = "education-item-institution type-title-minor text-ink";
-  institution.innerHTML = renderInlineMarkdown(entry.institution || "", {
-    preserveLineBreaks: false,
-  });
+  period.appendChild(periodEnd);
+  if (periodStart.textContent) {
+    period.appendChild(periodStart);
+  }
 
-  const summary = document.createElement("p");
-  summary.className = "education-item-summary type-body text-muted";
   const summaryParts = [entry.degree, entry.major].filter(
     (value) => normalizeInlineText(value).length
   );
-  summary.innerHTML = renderInlineMarkdown(summaryParts.join(", "), {
+
+  const titleText = summaryParts.join(", ");
+
+  const center = document.createElement("div");
+  center.className = "education-item-center";
+
+  const title = document.createElement("h3");
+  title.className = "education-item-title";
+  title.innerHTML = renderInlineMarkdown(titleText || entry.institution || "", {
     preserveLineBreaks: false,
   });
 
-  const location = document.createElement("p");
-  location.className = "education-item-location type-body-sm text-muted";
-  location.textContent = normalizeInlineText(entry.location || "");
+  const affiliation = document.createElement("p");
+  affiliation.className = "education-item-affiliation";
+  affiliation.innerHTML = renderInlineMarkdown(entry.institution || "", {
+    preserveLineBreaks: false,
+  });
+
+  center.appendChild(title);
+  if (affiliation.textContent) {
+    center.appendChild(affiliation);
+  }
 
   const logoSrc = normalizeInlineText(entry.logo || "");
+  const logoWrap = document.createElement("div");
+  logoWrap.className = "education-item-logo-wrap";
+
   if (logoSrc) {
     const logo = document.createElement("img");
     logo.className = "education-item-logo";
@@ -41,20 +75,12 @@ const buildEducationItem = (item) => {
     logo.alt = normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`);
     logo.loading = "lazy";
     logo.decoding = "async";
-    head.appendChild(logo);
-  }
-
-  head.insertBefore(institution, head.firstChild);
-  content.appendChild(head);
-  if (summaryParts.length) {
-    content.appendChild(summary);
-  }
-  if (location.textContent) {
-    content.appendChild(location);
+    logoWrap.appendChild(logo);
   }
 
   node.appendChild(period);
-  node.appendChild(content);
+  node.appendChild(center);
+  node.appendChild(logoWrap);
   return node;
 };
 

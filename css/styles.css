@@ -358,6 +358,10 @@ html {
 }
 
 .publication-type-chip {
+  --note-pad-x: 7px;
+  --note-pad-y: 4px;
+  --note-gap-start: 2px;
+  --note-gap-end: 0px;
   background: #fff;
   font-weight: 400;
   color: #3c3c3c;
@@ -373,26 +377,50 @@ html {
 }
 
 .publication-type-note {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  margin-inline-start: var(--note-gap-start);
+  margin-inline-end: var(--note-gap-end);
   font-weight: inherit;
   color: inherit;
 }
 
 .publication-type-note-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  padding: 4px 4px;
-  border-radius: 8px;
+  margin-inline-start: var(--note-gap-start);
+  margin-inline-end: var(--note-gap-end);
+  padding: 0;
+  line-height: 1;
   color: inherit;
   text-decoration: none;
   background: transparent;
-  transition: background-color 160ms ease, color 160ms ease;
+  z-index: 0;
+  transition: color 160ms ease;
+}
+
+.publication-type-note-link::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--note-pad-y)) calc(-1 * var(--note-pad-x));
+  border-radius: 8px;
+  background: transparent;
+  pointer-events: none;
+  z-index: -1;
+  transition: background-color 160ms ease;
 }
 
 .publication-type-note-link:hover,
 .publication-type-note-link:focus-visible {
-  background: #262189;
   color: #ffffff;
+}
+
+.publication-type-note-link:hover::before,
+.publication-type-note-link:focus-visible::before {
+  background: #262189;
 }
 
 .publication-status-chip {

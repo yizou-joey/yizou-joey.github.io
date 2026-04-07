@@ -244,7 +244,29 @@ html {
 
 .site-header-nav {
   min-width: 0;
-  gap: clamp(14px, 2.8vw, 32px);
+  gap: clamp(2px, 0.6vw, 4px);
+}
+
+.site-header-link {
+  display: inline-flex;
+  min-width: clamp(88px, 8.8vw, 120px);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #b0aea8;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.site-header-link:hover {
+  color: #7f7d78;
+}
+
+.site-header-link[aria-current="page"] {
+  color: var(--color-ink);
 }
 
 @media (max-width: 420px) {
@@ -254,7 +276,7 @@ html {
   }
 
   .site-header-nav {
-    gap: 12px;
+    gap: 8px;
   }
 
   .type-nav {

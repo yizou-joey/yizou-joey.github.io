@@ -9,6 +9,6 @@
   institution: South China University of Technology
   degree: Bachelor of Engineering
   major: Electrical Engineering
-  subAffiliation: Electrical Power, School of Electrical Power
+  subAffiliation: School of Electric Power Engineering
   location: Guangzhou, China
   logo: files/logos/SCUT Logo.svg

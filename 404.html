@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yi ZOU | 404</title>
+    <meta
+      name="description"
+      content="Page not found. Return to Yi ZOU's homepage, bio, or publications."
+    />
+    <meta property="og:title" content="Yi ZOU | 404" />
+    <meta
+      property="og:description"
+      content="The page cannot be found. Navigate to the homepage, bio, or publications."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="files/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif+SC:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="text-ink">
+    <div class="relative size-full">
+      <div class="flex min-h-screen w-full flex-col items-center">
+        <header class="site-header w-full">
+          <div class="flex w-full items-center justify-center">
+            <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 md:gap-6">
+              <div class="site-header-brand flex w-[24px] items-center justify-center">
+                <span class="type-brand text-ink">Yi</span>
+              </div>
+              <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
+                <a href="index.html" class="site-header-link">About</a>
+                <a href="bio.html" class="site-header-link">Bio</a>
+                <a href="publications.html" class="site-header-link">Publications</a>
+              </nav>
+            </div>
+          </div>
+          <div class="h-px w-full bg-line"></div>
+        </header>
+
+        <main class="error404-main w-full" aria-labelledby="error404-title">
+          <section class="error404-shell page-gutter">
+            <article class="error404-card radius-card card-surface">
+              <p class="error404-kicker type-label text-muted">Page Not Found</p>
+              <p class="error404-display" aria-hidden="true">404</p>
+              <h1 id="error404-title" class="error404-title type-title-page">
+                This page has moved or no longer exists.
+              </h1>
+              <p class="error404-copy type-body text-muted">
+                The link may be outdated, or the page may have moved. You can return to the homepage or go back to continue browsing.
+              </p>
+              <div class="error404-actions">
+                <a href="index.html" class="error404-action error404-action-primary">Take me home</a>
+                <a href="index.html" id="error404-back" class="error404-action error404-action-secondary">Go back</a>
+              </div>
+            </article>
+          </section>
+        </main>
+
+      </div>
+    </div>
+
+    <script src="js/utils.js" defer></script>
+    <script>
+      (() => {
+        const isSafeReferrer = (() => {
+          if (!document.referrer) return false;
+          try {
+            return new URL(document.referrer).origin === window.location.origin;
+          } catch {
+            return false;
+          }
+        })();
+
+        const backLink = document.getElementById("error404-back");
+        if (!backLink) return;
+
+        backLink.addEventListener("click", (event) => {
+          if (!isSafeReferrer) return;
+          event.preventDefault();
+          window.history.back();
+        });
+      })();
+    </script>
+    <script
+      data-goatcounter="https://joeyzou.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.js"
+    ></script>
+  </body>
+</html>

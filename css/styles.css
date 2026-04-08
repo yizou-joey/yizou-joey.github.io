@@ -944,10 +944,142 @@ html {
   text-wrap: balance;
 }
 
+/* 404 page: homepage-aligned editorial hero with subtle surface treatment. */
+.error404-main {
+  flex: 1 0 auto;
+  width: 100%;
+}
+
+.error404-shell {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding-top: clamp(52px, 10vh, 108px);
+  padding-bottom: clamp(72px, 14vh, 148px);
+  display: flex;
+  justify-content: center;
+}
+
+.error404-card {
+  width: min(100%, 760px);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 20px rgba(16, 16, 14, 0.03);
+  padding: clamp(30px, 6vw, 56px) clamp(22px, 5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.error404-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.error404-display {
+  margin: 0;
+  color: #2b2825;
+  font-family: var(--font-serif-sc);
+  font-size: clamp(5rem, 18vw, 10.5rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+}
+
+.error404-title {
+  margin: 10px 0 0;
+  max-width: 22ch;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.error404-copy {
+  margin: 14px 0 0;
+  max-width: 56ch;
+  text-wrap: pretty;
+}
+
+.error404-actions {
+  margin-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.error404-action {
+  display: inline-flex;
+  min-height: 42px;
+  min-width: 152px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background-color: transparent;
+  padding: 0 20px;
+  color: var(--color-ink);
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.error404-action-primary {
+  border-color: var(--color-ink);
+  background-color: var(--color-ink);
+  color: #fdfdfc;
+}
+
+.error404-action-primary:hover,
+.error404-action-primary:focus-visible {
+  border-color: #2e2a26;
+  background-color: #2e2a26;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.error404-action-secondary {
+  border-color: #dfdcd4;
+  background-color: #fcfcfb;
+  color: var(--color-muted);
+}
+
+.error404-action-secondary:hover,
+.error404-action-secondary:focus-visible {
+  border-color: #cbc7bd;
+  background-color: #f7f5ef;
+  color: var(--color-ink);
+  transform: translateY(-1px);
+}
+
 @media (min-width: 768px) {
   .site-header-inner {
     height: 44px;
     padding-top: 0;
     padding-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .error404-shell {
+    padding-top: clamp(36px, 8vh, 64px);
+    padding-bottom: clamp(56px, 12vh, 96px);
+  }
+
+  .error404-card {
+    padding: 30px 18px;
+  }
+
+  .error404-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .error404-action {
+    width: 100%;
   }
 }

@@ -22,17 +22,17 @@
   0 8px 16px -6px rgba(15, 23, 42, 0.14);
 
 
-  --space-section: 28px;
-  --space-section-md: 28px;
-  --space-section-py: 28px;
+  --space-section: clamp(24px, 2.4vw, 32px);
+  --space-section-md: clamp(28px, 3vw, 36px);
+  --space-section-py: clamp(28px, 3.2vw, 40px);
   --space-gutter-fluid: clamp(16px, 3vw, 32px);
   --space-col-gap-fluid: clamp(20px, 4vw, 56px);
   --space-col-gap-tight: clamp(14px, 2.5vw, 28px);
   --publication-stub-width: clamp(150px, 15vw, 186px);
-  --space-title-inline-inset: 18px;
-  --space-card-inline: 18px;
-  --space-card-inline-sm: 20px;
-  --space-card-inline-md: 24px;
+  --space-title-inline-inset: clamp(18px, 2vw, 24px);
+  --space-card-inline: clamp(18px, 2vw, 24px);
+  --space-card-inline-sm: clamp(20px, 2.2vw, 28px);
+  --space-card-inline-md: clamp(24px, 2.6vw, 32px);
   --publication-resource-width: 168px;
 
   --font-inter: "Inter", sans-serif;
@@ -45,34 +45,34 @@
   --type-title-hero-tracking: -0.03em;
   --type-title-hero-sub-size: calc(clamp(1.75rem, 1.35rem + 1.4vw, 3rem) * var(--type-scale));
   --type-title-hero-sub-line-height: 1.02;
-  --type-title-page-size: calc(clamp(1.875rem, 1.76rem + 0.7vw, 2.5rem) * var(--type-scale));
-  --type-title-page-line-height: 1.08;
-  --type-title-page-tracking: -0.02em;
-  --type-title-section-size: calc(clamp(1.75rem, 1.62rem + 0.55vw, 2.25rem) * var(--type-scale));
+  --type-title-page-size: calc(clamp(1.75rem, 1.65rem + 0.55vw, 2.25rem) * var(--type-scale));
+  --type-title-page-line-height: 1;
+  --type-title-page-tracking: -0.03125em;
+  --type-title-section-size: calc(clamp(1.5rem, 1.42rem + 0.42vw, 2rem) * var(--type-scale));
   --type-title-section-line-height: 1.08;
-  --type-title-section-tracking: -0.018em;
-  --type-title-subsection-size: calc(clamp(1.5rem, 1.42rem + 0.36vw, 1.75rem) * var(--type-scale));
+  --type-title-section-tracking: -0.02em;
+  --type-title-subsection-size: calc(clamp(1.25rem, 1.18rem + 0.32vw, 1.625rem) * var(--type-scale));
   --type-title-subsection-line-height: 1.16;
-  --type-title-subsection-tracking: -0.015em;
-  --type-title-card-size: calc(clamp(1.02rem, 0.92rem + 0.48vw, 1.38rem) * var(--type-scale));
+  --type-title-subsection-tracking: -0.012em;
+  --type-title-card-size: calc(clamp(0.95rem, 0.9rem + 0.24vw, 1.1875rem) * var(--type-scale));
   --type-title-card-line-height: 1.26;
   --type-title-card-tracking: -0.008em;
   --type-title-minor-size: calc(clamp(1rem, 0.95rem + 0.2vw, 1.125rem) * var(--type-scale));
   --type-title-minor-line-height: 1.35;
-  --type-body-lead-size: calc(clamp(1rem, 0.95rem + 0.3vw, 1.25rem) * var(--type-scale));
-  --type-body-lead-line-height: 1.7;
-  --type-body-size: calc(clamp(0.94rem, 0.9rem + 0.18vw, 1.03rem) * var(--type-scale));
-  --type-body-line-height: 1.55;
+  --type-body-lead-size: calc(clamp(0.95rem, 0.92rem + 0.2vw, 1.125rem) * var(--type-scale));
+  --type-body-lead-line-height: 1.62;
+  --type-body-size: calc(clamp(0.9rem, 0.88rem + 0.08vw, 1rem) * var(--type-scale));
+  --type-body-line-height: 1.5;
   --type-body-sm-size: calc(0.875rem * var(--type-scale));
   --type-body-sm-line-height: 1.6;
   --type-label-size: calc(0.78125rem * var(--type-scale));
   --type-label-line-height: 1;
   --type-label-tracking: 0.01em;
 
-  /* Corner system: one token for cards and one token for chips/controls. */
+  /* Corner system: one token for cards and one token for badge-style labels. */
   --radius-card: 24px;
   --radius-teaching: 16px;
-  --radius-chip: 12px;
+  --radius-badge: 999px;
 }
 
 body {
@@ -130,8 +130,8 @@ html {
   border-radius: var(--radius-teaching);
 }
 
-.radius-chip {
-  border-radius: var(--radius-chip);
+.radius-badge {
+  border-radius: var(--radius-badge);
 }
 
 .card-surface:focus-within {
@@ -177,7 +177,7 @@ html {
 .type-title-page {
   font-family: var(--font-inter);
   font-size: var(--type-title-page-size);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--type-title-page-line-height);
   letter-spacing: var(--type-title-page-tracking);
 }
@@ -356,7 +356,7 @@ html {
   min-height: 30px;
   align-items: center;
   border: 1px solid var(--color-publication-chip-border);
-  border-radius: var(--radius-chip);
+  border-radius: var(--radius-badge);
   background: var(--color-publication-chip-bg);
   padding: 0 11px;
   color: #2c2b29;
@@ -497,7 +497,7 @@ html {
   justify-content: center;
   gap: 8px;
   border: 1px solid #e8e4da;
-  border-radius: var(--radius-chip);
+  border-radius: var(--radius-badge);
   background: #faf9f6;
   box-shadow: none;
   padding: 0 11px;
@@ -590,7 +590,7 @@ html {
   min-height: 30px;
   align-items: center;
   border: 1px solid var(--color-publication-chip-border);
-  border-radius: var(--radius-chip);
+  border-radius: var(--radius-badge);
   background: var(--color-publication-chip-bg);
   padding: 0 11px;
   white-space: nowrap;

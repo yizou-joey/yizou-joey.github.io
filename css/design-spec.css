@@ -1,5 +1,5 @@
 .design-main {
-  --design-palette-outline: #e5e5e5;
+  --design-palette-outline: #f5f5f7;
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -183,22 +183,6 @@
   max-width: 56ch;
 }
 
-.design-type-sample.type-title-card {
-  font-size: clamp(1.375rem, 1.26rem + 0.44vw, 1.625rem);
-}
-
-.design-type-sample.type-title-page {
-  font-size: clamp(2.5rem, 2.2rem + 1vw, 3rem);
-}
-
-.design-type-sample.type-title-section {
-  font-size: clamp(2rem, 1.8rem + 0.8vw, 2.5rem);
-}
-
-.design-type-sample.type-title-subsection {
-  font-size: clamp(1.75rem, 1.62rem + 0.52vw, 2rem);
-}
-
 .design-subsection {
   display: flex;
   flex-direction: column;
@@ -234,7 +218,7 @@
 .design-ruler {
   border: 1px dashed var(--color-publication-rail-border);
   background: var(--color-publication-rail-bg);
-  border-radius: var(--radius-chip);
+  border-radius: 8px;
   padding: 12px;
   display: flex;
   align-items: center;
@@ -338,7 +322,7 @@
 
 .design-elevation-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -374,20 +358,24 @@
   color: #9a9893;
 }
 
-.design-elevation-whisper {
+.design-elevation-flat {
+  border-color: transparent;
   box-shadow: none;
 }
 
-.design-elevation-subtle {
-  box-shadow: var(--shadow-card-subtle);
+.design-elevation-contained {
+  border-color: var(--color-line);
+  box-shadow: none;
+}
+
+.design-elevation-ring {
+  border-color: #d4d0c8;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
 }
 
 .design-elevation-hover {
+  border-color: #d7d3cb;
   box-shadow: var(--shadow-card-subtle-hover);
-}
-
-.design-elevation-ticket {
-  box-shadow: 0 8px 20px rgba(16, 16, 14, 0.03);
 }
 
 @media (max-width: 1024px) {

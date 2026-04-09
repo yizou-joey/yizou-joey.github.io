@@ -8,6 +8,6 @@
 - Links are always underlined with subdued decoration: `underline-offset-2 decoration-muted/40 hover:decoration-ink/60`.
 - Layout widths: header container `1440px`; content max `1000px`; default mobile padding `px-4`.
 - Surfaces: page background is unified via `--color-page-bg`; separation comes from subtle borders and card surfaces.
-- Radii are tokenized in `css/styles.css`: `--radius-card`, `--radius-chip`.
-- Use utility classes `radius-card`, `radius-chip` instead of hardcoded `rounded-*` values.
+- Radii are tokenized in `css/styles.css`: `--radius-card`, `--radius-badge`.
+- Use utility classes `radius-card`, `radius-badge` instead of hardcoded `rounded-*` values.
 - Chips: venue chip uses `venueColor` (fallback `#262189`) with light text; date chip reuses the publication chip tokens.

@@ -87,7 +87,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Right stub: supplement links (`Paper`, `Video`, `Slides`, etc.) as compact chips.
 
 ### Chips
-- Unified chip geometry via `--radius-chip` and label token.
+- Unified badge geometry via `--radius-badge` and label token.
 - Venue chip uses venue color with light text for fast source recognition.
 - Status chip uses gold border/text for awards or special status.
 
@@ -112,14 +112,20 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ## 5. Layout Principles
 
 ### Spacing System
-- Section rhythm centered around `28px` core spacing (`--space-section` family).
+- Section rhythm uses fluid clamp tokens:
+  - `--space-section: clamp(24px, 2.4vw, 32px)`
+  - `--space-section-md: clamp(28px, 3vw, 36px)`
+  - `--space-section-py: clamp(28px, 3.2vw, 40px)`
 - Fluid gutters via `clamp()` tokens for better cross-device consistency.
-- Card inline paddings are tokenized by breakpoint (`--space-card-inline*`).
+- Card inline paddings are fluid and tokenized by breakpoint family:
+  - `--space-card-inline: clamp(18px, 2vw, 24px)`
+  - `--space-card-inline-sm: clamp(20px, 2.2vw, 28px)`
+  - `--space-card-inline-md: clamp(24px, 2.6vw, 32px)`
 
 ### Container Strategy
 - Header rail max width: `1440px`.
 - Content max width: `1000px`.
-- Section components align through shared insets (`--space-title-inline-inset`).
+- Section components align through shared insets (`--space-title-inline-inset: clamp(18px, 2vw, 24px)`).
 
 ### Composition Principles
 - One strong visual pattern per section (avoid mixed motifs).
@@ -129,19 +135,19 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Radius Scale
 - **Card**: `--radius-card` = `24px`
 - **Teaching**: `--radius-teaching` = `16px`
-- **Chip**: `--radius-chip` = `12px`
+- **Badge**: `--radius-badge` = `999px`
 - **Pill controls**: `999px`
 
 ## 6. Depth & Elevation
 
 | Level | Treatment | Use |
 |------|-----------|-----|
-| Flat | border + solid/warm surface | Most sections |
-| Subtle Card | `--shadow-card-subtle` | Light card definition |
+| Flat | no border, no shadow | Base content surfaces and inline contexts |
+| Contained | `1px solid #f2f1ee` | Standard cards and section shells |
+| Ring | stronger outline ring, optional very weak shadow | Interactive cards, controls, and active emphasis |
 | Hover Card | `--shadow-card-subtle-hover` | Hover/focus-within emphasis |
-| Ticket Elevation | `0 8px 20px rgba(16,16,14,0.03)` | Publication ticket / 404 card |
 
-**Depth Philosophy:** rely on border contrast first, shadow second. Depth should be readable but quiet.
+**Depth Philosophy:** rely on border contrast first, shadow second; reserve stronger shadows for hover/interaction states only.
 
 ## 7. Do's and Don'ts
 
@@ -183,7 +189,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - `--color-line: #f2f1ee`
 - `--color-ust-blue: #003366`
 - `--font-inter`, `--font-serif-sc`
-- `--radius-card: 24px`, `--radius-chip: 12px`
+- `--radius-card: 24px`, `--radius-badge: 999px`
 
 ### Example Prompts
 - "Build a section using warm neutral surfaces, Inter body text, and serif display accents only for hero identity."

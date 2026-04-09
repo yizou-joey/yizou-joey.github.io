@@ -46,9 +46,12 @@ Shared styling tokens and semantic utility classes are in `css/styles.css`:
   --color-paper: #f7f4ef;
   --color-stone: #f6f5f4;
   --color-line: #e9e7e3;
-  --space-section: 60px;
-  --space-section-md: 80px;
-  --space-section-py: 50px;
+  --space-section: clamp(24px, 2.4vw, 32px);
+  --space-section-md: clamp(28px, 3vw, 36px);
+  --space-section-py: clamp(28px, 3.2vw, 40px);
+  --space-gutter-fluid: clamp(16px, 3vw, 32px);
+  --space-col-gap-fluid: clamp(20px, 4vw, 56px);
+  --space-card-inline: clamp(18px, 2vw, 24px);
 }
 ```
 

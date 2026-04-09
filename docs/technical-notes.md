@@ -18,6 +18,13 @@ This document describes how this GitHub Pages academic homepage is structured an
 css/
 └── styles.css           # Shared CSS tokens and semantic utility classes
 
+design-system/
+├── design.html          # Visual design language specification page
+├── design.md            # Source-of-truth design language document
+├── design-spec.css      # Styling for design language visualization
+├── design-conventions.md
+└── inspirations.md
+
 js/
 ├── utils.js             # Shared rendering + data loading utilities
 ├── index.js             # Index page specific logic

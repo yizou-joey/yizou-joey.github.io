@@ -1,0 +1,314 @@
+# Design System of Yi ZOU Website
+
+## 0. Current Refactor Scope
+
+This phase only defines and sharpens the design language system. We are not yet applying these rules to every page/component.
+
+### In Scope (Now)
+- Establish a complete, explicit language in this folder (`design-system/`) with aligned markdown + visual reference page.
+- Refine subsystem-level guidance for:
+  - Foundation tokens
+  - Publication ticket
+  - Education timeline
+  - Chip language
+- Resolve cross references so design assets can evolve independently from page implementation files.
+
+### Out of Scope (Later Phase)
+- Full-site implementation sweep for all existing pages.
+- Structural content rewrites beyond design-system artifacts.
+- New feature work unrelated to design-language unification.
+
+## 1. Visual Theme & Atmosphere
+
+This design language blends Apple-style restraint with Notion-like editorial warmth. The interface is intentionally quiet: soft paper-like backgrounds, minimal chrome, and carefully tokenized typography that keeps attention on research content instead of ornamental UI.
+
+The visual character is academic and calm. Cards are lightly bordered rather than heavily elevated. Motion is subtle. Color is mostly neutral, with disciplined accents: deep UST blue for semantic emphasis and contextual brand hues (for publication venues) where useful.
+
+This is not a dark cinematic product theater. It is a readable, warm, structured research portfolio optimized for scanning publication metadata, timeline history, and profile context.
+
+**Key Characteristics:**
+- Warm neutral canvas (`#fdfdfc`) with low-contrast separators (`#f2f1ee`)
+- Content-first layout with stable width rhythm (`max-width: 1000px`)
+- Semantic typography utilities with fixed, literal type tokens
+- Mixed type personality: `Inter` for UI clarity, `Noto Serif SC` for identity and hero voice
+- Subtle surfaces and whisper borders over heavy shadow stacks
+- Chip-driven metadata system for publications/news/status
+- Pill controls used selectively for non-primary navigation; explicit actions use button geometry instead of badge geometry
+
+## 2. Color Palette & Roles
+
+### Primary
+- **Ink** (`#15120f`): Primary text, major labels, strong actions.
+- **Page Background** (`#fdfdfc`): Global canvas.
+
+### Iconic Ascent
+- **UST Blue** (`#003366`): Academic emphasis, timeline/divider semantics.
+- **Apple Blue** (`#0071e3`): Focus and primary-action color available for interactive moments.
+
+### Interface Foundations
+- **Paper** (`#f7f4ef`): Light supportive surface and light-on-dark chip text.
+- **Muted** (`#787774`): Secondary text.
+- **Light Gray** (`#f5f5f7`): Alternate preview sections and subtle palette outlines.
+- **Award Accent** (`#efbf04`): Highlighted award/status signal.
+- **Line** (`#f2f1ee`): Dividers, card borders, section separators.
+
+### Secondary System Tones
+- **UST Blue Soft** (`rgba(0, 51, 102, 0.28)`): Connector line and low-emphasis blue guides.
+- **White** (`#ffffff`): Card and contained surface start tone.
+- **Warm Card** (`#fcfcfb`): Publication ticket and preview card end tone.
+- **Warm Card Soft** (`#fbfaf8`): Lightweight subsystem-card end tone.
+
+### Publication System
+- **Publication Rail BG** (`#f8f7f3`): Right stub area in ticket layout.
+- **Publication Rail Border** (`#e7e5dd`): Dashed separator line.
+- **Chip BG** (`#f7f5ef`), **Chip Border** (`#dfdcd4`)
+- **IEEE VR Blue** (`#262189`): Current publication venue swatch and venue chip.
+- **Venue colors**: Add new venue tokens as needed and bind them through `data-venue` selectors rather than venue-specific component markup.
+
+### Component Neutrals
+- **Publication Body Text** (`#141414`): Author lines and metadata body.
+- **Chip Text** (`#2c2b29`) and **Chip Text Muted** (`#3c3c3c`): Compact label text tones.
+- **404 Display Tone** (`#2b2825`): Hero numeral tone.
+
+### Inspiration Additions (Notion / Linear)
+- Keep Notion-like warm neutrals as first-class surfaces.
+- For future dark variant exploration, borrow Linear-style luminance layering (e.g., `#08090a`, `#0f1011`, translucent borders), but keep current light mode as primary.
+
+## 3. Typography Rules
+
+### Font Family
+- **UI / Body**: `Inter`, sans-serif
+- **Brand / Hero Serif**: `Noto Serif SC`, serif
+
+### Special Exception (Preserved)
+- `Display Hero` (`.type-title-hero`) and `Display Secondary` (`.type-title-hero-sub`) remain as the two serif identity levels.
+- They are intentionally outside the fixed Inter reading hierarchy, and are reserved for hero/identity moments only.
+
+### Hierarchy (Current Tokens)
+
+| Role | Class | Size | Weight | Line-height | Tracking | Family |
+|------|-------|------|--------|-------------|----------|--------|
+| Section Heading | `.type-section-heading` | 48px | 700 | 1.00 | -1.5px | Inter |
+| Sub-heading Large | `.type-subheading-large` | 40px | 700 | 1.50 | normal | Inter |
+| Sub-heading | `.type-subheading` | 26px | 700 | 1.23 | -0.625px | Inter |
+| Card Title | `.type-card-title` | 22px | 700 | 1.27 | -0.25px | Inter |
+| Body Large | `.type-body-large` | 20px | 600 | 1.40 | -0.125px | Inter |
+| Body Medium | `.type-body-medium` | 16px | 500 | 1.50 | normal | Inter |
+| Body | `.type-body` | 16px | 400 | 1.50 | normal | Inter |
+| Nav / Button Label | `.type-nav-label` | 15px | 600 | 1.33 | normal | Inter |
+| Caption | `.type-caption` | 14px | 500 | 1.43 | normal | Inter / Muted `#787774` |
+| Badge / Micro Label | `.type-badge-micro` | 12px | 600 | 1.33 | 0.125px | Inter |
+
+### Principles
+- Type hierarchy follows fixed, Notion-like tiers for clarity and consistency.
+- Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading.
+- Card Title and Sub-heading are intentionally separated by both size and spacing to avoid visual overlap.
+- Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
+- Font feature settings are unified across all levels via `font-feature-settings: "kern" 1, "liga" 1, "clig" 1`.
+- Caption text defaults to `--color-muted` so metadata reads as secondary information without requiring an extra utility class.
+- Do not introduce a global type multiplier; each visible type role should stay directly inspectable.
+
+## 4. Component Stylings
+
+### Header Navigation
+- Sticky header on page background (not translucent glass).
+- Compact nav pills (`--radius-badge`) with color-state emphasis.
+- Active page: ink text; inactive: muted gray.
+
+### Publication Ticket Card (Signature Component)
+- Two-zone structure on desktop: main content + right stub.
+- Card shell: light gradient surface (`--color-white` to `--color-card-warm`), subtle border and soft shadow.
+- Identity strip: prominent venue chip + quiet type chip series with optional type note/link + optional status chip.
+- Right stub: supplement links as resource actions grouped by visual type: document (`Paper` / `PDF`), media (`Video` / `Demo`), arXiv, slides, poster, and code.
+
+### Chips
+- Unified badge geometry via `--radius-badge` and label token.
+- Venue chip is the prominent label level; it uses venue color with light text for fast source recognition.
+- Venue chip color is selected by `data-venue`, keeping markup stable as publication venues grow.
+- Type chips such as Journal, Conference, Workshop, and Poster belong to the same quiet label series and must share `.publication-type-chip`.
+- Workshop/type notes such as `NIDIT` live inside the type chip after `.publication-type-divider`; linked notes use `.publication-type-note-link`.
+- Status chip uses gold border/text for awards or special status.
+
+### Buttons and Actions
+- Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `38px`, `--space-action-block` = `--gap-xs`, `--space-action-inline` = `--gap-md`, and `--radius-action` = `--radius-teaching` (`16px`).
+- Primary actions use Apple Blue for available CTA moments with no visible outline; secondary/resource actions use warm neutral surfaces with restrained borders.
+- Button labels use the Nav / Button Label tier (`15px / 600`) rather than the Badge / Micro Label tier.
+- Publication resource links render as resource actions, not metadata chips, even when they live inside the publication ticket stub.
+- Hover behavior follows the Apple-inspired restraint in `DESIGN.md`: primary actions brighten subtly, neutral actions lift by surface/border contrast, focus uses the Apple Blue outline, and active states avoid motion-heavy feedback.
+- Preview catalogs group equivalent labels and actions vertically so every available attribute in a family can be inspected without implying a hierarchy between siblings.
+- Required publication component families are venue labels, publication type labels, type notes/links, status labels, resource actions, and general actions.
+
+### Education Timeline
+- Three-column grid (period / center content / logo) on desktop.
+- Blue divider semantics with computed connector between period endpoints.
+- Mobile collapses to single-column stacked reading order.
+
+### News + Teaching Cards
+- Light card surfaces with subtle borders.
+- News uses date chip + text block.
+- Teaching uses role/detail two-column pattern.
+
+### 404 Editorial Hero
+- Centered serif-forward display with dual pill actions.
+- Uses shared tokens and restrained elevation to stay system-consistent.
+
+### Inspiration Additions (Notion / Linear)
+- Keep Notion-style whisper-border discipline: avoid heavy outlines and deep neon glows.
+- Preserve low-amplitude hover/focus behavior; avoid noisy transforms.
+
+## 5. Layout Principles
+
+### Spacing System
+- Core gap scale is fixed and inspectable: `4 / 6 / 8 / 12 / 16 / 24 / 32 / 56`.
+- `--gap-2xs` and `--gap-xs` are for micro text stacks and dense metadata.
+- `--gap-sm` and `--gap-md` are the default component internals for chips, rows, and card groups.
+- `--gap-lg`, `--gap-xl`, and `--gap-2xl` define section and card rhythm.
+- `--gap-3xl` is reserved for wide editorial columns.
+- Semantic spacing aliases (`--space-section`, `--space-card-inline`, etc.) map back to the core gap scale; avoid exposing raw `clamp()` formulas in the visual spec.
+
+### Container Strategy
+- Header rail max width: `1440px`.
+- Content max width: `1000px`.
+- Section components align through shared insets (`--space-title-inline-inset: --gap-xl`).
+
+### Composition Principles
+- One strong visual pattern per section (avoid mixed motifs).
+- Metadata-heavy areas prioritize alignment and scanability over decoration.
+- Content hierarchy should be obvious without color dependence.
+
+### Radius Scale
+- **Card**: `--radius-card` = `24px`
+- **Teaching**: `--radius-teaching` = `16px`
+- **Badge**: `--radius-badge` = `999px`
+- **Control**: `--radius-control` = `8px`
+- **Action**: `--radius-action` = `--radius-teaching` (`16px`)
+
+## 6. Depth & Elevation
+
+| Level | Treatment | Use |
+|------|-----------|-----|
+| Flat | no border, no shadow | Base content surfaces and inline contexts |
+| Contained | `1px solid #f2f1ee` | Standard cards and section shells |
+| Ring | stronger outline ring, optional very weak shadow | Interactive cards, controls, and active emphasis |
+| Hover Card | `--shadow-card-subtle-hover` | Hover/focus-within emphasis |
+
+**Depth Philosophy:** rely on border contrast first, shadow second; reserve stronger shadows for hover/interaction states only.
+
+## 7. Do's and Don'ts
+
+### Do
+- Reuse semantic tokens before adding one-off values.
+- Keep neutral surfaces warm and low contrast.
+- Use blue as semantic emphasis, not decorative saturation.
+- Preserve publication ticket information hierarchy.
+- Keep typography roles explicit (`type-*` classes).
+
+### Don't
+- Don't introduce heavy shadow stacks or glossy effects.
+- Don't overuse saturated accent colors.
+- Don't replace semantic spacing with arbitrary per-component gaps.
+- Don't use `clamp()` as the main spacing vocabulary in the visual spec; map responsive behavior to named gap tokens first.
+- Don't break the `1000px` content rhythm without a specific layout reason.
+- Don't use serif for dense metadata/UI controls.
+- Don't add `--type-scale` or another global typography multiplier; it hides the real values shown in the preview.
+
+## 8. Responsive Behavior
+
+### Breakpoints
+- **Mobile (<640px)**: stack-heavy layout; full-width actions/chips when needed.
+- **Tablet (640px-767px)**: intermediate spacing and card paddings.
+- **Desktop (>=768px)**: full publication ticket split and 3-column education timeline.
+
+### Component Collapses
+- Publication ticket: 2-column -> single-column with top border on stub.
+- News row: date/text grid -> stacked flow.
+- Education: 3-column -> stacked entries; connector hidden on mobile.
+- 404 actions: horizontal pills -> vertical full-width buttons on small screens.
+
+### Interaction Targets
+- Chips maintain compact metadata height (`~30px`).
+- Buttons/actions maintain a compact touch target (`38px` minimum), larger-than-chip padding, and non-pill corners to avoid being mistaken for tags.
+
+## 9. Agent Prompt Guide
+
+### Quick Token Reference
+- `--color-ink: #15120f`
+- `--color-page-bg: #fdfdfc`
+- `--color-line: #f2f1ee`
+- `--color-ust-blue: #003366`
+- `--color-apple-blue: #0071e3`
+- `--color-ieee-vr-blue: #262189`
+- `--font-inter`, `--font-serif-sc`
+- `--radius-card: 24px`, `--radius-teaching: 16px`, `--radius-badge: 999px`, `--radius-action: --radius-teaching`
+
+### Example Prompts
+- "Build a section using warm neutral surfaces, Inter body text, and serif display accents only for hero identity."
+- "Create a publication ticket card with left metadata cluster and right resource-stub chips; keep borders whisper-light and shadows subtle."
+- "Design a bio timeline row in three columns (period, details, logo) with deep-blue divider semantics and restrained typography."
+- "Use low-amplitude hover states and avoid decorative gradients except on narrowly scoped card surfaces."
+
+### Inspiration Blend Guidance
+1. Start from this site's current token system and layout rules.
+2. Borrow Notion's warmth and border restraint, not its whole component vocabulary.
+3. Borrow Linear's precision mindset for hierarchy and spacing discipline, without switching to dark-first branding.
+4. Keep outcomes academic, readable, and content-forward.
+
+## 10. Sub-Design Systems (Active)
+
+### 10.1 Foundation Tokens Subsystem
+- **Purpose**: define non-negotiable visual primitives used by all components.
+- **Includes**: color tokens, typography tokens, spacing clamps, radius tokens, elevation tokens.
+- **Rules**:
+  - No hardcoded spacing/radius/color values in component CSS when a semantic token already exists.
+  - Add new token only when reused by at least two independent components.
+  - Keep naming semantic (`--color-muted`, `--space-section`) over contextual (`--bio-gray-2`).
+- **Primary sources**: `design-spec.css` and this document.
+
+### 10.2 Publication Ticket Subsystem
+- **Purpose**: preserve a signature, scannable publication card pattern.
+- **Desktop structure**: content column + stub column.
+- **Mobile structure**: single column with stub section stacked and clearly separated.
+- **Rules**:
+  - Metadata strip always appears before title.
+  - Venue/type/status chips never collapse into plain inline text.
+  - Venue colors use `data-venue` and venue color tokens, not one-off inline styles.
+  - Stub actions keep consistent button geometry and icon spacing.
+  - Visual weight remains border-first; shadow is only supporting.
+
+### 10.3 Education Timeline Subsystem
+- **Purpose**: communicate temporal progression with minimal visual noise.
+- **Desktop structure**: period / details / logo (three-column rhythm).
+- **Mobile structure**: single-column stacking with connector removed.
+- **Rules**:
+  - Period block keeps clear start/end hierarchy.
+  - Connector is assistive, not dominant.
+  - Affiliation metadata remains typographically subordinate to degree/program title.
+
+### 10.4 Chip Language Subsystem
+- **Purpose**: unify all compact metadata controls under one badge grammar.
+- **Chip classes**: venue chip, type chip, status chip.
+- **Rules**:
+  - Shared shape + spacing token system across all chip types.
+  - Semantic differences come from tone/border/text color, not geometry drift.
+  - Venue chip tone is data-driven and is the only default high-emphasis publication label.
+  - Publication type chips (`Journal`, `Conference`, `Workshop`, `Poster`) share the same quiet class and should not be styled as separate special cases.
+  - Type notes and type-note links are part of the type-chip family, not separate badges.
+  - Status chips cover selected, award, and honorable-mention metadata.
+  - Resource links are no longer chips; they use action geometry to preserve click affordance.
+
+### 10.5 Action Button Subsystem
+- **Purpose**: distinguish clickable commands from metadata labels without importing a full external component style.
+- **Button classes**: primary action, secondary action, publication resource action.
+- **Rules**:
+  - Actions use compact padding and `38px` minimum height, staying visually larger than chips without dominating metadata rows.
+  - Actions use `--radius-action`, which inherits the `16px` teaching radius, rather than `--radius-badge`.
+- Resource actions mirror `PUBLICATION_SUPPLEMENT_FIELDS` in `js/utils.js`, but the visual catalog groups aliases by shared icon and interaction type: `Paper / PDF`, `Video / Demo`, `arXiv`, `Slides`, `Poster`, and `Code`.
+- Resource actions use a fixed icon column plus text column so icons align consistently while labels can vary per content item.
+  - Maintain clear focus/hover/active states with Apple Blue reserved for focus and primary CTA; filled dark/blue actions keep transparent borders so hover color does not visually detach from an outline.
+
+### 10.6 Apply-Later Checklist (When Phase 1 is done)
+1. Audit all pages for one-off color/radius/spacing values.
+2. Replace one-off values with design tokens.
+3. Normalize chip usage and publication card structure.
+4. Validate responsive behavior against section 8 breakpoints.
+5. Run visual QA pass for cross-page consistency.

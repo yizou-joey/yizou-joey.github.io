@@ -88,7 +88,7 @@
               <h3 class="type-title-minor design-palette-title">Primary</h3>
               <div class="design-palette-grid">
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#15120f"></div>
+                  <div class="design-palette-swatch is-ink"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Ink</h4>
                     <code>#15120f</code>
@@ -96,7 +96,7 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:rgb(253,253,252)"></div>
+                  <div class="design-palette-swatch is-page-bg"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Page Background</h4>
                     <code>#fdfdfc</code>
@@ -110,7 +110,7 @@
               <h3 class="type-title-minor design-palette-title">Iconic Ascent</h3>
               <div class="design-palette-grid">
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#003366"></div>
+                  <div class="design-palette-swatch is-ust-blue"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">UST Blue</h4>
                     <code>#003366</code>
@@ -118,7 +118,7 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#0071e3"></div>
+                  <div class="design-palette-swatch is-apple-blue"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Apple Blue</h4>
                     <code>#0071e3</code>
@@ -132,7 +132,7 @@
               <h3 class="type-title-minor design-palette-title">Interface Foundations</h3>
               <div class="design-palette-grid">
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#f7f4ef"></div>
+                  <div class="design-palette-swatch is-paper"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Paper</h4>
                     <code>#f7f4ef</code>
@@ -140,7 +140,7 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#787774"></div>
+                  <div class="design-palette-swatch is-muted"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Muted</h4>
                     <code>#787774</code>
@@ -148,7 +148,7 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#f5f5f7"></div>
+                  <div class="design-palette-swatch is-light-gray"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Light Gray</h4>
                     <code>#f5f5f7</code>
@@ -156,7 +156,7 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#efbf04"></div>
+                  <div class="design-palette-swatch is-award"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Award Accent</h4>
                     <code>#efbf04</code>
@@ -170,7 +170,7 @@
               <h3 class="type-title-minor design-palette-title">Publication Venues</h3>
               <div class="design-palette-grid">
                 <article class="design-palette-card">
-                  <div class="design-palette-swatch" style="background:#262189"></div>
+                  <div class="design-palette-swatch" data-venue="ieee-vr"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">IEEE VR Blue</h4>
                     <code>#262189</code>
@@ -187,16 +187,16 @@
               <h2 class="type-title-section">Typography Scale</h2>
             </div>
             <p class="design-comment">
-              Notation maps directly to CSS values in <code>design-spec.css</code>, with fixed tiers plus optional global scaling.
+              Notation maps directly to CSS values in <code>design-spec.css</code>, with fixed tiers and no global scaling multiplier.
             </p>
             <div class="design-type-ladder card-surface radius-card">
               <article class="design-type-specimen">
                 <p class="type-title-hero design-type-sample">Display Hero</p>
-                <p class="design-type-meta design-notation">Display Hero (Special Serif) — clamp(2.25rem, 1.75rem + 2vw, 4rem) × 0.92 / 400 / 0.98 / -0.03em / Noto Serif SC</p>
+                <p class="design-type-meta design-notation">Display Hero (Special Serif) — 64px / 400 / 63px / -1.92px / Noto Serif SC</p>
               </article>
               <article class="design-type-specimen">
                 <p class="type-title-hero-sub design-type-sample">Display Secondary</p>
-                <p class="design-type-meta design-notation">Display Secondary (Special Serif) — clamp(1.75rem, 1.35rem + 1.4vw, 3rem) × 0.92 / 400 / 1.02 / -0.02em / Noto Serif SC</p>
+                <p class="design-type-meta design-notation">Display Secondary (Special Serif) — 48px / 400 / 49px / -0.96px / Noto Serif SC</p>
               </article>
               <article class="design-type-specimen">
                 <p class="type-section-heading design-type-sample">Section Heading</p>
@@ -232,7 +232,7 @@
               </article>
               <article class="design-type-specimen">
                 <p class="type-caption design-type-sample">Caption — Metadata and secondary labels</p>
-                <p class="design-type-meta design-notation">Caption — 14px / 500 / 1.43 / normal / Inter</p>
+                <p class="design-type-meta design-notation">Caption — 14px / 500 / 1.43 / normal / Inter / Muted #787774</p>
               </article>
               <article class="design-type-specimen">
                 <p class="type-badge-micro design-type-sample">Badge / Micro Label</p>
@@ -250,14 +250,91 @@
 
             <article class="design-subsection">
               <h3 class="type-title-subsection">Buttons and Labels</h3>
-              <div class="design-chip-row">
-                <span class="publication-meta-chip type-label">Journal</span>
-                <span class="publication-meta-chip publication-type-chip type-label">Workshop</span>
-                <span class="publication-meta-chip publication-status-chip type-label">Selected</span>
-                <a href="#" class="publication-resource-chip type-label">
-                  <img src="assets/icons/slides.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
-                  <span>Slides</span>
-                </a>
+              <p class="type-body-sm text-muted design-scope-intro">
+                Each column lists one semantic family. Venue labels carry the strongest metadata emphasis; publication type labels share one quiet appearance; resource actions use button geometry.
+              </p>
+              <div class="design-component-catalog">
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Venue label</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-venue-chip type-label" data-venue="ieee-vr">
+                      <span class="publication-venue-chip-text type-label">IEEE VR 2026</span>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">High-emphasis source identity.</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Publication type labels</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-type-chip type-label">Journal</span>
+                    <span class="publication-meta-chip publication-type-chip type-label">Conference</span>
+                    <span class="publication-meta-chip publication-type-chip type-label">Workshop</span>
+                    <span class="publication-meta-chip publication-type-chip type-label">Poster</span>
+                    <span class="publication-meta-chip publication-type-chip type-label">
+                      <span>Workshop</span>
+                      <span class="publication-type-divider" aria-hidden="true"></span>
+                      <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">One quiet appearance for equivalent type attributes.</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Status labels</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Selected</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Best Poster Award</span>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">Award and selection metadata use the gold status treatment.</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Resource actions</p>
+                  <div class="design-catalog-stack">
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
+                      <span class="publication-resource-text">Paper <span class="publication-resource-alias">/ PDF</span></span>
+                    </a>
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
+                      <span class="publication-resource-text">Video <span class="publication-resource-alias">/ Demo</span></span>
+                    </a>
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/arxiv.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
+                      <span class="publication-resource-text">arXiv</span>
+                    </a>
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/slides.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
+                      <span class="publication-resource-text">Slides</span>
+                    </a>
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/poster.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
+                      <span class="publication-resource-text">Poster</span>
+                    </a>
+                    <a href="#" class="publication-resource-action type-nav-label">
+                      <img src="assets/icons/github.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
+                      <span class="publication-resource-text">Code</span>
+                    </a>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">Groups field aliases by icon and interaction type.</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">General actions</p>
+                  <div class="design-catalog-stack">
+                    <a href="#" class="action-button action-button-primary type-nav-label">Primary action</a>
+                    <a href="#" class="action-button action-button-secondary type-nav-label">Secondary action</a>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">Use for commands beyond publication resources.</p>
+                </div>
               </div>
             </article>
 
@@ -268,11 +345,13 @@
                   <div class="publication-ticket-content">
                     <div class="publication-identity-strip">
                       <div class="publication-identity-badges">
-                        <span class="publication-meta-chip publication-venue-chip type-label" style="background:#262189; border-color:#262189;">
+                        <span class="publication-meta-chip publication-venue-chip type-label" data-venue="ieee-vr">
                           <span class="publication-venue-chip-text type-label">IEEE VR 2026</span>
                         </span>
                         <span class="publication-meta-chip publication-type-chip type-label">
-                          <span>Conference</span>
+                          <span>Workshop</span>
+                          <span class="publication-type-divider" aria-hidden="true"></span>
+                          <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
                         </span>
                         <span class="publication-meta-chip publication-status-chip type-label">
                           <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
@@ -285,13 +364,13 @@
                 </div>
                 <aside class="publication-ticket-stub">
                   <div class="publication-ticket-stub-stack is-pair">
-                    <a href="#" class="publication-resource-chip type-label">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
-                      <span>Paper</span>
+                      <span class="publication-resource-text">Paper</span>
                     </a>
-                    <a href="#" class="publication-resource-chip type-label">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
-                      <span>Video</span>
+                      <span class="publication-resource-text">Video</span>
                     </a>
                   </div>
                 </aside>
@@ -339,53 +418,112 @@
           <section class="design-section design-metric-section">
             <div class="design-section-head">
               <p class="design-index-label type-label">05 / SPACING</p>
-              <h2 class="type-title-section">Spacing Scale</h2>
+              <h2 class="type-title-section">Gap Rhythm</h2>
             </div>
             <div class="design-spacing-row">
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 16px"></span><span class="design-spacing-value">16</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 18px"></span><span class="design-spacing-value">18</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 20px"></span><span class="design-spacing-value">20</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 24px"></span><span class="design-spacing-value">24</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 28px"></span><span class="design-spacing-value">28</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 32px"></span><span class="design-spacing-value">32</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block" style="width: 56px"></span><span class="design-spacing-value">56</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-4"></span><span class="design-spacing-value">4</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-6"></span><span class="design-spacing-value">6</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-8"></span><span class="design-spacing-value">8</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-12"></span><span class="design-spacing-value">12</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-16"></span><span class="design-spacing-value">16</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-24"></span><span class="design-spacing-value">24</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-32"></span><span class="design-spacing-value">32</span></div>
+              <div class="design-spacing-item"><span class="design-spacing-block is-56"></span><span class="design-spacing-value">56</span></div>
             </div>
-            <div class="design-token-list">
-              <div class="design-token-row">
+            <div class="design-spacing-map">
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-2xs</p>
+                  <p class="design-spacing-size">4px</p>
+                </div>
+                <div class="design-gap-demo is-4"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Micro separation</p>
+                <p class="design-spacing-note type-body-sm">Label stacks and tiny preview notes.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-xs</p>
+                  <p class="design-spacing-size">6px</p>
+                </div>
+                <div class="design-gap-demo is-6"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Dense detail groups</p>
+                <p class="design-spacing-note type-body-sm">Metadata lines and compact captions.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-sm</p>
+                  <p class="design-spacing-size">8px</p>
+                </div>
+                <div class="design-gap-demo is-8"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Chip grammar</p>
+                <p class="design-spacing-note type-body-sm">Badge rows, icon-label pairs, resource actions.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-md</p>
+                  <p class="design-spacing-size">12px</p>
+                </div>
+                <div class="design-gap-demo is-12"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Component internals</p>
+                <p class="design-spacing-note type-body-sm">Card groups, preview rows, ticket stub rhythm.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-lg</p>
+                  <p class="design-spacing-size">16px</p>
+                </div>
+                <div class="design-gap-demo is-16"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Small section groups</p>
+                <p class="design-spacing-note type-body-sm">Subsections and stacked content blocks.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-xl</p>
+                  <p class="design-spacing-size">24px</p>
+                </div>
+                <div class="design-gap-demo is-24"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Primary insets</p>
+                <p class="design-spacing-note type-body-sm">Card padding and title insets.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-2xl</p>
+                  <p class="design-spacing-size">32px</p>
+                </div>
+                <div class="design-gap-demo is-32"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Section rhythm</p>
+                <p class="design-spacing-note type-body-sm">Desktop vertical rhythm and page gutters.</p>
+              </article>
+              <article class="design-spacing-card">
+                <div class="design-spacing-card-head">
+                  <p class="design-spacing-token type-label">--gap-3xl</p>
+                  <p class="design-spacing-size">56px</p>
+                </div>
+                <div class="design-gap-demo is-56"><span class="design-gap-mark"></span><span class="design-gap-line"></span><span class="design-gap-mark"></span></div>
+                <p class="design-spacing-purpose type-body-sm">Wide columns</p>
+                <p class="design-spacing-note type-body-sm">Large editorial separation only.</p>
+              </article>
+            </div>
+            <div class="design-semantic-spacing">
+              <div class="design-semantic-row">
                 <span class="type-label">--space-section</span>
-                <code>clamp(24px, 2.4vw, 32px)</code>
+                <code>--gap-xl</code>
+                <p class="type-body-sm text-muted">Default vertical gap between design preview sections.</p>
               </div>
-              <div class="design-token-row">
+              <div class="design-semantic-row">
                 <span class="type-label">--space-section-md</span>
-                <code>clamp(28px, 3vw, 36px)</code>
+                <code>--gap-2xl</code>
+                <p class="type-body-sm text-muted">Desktop section rhythm.</p>
               </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-section-py</span>
-                <code>clamp(28px, 3.2vw, 40px)</code>
-              </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-gutter-fluid</span>
-                <code>clamp(16px, 3vw, 32px)</code>
-              </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-col-gap-fluid</span>
-                <code>clamp(20px, 4vw, 56px)</code>
-              </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-title-inline-inset</span>
-                <code>clamp(18px, 2vw, 24px)</code>
-              </div>
-              <div class="design-token-row">
+              <div class="design-semantic-row">
                 <span class="type-label">--space-card-inline</span>
-                <code>clamp(18px, 2vw, 24px)</code>
+                <code>--gap-xl</code>
+                <p class="type-body-sm text-muted">Standard ticket/card inline padding.</p>
               </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-card-inline-sm</span>
-                <code>clamp(20px, 2.2vw, 28px)</code>
-              </div>
-              <div class="design-token-row">
-                <span class="type-label">--space-card-inline-md</span>
-                <code>clamp(24px, 2.6vw, 32px)</code>
+              <div class="design-semantic-row">
+                <span class="type-label">--space-col-gap-fluid</span>
+                <code>--gap-3xl</code>
+                <p class="type-body-sm text-muted">Maximum editorial column separation.</p>
               </div>
             </div>
           </section>
@@ -397,19 +535,24 @@
             </div>
             <div class="design-radius-row">
               <div class="design-radius-item">
-                <div class="design-radius-box" style="border-radius: 24px"></div>
+                <div class="design-radius-box is-card"></div>
                 <p class="design-radius-value">24px</p>
                 <p class="design-radius-context">Cards</p>
               </div>
               <div class="design-radius-item">
-                <div class="design-radius-box" style="border-radius: 16px"></div>
+                <div class="design-radius-box is-teaching"></div>
                 <p class="design-radius-value">16px</p>
-                <p class="design-radius-context">Items</p>
+                <p class="design-radius-context">Teaching</p>
               </div>
               <div class="design-radius-item">
-                <div class="design-radius-box" style="border-radius: 999px"></div>
+                <div class="design-radius-box is-badge"></div>
                 <p class="design-radius-value">999px</p>
                 <p class="design-radius-context">Badges</p>
+              </div>
+              <div class="design-radius-item">
+                <div class="design-radius-box is-action"></div>
+                <p class="design-radius-value">16px</p>
+                <p class="design-radius-context">Actions</p>
               </div>
             </div>
           </section>

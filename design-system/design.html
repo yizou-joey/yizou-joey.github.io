@@ -156,6 +156,14 @@
                   </div>
                 </article>
                 <article class="design-palette-card">
+                  <div class="design-palette-swatch is-selection-highlight"></div>
+                  <div class="design-palette-body">
+                    <h4 class="type-title-minor">Selection Highlight</h4>
+                    <code>#fef08a</code>
+                    <p class="type-body-sm text-muted">Text selection highlight</p>
+                  </div>
+                </article>
+                <article class="design-palette-card">
                   <div class="design-palette-swatch is-award"></div>
                   <div class="design-palette-body">
                     <h4 class="type-title-minor">Award Accent</h4>
@@ -277,7 +285,7 @@
                       <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
                     </span>
                   </div>
-                  <p class="design-catalog-note type-body-sm">One quiet appearance for equivalent type attributes.</p>
+                  <p class="design-catalog-note type-body-sm">Type notes stay quiet until hover or focus reveals a peel background.</p>
                 </div>
 
                 <div class="design-catalog-column">
@@ -299,27 +307,27 @@
                 <div class="design-catalog-column">
                   <p class="design-catalog-title type-caption">Resource actions</p>
                   <div class="design-catalog-stack">
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Paper <span class="publication-resource-alias">/ PDF</span></span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
                       <span class="publication-resource-text">Video <span class="publication-resource-alias">/ Demo</span></span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/arxiv.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">arXiv</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/slides.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Slides</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/poster.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Poster</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/github.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Code</span>
                     </a>
@@ -334,6 +342,33 @@
                     <a href="#" class="action-button action-button-secondary type-nav-label">Secondary action</a>
                   </div>
                   <p class="design-catalog-note type-body-sm">Use for commands beyond publication resources.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Animation decision log (2026-04-10): Variant B (center diffusion) is the default for .publication-type-note-link. -->
+            <!-- This comparison block remains as a visual reference for future tuning. -->
+            <article class="design-subsection">
+              <h3 class="type-title-subsection">Workshop Note 动画对比</h3>
+              <p class="type-body-sm text-muted design-scope-intro">
+                左侧是纯透明渐变，右侧是中心扩散。请分别 hover 或 focus 对比 note 背景出现节奏。
+              </p>
+              <div class="design-animation-comparison">
+                <div class="design-animation-variant">
+                  <p class="design-catalog-title type-caption">方案 A：纯透明渐变</p>
+                  <span class="publication-meta-chip publication-type-chip type-label">
+                    <span>Workshop</span>
+                    <span class="publication-type-divider" aria-hidden="true"></span>
+                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-a">NIDIT</a>
+                  </span>
+                </div>
+                <div class="design-animation-variant">
+                  <p class="design-catalog-title type-caption">方案 B：中心扩散</p>
+                  <span class="publication-meta-chip publication-type-chip type-label">
+                    <span>Workshop</span>
+                    <span class="publication-type-divider" aria-hidden="true"></span>
+                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-b">NIDIT</a>
+                  </span>
                 </div>
               </div>
             </article>
@@ -364,11 +399,11 @@
                 </div>
                 <aside class="publication-ticket-stub">
                   <div class="publication-ticket-stub-stack is-pair">
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Paper</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <a href="#" class="publication-resource-action type-body">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
                       <span class="publication-resource-text">Video</span>
                     </a>
@@ -542,17 +577,12 @@
               <div class="design-radius-item">
                 <div class="design-radius-box is-teaching"></div>
                 <p class="design-radius-value">16px</p>
-                <p class="design-radius-context">Teaching</p>
+                <p class="design-radius-context">Teaching / Action</p>
               </div>
               <div class="design-radius-item">
                 <div class="design-radius-box is-badge"></div>
                 <p class="design-radius-value">999px</p>
                 <p class="design-radius-context">Badges</p>
-              </div>
-              <div class="design-radius-item">
-                <div class="design-radius-box is-action"></div>
-                <p class="design-radius-value">16px</p>
-                <p class="design-radius-context">Actions</p>
               </div>
             </div>
           </section>

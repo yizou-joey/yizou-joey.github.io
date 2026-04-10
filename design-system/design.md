@@ -49,6 +49,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - **Paper** (`#f7f4ef`): Light supportive surface and light-on-dark chip text.
 - **Muted** (`#787774`): Secondary text.
 - **Light Gray** (`#f5f5f7`): Alternate preview sections and subtle palette outlines.
+- **Selection Highlight** (`#fef08a`): Browser text-selection background, paired with Ink text for legible temporary emphasis.
 - **Award Accent** (`#efbf04`): Highlighted award/status signal.
 - **Line** (`#f2f1ee`): Dividers, card borders, section separators.
 
@@ -126,7 +127,8 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Venue chip is the prominent label level; it uses venue color with light text for fast source recognition.
 - Venue chip color is selected by `data-venue`, keeping markup stable as publication venues grow.
 - Type chips such as Journal, Conference, Workshop, and Poster belong to the same quiet label series and must share `.publication-type-chip`.
-- Workshop/type notes such as `NIDIT` live inside the type chip after `.publication-type-divider`; linked notes use `.publication-type-note-link`.
+- Workshop/type notes such as `NIDIT` live inside the type chip after `.publication-type-divider`; linked notes use `.publication-type-note-link` with a hover/focus-only `--radius-badge` peel background.
+- Workshop/type-note animation decision (2026-04-10): use center diffusion as the default behavior (`opacity 200ms ease` + `transform scale(0.8 -> 1)` with `transform-origin: center center`) to avoid left-to-right reveal mismatch and keep text/background timing visually synchronized.
 - Status chip uses gold border/text for awards or special status.
 
 ### Buttons and Actions
@@ -178,10 +180,9 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### Radius Scale
 - **Card**: `--radius-card` = `24px`
-- **Teaching**: `--radius-teaching` = `16px`
+- **Teaching / Action**: `--radius-teaching` = `16px` (Action uses `--radius-action: var(--radius-teaching)`)
 - **Badge**: `--radius-badge` = `999px`
 - **Control**: `--radius-control` = `8px`
-- **Action**: `--radius-action` = `--radius-teaching` (`16px`)
 
 ## 6. Depth & Elevation
 
@@ -235,6 +236,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - `--color-ink: #15120f`
 - `--color-page-bg: #fdfdfc`
 - `--color-line: #f2f1ee`
+- `--color-selection-highlight: #fef08a`
 - `--color-ust-blue: #003366`
 - `--color-apple-blue: #0071e3`
 - `--color-ieee-vr-blue: #262189`
@@ -292,7 +294,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
   - Semantic differences come from tone/border/text color, not geometry drift.
   - Venue chip tone is data-driven and is the only default high-emphasis publication label.
   - Publication type chips (`Journal`, `Conference`, `Workshop`, `Poster`) share the same quiet class and should not be styled as separate special cases.
-  - Type notes and type-note links are part of the type-chip family, not separate badges.
+  - Type notes and type-note links are part of the type-chip family; default state stays quiet, and hover/focus reveals a `999px` peel background.
   - Status chips cover selected, award, and honorable-mention metadata.
   - Resource links are no longer chips; they use action geometry to preserve click affordance.
 
@@ -303,7 +305,8 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
   - Actions use compact padding and `38px` minimum height, staying visually larger than chips without dominating metadata rows.
   - Actions use `--radius-action`, which inherits the `16px` teaching radius, rather than `--radius-badge`.
 - Resource actions mirror `PUBLICATION_SUPPLEMENT_FIELDS` in `js/utils.js`, but the visual catalog groups aliases by shared icon and interaction type: `Paper / PDF`, `Video / Demo`, `arXiv`, `Slides`, `Poster`, and `Code`.
-- Resource actions use a fixed icon column plus text column so icons align consistently while labels can vary per content item.
+- Resource actions use **Body level** typography (`16px / 400`) to keep labels readable without visual dominance.
+  - Primary and secondary actions follow unified progressive darkening: idle → hover (darker) → active (darkest). Neither action ever brightens on interaction. Primary uses Apple Blue darkening; secondary uses gray darkening.
   - Maintain clear focus/hover/active states with Apple Blue reserved for focus and primary CTA; filled dark/blue actions keep transparent borders so hover color does not visually detach from an outline.
 
 ### 10.6 Apply-Later Checklist (When Phase 1 is done)

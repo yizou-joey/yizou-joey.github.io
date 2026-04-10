@@ -51,6 +51,10 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - **Light Gray** (`#f5f5f7`): Alternate preview sections and subtle palette outlines.
 - **Selection Highlight** (`#fef08a`): Browser text-selection background, paired with Ink text for legible temporary emphasis.
 - **Award Accent** (`#efbf04`): Highlighted award/status signal.
+- **Gold Tint** (`#FEF3C7`): Notion-style status chip background (warm amber-cream).
+- **Gold Dark** (`#92400E`): Notion-style status chip text, pairs with Gold Tint.
+- **Gold Vivid** (`#FDE68A`): Award (vivid gold) status chip background (bright yellow-gold).
+- **Gold Text Deep** (`#78350F`): Award (vivid gold) status chip text, ~7.3:1 contrast on Gold Vivid.
 - **Line** (`#f2f1ee`): Dividers, card borders, section separators.
 
 ### Secondary System Tones
@@ -96,8 +100,8 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 | Body Large | `.type-body-large` | 20px | 600 | 1.40 | -0.125px | Inter |
 | Body Medium | `.type-body-medium` | 16px | 500 | 1.50 | normal | Inter |
 | Body | `.type-body` | 16px | 400 | 1.50 | normal | Inter |
-| Nav / Button Label | `.type-nav-label` | 15px | 600 | 1.33 | normal | Inter |
-| Caption | `.type-caption` | 14px | 500 | 1.43 | normal | Inter / Muted `#787774` |
+| Nav / Button Label | `.type-nav-label` | 15px | 400 | 1.33 | normal | Inter |
+| Caption | `.type-caption` | 14px | 400 | 1.43 | normal | Inter / Muted `#787774` |
 | Badge / Micro Label | `.type-badge-micro` | 12px | 600 | 1.33 | 0.125px | Inter |
 
 ### Principles
@@ -124,17 +128,16 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### Chips
 - Unified badge geometry via `--radius-badge` and label token.
-- Venue chip is the prominent label level; it uses venue color with light text for fast source recognition.
-- Venue chip color is selected by `data-venue`, keeping markup stable as publication venues grow.
+- Venue chip uses solid fill (venue color background) with light text (`--color-paper`) for high-emphasis source identity. Deep academic venue colors render better as solid fills; tinted approach would make navy/purple venues nearly invisible. Venue chip color is selected by `data-venue`, keeping markup stable as publication venues grow.
 - Type chips such as Journal, Conference, Workshop, and Poster belong to the same quiet label series and must share `.publication-type-chip`.
 - Workshop/type notes such as `NIDIT` live inside the type chip after `.publication-type-divider`; linked notes use `.publication-type-note-link` with a hover/focus-only `--radius-badge` peel background.
 - Workshop/type-note animation decision (2026-04-10): use center diffusion as the default behavior (`opacity 200ms ease` + `transform scale(0.8 -> 1)` with `transform-origin: center center`) to avoid left-to-right reveal mismatch and keep text/background timing visually synchronized.
-- Status chip uses gold border/text for awards or special status.
+- Status chip has three variants: (1) **outline** — `1px solid --color-gold` border, `--color-gold-tint` bg, `--color-gold-dark` text; (2) **Notion-style** (`--notion`) — no border, warm amber-gold background (`--color-gold-tint: #FEF3C7`), deep amber text (`--color-gold-dark: #92400E`, 600 weight); (3) **vivid gold** (`--award`) — no border, vivid amber-yellow background (`--color-gold-vivid: #FDE68A`), deep amber text (`--color-gold-text-deep: #78350F`, ~7.3:1 contrast). The `--award` variant is the component default and is used in all publication tickets; it reads as bright yellow-gold rather than cream. Design Comparisons section preserves all three variants for reference.
 
 ### Buttons and Actions
 - Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `38px`, `--space-action-block` = `--gap-xs`, `--space-action-inline` = `--gap-md`, and `--radius-action` = `--radius-teaching` (`16px`).
 - Primary actions use Apple Blue for available CTA moments with no visible outline; secondary/resource actions use warm neutral surfaces with restrained borders.
-- Button labels use the Nav / Button Label tier (`15px / 600`) rather than the Badge / Micro Label tier.
+- Button labels use the Nav / Button Label tier (`15px / 400`) rather than the Badge / Micro Label tier.
 - Publication resource links render as resource actions, not metadata chips, even when they live inside the publication ticket stub.
 - Hover behavior follows the Apple-inspired restraint in `DESIGN.md`: primary actions brighten subtly, neutral actions lift by surface/border contrast, focus uses the Apple Blue outline, and active states avoid motion-heavy feedback.
 - Preview catalogs group equivalent labels and actions vertically so every available attribute in a family can be inspected without implying a hierarchy between siblings.
@@ -305,7 +308,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
   - Actions use compact padding and `38px` minimum height, staying visually larger than chips without dominating metadata rows.
   - Actions use `--radius-action`, which inherits the `16px` teaching radius, rather than `--radius-badge`.
 - Resource actions mirror `PUBLICATION_SUPPLEMENT_FIELDS` in `js/utils.js`, but the visual catalog groups aliases by shared icon and interaction type: `Paper / PDF`, `Video / Demo`, `arXiv`, `Slides`, `Poster`, and `Code`.
-- Resource actions use **Body level** typography (`16px / 400`) to keep labels readable without visual dominance.
+- Resource actions use **Nav level** typography (`15px / 400`) to keep labels readable without visual dominance.
   - Primary and secondary actions follow unified progressive darkening: idle → hover (darker) → active (darkest). Neither action ever brightens on interaction. Primary uses Apple Blue darkening; secondary uses gray darkening.
   - Maintain clear focus/hover/active states with Apple Blue reserved for focus and primary CTA; filled dark/blue actions keep transparent borders so hover color does not visually detach from an outline.
 

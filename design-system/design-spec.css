@@ -16,6 +16,12 @@
   --color-border-warm: #dfdcd4;
   --color-black: #000000;
   --color-gold: #efbf04;
+  --color-gold-tint: #FEF3C7;
+  --color-gold-dark: #92400E;
+  --color-gold-vivid: #FDE68A;
+  --color-gold-text-deep: #78350F;
+  --color-ust-blue-tint: rgba(0, 51, 102, 0.10);
+  --color-ieee-vr-tint: rgba(38, 33, 137, 0.10);
   --color-transparent: transparent;
   --color-white: #ffffff;
   --color-card-warm: #fcfcfb;
@@ -102,12 +108,12 @@
   --type-body-tracking: 0px;
 
   --type-nav-label-size: 15px;
-  --type-nav-label-weight: 600;
+  --type-nav-label-weight: 400;
   --type-nav-label-line-height: 19.95px;
   --type-nav-label-tracking: 0px;
 
   --type-caption-size: 14px;
-  --type-caption-weight: 500;
+  --type-caption-weight: 400;
   --type-caption-line-height: 20.02px;
   --type-caption-tracking: 0px;
 
@@ -120,7 +126,7 @@
 
   /* Layout */
   --size-rail-narrow: clamp(150px, 15vw, 186px);
-  --size-chip-wide: 168px;
+  --size-chip-wide: 150px;
 
   /* Spacing */
   --gap-2xs: 4px;
@@ -454,7 +460,6 @@ body {
   justify-content: center;
   border-radius: var(--radius-badge);
   color: var(--color-nav-muted);
-  font-weight: 400;
   line-height: 1;
   text-decoration: none;
   transition: color 160ms ease;
@@ -533,7 +538,7 @@ body {
 
 .publication-venue-chip {
   --venue-color: var(--color-ust-blue);
-  border-color: var(--venue-color);
+  border: 1px solid var(--venue-color);
   background: var(--venue-color);
   padding-left: 12px;
   padding-right: 12px;
@@ -545,8 +550,9 @@ body {
 }
 
 .publication-venue-chip-text {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-paper);
+  text-transform: none;
 }
 
 .publication-type-chip {
@@ -669,10 +675,24 @@ body {
   display: inline-flex;
   max-width: min(100%, 320px);
   align-items: center;
-  border-color: var(--color-gold);
-  background: var(--color-transparent);
-  color: var(--color-gold);
-  font-weight: 700;
+  border: 1px solid var(--color-gold);
+  background: var(--color-gold-tint);
+  color: var(--color-gold-dark);
+  font-weight: 600;
+}
+
+/* Notion-style: no border, tint bg, lighter gold text */
+.publication-status-chip--notion {
+  border: none;
+  background: var(--color-gold-tint);
+  color: var(--color-gold-dark);
+}
+
+/* Vivid gold (award): no border, vivid amber-yellow bg, deep amber text */
+.publication-status-chip--award {
+  border: none;
+  background: var(--color-gold-vivid);
+  color: var(--color-gold-text-deep);
 }
 
 .publication-status-chip-text {
@@ -745,6 +765,10 @@ body {
 .publication-resource-action,
 .publication-resource-chip {
   width: min(100%, var(--size-chip-wide));
+  font-size: var(--type-nav-label-size);
+  font-weight: var(--type-nav-label-weight);
+  line-height: var(--type-nav-label-line-height);
+  letter-spacing: var(--type-nav-label-tracking);
 }
 
 .action-button {
@@ -824,11 +848,6 @@ body {
 .publication-resource-text {
   min-width: 0;
   text-align: left;
-}
-
-.publication-resource-alias {
-  color: var(--color-muted);
-  font-weight: 500;
 }
 
 .education-timeline {

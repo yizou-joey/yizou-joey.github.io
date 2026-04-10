@@ -25,6 +25,7 @@
                 <a href="#tokens" class="site-header-link">Tokens</a>
                 <a href="#components" class="site-header-link">Components</a>
                 <a href="#layout" class="site-header-link">Layout</a>
+                <a href="#comparisons" class="site-header-link">Comparisons</a>
               </nav>
             </div>
           </div>
@@ -236,7 +237,7 @@
               </article>
               <article class="design-type-specimen">
                 <p class="type-nav-label design-type-sample">Nav / Button Label</p>
-                <p class="design-type-meta design-notation">Nav / Button — 15px / 600 / 1.33 / normal / Inter</p>
+                <p class="design-type-meta design-notation">Nav / Button — 15px / 400 / 1.33 / normal / Inter</p>
               </article>
               <article class="design-type-specimen">
                 <p class="type-caption design-type-sample">Caption — Metadata and secondary labels</p>
@@ -289,45 +290,42 @@
                 </div>
 
                 <div class="design-catalog-column">
-                  <p class="design-catalog-title type-caption">Status labels</p>
+                  <p class="design-catalog-title type-caption">Status label</p>
                   <div class="design-catalog-stack">
-                    <span class="publication-meta-chip publication-status-chip type-label">
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
                       <span class="publication-status-chip-text">Selected</span>
                     </span>
-                    <span class="publication-meta-chip publication-status-chip type-label">
-                      <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
-                    </span>
-                    <span class="publication-meta-chip publication-status-chip type-label">
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
                       <span class="publication-status-chip-text">Best Poster Award</span>
                     </span>
                   </div>
-                  <p class="design-catalog-note type-body-sm">Award and selection metadata use the gold status treatment.</p>
+                  <p class="design-catalog-note type-body-sm">Vivid amber-yellow bg, deep amber text. Class: <code>publication-status-chip--award</code>.</p>
                 </div>
 
                 <div class="design-catalog-column">
                   <p class="design-catalog-title type-caption">Resource actions</p>
                   <div class="design-catalog-stack">
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
-                      <span class="publication-resource-text">Paper <span class="publication-resource-alias">/ PDF</span></span>
+                      <span class="publication-resource-text">Paper</span></span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
-                      <span class="publication-resource-text">Video <span class="publication-resource-alias">/ Demo</span></span>
+                      <span class="publication-resource-text">Video</span></span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/arxiv.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">arXiv</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/slides.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Slides</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/poster.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Poster</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/github.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Code</span>
                     </a>
@@ -342,33 +340,6 @@
                     <a href="#" class="action-button action-button-secondary type-nav-label">Secondary action</a>
                   </div>
                   <p class="design-catalog-note type-body-sm">Use for commands beyond publication resources.</p>
-                </div>
-              </div>
-            </article>
-
-            <!-- Animation decision log (2026-04-10): Variant B (center diffusion) is the default for .publication-type-note-link. -->
-            <!-- This comparison block remains as a visual reference for future tuning. -->
-            <article class="design-subsection">
-              <h3 class="type-title-subsection">Workshop Note 动画对比</h3>
-              <p class="type-body-sm text-muted design-scope-intro">
-                左侧是纯透明渐变，右侧是中心扩散。请分别 hover 或 focus 对比 note 背景出现节奏。
-              </p>
-              <div class="design-animation-comparison">
-                <div class="design-animation-variant">
-                  <p class="design-catalog-title type-caption">方案 A：纯透明渐变</p>
-                  <span class="publication-meta-chip publication-type-chip type-label">
-                    <span>Workshop</span>
-                    <span class="publication-type-divider" aria-hidden="true"></span>
-                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-a">NIDIT</a>
-                  </span>
-                </div>
-                <div class="design-animation-variant">
-                  <p class="design-catalog-title type-caption">方案 B：中心扩散</p>
-                  <span class="publication-meta-chip publication-type-chip type-label">
-                    <span>Workshop</span>
-                    <span class="publication-type-divider" aria-hidden="true"></span>
-                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-b">NIDIT</a>
-                  </span>
                 </div>
               </div>
             </article>
@@ -388,7 +359,7 @@
                           <span class="publication-type-divider" aria-hidden="true"></span>
                           <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
                         </span>
-                        <span class="publication-meta-chip publication-status-chip type-label">
+                        <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
                           <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
                         </span>
                       </div>
@@ -399,11 +370,11 @@
                 </div>
                 <aside class="publication-ticket-stub">
                   <div class="publication-ticket-stub-stack is-pair">
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Paper</span>
                     </a>
-                    <a href="#" class="publication-resource-action type-body">
+                    <a href="#" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
                       <span class="publication-resource-text">Video</span>
                     </a>
@@ -454,16 +425,6 @@
             <div class="design-section-head">
               <p class="design-index-label type-label">05 / SPACING</p>
               <h2 class="type-title-section">Gap Rhythm</h2>
-            </div>
-            <div class="design-spacing-row">
-              <div class="design-spacing-item"><span class="design-spacing-block is-4"></span><span class="design-spacing-value">4</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-6"></span><span class="design-spacing-value">6</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-8"></span><span class="design-spacing-value">8</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-12"></span><span class="design-spacing-value">12</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-16"></span><span class="design-spacing-value">16</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-24"></span><span class="design-spacing-value">24</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-32"></span><span class="design-spacing-value">32</span></div>
-              <div class="design-spacing-item"><span class="design-spacing-block is-56"></span><span class="design-spacing-value">56</span></div>
             </div>
             <div class="design-spacing-map">
               <article class="design-spacing-card">
@@ -610,6 +571,96 @@
                 <p class="design-elevation-code">The strongest shadow state, reserved for hover/focus transitions and clear interaction feedback.</p>
               </article>
             </div>
+          </section>
+
+          <section class="design-section design-metric-section" id="comparisons">
+            <div class="design-section-head">
+              <p class="design-index-label type-label">08 / COMPARISONS</p>
+              <h2 class="type-title-section">Design Comparisons</h2>
+            </div>
+
+            <article class="design-subsection">
+              <h3 class="type-title-subsection">Status Label Variants</h3>
+              <p class="type-body-sm text-muted design-scope-intro">
+                Three visual treatments for award and status signals. The vivid gold variant (<code>--award</code>) is adopted as the component default.
+              </p>
+              <div class="design-component-catalog">
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Outline</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Selected</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip type-label">
+                      <span class="publication-status-chip-text">Best Poster Award</span>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">Gold border, transparent bg, gold text.</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Notion-style (<code>--notion</code>)</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--notion type-label">
+                      <span class="publication-status-chip-text">Selected</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--notion type-label">
+                      <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--notion type-label">
+                      <span class="publication-status-chip-text">Best Poster Award</span>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">No border, warm amber-gold bg (<code>#FEF3C7</code>), deep amber text (<code>#92400E</code>).</p>
+                </div>
+
+                <div class="design-catalog-column">
+                  <p class="design-catalog-title type-caption">Vivid gold (<code>--award</code>)</p>
+                  <div class="design-catalog-stack">
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
+                      <span class="publication-status-chip-text">Selected</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
+                      <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
+                    </span>
+                    <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
+                      <span class="publication-status-chip-text">Best Poster Award</span>
+                    </span>
+                  </div>
+                  <p class="design-catalog-note type-body-sm">No border, vivid amber-yellow bg (<code>#FDE68A</code>), deep amber text (<code>#78350F</code>). ~7.3:1 contrast.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Animation decision log (2026-04-10): Variant B (center diffusion) is the default for .publication-type-note-link. -->
+            <!-- This comparison block remains as a visual reference for future tuning. -->
+            <article class="design-subsection">
+              <h3 class="type-title-subsection">Workshop Note 动画对比</h3>
+              <p class="type-body-sm text-muted design-scope-intro">
+                左侧是纯透明渐变，右侧是中心扩散。请分别 hover 或 focus 对比 note 背景出现节奏。
+              </p>
+              <div class="design-animation-comparison">
+                <div class="design-animation-variant">
+                  <p class="design-catalog-title type-caption">方案 A：纯透明渐变</p>
+                  <span class="publication-meta-chip publication-type-chip type-label">
+                    <span>Workshop</span>
+                    <span class="publication-type-divider" aria-hidden="true"></span>
+                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-a">NIDIT</a>
+                  </span>
+                </div>
+                <div class="design-animation-variant">
+                  <p class="design-catalog-title type-caption">方案 B：中心扩散</p>
+                  <span class="publication-meta-chip publication-type-chip type-label">
+                    <span>Workshop</span>
+                    <span class="publication-type-divider" aria-hidden="true"></span>
+                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-b">NIDIT</a>
+                  </span>
+                </div>
+              </div>
+            </article>
           </section>
         </main>
       </div>

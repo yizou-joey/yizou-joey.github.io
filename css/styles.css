@@ -33,7 +33,7 @@
   --space-card-inline: clamp(18px, 2vw, 24px);
   --space-card-inline-sm: clamp(20px, 2.2vw, 28px);
   --space-card-inline-md: clamp(24px, 2.6vw, 32px);
-  --publication-resource-width: 168px;
+  --publication-resource-width: 150px;
 
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
@@ -501,12 +501,15 @@ html {
   background: #faf9f6;
   box-shadow: none;
   padding: 0 11px;
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
   font-weight: 400;
+  line-height: var(--type-body-line-height);
+  letter-spacing: 0;
   color: #3c3c3c;
   white-space: nowrap;
   transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
   text-transform: none;
-  letter-spacing: 0;
 }
 
 .publication-resource-chip:hover {

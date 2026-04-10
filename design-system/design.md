@@ -289,6 +289,14 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
   - Connector is assistive, not dominant.
   - Affiliation metadata remains typographically subordinate to degree/program title.
 
+#### Variant B: Dot-Line-Dot (Alternative)
+A card-free minimal timeline variant using dot-line-dot vertical connector:
+- **Desktop structure**: dot-line-dot track on left (56px) / details / logo (180px).
+- **Visual pattern**: UST Blue dots with soft blue connecting line; no card borders or shadows.
+- **Mobile**: collapses to 2-column (connector + content), period and logo hidden.
+- **CSS classes**: `.education-timeline--variant-b` (container), `.education-timeline-item--variant-b` (row), `.education-timeline-item--variant-b::before` (top dot), `.education-timeline-item--variant-b::after` (bottom dot).
+- **Use case**: When a lighter, more minimal timeline appearance is preferred over the card-based original.
+
 ### 10.4 Chip Language Subsystem
 - **Purpose**: unify all compact metadata controls under one badge grammar.
 - **Chip classes**: venue chip, type chip, status chip.

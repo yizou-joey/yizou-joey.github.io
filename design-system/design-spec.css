@@ -977,6 +977,218 @@ body {
   opacity: 0.95;
 }
 
+/* ============================================
+   Education Timeline Variant B: Dot-Line-Dot
+   A minimal vertical connector without cards
+   ============================================ */
+
+.education-timeline--variant-b {
+  width: calc(100% - (2 * var(--space-title-inline-inset)));
+  max-width: calc(100% - (2 * var(--space-title-inline-inset)));
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 8px;
+}
+
+/* Vertical dot-line-dot connector track */
+.education-timeline--variant-b::before {
+  content: "";
+  position: absolute;
+  left: 56px;
+  top: 20px;
+  bottom: 20px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--color-ust-blue) 0%,
+    var(--color-ust-blue-soft) 15%,
+    var(--color-ust-blue-soft) 85%,
+    var(--color-ust-blue) 100%
+  );
+  border-radius: 1px;
+}
+
+.education-timeline-item--variant-b {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 180px;
+  align-items: start;
+  column-gap: 20px;
+  padding: 14px 0;
+  position: relative;
+}
+
+/* Top dot */
+.education-timeline-item--variant-b::before {
+  content: "";
+  position: absolute;
+  left: 50px;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-ust-blue);
+  border: 3px solid var(--color-page-bg);
+  box-shadow: 0 0 0 2px var(--color-ust-blue);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Bottom dot (creates visual continuation to next item) */
+.education-timeline-item--variant-b::after {
+  content: "";
+  position: absolute;
+  left: 50px;
+  bottom: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-ust-blue-soft);
+  border: 2px solid var(--color-page-bg);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Hide the last item's bottom dot */
+.education-timeline-item--variant-b:last-child::after {
+  display: none;
+}
+
+.education-item-period--variant-b {
+  font-family: var(--font-inter);
+  margin: 0;
+  padding-top: 12px;
+  text-align: right;
+  padding-right: 12px;
+}
+
+.education-item-period-end--variant-b {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-medium-size);
+  font-weight: 500;
+  line-height: var(--type-body-medium-line-height);
+  color: var(--color-education-period);
+  letter-spacing: -0.005em;
+}
+
+.education-item-period-end--variant-b.is-current {
+  font-family: var(--font-serif-sc);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-ust-blue);
+}
+
+.education-item-period-start--variant-b {
+  font-family: var(--font-inter);
+  font-size: var(--type-caption-size);
+  font-weight: 400;
+  line-height: var(--type-caption-line-height);
+  color: var(--color-education-period-start);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
+
+.education-item-center--variant-b {
+  min-width: 0;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.education-item-title--variant-b {
+  color: var(--color-education-title);
+  font-family: var(--font-inter);
+  font-size: var(--type-body-medium-size);
+  font-weight: 500;
+  line-height: var(--type-body-medium-line-height);
+  margin: 0;
+}
+
+.education-item-affiliation--variant-b {
+  color: var(--color-ust-blue);
+  font-family: var(--font-inter);
+  font-size: var(--type-body-medium-size);
+  font-weight: 500;
+  line-height: var(--type-body-medium-line-height);
+  margin: 0;
+}
+
+.education-item-subaffiliation--variant-b {
+  color: var(--color-education-subaffiliation);
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
+  font-weight: 400;
+  line-height: var(--type-body-line-height);
+  margin: 0;
+}
+
+.education-item-logo-wrap--variant-b {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 180px;
+  height: 48px;
+  padding-top: 8px;
+}
+
+.education-item-logo--variant-b {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .education-timeline--variant-b {
+    padding-left: 4px;
+  }
+
+  .education-timeline--variant-b::before {
+    left: 20px;
+    top: 16px;
+    bottom: 16px;
+  }
+
+  .education-timeline-item--variant-b {
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 14px;
+    padding: 12px 0;
+  }
+
+  .education-timeline-item--variant-b::before {
+    left: 14px;
+    top: 14px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .education-timeline-item--variant-b::after {
+    left: 14px;
+    bottom: 2px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .education-item-period--variant-b {
+    display: none;
+  }
+
+  .education-item-center--variant-b {
+    padding-top: 4px;
+  }
+
+  .education-item-logo-wrap--variant-b {
+    display: none;
+  }
+}
+
 /* Local utility equivalents used by this page. */
 .relative { position: relative; }
 .size-full { width: 100%; height: 100%; }

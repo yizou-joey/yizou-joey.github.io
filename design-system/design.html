@@ -220,6 +220,10 @@
                 <p class="design-type-meta design-notation">Sub-heading — 26px / 700 / 1.23 / -0.625px / Inter</p>
               </article>
               <article class="design-type-specimen">
+                <p class="type-subheading-serif design-type-sample" style="font-family: var(--font-serif-sc)">Sub-heading Serif</p>
+                <p class="design-type-meta design-notation">Sub-heading Serif — 26px / 400 / 1.23 / -0.625px / Noto Serif SC</p>
+              </article>
+              <article class="design-type-specimen">
                 <p class="type-card-title design-type-sample">Card Title</p>
                 <p class="design-type-meta design-notation">Card Title — 22px / 700 / 1.27 / -0.25px / Inter</p>
               </article>
@@ -686,21 +690,46 @@
                   </div>
                 </article>
               </div>
-              <!-- Show new variant-b -->
-              <p class="type-label" style="color: var(--color-preview-heading-muted); margin: 16px 0 6px;">Variant B (dot-line-dot, no card)</p>
-              <div class="education-timeline--variant-b">
-                <article class="education-timeline-item--variant-b">
-                  <div class="education-item-period--variant-b">
-                    <p class="education-item-period-end--variant-b is-current">Present</p>
-                    <p class="education-item-period-start--variant-b">2023</p>
+              <!-- Show new variant -->
+              <p class="type-label" style="color: var(--color-preview-heading-muted); margin: 16px 0 6px;">Variant: Vertical Editorial Timeline</p>
+              <div class="education-timeline-vertical">
+                <!-- Most Recent / Active -->
+                <article class="education-timeline-vertical-item">
+                  <div class="education-timeline-vertical-period">
+                    <span class="education-timeline-vertical-date is-current">Present</span>
+                    <span class="education-timeline-vertical-date-secondary">Sep 2024</span>
                   </div>
-                  <div class="education-item-center--variant-b">
-                    <h4 class="education-item-title--variant-b">MPhil, Computational Media and Art</h4>
-                    <p class="education-item-subaffiliation--variant-b">Human-Computer Interaction / XR</p>
-                    <p class="education-item-affiliation--variant-b">The Hong Kong University of Science and Technology (Guangzhou)</p>
+                  <div class="education-timeline-vertical-track" aria-hidden="true">
+                    <div class="education-timeline-vertical-node is-active"></div>
+                    <div class="education-timeline-vertical-line"></div>
                   </div>
-                  <div class="education-item-logo-wrap--variant-b">
-                    <img src="assets/logos/HKUSTGZ Logo.svg" alt="HKUST(GZ) logo" class="education-item-logo--variant-b" />
+                  <div class="education-timeline-vertical-content">
+                    <h4 class="education-timeline-vertical-title">Master of Philosophy, Computational Media and Arts</h4>
+                    <p class="education-timeline-vertical-affiliation">The Hong Kong University of Science and Technology (Guangzhou)</p>
+                    <p class="education-timeline-vertical-sub">Information Hub, Computational Media and Arts Trust</p>
+                  </div>
+                  <div class="education-timeline-vertical-logo-wrap">
+                    <img src="../files/logos/HKUSTGZ Logo.svg" alt="HKUST(GZ) logo" class="education-timeline-vertical-logo" />
+                  </div>
+                </article>
+
+                <!-- Past -->
+                <article class="education-timeline-vertical-item">
+                  <div class="education-timeline-vertical-period">
+                    <span class="education-timeline-vertical-date">Jul 2024</span>
+                    <span class="education-timeline-vertical-date-secondary">Sep 2020</span>
+                  </div>
+                  <div class="education-timeline-vertical-track" aria-hidden="true">
+                    <div class="education-timeline-vertical-node"></div>
+                    <div class="education-timeline-vertical-line"></div>
+                  </div>
+                  <div class="education-timeline-vertical-content">
+                    <h4 class="education-timeline-vertical-title">Bachelor of Engineering, Electrical Engineering</h4>
+                    <p class="education-timeline-vertical-affiliation">South China University of Technology</p>
+                    <p class="education-timeline-vertical-sub">School of Electric Power Engineering</p>
+                  </div>
+                  <div class="education-timeline-vertical-logo-wrap">
+                    <img src="../files/logos/SCUT Logo.svg" alt="SCUT logo" class="education-timeline-vertical-logo" />
                   </div>
                 </article>
               </div>

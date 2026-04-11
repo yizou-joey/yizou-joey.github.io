@@ -289,13 +289,13 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
   - Connector is assistive, not dominant.
   - Affiliation metadata remains typographically subordinate to degree/program title.
 
-#### Variant B: Dot-Line-Dot (Alternative)
-A card-free minimal timeline variant using dot-line-dot vertical connector:
-- **Desktop structure**: dot-line-dot track on left (56px) / details / logo (180px).
-- **Visual pattern**: UST Blue dots with soft blue connecting line; no card borders or shadows.
-- **Mobile**: collapses to 2-column (connector + content), period and logo hidden.
-- **CSS classes**: `.education-timeline--variant-b` (container), `.education-timeline-item--variant-b` (row), `.education-timeline-item--variant-b::before` (top dot), `.education-timeline-item--variant-b::after` (bottom dot).
-- **Use case**: When a lighter, more minimal timeline appearance is preferred over the card-based original.
+#### Vertical Editorial Timeline (Variant)
+A card-free minimal timeline variant using a sophisticated dot-and-line track layout:
+- **Desktop structure**: 4-column CSS grid. Left (dates) / track (dot+line) / content (degree & affiliation) / right (logo).
+- **Visual pattern**: Inspired by Apple restraint & Notion warmth. Inactive nodes are subtle gray, active nodes are UST Blue with a soft focus-ring shadow. The track uses a continuous elegant 1px soft-border line. Active "Present" text uses a distinct subheading-sized `Noto Serif SC` styling with italics to break the grid rhythm.
+- **Mobile breakpoint**: Collapses gracefully to 2 columns. The track shifts to the far left, the dates merge above the content, and the logo shrinks or hides.
+- **CSS classes**: `.education-timeline-vertical` (container), `.education-timeline-vertical-item` (row), `.education-timeline-vertical-period` (dates wrapper), `.education-timeline-vertical-track` (contains `.education-timeline-vertical-node` and `.education-timeline-vertical-line`), `.education-timeline-vertical-content` (Title as `Noto Serif SC`, Affiliation as medium weight `Inter`, Sub as normal text).
+- **Use case**: When an editorial, chronological, and airy timeline appearance is preferred over the card-based original.
 
 ### 10.4 Chip Language Subsystem
 - **Purpose**: unify all compact metadata controls under one badge grammar.

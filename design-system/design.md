@@ -291,10 +291,12 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 #### Vertical Editorial Timeline (Variant)
 A card-free minimal timeline variant using a sophisticated dot-and-line track layout:
-- **Desktop structure**: 4-column CSS grid. Left (dates) / track (dot+line) / content (degree & affiliation) / right (logo).
+- **Desktop structure**: 4-column CSS grid. Left (dates) / track (dot+line) / content (degree & affiliation) / right (logo), with preview ratio `112px / 48px / 1fr / 152px` so institutional marks remain legible.
 - **Visual pattern**: Inspired by Apple restraint & Notion warmth. Inactive nodes are subtle gray, active nodes are UST Blue with a soft focus-ring shadow. The track uses a continuous elegant 1px soft-border line. Active "Present" text uses a distinct subheading-sized `Noto Serif SC` styling with italics to break the grid rhythm.
 - **Mobile breakpoint**: Collapses gracefully to 2 columns. The track shifts to the far left, the dates merge above the content, and the logo shrinks or hides.
+- **Logo fit rule**: Logo visuals remain constrained to the right track width; use a wider right track in the preview when legibility drops below acceptable scan size.
 - **CSS classes**: `.education-timeline-vertical` (container), `.education-timeline-vertical-item` (row), `.education-timeline-vertical-period` (dates wrapper), `.education-timeline-vertical-track` (contains `.education-timeline-vertical-node` and `.education-timeline-vertical-line`), `.education-timeline-vertical-content` (Title as `Noto Serif SC`, Affiliation as medium weight `Inter`, Sub as normal text).
+- **Connector baseline**: the default vertical timeline now uses a lowered line-start plus adaptive overhang so the connector better covers item body area without needing preview-only comparison variants.
 - **Use case**: When an editorial, chronological, and airy timeline appearance is preferred over the card-based original.
 
 ### 10.4 Chip Language Subsystem

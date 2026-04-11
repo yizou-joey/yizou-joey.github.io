@@ -1006,11 +1006,13 @@ body {
   margin-top: var(--gap-16);
   margin-left: auto;
   margin-right: auto;
+  --education-line-top: 34px;
+  --education-line-overhang: max(20px, 12%);
 }
 
 .education-timeline-vertical-item {
   display: grid;
-  grid-template-columns: 160px 48px 1fr 160px;
+  grid-template-columns: 112px 48px 1fr 180px;
   column-gap: var(--gap-16);
   position: relative;
   padding-bottom: var(--gap-56);
@@ -1093,8 +1095,8 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 24px;
-  bottom: calc(-1 * var(--gap-56) + 14px);
+  top: var(--education-line-top, 24px);
+  bottom: calc(-1 * var(--education-line-gap, var(--gap-56)) + var(--education-line-overhang, max(14px, 6%)));
   width: 1px;
   background-color: var(--color-border-soft);
   z-index: 1;
@@ -1148,6 +1150,7 @@ body {
 }
 
 .education-timeline-vertical-logo {
+  width: 100%;
   max-width: 180px;
   max-height: 72px;
   object-fit: contain;

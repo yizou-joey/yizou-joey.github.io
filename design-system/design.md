@@ -150,7 +150,11 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### News + Teaching Cards
 - Light card surfaces with subtle borders.
-- News uses date chip + text block.
+- News supports a bullet-point variant with a compact date rail (`~92px`) and short dot marker for fast scanning in dense update streams.
+- Bullet-list width follows the same section-aligned width logic as index News (`section-aligned` pattern), using one unified inset rule instead of extra component-specific indentation.
+- On desktop, date labels are right-aligned inside the fixed date rail to keep year endpoints visually aligned; mobile reverts to left alignment for readability.
+- Date rail and body text share a first-line baseline and body line-height in the bullet variant to avoid optical "date appears too high" drift from mixed line-height boxes.
+- Bullet-point news keeps body text as the primary reading unit; date remains metadata and should not use emphasized chip geometry.
 - Teaching uses role/detail two-column pattern.
 
 ### 404 Editorial Hero

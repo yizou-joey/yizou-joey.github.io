@@ -135,7 +135,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Status chip has three variants: (1) **outline** — `1px solid --color-gold` border, `--color-gold-tint` bg, `--color-gold-dark` text; (2) **Notion-style** (`--notion`) — no border, warm amber-gold background (`--color-gold-tint: #FEF3C7`), deep amber text (`--color-gold-dark: #92400E`, 600 weight); (3) **vivid gold** (`--award`) — no border, vivid amber-yellow background (`--color-gold-vivid: #FDE68A`), deep amber text (`--color-gold-text-deep: #78350F`, ~7.3:1 contrast). The `--award` variant is the component default and is used in all publication tickets; it reads as bright yellow-gold rather than cream. Design Comparisons section preserves all three variants for reference.
 
 ### Buttons and Actions
-- Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `38px`, `--space-action-block` = `--gap-xs`, `--space-action-inline` = `--gap-md`, and `--radius-action` = `--radius-teaching` (`16px`).
+- Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `38px`, `--space-action-block` = `--gap-6`, `--space-action-inline` = `--gap-12`, and `--radius-action` = `--radius-teaching` (`16px`).
 - Primary actions use Apple Blue for available CTA moments with no visible outline; secondary/resource actions use warm neutral surfaces with restrained borders.
 - Button labels use the Nav / Button Label tier (`15px / 400`) rather than the Badge / Micro Label tier.
 - Publication resource links render as resource actions, not metadata chips, even when they live inside the publication ticket stub.
@@ -165,16 +165,16 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### Spacing System
 - Core gap scale is fixed and inspectable: `4 / 6 / 8 / 12 / 16 / 24 / 32 / 56`.
-- `--gap-2xs` and `--gap-xs` are for micro text stacks and dense metadata.
-- `--gap-sm` and `--gap-md` are the default component internals for chips, rows, and card groups.
-- `--gap-lg`, `--gap-xl`, and `--gap-2xl` define section and card rhythm.
-- `--gap-3xl` is reserved for wide editorial columns.
+- `--gap-4` and `--gap-6` are for micro text stacks and dense metadata.
+- `--gap-8` and `--gap-12` are the default component internals for chips, rows, and card groups.
+- `--gap-16`, `--gap-24`, and `--gap-32` define section and card rhythm.
+- `--gap-56` is reserved for wide editorial columns.
 - Semantic spacing aliases (`--space-section`, `--space-card-inline`, etc.) map back to the core gap scale; avoid exposing raw `clamp()` formulas in the visual spec.
 
 ### Container Strategy
 - Header rail max width: `1440px`.
 - Content max width: `1000px`.
-- Section components align through shared insets (`--space-title-inline-inset: --gap-xl`).
+- Section components align through shared insets (`--space-title-inline-inset: --gap-24`).
 
 ### Composition Principles
 - One strong visual pattern per section (avoid mixed motifs).

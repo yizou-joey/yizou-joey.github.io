@@ -1178,7 +1178,7 @@ body {
 
 .news-bullet-item {
   display: grid;
-  grid-template-columns: 10px 92px minmax(0, 1fr);
+  grid-template-columns: auto max-content minmax(0, 1fr);
   align-items: baseline;
   column-gap: var(--gap-12);
 }
@@ -1194,8 +1194,6 @@ body {
 
 .news-bullet-date {
   margin: 0;
-  width: 100%;
-  justify-self: end;
   font-family: var(--font-inter);
   font-size: var(--type-caption-size);
   font-weight: 500;
@@ -1203,7 +1201,7 @@ body {
   color: var(--color-education-period);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  text-align: right;
+  text-align: left;
 }
 
 .news-bullet-text {
@@ -1273,7 +1271,7 @@ body {
   }
 
   .news-bullet-item {
-    grid-template-columns: 10px minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr);
     row-gap: var(--gap-4);
   }
 

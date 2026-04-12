@@ -144,7 +144,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Status chip has three variants: (1) **outline** — `1px solid --color-gold` border, `--color-gold-tint` bg, `--color-gold-dark` text; (2) **Notion-style** (`--notion`) — no border, warm amber-gold background (`--color-gold-tint: #FEF3C7`), deep amber text (`--color-gold-dark: #92400E`, 600 weight); (3) **vivid gold** (`--award`) — no border, vivid amber-yellow background (`--color-gold-vivid: #FDE68A`), deep amber text (`--color-gold-text-deep: #78350F`, ~7.3:1 contrast). The `--award` variant is the component default and is used in all publication tickets; it reads as bright yellow-gold rather than cream. Design Comparisons section preserves all three variants for reference.
 
 ### Buttons and Actions
-- Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `38px`, `--space-action-block` = `--gap-6`, `--space-action-inline` = `--gap-12`, and `--radius-action` = `--radius-teaching` (`16px`).
+- Clickable actions are visually separated from labels without overpowering dense rows: `--size-action-min-height` = `30px`, `--space-action-block` = `--gap-6`, `--space-action-inline` = `--gap-12`, and `--radius-action` = `--radius-teaching` (`16px`).
 - Primary actions use Apple Blue for available CTA moments with no visible outline; secondary/resource actions use warm neutral surfaces with restrained borders.
 - General actions may also use a directional orb CTA: a circular silhouette inspired by Notion’s homepage button language, with its diameter reusing the existing action height (`--size-action-min-height`) rather than introducing a new size token. It stays recolored to Apple Blue (`--color-apple-blue`) with a white arrow using rounded cap/join finish. In preview, the three directional variants (right, up-right 45 degrees, down-right 45 degrees) are grouped on one row using the system action rhythm `--gap-8`; the icon itself should render larger than a text-button-equivalent padding model so the graphic reads clearly inside the circle.
 - Button labels use the Nav / Button Label tier (`15px / 400`) rather than the Badge / Micro Label tier.
@@ -307,7 +307,7 @@ Recommended next refinements (design-system only):
 
 ### Interaction Targets
 - Chips maintain compact metadata height (`~30px`).
-- Buttons/actions maintain a compact touch target (`38px` minimum), larger-than-chip padding, and non-pill corners to avoid being mistaken for tags.
+- Buttons/actions maintain a compact touch target (`30px` minimum), larger-than-chip padding, and non-pill corners to avoid being mistaken for tags.
 
 ## 9. Agent Prompt Guide
 
@@ -393,7 +393,7 @@ A card-free minimal timeline variant using a sophisticated dot-and-line track la
 - **Purpose**: distinguish clickable commands from metadata labels without importing a full external component style.
 - **Button classes**: primary action, secondary action, publication resource action.
 - **Rules**:
-  - Actions use compact padding and `38px` minimum height, staying visually larger than chips without dominating metadata rows.
+  - Actions use compact padding and `30px` minimum height, staying visually larger than chips without dominating metadata rows.
   - Actions use `--radius-action`, which inherits the `16px` teaching radius, rather than `--radius-badge`.
 - Resource actions mirror `PUBLICATION_SUPPLEMENT_FIELDS` in `js/utils.js`, but the visual catalog groups aliases by shared icon and interaction type: `Paper / PDF`, `Video / Demo`, `arXiv`, `Slides`, `Poster`, and `Code`.
 - Resource actions use **Nav level** typography (`15px / 400`) to keep labels readable without visual dominance.

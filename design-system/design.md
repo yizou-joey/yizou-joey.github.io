@@ -157,6 +157,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Education Timeline
 - Three-column grid (period / center content / logo) on desktop.
 - Blue divider semantics with computed connector between period endpoints.
+- Content hierarchy uses shared body tiers in order: `Body Medium` for degree/program, `Body` for affiliation, `Caption` for secondary unit metadata.
 - Mobile collapses to single-column stacked reading order.
 
 ### News + Teaching Cards
@@ -179,10 +180,11 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ## 5. Layout Principles
 
 ### Spacing System
-- Core gap scale is fixed and inspectable: `4 / 6 / 8 / 12 / 16 / 24 / 32 / 56`.
+- Core gap scale is fixed and inspectable: `4 / 6 / 8 / 12 / 16 / 24 / 32 / 48 / 56`.
 - `--gap-4` and `--gap-6` are for micro text stacks and dense metadata.
 - `--gap-8` and `--gap-12` are the default component internals for chips, rows, and card groups.
 - `--gap-16`, `--gap-24`, and `--gap-32` define section and card rhythm.
+- `--gap-48` bridges standard section rhythm and wide editorial separation; use it when `32px` feels tight but `56px` opens too far.
 - `--gap-56` is reserved for wide editorial columns.
 - Semantic spacing aliases (`--space-section`, `--space-card-inline`, etc.) map back to the core gap scale; avoid exposing raw `clamp()` formulas in the visual spec.
 
@@ -370,10 +372,11 @@ Recommended next refinements (design-system only):
 A card-free minimal timeline variant using a sophisticated dot-and-line track layout:
 - **Desktop structure**: 4-column CSS grid. Left (dates) / track (dot+line) / content (degree & affiliation) / right (logo), with preview ratio `112px / 48px / 1fr / 152px` so institutional marks remain legible.
 - **Visual pattern**: Inspired by Apple restraint & Notion warmth. Inactive nodes are subtle gray, active nodes are UST Blue with a soft focus-ring shadow. The track uses a continuous elegant 1px soft-border line. Active "Present" text uses a distinct subheading-sized `Noto Serif SC` styling with italics to break the grid rhythm.
-- **Node alignment**: `.education-timeline-vertical-track` uses `display: flex; align-items: center; justify-content: center` so dots vertically center automatically — no margin-top hacks needed. This eliminates the need for per-breakpoint margin overrides.
+- **Node alignment**: node center is derived from the first date line so both active and inactive dots align to the bottom edge of the start-date line, not the full two-line date stack.
+- **Connector geometry**: connector start and end are both derived from node-center variables, so line length adjusts with date typography instead of relying on fixed visual offsets.
 - **Mobile breakpoint**: Collapses gracefully to 2 columns. The track shifts to the far left, the dates merge above the content, and the logo shrinks or hides.
 - **Logo fit rule**: Logo visuals remain constrained to the right track width; use a wider right track in the preview when legibility drops below acceptable scan size.
-- **CSS classes**: `.education-timeline-vertical` (container), `.education-timeline-vertical-item` (row), `.education-timeline-vertical-period` (dates wrapper), `.education-timeline-vertical-track` (contains `.education-timeline-vertical-node` and `.education-timeline-vertical-line`), `.education-timeline-vertical-content` (Title as `Noto Serif SC`, Affiliation as medium weight `Inter`, Sub as normal text).
+- **CSS classes**: `.education-timeline-vertical` (container), `.education-timeline-vertical-item` (row), `.education-timeline-vertical-period` (dates wrapper), `.education-timeline-vertical-track` (contains `.education-timeline-vertical-node` and `.education-timeline-vertical-line`), `.education-timeline-vertical-content` (Title uses `Body Medium`, Affiliation uses `Body`, Sub uses `Caption`).
 - **Connector baseline**: the default vertical timeline now uses a lowered line-start plus adaptive overhang so the connector better covers item body area without needing preview-only comparison variants.
 - **Use case**: When an editorial, chronological, and airy timeline appearance is preferred over the card-based original.
 

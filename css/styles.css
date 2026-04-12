@@ -98,6 +98,11 @@ html {
   }
 }
 
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 ::selection {
   background-color: #fef08a;
   color: var(--color-ink);

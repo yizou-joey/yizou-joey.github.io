@@ -1,6 +1,8 @@
 ## 视觉效果
 
-- [ ] 优化 Education Timeline 的设计
+- [x] 优化 Education Timeline 的设计
+- [ ] 现在的nav tab实现仅仅是为了页内部份的跳转，这部份逻辑应该更新为目录的设计，而不是nav tab
+- [ ] 
 
 
 

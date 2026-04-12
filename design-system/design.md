@@ -113,6 +113,10 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Caption text defaults to `--color-muted` so metadata reads as secondary information without requiring an extra utility class.
 - Do not introduce a global type multiplier; each visible type role should stay directly inspectable.
 
+### Text Links & Formatting
+- `<a/>` tags globally inherit their parent element's text color and text decoration. This nullifies the browser-default `:visited` purple formatting.
+- For standard inline text links, rely on inherited colors and apply utility classes like `.underline` paired with `.decoration-muted/40` or `.hover:decoration-ink/60` to indicate interactivity without hardcoded structural colors.
+
 ## 4. Component Stylings
 
 ### Header Navigation

@@ -111,6 +111,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
 - Font feature settings are unified across all levels via `font-feature-settings: "kern" 1, "liga" 1, "clig" 1`.
 - Caption text defaults to `--color-muted` so metadata reads as secondary information without requiring an extra utility class.
+- `.type-body-sm` remains available in the preview as a helper alias of `Caption`; it is not a separate semantic text tier for production migration.
 - Do not introduce a global type multiplier; each visible type role should stay directly inspectable.
 
 ### Text Links & Formatting
@@ -240,11 +241,11 @@ Production extraction from `index.html` + `css/styles.css`:
 
 Design-system comparison (before sync):
 - Header rail was already aligned at `1440px`.
-- Narrative spec already declared `1000px` content rhythm.
+- Narrative spec already declared the two-rail contract (`1050px / 950px`).
 - `design.html` main container used `max-w-[1200px]`, creating preview-vs-production drift.
 
 Decision in this pass:
-- Align `design.html` preview main container to `max-width: 1000px` so the specimen page reflects real production reading width.
+- Align `design.html` preview main container to the canonical Level 1 rail wrapper so the specimen page reflects the final `1050px / 950px` system rather than a separate `1000px` width rule.
 
 Recommended next refinements (design-system only):
 1. Keep the configured rail tokens (`1050/950`) as the canonical design-system content rhythm unless a deliberate width revision is made.
@@ -289,7 +290,7 @@ Recommended next refinements (design-system only):
 - Don't overuse saturated accent colors.
 - Don't replace semantic spacing with arbitrary per-component gaps.
 - Don't use `clamp()` as the main spacing vocabulary in the visual spec; map responsive behavior to named gap tokens first.
-- Don't break the `1000px` content rhythm without a specific layout reason.
+- Don't introduce an extra global content width outside the `1050px / 950px` rail contract without a specific layout reason.
 - Don't use serif for dense metadata/UI controls.
 - Don't add `--type-scale` or another global typography multiplier; it hides the real values shown in the preview.
 - Don't use `margin-top` / `margin-bottom` hacks to visually "center" inline elements within a flex/grid row — use `align-items: center` on the parent instead. Margin hacks create maintenance burdens: they require different values per breakpoint and break when element sizes change.

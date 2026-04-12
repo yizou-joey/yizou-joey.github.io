@@ -350,6 +350,7 @@ body {
 }
 
 .type-body-sm {
+  /* Preview helper alias for Caption; not a separate semantic tier. */
   font-family: var(--font-inter);
   font-size: var(--type-caption-size);
   font-feature-settings: var(--type-feature-sans);

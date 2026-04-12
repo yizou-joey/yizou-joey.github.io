@@ -443,8 +443,7 @@
             <article class="design-subsection">
               <h3 class="type-title-subsection">Education Timeline Row</h3>
               <p class="type-body-sm text-muted design-scope-intro">Desktop ratio preview: 112 / 48 / fluid / 152. Left period stays compact; the right logo track is widened for readable institutional marks. Container rail is aligned to shared Level 2 width and centered.</p>
-              <button id="debug-rail-toggle" class="design-debug-toggle is-active" type="button" aria-pressed="true">Debug Overlay: ON</button>
-              <div class="education-timeline-vertical is-debug-rails">
+              <div class="education-timeline-vertical">
                 <!-- Most Recent / Active -->
                 <article class="education-timeline-vertical-item">
                   <div class="education-timeline-vertical-period">
@@ -485,7 +484,6 @@
                   </div>
                 </article>
               </div>
-              <p class="design-rail-debug-legend type-caption">Debug overlay: blue dashed lines = shared L2 outer rail, amber dashed line = shared primary text-start guide.</p>
             </article>
 
             <article class="design-subsection">
@@ -493,7 +491,7 @@
               <p class="type-body-sm text-muted design-scope-intro">
                 Adapted from index News content flow: compact timeline-like bullets with a narrow date rail and readable body text. Container rail is aligned to the same shared Level 2 width and centered.
               </p>
-              <ul class="news-bullet-list is-debug-rails">
+              <ul class="news-bullet-list">
                 <li class="news-bullet-item">
                   <span class="news-bullet-dot" aria-hidden="true"></span>
                   <p class="news-bullet-date">Jan. 2026</p>
@@ -509,7 +507,6 @@
                   </p>
                 </li>
               </ul>
-              <p class="design-rail-debug-legend type-caption">News row now shares the same period/track/body rails with timeline row for alignment diagnosis.</p>
             </article>
           </section>
 
@@ -817,29 +814,5 @@
         </main>
       </div>
     </div>
-    <script>
-      (() => {
-        const toggle = document.getElementById("debug-rail-toggle");
-        const targets = document.querySelectorAll(".education-timeline-vertical, .news-bullet-list");
-        if (!toggle || !targets.length) return;
-
-        const setState = (enabled) => {
-          targets.forEach((el) => {
-            el.classList.toggle("is-debug-rails", enabled);
-          });
-          toggle.classList.toggle("is-active", enabled);
-          toggle.setAttribute("aria-pressed", String(enabled));
-          toggle.textContent = enabled ? "Debug Overlay: ON" : "Debug Overlay: OFF";
-        };
-
-        let enabled = true;
-        setState(enabled);
-
-        toggle.addEventListener("click", () => {
-          enabled = !enabled;
-          setState(enabled);
-        });
-      })();
-    </script>
   </body>
 </html>

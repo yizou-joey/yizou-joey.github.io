@@ -207,7 +207,6 @@ Design-spec verification (Education Timeline vs News Bullet in `design-system/de
 Rule after this pass:
 - Education Timeline and News Bullet share the same explicit outer rail token (`--width-rail-level-2`) and remain centered with auto margins.
 - Education and News now also share period/track/body rails (`--size-rail-period`, `--size-rail-track`) so primary text-start alignment is directly diagnosable.
-- A preview-only debug overlay is enabled in design specimens: blue dashed lines mark shared L2 outer bounds, amber dashed line marks shared primary text-start guide.
 
 Audit conclusion:
 - The current site runs a mixed model (L1 titles + mostly L2 content), with publication currently still on L2.

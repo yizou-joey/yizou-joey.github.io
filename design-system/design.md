@@ -28,7 +28,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 **Key Characteristics:**
 - Warm neutral canvas (`#fdfdfc`) with low-contrast separators (`#f2f1ee`)
-- Content-first layout with stable width rhythm (`max-width: 1000px`)
+- Content-first layout with stable width rhythm (`--width-rail-level-1: 1050px`, `--width-rail-level-2: 950px`)
 - Semantic typography utilities with fixed, literal type tokens
 - Mixed type personality: `Inter` for UI clarity, `Noto Serif SC` for identity and hero voice
 - Subtle surfaces and whisper borders over heavy shadow stacks
@@ -150,10 +150,10 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### News + Teaching Cards
 - Light card surfaces with subtle borders.
-- News supports a bullet-point variant with a content-sized date track (`max-content`) and short dot marker for fast scanning in dense update streams.
+- News supports a bullet-point variant with a narrow dot column (`--size-rail-dot: 16px`) and short dot marker for fast scanning in dense update streams.
+- Bullet-list uses a 3-column grid: dot (centered, 16px) / date rail (80px) / text (fluid). Vertical alignment is `align-items: center` so the dot sits symmetrically in the middle of the row height without a margin-top hack.
 - Bullet-list width follows the same section-aligned width logic as index News (`section-aligned` pattern), using one unified inset rule instead of extra component-specific indentation.
-- Date labels use a content-sized track rather than a fixed rail to avoid invisible frame drift; mobile keeps left alignment for readability.
-- Date rail and body text share a first-line baseline and body line-height in the bullet variant to avoid optical "date appears too high" drift from mixed line-height boxes.
+- Date rail and body text share a center baseline in the bullet variant for clean horizontal scanning rhythm.
 - Bullet-point news keeps body text as the primary reading unit; date remains metadata and should not use emphasized chip geometry.
 - Teaching uses role/detail two-column pattern.
 
@@ -177,8 +177,68 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### Container Strategy
 - Header rail max width: `1440px`.
-- Content max width: `1000px`.
-- Section components align through shared insets (`--space-title-inline-inset: --gap-24`).
+- Content max width (design-system current): `1050px`.
+- Current implementation aligns many section components through shared insets (`--space-title-inline-inset: --gap-24`).
+
+Preferred rail tokens for future migration:
+- `--width-rail-level-1: 1050px` (title rail + publication card rail)
+- `--width-rail-level-2: 950px` (default content rail)
+
+### Two-Level Width Hierarchy (Title + Content)
+- **Level 1 / Title Rail**: section title wrappers use full content rail width inside `--width-rail-level-1` (production pattern remains `w-full` heading row with local `p-[10px]`).
+- **Level 2 / Content Rail**: default dense reading components (news cards, teaching cards, bio lead, timeline blocks) align to a narrower rail.
+- **Publication exception**: publication cards remain Level 1 because they carry denser metadata/actions and benefit from the wider measure.
+- This split keeps headings visually anchored, preserves scan rhythm for most content, and avoids over-compressing publication payload.
+
+### Implementation Audit (2026-04-12)
+Current production mapping check:
+- Section titles (News / Publications / Teaching / Bio): Level 1.
+- News cards: Level 2 (`section-aligned-card`).
+- Publication cards: Level 2 (`section-aligned-card`).
+- Teaching cards: Level 2 (`section-aligned-card`).
+- Bio lead and education timeline: Level 2 (dedicated inset wrappers).
+
+Design-spec verification (Education Timeline vs News Bullet in `design-system/design.html`):
+- Both are intended to be centered and visually aligned under the same Level 2 rail.
+- Historical mismatch came from mixed width mechanisms (`max-width: 960px` for Education vs inset formula for News), even when the visual delta was small.
+- Additional optical drift can come from internal track geometry (Education fixed tracks `112 / 48 / ... / 180` and News `dot + date + body` grid), not only outer container width.
+
+Rule after this pass:
+- Education Timeline and News Bullet share the same explicit outer rail token (`--width-rail-level-2`) and remain centered with auto margins.
+- Education and News now also share period/track/body rails (`--size-rail-period`, `--size-rail-track`) so primary text-start alignment is directly diagnosable.
+- A preview-only debug overlay is enabled in design specimens: blue dashed lines mark shared L2 outer bounds, amber dashed line marks shared primary text-start guide.
+
+Audit conclusion:
+- The current site runs a mixed model (L1 titles + mostly L2 content), with publication currently still on L2.
+
+Proposed direction for future production pass:
+- Keep two levels: titles on L1, default content on L2.
+- Move publication cards to L1 while keeping other key families (News/Teaching/Bio lead/Education) on L2.
+- For maintainability, prefer explicit rail width utilities/tokens over per-component inset math where practical.
+- Keep this design-system page as the reference board for both "current observed" and "preferred" states until production migration is explicitly requested.
+
+### Width Baseline Sync (2026-04-12)
+
+Production extraction from `index.html` + `css/styles.css`:
+- Header inner rail: `w-[1440px] max-w-full`.
+- Primary section container (design-system current): `w-full` with token-driven cap from `--width-rail-level-1`.
+- Title row pattern: `w-full` heading wrappers with local `p-[10px]`.
+- Horizontal page gutter: `--space-gutter-fluid: clamp(16px, 3vw, 32px)`.
+- Section-aligned inner content width: `calc(100% - (2 * var(--space-title-inline-inset)))`, where `--space-title-inline-inset: clamp(18px, 2vw, 24px)`.
+
+Design-system comparison (before sync):
+- Header rail was already aligned at `1440px`.
+- Narrative spec already declared `1000px` content rhythm.
+- `design.html` main container used `max-w-[1200px]`, creating preview-vs-production drift.
+
+Decision in this pass:
+- Align `design.html` preview main container to `max-width: 1000px` so the specimen page reflects real production reading width.
+
+Recommended next refinements (design-system only):
+1. Keep the configured rail tokens (`1050/950`) as the canonical design-system content rhythm unless a deliberate width revision is made.
+2. If a wider canvas is needed for side-by-side documentation, use local demo blocks (internal grids) instead of widening the global content rail.
+3. Preserve an explicit width audit block in `design.html` Layout section so future migrations can be checked quickly against the same component list.
+4. In production migration, replace implicit inset-width helpers with explicit rail classes mapped to Level 1 and Level 2 where possible.
 
 ### Composition Principles
 - One strong visual pattern per section (avoid mixed motifs).
@@ -210,6 +270,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Use blue as semantic emphasis, not decorative saturation.
 - Preserve publication ticket information hierarchy.
 - Keep typography roles explicit (`type-*` classes).
+- Use `align-items: center` on flex/grid parents to center inline elements (dots, icons) vertically instead of using margin-top/margin-bottom hacks.
 
 ### Don't
 - Don't introduce heavy shadow stacks or glossy effects.
@@ -219,6 +280,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Don't break the `1000px` content rhythm without a specific layout reason.
 - Don't use serif for dense metadata/UI controls.
 - Don't add `--type-scale` or another global typography multiplier; it hides the real values shown in the preview.
+- Don't use `margin-top` / `margin-bottom` hacks to visually "center" inline elements within a flex/grid row — use `align-items: center` on the parent instead. Margin hacks create maintenance burdens: they require different values per breakpoint and break when element sizes change.
 
 ## 8. Responsive Behavior
 
@@ -249,6 +311,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - `--color-ieee-vr-blue: #262189`
 - `--font-inter`, `--font-serif-sc`
 - `--radius-card: 24px`, `--radius-teaching: 16px`, `--radius-badge: 999px`, `--radius-action: --radius-teaching`
+- `--size-rail-dot: 16px` (news bullet dot column)
 
 ### Example Prompts
 - "Build a section using warm neutral surfaces, Inter body text, and serif display accents only for hero identity."
@@ -297,6 +360,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 A card-free minimal timeline variant using a sophisticated dot-and-line track layout:
 - **Desktop structure**: 4-column CSS grid. Left (dates) / track (dot+line) / content (degree & affiliation) / right (logo), with preview ratio `112px / 48px / 1fr / 152px` so institutional marks remain legible.
 - **Visual pattern**: Inspired by Apple restraint & Notion warmth. Inactive nodes are subtle gray, active nodes are UST Blue with a soft focus-ring shadow. The track uses a continuous elegant 1px soft-border line. Active "Present" text uses a distinct subheading-sized `Noto Serif SC` styling with italics to break the grid rhythm.
+- **Node alignment**: `.education-timeline-vertical-track` uses `display: flex; align-items: center; justify-content: center` so dots vertically center automatically — no margin-top hacks needed. This eliminates the need for per-breakpoint margin overrides.
 - **Mobile breakpoint**: Collapses gracefully to 2 columns. The track shifts to the far left, the dates merge above the content, and the logo shrinks or hides.
 - **Logo fit rule**: Logo visuals remain constrained to the right track width; use a wider right track in the preview when legibility drops below acceptable scan size.
 - **CSS classes**: `.education-timeline-vertical` (container), `.education-timeline-vertical-item` (row), `.education-timeline-vertical-period` (dates wrapper), `.education-timeline-vertical-track` (contains `.education-timeline-vertical-node` and `.education-timeline-vertical-line`), `.education-timeline-vertical-content` (Title as `Noto Serif SC`, Affiliation as medium weight `Inter`, Sub as normal text).

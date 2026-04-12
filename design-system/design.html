@@ -32,7 +32,7 @@
           <div class="h-px w-full bg-line"></div>
         </header>
 
-        <main class="design-main w-full max-w-[1200px] page-gutter pb-20">
+        <main class="design-main w-full page-gutter pb-20">
           <section class="design-hero card-surface radius-card">
             <p class="type-label design-kicker">Design System</p>
             <h1 class="type-title-page design-title">Yi ZOU Website Visual Spec</h1>
@@ -389,8 +389,9 @@
 
             <article class="design-subsection">
               <h3 class="type-title-subsection">Education Timeline Row</h3>
-              <p class="type-body-sm text-muted design-scope-intro">Desktop ratio preview: 112 / 48 / fluid / 152. Left period stays compact; the right logo track is widened for readable institutional marks.</p>
-              <div class="education-timeline-vertical">
+              <p class="type-body-sm text-muted design-scope-intro">Desktop ratio preview: 112 / 48 / fluid / 152. Left period stays compact; the right logo track is widened for readable institutional marks. Container rail is aligned to shared Level 2 width and centered.</p>
+              <button id="debug-rail-toggle" class="design-debug-toggle is-active" type="button" aria-pressed="true">Debug Overlay: ON</button>
+              <div class="education-timeline-vertical is-debug-rails">
                 <!-- Most Recent / Active -->
                 <article class="education-timeline-vertical-item">
                   <div class="education-timeline-vertical-period">
@@ -431,19 +432,20 @@
                   </div>
                 </article>
               </div>
+              <p class="design-rail-debug-legend type-caption">Debug overlay: blue dashed lines = shared L2 outer rail, amber dashed line = shared primary text-start guide.</p>
             </article>
 
             <article class="design-subsection">
               <h3 class="type-title-subsection">News Bullet Points</h3>
               <p class="type-body-sm text-muted design-scope-intro">
-                Adapted from index News content flow: compact timeline-like bullets with a narrow date rail and readable body text.
+                Adapted from index News content flow: compact timeline-like bullets with a narrow date rail and readable body text. Container rail is aligned to the same shared Level 2 width and centered.
               </p>
-              <ul class="news-bullet-list">
+              <ul class="news-bullet-list is-debug-rails">
                 <li class="news-bullet-item">
                   <span class="news-bullet-dot" aria-hidden="true"></span>
                   <p class="news-bullet-date">Jan. 2026</p>
                   <p class="news-bullet-text type-body">
-                    One NIDIT Workshop Paper and one Poster are accepted to <strong>IEEE VR 2026</strong>. See you at Daegu.
+                    One NIDIT Workshop Paper and one Poster are accepted to <span data-venue="ieee-vr">IEEE VR 2026</span>! See you at Daegu!
                   </p>
                 </li>
                 <li class="news-bullet-item">
@@ -454,6 +456,7 @@
                   </p>
                 </li>
               </ul>
+              <p class="design-rail-debug-legend type-caption">News row now shares the same period/track/body rails with timeline row for alignment diagnosis.</p>
             </article>
           </section>
 
@@ -462,15 +465,70 @@
               <p class="design-index-label type-label">04 / LAYOUT</p>
               <h2 class="type-title-section">Layout</h2>
             </div>
+            <p class="type-body-sm text-muted design-scope-intro">
+              Reference view for width governance: left card reflects the current production behavior; right card reflects the preferred maintainable model (two rails, content defaults to Level 2, publication card stays Level 1).
+            </p>
             <div class="design-layout-grid">
               <article class="card-surface radius-card design-layout-card">
-                <h3 class="type-title-minor">Content Width</h3>
-                <p class="type-body-sm text-muted">Primary content is centered at <code>max-width: 1000px</code>.</p>
-                <div class="design-ruler">
-                  <span class="design-ruler-main">1000px Content Rail</span>
+                <h3 class="type-title-minor">Current Production (Observed)</h3>
+                <p class="type-body-sm text-muted">Titles are on Level 1 (1000px rail). Dense content blocks are mostly on inset Level 2 via <code>section-aligned-card</code> and related wrappers.</p>
+                <div class="design-width-diagram">
+                  <p class="design-width-diagram-note type-caption">Schematic contrast (not to scale). Current design-system rail delta: 100px total.</p>
+                  <div class="design-width-bar is-level-1">
+                    <span class="design-ruler-main">Title: Level 1 (1050px)</span>
+                  </div>
+                  <div class="design-width-bar is-level-2">
+                    <span class="design-ruler-main">Content: Level 2 (950px)</span>
+                  </div>
                 </div>
+                <p class="design-ruler-note type-caption">Source pattern: section heading wrappers in index use <code>w-full</code>; cards/tickets commonly use inset helpers.</p>
+              </article>
+              <article class="card-surface radius-card design-layout-card">
+                <h3 class="type-title-minor">Preferred Model (Current Decision)</h3>
+                <p class="type-body-sm text-muted">Keep two rails. Titles use Level 1. Content uses Level 2 by default. Publication cards remain Level 1 for denser information payload.</p>
+                <div class="design-width-diagram">
+                  <div class="design-width-bar is-level-1">
+                    <span class="design-ruler-main">Title: Level 1 (1050px)</span>
+                  </div>
+                  <div class="design-width-bar is-level-2 is-proposed">
+                    <span class="design-ruler-main">Default Content: Level 2 (950px)</span>
+                  </div>
+                  <div class="design-width-bar is-level-1 is-proposed-publication">
+                    <span class="design-ruler-main">Publication Card: Level 1 (1050px)</span>
+                  </div>
+                </div>
+                <p class="design-ruler-note type-caption">Maintainability note: prefer explicit rail width utilities/tokens (<code>--width-rail-level-1: 1050px</code>, <code>--width-rail-level-2: 950px</code>) over per-component inset math in production migration.</p>
               </article>
             </div>
+            <article class="card-surface radius-card design-layout-audit">
+              <h3 class="type-title-minor">Implementation Check (Current)</h3>
+              <div class="design-layout-audit-grid">
+                <p class="design-layout-audit-head type-caption">Component Family</p>
+                <p class="design-layout-audit-head type-caption">Current Width</p>
+                <p class="design-layout-audit-head type-caption">Target (Preferred)</p>
+
+                <p class="type-body-sm">Section titles (News / Publications / Teaching / Bio)</p>
+                <p class="type-body-sm"><strong>Level 1</strong> (full section rail)</p>
+                <p class="type-body-sm">Level 1</p>
+
+                <p class="type-body-sm">News cards</p>
+                <p class="type-body-sm"><strong>Level 2</strong> (<code>section-aligned-card</code>)</p>
+                <p class="type-body-sm">Level 2</p>
+
+                <p class="type-body-sm">Publication cards</p>
+                <p class="type-body-sm"><strong>Level 2</strong> (<code>section-aligned-card</code>)</p>
+                <p class="type-body-sm">Level 1</p>
+
+                <p class="type-body-sm">Teaching cards</p>
+                <p class="type-body-sm"><strong>Level 2</strong> (<code>section-aligned-card</code>)</p>
+                <p class="type-body-sm">Level 2</p>
+
+                <p class="type-body-sm">Bio lead + Education timeline</p>
+                <p class="type-body-sm"><strong>Level 2</strong> (dedicated inset wrappers)</p>
+                <p class="type-body-sm">Level 2</p>
+              </div>
+              <p class="design-ruler-note type-caption">This audit is for reference only. Production files are unchanged in this design-system pass.</p>
+            </article>
           </section>
 
           <section class="design-section design-metric-section">
@@ -706,5 +764,29 @@
         </main>
       </div>
     </div>
+    <script>
+      (() => {
+        const toggle = document.getElementById("debug-rail-toggle");
+        const targets = document.querySelectorAll(".education-timeline-vertical, .news-bullet-list");
+        if (!toggle || !targets.length) return;
+
+        const setState = (enabled) => {
+          targets.forEach((el) => {
+            el.classList.toggle("is-debug-rails", enabled);
+          });
+          toggle.classList.toggle("is-active", enabled);
+          toggle.setAttribute("aria-pressed", String(enabled));
+          toggle.textContent = enabled ? "Debug Overlay: ON" : "Debug Overlay: OFF";
+        };
+
+        let enabled = true;
+        setState(enabled);
+
+        toggle.addEventListener("click", () => {
+          enabled = !enabled;
+          setState(enabled);
+        });
+      })();
+    </script>
   </body>
 </html>

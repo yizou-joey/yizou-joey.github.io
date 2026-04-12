@@ -95,7 +95,8 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 |------|-------|------|--------|-------------|----------|--------|
 | Section Heading | `.type-section-heading` | 48px | 700 | 1.00 | -1.5px | Inter |
 | Sub-heading Large | `.type-subheading-large` | 40px | 700 | 1.50 | normal | Inter |
-| Sub-heading | `.type-subheading` | 26px | 700 | 1.23 | -0.625px | Inter |
+| Sub-heading | `.type-subheading` | 26px | 700 | 1.23 | normal | Inter |
+| Sub-heading Serif | `.type-subheading-serif` | 26px | 400 | 1.23 | normal | Noto Serif SC |
 | Body Large | `.type-body-large` | 20px | 600 | 1.40 | -0.125px | Inter |
 | Body Medium | `.type-body-medium` | 16px | 500 | 1.50 | normal | Inter |
 | Body | `.type-body` | 16px | 400 | 1.50 | normal | Inter |
@@ -105,6 +106,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 
 ### Principles
 - Type hierarchy follows fixed, Notion-like tiers for clarity and consistency.
+- Sub-heading family (`Large` / `Sans` / `Serif`) uses unified tracking (`normal`) for consistent rhythm across section-level titles.
 - Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading.
 - Publication ticket titles use `Body Large` instead of a separate card-title tier.
 - Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
@@ -166,7 +168,8 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Bullet-list uses a 3-column grid: dot (centered, 16px) / date rail (80px) / text (fluid). Vertical alignment is `align-items: center` so the dot sits symmetrically in the middle of the row height without a margin-top hack.
 - Bullet-list width follows the same section-aligned width logic as index News (`section-aligned` pattern), using one unified inset rule instead of extra component-specific indentation.
 - Date rail and body text share a center baseline in the bullet variant for clean horizontal scanning rhythm.
-- Bullet-point news keeps body text as the primary reading unit; date remains metadata and should not use emphasized chip geometry.
+- News date node reuses the same classes as `Publication type labels` (`publication-meta-chip publication-type-chip type-label`) so frame geometry and typography stay identical.
+- News date spacing is optimized with a content-aware date rail (`minmax(--size-rail-track, max-content)`) and tighter dot/date gap, preserving a stable text start line while avoiding cramped chip-body spacing.
 - Teaching uses role/detail two-column pattern.
 
 ### 404 Editorial Hero
@@ -297,8 +300,9 @@ Recommended next refinements (design-system only):
 ## 8. Responsive Behavior
 
 ### Breakpoints
-- **Mobile (<640px)**: stack-heavy layout; full-width actions/chips when needed.
-- **Tablet (640px-767px)**: intermediate spacing and card paddings.
+- **Mobile (<=700px)**: stack-heavy layout; full-width actions/chips when needed.
+- **Header behavior (all widths)**: keep logo + nav in one row; reduce link height/padding only on very narrow screens.
+- **Tablet (701px-767px)**: intermediate spacing and card paddings, while preserving desktop information structure where possible.
 - **Desktop (>=768px)**: full publication ticket split and 3-column education timeline.
 
 ### Component Collapses

@@ -59,7 +59,7 @@ const italicMarkdownPattern = /\*([^*]+)\*/g;
 const applyInlineLinks = (html) =>
   html.replace(
     linkMarkdownPattern,
-    '<a href="$2" class="underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60">$1</a>'
+    '<a href="$2" class="inline-link">$1</a>'
   );
 
 const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1</strong>");

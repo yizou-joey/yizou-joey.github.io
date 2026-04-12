@@ -85,12 +85,12 @@
   --type-subheading-size: 26px;
   --type-subheading-weight: 700;
   --type-subheading-line-height: 31.98px;
-  --type-subheading-tracking: -0.625px;
+  --type-subheading-tracking: 0px;
 
   --type-subheading-serif-size: 26px;
   --type-subheading-serif-weight: 400;
   --type-subheading-serif-line-height: 31.98px;
-  --type-subheading-serif-tracking: -0.625px;
+  --type-subheading-serif-tracking: 0px;
 
   --type-body-large-size: 20px;
   --type-body-large-weight: 600;
@@ -445,8 +445,9 @@ body {
 
 .site-header-inner {
   min-width: 0;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .site-header-brand {
@@ -457,7 +458,7 @@ body {
   display: flex;
   min-width: 0;
   flex: 1 1 auto;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   gap: clamp(4px, 1vw, 10px);
 }
@@ -1280,9 +1281,12 @@ button.action-button-orb {
 
 .news-bullet-item {
   display: grid;
-  grid-template-columns: var(--size-rail-dot) var(--size-rail-track) minmax(0, 1fr);
+  grid-template-columns:
+    var(--size-rail-dot)
+    minmax(var(--size-rail-track), max-content)
+    minmax(0, 1fr);
   align-items: center;
-  column-gap: var(--gap-16);
+  column-gap: var(--gap-12);
 }
 
 .news-bullet-dot {
@@ -1296,12 +1300,7 @@ button.action-button-orb {
 
 .news-bullet-date {
   margin: 0;
-  font-family: var(--font-inter);
-  font-size: var(--type-caption-size);
-  font-weight: 500;
-  line-height: var(--type-body-line-height);
-  color: var(--color-education-period);
-  text-transform: uppercase;
+  justify-self: start;
   text-align: left;
 }
 
@@ -1324,7 +1323,7 @@ button.action-button-orb {
 }
 
 /* Tablet & Mobile Collapse */
-@media (max-width: 767px) {
+@media (max-width: 700px) {
   .education-timeline-vertical-item {
     grid-template-columns: 24px 1fr;
     grid-template-rows: auto auto;
@@ -1371,7 +1370,7 @@ button.action-button-orb {
 
   .news-bullet-item {
     grid-template-columns: auto minmax(0, 1fr);
-    row-gap: var(--gap-4);
+    row-gap: var(--gap-6);
   }
 
   .news-bullet-date {
@@ -2119,29 +2118,7 @@ button.action-button-orb {
   }
 }
 
-@media (max-width: 767px) {
-  .site-header-inner {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--gap-8);
-    padding-top: 12px;
-    padding-bottom: 12px;
-  }
-
-  .site-header-brand {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .site-header-nav {
-    width: 100%;
-    max-width: 320px;
-    justify-content: center;
-    gap: 6px 8px;
-  }
-
+@media (max-width: 700px) {
   .publication-ticket {
     grid-template-columns: 1fr;
   }

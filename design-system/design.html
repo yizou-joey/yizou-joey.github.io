@@ -20,7 +20,7 @@
               <div class="site-header-brand flex w-[24px] items-center justify-center">
                 <span class="type-brand text-ink">Yi</span>
               </div>
-              <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
+              <nav class="site-header-nav type-nav flex items-center justify-end text-muted" aria-label="Design system sections">
                 <a href="#scope" class="site-header-link">Scope</a>
                 <a href="#tokens" class="site-header-link">Tokens</a>
                 <a href="#components" class="site-header-link">Components</a>
@@ -287,7 +287,7 @@
                     <span class="publication-meta-chip publication-type-chip type-label">
                       <span>Workshop</span>
                       <span class="publication-type-divider" aria-hidden="true"></span>
-                      <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
+                      <button type="button" class="publication-type-note publication-type-note-link">NIDIT</button>
                     </span>
                   </div>
                   <p class="design-catalog-note type-body-sm">Type notes stay quiet until hover or focus reveals a peel background.</p>
@@ -309,30 +309,30 @@
                 <div class="design-catalog-column">
                   <p class="design-catalog-title type-caption">Resource actions</p>
                   <div class="design-catalog-stack">
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
-                      <span class="publication-resource-text">Paper</span></span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                      <span class="publication-resource-text">Paper</span>
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
-                      <span class="publication-resource-text">Video</span></span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                      <span class="publication-resource-text">Video</span>
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/arxiv.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">arXiv</span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/slides.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Slides</span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/poster.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Poster</span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/github.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Code</span>
-                    </a>
+                    </button>
                   </div>
                   <p class="design-catalog-note type-body-sm">Groups field aliases by icon and interaction type.</p>
                 </div>
@@ -340,10 +340,10 @@
                 <div class="design-catalog-column">
                   <p class="design-catalog-title type-caption">General actions</p>
                   <div class="design-catalog-stack design-catalog-stack--general-actions">
-                    <a href="#" class="action-button action-button-primary type-nav-label">Primary action</a>
-                    <a href="#" class="action-button action-button-secondary type-nav-label">Secondary action</a>
+                    <button type="button" class="action-button action-button-primary type-nav-label">Primary action</button>
+                    <button type="button" class="action-button action-button-secondary type-nav-label">Secondary action</button>
                     <div class="design-catalog-orb-row" aria-label="Directional action variants">
-                      <a href="#" class="action-button-orb" aria-label="Directional action">
+                      <button type="button" class="action-button-orb" aria-label="Directional action">
                         <svg
                           class="action-button-orb-icon"
                           viewBox="0 0 64 64"
@@ -359,8 +359,8 @@
                             stroke-linejoin="round"
                           />
                         </svg>
-                      </a>
-                      <a href="#" class="action-button-orb" aria-label="Directional action up right">
+                      </button>
+                      <button type="button" class="action-button-orb" aria-label="Directional action up right">
                         <svg
                           class="action-button-orb-icon action-button-orb-icon--up-right"
                           viewBox="0 0 64 64"
@@ -376,8 +376,8 @@
                             stroke-linejoin="round"
                           />
                         </svg>
-                      </a>
-                      <a href="#" class="action-button-orb" aria-label="Directional action down right">
+                      </button>
+                      <button type="button" class="action-button-orb" aria-label="Directional action down right">
                         <svg
                           class="action-button-orb-icon action-button-orb-icon--down-right"
                           viewBox="0 0 64 64"
@@ -393,7 +393,7 @@
                             stroke-linejoin="round"
                           />
                         </svg>
-                      </a>
+                      </button>
                     </div>
                   </div>
                   <p class="design-catalog-note type-body-sm">Directional CTA variants are shown as one row with the system's standard `--gap-8`, and the icon scale is tuned larger than text-button padding so the graphic reads crisply inside the circle.</p>
@@ -414,7 +414,7 @@
                         <span class="publication-meta-chip publication-type-chip type-label">
                           <span>Workshop</span>
                           <span class="publication-type-divider" aria-hidden="true"></span>
-                          <a href="#" class="publication-type-note publication-type-note-link">NIDIT</a>
+                          <button type="button" class="publication-type-note publication-type-note-link">NIDIT</button>
                         </span>
                         <span class="publication-meta-chip publication-status-chip publication-status-chip--award type-label">
                           <span class="publication-status-chip-text">Best Paper Honorable Mention</span>
@@ -422,19 +422,19 @@
                       </div>
                     </div>
                     <h3 class="publication-title type-title-card">Adaptive XR Interfaces for Context-Aware Interaction</h3>
-                    <p class="publication-authors type-body-sm">Yi ZOU, Collaborator A, Collaborator B</p>
+                    <p class="publication-authors type-body">Yi ZOU, Collaborator A, Collaborator B</p>
                   </div>
                 </div>
                 <aside class="publication-ticket-stub">
                   <div class="publication-ticket-stub-stack is-pair">
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/pdf.svg" alt="" aria-hidden="true" class="publication-resource-icon" />
                       <span class="publication-resource-text">Paper</span>
-                    </a>
-                    <a href="#" class="publication-resource-action type-nav-label">
+                    </button>
+                    <button type="button" class="publication-resource-action type-nav-label">
                       <img src="assets/icons/youtube.svg" alt="" aria-hidden="true" class="publication-resource-icon is-youtube" />
                       <span class="publication-resource-text">Video</span>
-                    </a>
+                    </button>
                   </div>
                 </aside>
               </div>
@@ -796,7 +796,7 @@
                   <span class="publication-meta-chip publication-type-chip type-label">
                     <span>Workshop</span>
                     <span class="publication-type-divider" aria-hidden="true"></span>
-                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-a">NIDIT</a>
+                    <button type="button" class="publication-type-note publication-type-note-link publication-type-note-link--variant-a">NIDIT</button>
                   </span>
                 </div>
                 <div class="design-animation-variant">
@@ -804,7 +804,7 @@
                   <span class="publication-meta-chip publication-type-chip type-label">
                     <span>Workshop</span>
                     <span class="publication-type-divider" aria-hidden="true"></span>
-                    <a href="#" class="publication-type-note publication-type-note-link publication-type-note-link--variant-b">NIDIT</a>
+                    <button type="button" class="publication-type-note publication-type-note-link publication-type-note-link--variant-b">NIDIT</button>
                   </span>
                 </div>
               </div>
@@ -814,5 +814,59 @@
         </main>
       </div>
     </div>
+    <script>
+      (() => {
+        const navLinks = Array.from(document.querySelectorAll(".site-header-link[href^='#']"));
+        if (!navLinks.length) {
+          return;
+        }
+
+        const sections = navLinks
+          .map((link) => {
+            const target = link.getAttribute("href");
+            return target ? document.querySelector(target) : null;
+          })
+          .filter(Boolean);
+
+        if (!sections.length) {
+          return;
+        }
+
+        const setCurrent = (activeId) => {
+          navLinks.forEach((link) => {
+            if (link.getAttribute("href") === `#${activeId}`) {
+              link.setAttribute("aria-current", "location");
+              return;
+            }
+            link.removeAttribute("aria-current");
+          });
+        };
+
+        const computeActiveSectionId = () => {
+          const header = document.querySelector(".site-header");
+          const stickyOffset = (header ? header.offsetHeight : 0) + 12;
+          let activeId = sections[0].id;
+
+          for (const section of sections) {
+            const top = section.getBoundingClientRect().top;
+            if (top - stickyOffset <= 0) {
+              activeId = section.id;
+              continue;
+            }
+            break;
+          }
+
+          return activeId;
+        };
+
+        const syncCurrentLink = () => {
+          setCurrent(computeActiveSectionId());
+        };
+
+        window.addEventListener("scroll", syncCurrentLink, { passive: true });
+        window.addEventListener("resize", syncCurrentLink);
+        syncCurrentLink();
+      })();
+    </script>
   </body>
 </html>

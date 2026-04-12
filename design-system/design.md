@@ -118,6 +118,10 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Header Navigation
 - Sticky header on page background (not translucent glass).
 - Compact nav pills (`--radius-badge`) with color-state emphasis.
+- Desktop keeps the navigation on one restrained row; mobile switches the header rail itself to a vertical stack so the brand sits above a centered, wrapped nav row instead of sharing the same horizontal flex line.
+- Header links include explicit `:focus-visible` ring treatment (Apple Blue outline) for keyboard navigation parity with action controls.
+- Header section links use `aria-current="location"` to indicate the currently viewed section, synchronized as the user scrolls.
+- In-page section anchors keep a scroll offset so sticky header does not cover target headings.
 - Active page: ink text; inactive: muted gray.
 
 ### Publication Ticket Card (Signature Component)
@@ -131,6 +135,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Venue chip uses solid fill (venue color background) with light text (`--color-paper`) for high-emphasis source identity. Deep academic venue colors render better as solid fills; tinted approach would make navy/purple venues nearly invisible. Venue chip color is selected by `data-venue`, keeping markup stable as publication venues grow.
 - Type chips such as Journal, Conference, Workshop, and Poster belong to the same quiet label series and must share `.publication-type-chip`.
 - Workshop/type notes such as `NIDIT` live inside the type chip after `.publication-type-divider`; linked notes use `.publication-type-note-link` with a hover/focus-only `--radius-badge` peel background.
+- Workshop/type-note buttons include an `:active` press state aligned with primary action-button logic: keep white text, darken the peel background to the primary active blue, and avoid adding extra hover-only variants.
 - Workshop/type-note animation decision (2026-04-10): use center diffusion as the default behavior (`opacity 200ms ease` + `transform scale(0.8 -> 1)` with `transform-origin: center center`) to avoid left-to-right reveal mismatch and keep text/background timing visually synchronized.
 - Status chip has three variants: (1) **outline** — `1px solid --color-gold` border, `--color-gold-tint` bg, `--color-gold-dark` text; (2) **Notion-style** (`--notion`) — no border, warm amber-gold background (`--color-gold-tint: #FEF3C7`), deep amber text (`--color-gold-dark: #92400E`, 600 weight); (3) **vivid gold** (`--award`) — no border, vivid amber-yellow background (`--color-gold-vivid: #FDE68A`), deep amber text (`--color-gold-text-deep: #78350F`, ~7.3:1 contrast). The `--award` variant is the component default and is used in all publication tickets; it reads as bright yellow-gold rather than cream. Design Comparisons section preserves all three variants for reference.
 
@@ -140,6 +145,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - General actions may also use a directional orb CTA: a circular silhouette inspired by Notion’s homepage button language, with its diameter reusing the existing action height (`--size-action-min-height`) rather than introducing a new size token. It stays recolored to Apple Blue (`--color-apple-blue`) with a white arrow using rounded cap/join finish. In preview, the three directional variants (right, up-right 45 degrees, down-right 45 degrees) are grouped on one row using the system action rhythm `--gap-8`; the icon itself should render larger than a text-button-equivalent padding model so the graphic reads clearly inside the circle.
 - Button labels use the Nav / Button Label tier (`15px / 400`) rather than the Badge / Micro Label tier.
 - Publication resource links render as resource actions, not metadata chips, even when they live inside the publication ticket stub.
+- In visual preview specimens, non-navigational examples use `button[type="button"]` instead of `href="#"` placeholders to avoid hash jumps while preserving inspectable interaction states.
 - Hover behavior follows the Apple-inspired restraint in `DESIGN.md`: primary actions brighten subtly, neutral actions lift by surface/border contrast, focus uses the Apple Blue outline, and active states avoid motion-heavy feedback.
 - Preview catalogs group equivalent labels and actions vertically so every available attribute in a family can be inspected without implying a hierarchy between siblings.
 - Required publication component families are venue labels, publication type labels, type notes/links, status labels, resource actions, and general actions.

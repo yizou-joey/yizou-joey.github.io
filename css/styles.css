@@ -189,6 +189,10 @@ a {
   color: var(--color-muted);
 }
 
+.text-resource-muted {
+  color: var(--color-chip-text-muted);
+}
+
 .bg-line {
   background-color: var(--color-line);
 }
@@ -307,6 +311,15 @@ a {
   font-family: var(--font-inter);
   font-size: var(--type-body-large-size);
   font-feature-settings: var(--type-feature-sans);
+  font-weight: var(--type-body-large-weight);
+  line-height: var(--type-body-large-line-height);
+  letter-spacing: var(--type-body-large-tracking);
+}
+
+.type-body-large {
+  font-family: var(--font-inter);
+  font-feature-settings: var(--type-feature-sans);
+  font-size: var(--type-body-large-size);
   font-weight: var(--type-body-large-weight);
   line-height: var(--type-body-large-line-height);
   letter-spacing: var(--type-body-large-tracking);

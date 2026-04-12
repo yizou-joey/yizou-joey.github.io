@@ -447,13 +447,13 @@ const buildPublicationCard = (item) => {
 
   const title = document.createElement("h3");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  title.className = "publication-title type-title-card";
+  title.className = "publication-title type-body-large";
   title.innerHTML = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
 
   const authors = document.createElement("p");
-  authors.className = "publication-authors type-body-sm";
+  authors.className = "publication-authors type-body";
   authors.innerHTML = renderAuthors(entry.authors || "");
 
   const supplements = getPublicationSupplementLinks(entry);

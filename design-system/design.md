@@ -96,7 +96,6 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 | Section Heading | `.type-section-heading` | 48px | 700 | 1.00 | -1.5px | Inter |
 | Sub-heading Large | `.type-subheading-large` | 40px | 700 | 1.50 | normal | Inter |
 | Sub-heading | `.type-subheading` | 26px | 700 | 1.23 | -0.625px | Inter |
-| Card Title | `.type-card-title` | 22px | 700 | 1.27 | -0.25px | Inter |
 | Body Large | `.type-body-large` | 20px | 600 | 1.40 | -0.125px | Inter |
 | Body Medium | `.type-body-medium` | 16px | 500 | 1.50 | normal | Inter |
 | Body | `.type-body` | 16px | 400 | 1.50 | normal | Inter |
@@ -107,7 +106,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Principles
 - Type hierarchy follows fixed, Notion-like tiers for clarity and consistency.
 - Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading.
-- Card Title and Sub-heading are intentionally separated by both size and spacing to avoid visual overlap.
+- Publication ticket titles use `Body Large` instead of a separate card-title tier.
 - Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
 - Font feature settings are unified across all levels via `font-feature-settings: "kern" 1, "liga" 1, "clig" 1`.
 - Caption text defaults to `--color-muted` so metadata reads as secondary information without requiring an extra utility class.

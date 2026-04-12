@@ -92,11 +92,6 @@
   --type-subheading-serif-line-height: 31.98px;
   --type-subheading-serif-tracking: -0.625px;
 
-  --type-card-title-size: 22px;
-  --type-card-title-weight: 700;
-  --type-card-title-line-height: 27.94px;
-  --type-card-title-tracking: -0.25px;
-
   --type-body-large-size: 20px;
   --type-body-large-weight: 600;
   --type-body-large-line-height: 28px;
@@ -306,20 +301,11 @@ body {
 
 .type-title-subsection {
   font-family: var(--font-inter);
-  font-size: var(--type-card-title-size);
+  font-size: var(--type-body-large-size);
   font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-line-height);
-  letter-spacing: var(--type-card-title-tracking);
-}
-
-.type-title-card {
-  font-family: var(--font-inter);
-  font-size: var(--type-card-title-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-line-height);
-  letter-spacing: var(--type-card-title-tracking);
+  font-weight: var(--type-body-large-weight);
+  line-height: var(--type-body-large-line-height);
+  letter-spacing: var(--type-body-large-tracking);
 }
 
 .type-title-minor {
@@ -371,7 +357,6 @@ body {
 .type-section-heading,
 .type-subheading-large,
 .type-subheading,
-.type-card-title,
 .type-body-large,
 .type-body-medium,
 .type-nav-label,
@@ -412,13 +397,6 @@ body {
   line-height: var(--type-subheading-serif-line-height);
   letter-spacing: var(--type-subheading-serif-tracking);
   font-feature-settings: var(--type-feature-serif);
-}
-
-.type-card-title {
-  font-size: var(--type-card-title-size);
-  font-weight: var(--type-card-title-weight);
-  line-height: var(--type-card-title-line-height);
-  letter-spacing: var(--type-card-title-tracking);
 }
 
 .type-body-large {
@@ -1366,7 +1344,7 @@ button.action-button-orb {
   }
   
   .education-timeline-vertical-date.is-current {
-    font-size: var(--type-card-title-size);
+    font-size: var(--type-body-large-size);
   }
   
   .education-timeline-vertical-track {

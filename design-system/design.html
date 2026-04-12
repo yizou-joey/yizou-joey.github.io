@@ -264,7 +264,7 @@
             <article class="design-subsection">
               <h3 class="type-title-subsection">Buttons and Labels</h3>
               <p class="type-body-sm text-muted design-scope-intro">
-                Each column lists one semantic family. Venue labels carry the strongest metadata emphasis; publication type labels share one quiet appearance; resource actions use button geometry.
+                Each column lists one semantic family. Venue labels carry the strongest metadata emphasis; publication type labels share one quiet appearance; general actions cover both text CTAs and directional movement.
               </p>
               <div class="design-component-catalog">
                 <div class="design-catalog-column">
@@ -339,11 +339,64 @@
 
                 <div class="design-catalog-column">
                   <p class="design-catalog-title type-caption">General actions</p>
-                  <div class="design-catalog-stack">
+                  <div class="design-catalog-stack design-catalog-stack--general-actions">
                     <a href="#" class="action-button action-button-primary type-nav-label">Primary action</a>
                     <a href="#" class="action-button action-button-secondary type-nav-label">Secondary action</a>
+                    <div class="design-catalog-orb-row" aria-label="Directional action variants">
+                      <a href="#" class="action-button-orb" aria-label="Directional action">
+                        <svg
+                          class="action-button-orb-icon"
+                          viewBox="0 0 64 64"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M14 32H48M33 17L48 32L33 47"
+                            stroke="currentColor"
+                            stroke-width="6.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </a>
+                      <a href="#" class="action-button-orb" aria-label="Directional action up right">
+                        <svg
+                          class="action-button-orb-icon action-button-orb-icon--up-right"
+                          viewBox="0 0 64 64"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M14 32H48M33 17L48 32L33 47"
+                            stroke="currentColor"
+                            stroke-width="6.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </a>
+                      <a href="#" class="action-button-orb" aria-label="Directional action down right">
+                        <svg
+                          class="action-button-orb-icon action-button-orb-icon--down-right"
+                          viewBox="0 0 64 64"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M14 32H48M33 17L48 32L33 47"
+                            stroke="currentColor"
+                            stroke-width="6.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
-                  <p class="design-catalog-note type-body-sm">Use for commands beyond publication resources.</p>
+                  <p class="design-catalog-note type-body-sm">Directional CTA variants are shown as one row with the system's standard `--gap-8`, and the icon scale is tuned larger than text-button padding so the graphic reads crisply inside the circle.</p>
                 </div>
               </div>
             </article>

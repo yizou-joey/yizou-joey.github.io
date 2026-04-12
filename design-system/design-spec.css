@@ -853,6 +853,55 @@ body {
   box-shadow: none;
 }
 
+.action-button-orb {
+  display: inline-flex;
+  width: var(--size-action-min-height);
+  height: var(--size-action-min-height);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-transparent);
+  border-radius: 999px;
+  background: var(--color-apple-blue);
+  color: var(--color-white);
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.action-button-orb:hover {
+  background: var(--color-action-primary-hover);
+  box-shadow: none;
+}
+
+.action-button-orb:active {
+  background: var(--color-action-primary-active);
+  box-shadow: none;
+  transform: scale(0.98);
+}
+
+.action-button-orb:focus-visible {
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 3px;
+}
+
+.action-button-orb-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.action-button-orb-icon--up-right {
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+
+.action-button-orb-icon--down-right {
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+
 .publication-resource-icon {
   display: block;
   height: 14px;
@@ -1483,6 +1532,17 @@ body {
 .design-catalog-note {
   max-width: 24ch;
   color: var(--color-muted);
+}
+
+.design-catalog-stack--general-actions {
+  gap: var(--gap-12);
+}
+
+.design-catalog-orb-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-8);
 }
 
 .design-scope-intro {

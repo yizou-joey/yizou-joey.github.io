@@ -1,27 +1,23 @@
 const buildNewsItem = (item) => {
   const entry = item || {};
-  const row = document.createElement("article");
-  row.className = "news-item card-surface radius-teaching section-aligned-card";
+  const row = document.createElement("li");
+  row.className = "news-bullet-item";
 
-  const inner = document.createElement("div");
-  inner.className = "news-item-inner";
+  const dot = document.createElement("span");
+  dot.className = "news-bullet-dot";
+  dot.setAttribute("aria-hidden", "true");
 
-  const dateChip = document.createElement("p");
-  dateChip.className = "news-date-chip";
-
-  const dateText = document.createElement("span");
-  dateText.className = "news-date-text type-label";
-  dateText.textContent = entry.date || "";
-
-  dateChip.appendChild(dateText);
+  const date = document.createElement("p");
+  date.className = "news-bullet-date";
+  date.textContent = entry.date || "";
 
   const content = document.createElement("p");
-  content.className = "news-text type-body";
-  content.innerHTML = renderInlineMarkdown(entry.text || "");
+  content.className = "news-bullet-text type-body";
+  content.innerHTML = renderNewsInline(entry);
 
-  inner.appendChild(dateChip);
-  inner.appendChild(content);
-  row.appendChild(inner);
+  row.appendChild(dot);
+  row.appendChild(date);
+  row.appendChild(content);
   return row;
 };
 
@@ -118,8 +114,8 @@ const renderNewsSection = async () => {
     url: "contents/news.md",
     container: newsList,
     buildItem: buildNewsItem,
-    emptyMessage: '<p class="type-body-sm text-muted">No news yet.</p>',
-    errorMessage: '<p class="type-body-sm text-muted">News unavailable.</p>',
+    emptyMessage: '<li class="type-body-sm text-muted">No news yet.</li>',
+    errorMessage: '<li class="type-body-sm text-muted">News unavailable.</li>',
     sortFn: compareByDateDesc,
   });
 };

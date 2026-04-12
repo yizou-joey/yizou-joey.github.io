@@ -78,6 +78,36 @@ const renderInlineMarkdown = (value, { preserveLineBreaks = true } = {}) => {
   return applyInlineBreaks(withItalic);
 };
 
+const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const normalizeVenueKey = (entry) => {
+  const explicit = String(entry?.venueKey || "")
+    .trim()
+    .toLowerCase();
+  if (explicit) return explicit;
+
+  const venue = String(entry?.venue || "")
+    .trim()
+    .toLowerCase();
+  if (venue.includes("ieee vr")) return "ieee-vr";
+  return "";
+};
+
+const renderNewsInline = (entry) => {
+  const sourceText = String(entry?.text || "");
+  let html = renderInlineMarkdown(sourceText);
+  const venueKey = normalizeVenueKey(entry);
+  const venueText = String(entry?.venueText || entry?.venue || "").trim();
+
+  if (!venueKey || !venueText) return html;
+
+  const venuePattern = new RegExp(escapeRegExp(venueText), "g");
+  return html.replace(
+    venuePattern,
+    `<span data-venue="${escapeHtml(venueKey)}">${escapeHtml(venueText)}</span>`
+  );
+};
+
 const renderAuthors = (value) => {
   if (!value) return "";
   const token = "__CORR_STAR__";
@@ -281,7 +311,7 @@ const getPublicationSupplementLinks = (entry) =>
 
 const buildSupplementChip = ({ href, label, iconPath }) => {
   const link = document.createElement("a");
-  link.className = "publication-resource-chip type-label";
+  link.className = "publication-resource-action type-nav-label";
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -300,6 +330,7 @@ const buildSupplementChip = ({ href, label, iconPath }) => {
     : "publication-resource-icon";
 
   const text = document.createElement("span");
+  text.className = "publication-resource-text";
   text.textContent = label;
 
   link.appendChild(icon);
@@ -331,7 +362,7 @@ const buildPublicationCard = (item) => {
   const workshopLabel = String(entry.workshopLabel || "").trim();
   const publicationTypeLink = String(entry.typeLink || entry.workshopUrl || "").trim();
   const article = document.createElement("article");
-  article.className = "card-surface radius-card publication-ticket section-aligned-card";
+  article.className = "card-surface radius-card publication-ticket section-rail-l1";
 
   const main = document.createElement("div");
   main.className = "publication-ticket-main";
@@ -378,9 +409,14 @@ const buildPublicationCard = (item) => {
 
   const venue = document.createElement("div");
   venue.className = "publication-meta-chip publication-venue-chip type-label";
-  const venueColor = entry.venueColor || "#262189";
-  venue.style.backgroundColor = venueColor;
-  venue.style.borderColor = venueColor;
+  const venueKey = normalizeVenueKey(entry);
+  const venueColor = String(entry.venueColor || "").trim();
+  if (venueKey) {
+    venue.dataset.venue = venueKey;
+  } else if (venueColor) {
+    venue.style.backgroundColor = venueColor;
+    venue.style.borderColor = venueColor;
+  }
 
   const venueText = document.createElement("span");
   venueText.className = "publication-venue-chip-text type-label";
@@ -398,7 +434,8 @@ const buildPublicationCard = (item) => {
 
   if (statusLabel) {
     const statusChip = document.createElement("span");
-    statusChip.className = "publication-meta-chip publication-status-chip type-label";
+    const statusVariantClass = awardLabel ? " publication-status-chip--award" : "";
+    statusChip.className = `publication-meta-chip publication-status-chip${statusVariantClass} type-label`;
 
     const statusText = document.createElement("span");
     statusText.className = "publication-status-chip-text";

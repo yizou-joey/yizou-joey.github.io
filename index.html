@@ -53,12 +53,11 @@
             </div>
           </div>
           <div class="h-px w-full bg-line"></div>
-          <!-- <div class="h-[300px] w-full bg-gradient-to-b from-[#f7f6f3] via-[#e9e7e3] to-[#d3d1cb]"></div> -->
         </header>
 
         <!-- Intro -->
-        <section id="about" class="flex w-full max-w-[1000px] items-center justify-center page-gutter py-2 lg:min-h-[364px] lg:py-[10px]">
-            <div class="flex w-full flex-col items-center justify-between content-gap lg:flex-row">
+        <section id="about" class="w-full page-gutter py-2 lg:min-h-[364px] lg:py-[10px]">
+            <div class="section-rail-l1 flex w-full flex-col items-center justify-between content-gap lg:flex-row">
             <div class="flex flex-col items-center justify-center gap-[10px] lg:shrink-0 lg:basis-[240px]">
               <div class="flex items-center justify-center overflow-hidden rounded-[20px]">
                 <picture>
@@ -111,7 +110,7 @@
                 <span class="type-title-hero-sub text-muted">Joey</span>
                 <span class="type-title-hero-sub text-muted">邹一</span>
               </div>
-              <p class="type-body-lead w-full max-w-[627px] text-center text-ink lg:text-left">
+              <p class="bio-copy type-body w-full max-w-[627px] text-center text-ink lg:text-left">
                 <span id="bio-intro">Loading bio...</span>
               </p>
             </div>
@@ -119,31 +118,35 @@
         </section>
 
         <!-- Recent News -->
-        <section id="news" class="flex w-full max-w-[1000px] flex-col items-center gap-[28px] page-gutter">
-          <div class="flex w-full items-center p-[10px]">
+        <section id="news" class="w-full page-gutter">
+          <div class="section-rail-l1 flex flex-col items-center gap-[28px]">
+          <div class="section-heading-row">
             <h2 class="type-title-section">Recent News</h2>
           </div>
-          <div id="news-list" class="flex w-full flex-col items-center gap-[16px]"></div>
+          <ul id="news-list" class="news-bullet-list"></ul>
+          </div>
         </section>
 
         <!-- Selected Papers -->
         <section id="publications" class="w-full section-py">
-          <div class="mx-auto flex w-full max-w-[1000px] flex-col items-center gap-[28px] page-gutter">
-            <div class="flex w-full items-center p-[10px]">
+          <div class="mx-auto flex w-full flex-col items-center gap-[28px] page-gutter">
+            <div class="section-rail-l1 section-heading-row">
                <h2 class="type-title-section">Research Projects</h2>
              </div>
-             <div class="flex w-full flex-col items-center justify-center">
+             <div class="section-rail-l1 flex w-full flex-col items-center justify-center">
                <div id="publications-list" class="flex w-full flex-col items-center gap-[30px]"></div>
              </div>
           </div>
         </section>
 
         <!-- Teaching -->
-        <section id="teaching" class="flex w-full max-w-[1000px] flex-col items-center gap-[28px] page-gutter pb-[90px]">
-          <div class="flex w-full items-center p-[10px]">
+        <section id="teaching" class="w-full page-gutter pb-[90px]">
+          <div class="section-rail-l1 flex flex-col items-center gap-[28px]">
+          <div class="section-heading-row">
             <h2 class="type-title-section">Teaching</h2>
           </div>
           <div id="teaching-list" class="flex w-full flex-col items-center justify-center gap-4"></div>
+          </div>
         </section>
       </div>
     </div>

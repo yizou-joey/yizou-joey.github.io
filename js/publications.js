@@ -3,7 +3,7 @@ const buildYearSection = (year, items) => {
   section.className = "flex w-full flex-col items-center gap-[20px]";
 
   const header = document.createElement("div");
-  header.className = "flex w-full items-center p-[10px]";
+  header.className = "section-heading-row";
 
   const title = document.createElement("h2");
   title.className = "type-title-subsection";

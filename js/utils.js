@@ -370,7 +370,7 @@ const buildPublicationCard = (item) => {
   const workshopLabel = String(entry.workshopLabel || "").trim();
   const publicationTypeLink = String(entry.typeLink || entry.workshopUrl || "").trim();
   const article = document.createElement("article");
-  article.className = "card-surface radius-card publication-ticket section-rail-l1";
+  article.className = "card-surface radius-card publication-ticket";
 
   const main = document.createElement("div");
   main.className = "publication-ticket-main";

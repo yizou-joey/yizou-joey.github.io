@@ -125,6 +125,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Header Navigation
 - Sticky header on page background (not translucent glass).
 - Compact nav pills (`--radius-badge`) with color-state emphasis.
+- Header rhythm uses a 40px inner rail (`.site-header-inner`) with a 20px brand mark (`.type-brand` + 20px brand box), and 30px nav links (28px on small screens).
 - Desktop keeps the navigation on one restrained row; mobile switches the header rail itself to a vertical stack so the brand sits above a centered, wrapped nav row instead of sharing the same horizontal flex line.
 - Header links include explicit `:focus-visible` ring treatment (Apple Blue outline) for keyboard navigation parity with action controls.
 - Header section links use `aria-current="location"` to indicate the currently viewed section, synchronized as the user scrolls.
@@ -211,9 +212,9 @@ Preferred rail tokens for future migration:
 Current production mapping check:
 - Section titles (News / Publications / Teaching / Bio): Level 1.
 - News cards: Level 2 (`section-aligned-card`).
-- Publication cards: Level 2 (`section-aligned-card`).
+- Publication cards: Level 1 (`section-rail-l1` on card root).
 - Teaching cards: Level 2 (`section-aligned-card`).
-- Bio lead and education timeline: Level 2 (dedicated inset wrappers).
+- Bio lead and education timeline: Level 2 (tokenized rail wrappers).
 
 Design-spec verification (Education Timeline vs News Bullet in `design-system/design.html`):
 - Both are intended to be centered and visually aligned under the same Level 2 rail.
@@ -225,11 +226,10 @@ Rule after this pass:
 - Education and News now also share period/track/body rails (`--size-rail-period`, `--size-rail-track`) so primary text-start alignment is directly diagnosable.
 
 Audit conclusion:
-- The current site runs a mixed model (L1 titles + mostly L2 content), with publication currently still on L2.
+- The current site runs the intended mixed model (L1 titles, publication cards on L1, and default dense content on L2).
 
 Proposed direction for future production pass:
-- Keep two levels: titles on L1, default content on L2.
-- Move publication cards to L1 while keeping other key families (News/Teaching/Bio lead/Education) on L2.
+- Keep two levels: titles on L1, default content on L2, publication cards on L1.
 - For maintainability, prefer explicit rail width utilities/tokens over per-component inset math where practical.
 - Keep this design-system page as the reference board for both "current observed" and "preferred" states until production migration is explicitly requested.
 

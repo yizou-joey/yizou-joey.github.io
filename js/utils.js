@@ -78,6 +78,29 @@ const renderInlineMarkdown = (value, { preserveLineBreaks = true } = {}) => {
   return applyInlineBreaks(withItalic);
 };
 
+const renderBioCopy = (value) => {
+  const text = String(value || "").trim();
+  if (!text) return "";
+
+  const segments = text
+    .split(/\n+/)
+    .map((segment) => segment.trim())
+    .filter(Boolean);
+
+  if (segments.length <= 1) {
+    return renderInlineMarkdown(text, { preserveLineBreaks: false });
+  }
+
+  return segments
+    .map(
+      (segment) =>
+        `<span class="bio-copy-segment">${renderInlineMarkdown(segment, {
+          preserveLineBreaks: false,
+        })}</span>`
+    )
+    .join("");
+};
+
 const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const normalizeVenueKey = (entry) => {

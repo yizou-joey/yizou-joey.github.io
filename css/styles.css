@@ -43,8 +43,8 @@
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
 
-  --type-brand-size: 24px;
-  --type-brand-line-height: 24px;
+  --type-brand-size: 20px;
+  --type-brand-line-height: 20px;
   --type-display-hero-size: 64px;
   --type-display-hero-weight: 400;
   --type-display-hero-line-height: 63px;
@@ -443,7 +443,7 @@ a {
 
 .site-header-inner {
   min-width: 0;
-  height: 44px;
+  height: 40px;
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -464,7 +464,7 @@ a {
 .site-header-link {
   display: inline-flex;
   min-width: 0;
-  height: 32px;
+  height: 30px;
   flex: 0 1 auto;
   align-items: center;
   justify-content: center;
@@ -907,6 +907,33 @@ button.action-button-orb {
   gap: 0.8rem;
 }
 
+.contact-link {
+  color: var(--color-chip-text-muted);
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-link-decoration-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition:
+    color 180ms ease,
+    text-decoration-color 180ms ease,
+    text-decoration-thickness 180ms ease,
+    text-underline-offset 180ms ease;
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  color: var(--color-chip-text-muted);
+  text-decoration-color: var(--color-link-decoration-ink);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.contact-link:focus-visible {
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 .page-gutter {
   padding-left: var(--space-gutter-fluid);
   padding-right: var(--space-gutter-fluid);
@@ -940,6 +967,14 @@ button.action-button-orb {
   line-height: var(--type-body-bio-line-height);
   letter-spacing: var(--type-body-bio-tracking);
   text-wrap: pretty;
+}
+
+.bio-copy-segment {
+  display: block;
+}
+
+.bio-copy-segment + .bio-copy-segment {
+  margin-top: 0.75em;
 }
 
 .education-timeline,
@@ -1446,7 +1481,7 @@ button.action-button-orb {
 
 @media (max-width: 520px) {
   .site-header-link {
-    height: 30px;
+    height: 28px;
     padding: 0 8px;
   }
 }

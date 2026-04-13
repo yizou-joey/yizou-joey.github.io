@@ -140,7 +140,7 @@ const renderBioSection = async () => {
       bioIntro.textContent = "";
       return;
     }
-    bioIntro.innerHTML = renderInlineMarkdown(text);
+    bioIntro.innerHTML = renderBioCopy(text);
   } catch {
     bioIntro.textContent = "Bio unavailable.";
   }

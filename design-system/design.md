@@ -95,11 +95,12 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 |------|-------|------|--------|-------------|----------|--------|
 | Section Heading | `.type-section-heading` | 48px | 700 | 1.00 | -1.5px | Inter |
 | Sub-heading Large | `.type-subheading-large` | 40px | 700 | 1.50 | normal | Inter |
-| Sub-heading | `.type-subheading` | 26px | 700 | 1.23 | normal | Inter |
+| Sub-heading | `.type-subheading` | 32px | 600 | 1.06 | normal | Inter |
 | Sub-heading Serif | `.type-subheading-serif` | 26px | 400 | 1.23 | normal | Noto Serif SC |
 | Body Large | `.type-body-large` | 20px | 600 | 1.40 | -0.125px | Inter |
 | Body Medium | `.type-body-medium` | 16px | 500 | 1.50 | normal | Inter |
 | Body | `.type-body` | 16px | 400 | 1.50 | normal | Inter |
+| Bio Body | `.type-body-bio` | 18px | 400 | 1.61 | normal | Inter |
 | Nav / Button Label | `.type-nav-label` | 15px | 400 | 1.33 | normal | Inter |
 | Caption | `.type-caption` | 14px | 400 | 1.43 | normal | Inter / Muted `#787774` |
 | Badge / Micro Label | `.type-badge-micro` | 12px | 600 | 1.33 | 0.125px | Inter |
@@ -107,7 +108,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Principles
 - Type hierarchy follows fixed, Notion-like tiers for clarity and consistency.
 - Sub-heading family (`Large` / `Sans` / `Serif`) uses unified tracking (`normal`) for consistent rhythm across section-level titles.
-- Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading.
+- Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading, `Bio Body` for the About intro paragraph.
 - Publication ticket titles use `Body Large` instead of a separate card-title tier.
 - Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
 - Font feature settings are unified across all levels via `font-feature-settings: "kern" 1, "liga" 1, "clig" 1`.

@@ -3,10 +3,6 @@ const buildNewsItem = (item) => {
   const row = document.createElement("li");
   row.className = "news-bullet-item";
 
-  const dot = document.createElement("span");
-  dot.className = "news-bullet-dot";
-  dot.setAttribute("aria-hidden", "true");
-
   const date = document.createElement("p");
   date.className = "news-bullet-date publication-meta-chip publication-type-chip type-label";
   date.textContent = entry.date || "";
@@ -15,7 +11,6 @@ const buildNewsItem = (item) => {
   content.className = "news-bullet-text type-body";
   content.innerHTML = renderNewsInline(entry);
 
-  row.appendChild(dot);
   row.appendChild(date);
   row.appendChild(content);
   return row;

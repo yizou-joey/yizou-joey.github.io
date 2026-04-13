@@ -82,9 +82,9 @@
   --type-subheading-large-line-height: 60px;
   --type-subheading-large-tracking: 0px;
 
-  --type-subheading-size: 26px;
-  --type-subheading-weight: 700;
-  --type-subheading-line-height: 31.98px;
+  --type-subheading-size: 32px;
+  --type-subheading-weight: 600;
+  --type-subheading-line-height: 34px;
   --type-subheading-tracking: 0px;
 
   --type-subheading-serif-size: 26px;
@@ -106,6 +106,10 @@
   --type-body-weight: 400;
   --type-body-line-height: 24px;
   --type-body-tracking: 0px;
+  --type-body-bio-size: 18px;
+  --type-body-bio-weight: 400;
+  --type-body-bio-line-height: 29px;
+  --type-body-bio-tracking: 0px;
 
   --type-nav-label-size: 15px;
   --type-nav-label-weight: 400;
@@ -359,6 +363,7 @@ body {
 .type-subheading,
 .type-body-large,
 .type-body-medium,
+.type-body-bio,
 .type-nav-label,
 .type-caption,
 .type-badge-micro {
@@ -411,6 +416,13 @@ body {
   font-weight: var(--type-body-medium-weight);
   line-height: var(--type-body-medium-line-height);
   letter-spacing: var(--type-body-medium-tracking);
+}
+
+.type-body-bio {
+  font-size: var(--type-body-bio-size);
+  font-weight: var(--type-body-bio-weight);
+  line-height: var(--type-body-bio-line-height);
+  letter-spacing: var(--type-body-bio-tracking);
 }
 
 .type-nav-label {

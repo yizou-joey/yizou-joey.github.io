@@ -128,9 +128,9 @@
   --space-section: clamp(24px, 2.4vw, 32px);
   --space-section-md: clamp(28px, 3vw, 36px);
   --space-section-py: var(--gap-32);
-  --space-section-between: 16px;
+  --space-section-between: 24px;
   --space-section-heading-content: 24px;
-  --space-section-list-gap: 24px;
+  --space-section-list-gap: 12px;
   --space-gutter-fluid: clamp(16px, 3vw, 32px);
   --space-col-gap-fluid: clamp(20px, 4vw, 56px);
   --space-col-gap-tight: clamp(14px, 2.5vw, 24px);
@@ -1004,6 +1004,15 @@ button.action-button-orb {
 
 .teaching-card {
   padding: 14px var(--space-card-inline);
+}
+
+/* Teaching/Services cards: keep visual state static (no hover/focus effects). */
+.teaching-services-card,
+.teaching-services-card:hover,
+.teaching-services-card:focus-within {
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none;
 }
 
 .education-timeline,

@@ -183,7 +183,7 @@ const buildNewsItem = (item) => {
 const buildTeachingItem = (item) => {
   const entry = item || {};
   const card = document.createElement("div");
-  card.className = "teaching-card card-surface radius-teaching section-aligned-card";
+  card.className = "teaching-card teaching-services-card card-surface radius-teaching section-aligned-card";
 
   const grid = document.createElement("div");
   grid.className =
@@ -203,6 +203,8 @@ const buildTeachingItem = (item) => {
   card.appendChild(grid);
   return card;
 };
+
+const buildServicesItem = (item) => buildTeachingItem(item);
 
 const compareByDateDesc = (a, b) => {
   const aTime = getDateSortValue(a?.date);
@@ -293,6 +295,20 @@ const renderTeachingSection = async () => {
   });
 };
 
+const renderServicesSection = async () => {
+  const servicesList = document.getElementById("services-list");
+  if (!servicesList) return;
+  await renderListSection({
+    url: "contents/services.md",
+    container: servicesList,
+    buildItem: buildServicesItem,
+    emptyMessage:
+      '<p class="type-body-sm text-muted">No services entries yet.</p>',
+    errorMessage:
+      '<p class="type-body-sm text-muted">Services unavailable.</p>',
+  });
+};
+
 const renderEducationSection = async () => {
   const educationList = document.getElementById("education-list");
   if (!educationList) return;
@@ -337,6 +353,7 @@ const renderBioSection = async () => {
 
 renderPublicationsSection();
 renderNewsSection();
+renderServicesSection();
 renderTeachingSection();
 renderEducationSection();
 renderBioSection();

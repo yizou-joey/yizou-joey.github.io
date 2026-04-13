@@ -502,10 +502,11 @@ const ensureSiteFooter = () => {
   footer.setAttribute("data-site-footer", "true");
 
   const inner = document.createElement("div");
-  inner.className = "site-footer-inner type-caption";
+  inner.className = "site-footer-inner";
 
   const year = new Date().getFullYear();
-  const footerText = document.createElement("span");
+  const footerText = document.createElement("p");
+  footerText.className = "site-footer-note";
   footerText.textContent = `© ${year} Yi ZOU. Powered by GitHub Pages.`;
 
   inner.appendChild(footerText);

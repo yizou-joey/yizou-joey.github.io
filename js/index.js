@@ -140,7 +140,17 @@ const renderBioSection = async () => {
       bioIntro.textContent = "";
       return;
     }
-    bioIntro.innerHTML = renderBioCopy(text);
+    const paragraphs = text
+      .split(/\n+/)
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => renderInlineMarkdown(line, { preserveLineBreaks: false }));
+
+    bioIntro.innerHTML = paragraphs
+      .map((paragraph, index) =>
+        `<span class="bio-paragraph${index > 0 ? " bio-paragraph--spaced" : ""}">${paragraph}</span>`
+      )
+      .join("");
   } catch {
     bioIntro.textContent = "Bio unavailable.";
   }

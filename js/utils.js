@@ -66,39 +66,24 @@ const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1<
 
 const applyInlineItalic = (html) => html.replace(italicMarkdownPattern, "<em>$1</em>");
 
-const applyInlineBreaks = (html) => html.replace(/\n/g, "<br />").replace(/\\n/g, "<br />");
+const applyInlineBreaks = (html, { breakClass = "" } = {}) => {
+  const classAttr = breakClass ? ` class="${breakClass}"` : "";
+  return html
+    .replace(/\n/g, `<br${classAttr} />`)
+    .replace(/\\n/g, `<br${classAttr} />`);
+};
 
-const renderInlineMarkdown = (value, { preserveLineBreaks = true } = {}) => {
+const renderInlineMarkdown = (
+  value,
+  { preserveLineBreaks = true, breakClass = "" } = {}
+) => {
   if (!value) return "";
   const escaped = escapeHtml(String(value));
   const withLinks = applyInlineLinks(escaped);
   const withBold = applyInlineBold(withLinks);
   const withItalic = applyInlineItalic(withBold);
   if (!preserveLineBreaks) return withItalic;
-  return applyInlineBreaks(withItalic);
-};
-
-const renderBioCopy = (value) => {
-  const text = String(value || "").trim();
-  if (!text) return "";
-
-  const segments = text
-    .split(/\n+/)
-    .map((segment) => segment.trim())
-    .filter(Boolean);
-
-  if (segments.length <= 1) {
-    return renderInlineMarkdown(text, { preserveLineBreaks: false });
-  }
-
-  return segments
-    .map(
-      (segment) =>
-        `<span class="bio-copy-segment">${renderInlineMarkdown(segment, {
-          preserveLineBreaks: false,
-        })}</span>`
-    )
-    .join("");
+  return applyInlineBreaks(withItalic, { breakClass });
 };
 
 const escapeRegExp = (value) => String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -517,7 +502,7 @@ const ensureSiteFooter = () => {
   footer.setAttribute("data-site-footer", "true");
 
   const inner = document.createElement("div");
-  inner.className = "site-footer-inner type-body-sm";
+  inner.className = "site-footer-inner type-caption";
 
   const year = new Date().getFullYear();
   const footerText = document.createElement("span");

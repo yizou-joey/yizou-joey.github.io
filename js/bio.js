@@ -173,7 +173,9 @@ const renderBioPageIntro = async () => {
       bioIntro.textContent = "";
       return;
     }
-    bioIntro.innerHTML = renderBioCopy(text);
+    bioIntro.innerHTML = renderInlineMarkdown(text, {
+      breakClass: "bio-paragraph-break",
+    });
   } catch {
     bioIntro.textContent = "Bio unavailable.";
   }

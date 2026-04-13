@@ -88,6 +88,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 ### Special Exception (Preserved)
 - `Display Hero` (`.type-title-hero`) and `Display Secondary` (`.type-title-hero-sub`) remain as the two serif identity levels.
 - They are intentionally outside the fixed Inter reading hierarchy, and are reserved for hero/identity moments only.
+- Current calibrated values for identity pairing: `Display Hero` stays at `64/63`, while `Display Secondary` is reduced to `44/45` for better optical balance beside the primary name lockup.
 
 ### Hierarchy (Current Tokens)
 
@@ -109,6 +110,7 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Type hierarchy follows fixed, Notion-like tiers for clarity and consistency.
 - Sub-heading family (`Large` / `Sans` / `Serif`) uses unified tracking (`normal`) for consistent rhythm across section-level titles.
 - Body family is split by purpose: `Body Large` for lead, `Body Medium` for emphasized utility text, `Body` for standard reading, `Bio Body` for the About intro paragraph.
+- About paragraph separation uses `--space-bio-paragraph-break` (currently `0.6em`) and must be applied on block-level paragraph wrappers (`.bio-paragraph--spaced`) rather than `<br>` margin hacks.
 - Publication ticket titles use `Body Large` instead of a separate card-title tier.
 - Typography notation in `design.html` is literal and maps 1:1 to CSS class values in `design-spec.css`.
 - Font feature settings are unified across all levels via `font-feature-settings: "kern" 1, "liga" 1, "clig" 1`.
@@ -131,6 +133,11 @@ This is not a dark cinematic product theater. It is a readable, warm, structured
 - Header section links use `aria-current="location"` to indicate the currently viewed section, synchronized as the user scrolls.
 - In-page section anchors keep a scroll offset so sticky header does not cover target headings.
 - Active page: ink text; inactive: muted gray.
+
+### About Intro Pairing
+- About intro desktop composition is a two-block layout: left block (`profile + contact`) and right block (`name lockup + bio`).
+- The two blocks must be vertically centered as peers (`about-layout` with `align-items: center`).
+- The right block (`about-block-right`) should center its own vertical stack so name lockup and bio read as one balanced unit against the profile block.
 
 ### Publication Ticket Card (Signature Component)
 - Two-zone structure on desktop: main content + right stub.

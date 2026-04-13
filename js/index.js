@@ -195,7 +195,7 @@ const buildTeachingItem = (item) => {
 
   const detail = document.createElement("span");
   detail.className =
-    "type-body text-muted sm:justify-self-end sm:text-right";
+    "teaching-item-detail text-muted sm:justify-self-end sm:text-right";
   detail.innerHTML = renderInlineMarkdown(entry.detail || "");
 
   grid.appendChild(role);

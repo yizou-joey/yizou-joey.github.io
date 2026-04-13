@@ -1006,6 +1006,15 @@ button.action-button-orb {
   padding: 14px var(--space-card-inline);
 }
 
+.teaching-item-detail {
+  font-family: var(--font-inter);
+  font-size: var(--type-caption-size);
+  font-feature-settings: var(--type-feature-sans);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-line-height);
+  letter-spacing: var(--type-caption-tracking);
+}
+
 /* Teaching/Services cards: keep visual state static (no hover/focus effects). */
 .teaching-services-card,
 .teaching-services-card:hover,

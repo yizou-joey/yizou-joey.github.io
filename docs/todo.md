@@ -1,8 +1,7 @@
 ## Essential
 
-- update the design language
-- summarize into DESIGN.md
-- unify the implementation based on design language
+- refine design language according to the current deployment
+- refine mobile layout
 
 ## Interesting
 

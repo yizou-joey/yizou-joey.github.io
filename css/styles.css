@@ -37,6 +37,8 @@
   --color-education-title: #1a2530;
   --color-education-subaffiliation: #3d5f84;
   --color-ieee-vr-blue: #262189;
+  --color-news-venue-accent: var(--color-ieee-vr-blue);
+  --color-venue-ieee-vr: var(--color-ieee-vr-blue);
   --color-transparent: transparent;
   --color-preview-elevation-shadow: rgba(15, 23, 42, 0.02);
 
@@ -1257,13 +1259,23 @@ button.action-button-orb {
 }
 
 .news-bullet-text strong {
-  color: var(--color-ust-blue);
+  color: inherit;
   font-weight: 600;
 }
 
-.news-bullet-text [data-venue="ieee-vr"] {
-  color: var(--color-ieee-vr-blue);
+.news-bullet-text .news-venue-token {
+  color: inherit;
   font-weight: 600;
+}
+
+.news-bullet-text .news-venue-link {
+  --news-venue-hover-color: var(--color-news-venue-accent);
+}
+
+.news-bullet-text .news-venue-link:hover,
+.news-bullet-text .news-venue-link:focus-visible {
+  color: var(--news-venue-hover-color);
+  text-decoration-color: var(--news-venue-hover-color);
 }
 
 @media (min-width: 768px) {

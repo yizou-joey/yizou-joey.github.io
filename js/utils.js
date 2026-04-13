@@ -101,18 +101,47 @@ const normalizeVenueKey = (entry) => {
   return "";
 };
 
+const CSS_COLOR_TOKEN_PATTERN = /^(#[0-9a-fA-F]{3,8}|(?:rgb|hsl)a?\([^)]+\)|var\(--[a-zA-Z0-9-_]+\)|[a-zA-Z]+)$/;
+
+const normalizeVenueAccent = (entry) => {
+  const accent = String(entry?.venueAccent || "").trim();
+  if (!accent) return "";
+  return CSS_COLOR_TOKEN_PATTERN.test(accent) ? accent : "";
+};
+
+const VENUE_KEY_PATTERN = /^[a-z0-9-]+$/;
+
+const getVenueAccentFromKey = (venueKey) => {
+  const normalizedKey = String(venueKey || "").trim().toLowerCase();
+  if (!VENUE_KEY_PATTERN.test(normalizedKey)) return "";
+  return `var(--color-venue-${normalizedKey}, var(--color-news-venue-accent))`;
+};
+
 const renderNewsInline = (entry) => {
   const sourceText = String(entry?.text || "");
   let html = renderInlineMarkdown(sourceText);
   const venueKey = normalizeVenueKey(entry);
   const venueText = String(entry?.venueText || entry?.venue || "").trim();
+  const venueUrl = String(entry?.venueUrl || "").trim();
+  const venueAccent = normalizeVenueAccent(entry) || getVenueAccentFromKey(venueKey);
 
   if (!venueKey || !venueText) return html;
 
   const venuePattern = new RegExp(escapeRegExp(venueText), "g");
+  const accentAttr = venueAccent
+    ? ` style="--news-venue-hover-color: ${escapeHtml(venueAccent)};"`
+    : "";
+
+  if (venueUrl) {
+    return html.replace(
+      venuePattern,
+      `<a href="${escapeHtml(venueUrl)}" class="inline-link news-venue-link news-venue-token" data-venue="${escapeHtml(venueKey)}"${accentAttr} target="_blank" rel="noopener noreferrer">${escapeHtml(venueText)}</a>`
+    );
+  }
+
   return html.replace(
     venuePattern,
-    `<span data-venue="${escapeHtml(venueKey)}">${escapeHtml(venueText)}</span>`
+    `<span class="news-venue-token" data-venue="${escapeHtml(venueKey)}"${accentAttr}>${escapeHtml(venueText)}</span>`
   );
 };
 

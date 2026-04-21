@@ -615,6 +615,7 @@ a {
   --note-gap-end: 0px;
   background: var(--color-white);
   color: var(--color-chip-text-muted);
+  font-size: var(--type-badge-micro-size);
   text-transform: none;
   font-weight: 400;
 }

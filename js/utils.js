@@ -414,7 +414,7 @@ const buildPublicationCard = (item) => {
   identityBadges.className = "publication-identity-badges";
 
   const typeChip = document.createElement("span");
-  typeChip.className = "publication-meta-chip publication-type-chip type-label";
+  typeChip.className = "badge publication-badge publication-type-badge type-label";
 
   const typeText = document.createElement("span");
   typeText.textContent = typeLabel;
@@ -445,18 +445,17 @@ const buildPublicationCard = (item) => {
   }
 
   const venue = document.createElement("div");
-  venue.className = "publication-meta-chip publication-venue-chip type-label";
+  venue.className = "badge publication-badge publication-venue-badge type-label";
   const venueKey = normalizeVenueKey(entry);
   const venueColor = String(entry.venueColor || "").trim();
   if (venueKey) {
     venue.dataset.venue = venueKey;
   } else if (venueColor) {
-    venue.style.backgroundColor = venueColor;
-    venue.style.borderColor = venueColor;
+    venue.style.setProperty("--badge-venue-color", venueColor);
   }
 
   const venueText = document.createElement("span");
-  venueText.className = "publication-venue-chip-text type-label";
+  venueText.className = "publication-venue-badge-text type-label";
   venueText.textContent = entry.venue || "";
   venue.appendChild(venueText);
 
@@ -471,11 +470,12 @@ const buildPublicationCard = (item) => {
 
   if (statusLabel) {
     const statusChip = document.createElement("span");
-    const statusVariantClass = awardLabel ? " publication-status-chip--award" : "";
-    statusChip.className = `publication-meta-chip publication-status-chip${statusVariantClass} type-label`;
+    statusChip.className = awardLabel
+      ? "badge publication-badge publication-status-badge award-badge type-label"
+      : "badge publication-badge publication-status-badge type-label";
 
     const statusText = document.createElement("span");
-    statusText.className = "publication-status-chip-text";
+    statusText.className = "publication-status-badge-text";
     statusText.textContent = statusLabel;
 
     statusChip.appendChild(statusText);

@@ -168,7 +168,7 @@ const buildNewsItem = (item) => {
   row.className = "news-bullet-item";
 
   const date = document.createElement("p");
-  date.className = "news-bullet-date publication-meta-chip publication-type-chip type-label";
+  date.className = "news-bullet-date badge news-badge type-label";
   date.textContent = entry.date || "";
 
   const content = document.createElement("p");

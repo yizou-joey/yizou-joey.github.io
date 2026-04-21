@@ -39,6 +39,10 @@
   --color-ieee-vr-blue: #262189;
   --color-news-venue-accent: var(--color-ieee-vr-blue);
   --color-venue-ieee-vr: var(--color-ieee-vr-blue);
+  --color-news-badge-text: rgb(13, 116, 229);
+  --color-news-badge-bg: rgb(240, 248, 255);
+  --color-award-badge-text: #E09D00;
+  --color-award-badge-bg: #FFF8E1;
   --color-transparent: transparent;
   --color-preview-elevation-shadow: rgba(15, 23, 42, 0.02);
 
@@ -142,6 +146,7 @@
   --space-card-inline-md: var(--gap-32);
   --space-action-block: var(--gap-6);
   --space-action-inline: var(--gap-12);
+  --space-badge-inline: 9px;
   --space-bio-paragraph-break: 0.6em;
 
   --radius-card: 24px;
@@ -576,7 +581,7 @@ a {
   border: 1px solid var(--color-border-warm);
   border-radius: var(--radius-badge);
   background: var(--color-surface-warm);
-  padding: 0 9px;
+  padding: 0 var(--space-badge-inline);
   color: var(--color-chip-text);
   text-transform: uppercase;
   white-space: nowrap;
@@ -586,8 +591,8 @@ a {
   --venue-color: var(--color-ust-blue);
   border: 1px solid var(--venue-color);
   background: var(--venue-color);
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: var(--space-badge-inline);
+  padding-right: var(--space-badge-inline);
   box-shadow: none;
 }
 
@@ -699,8 +704,8 @@ a {
 
 .publication-status-chip--award {
   border: 0;
-  background: var(--color-gold-vivid);
-  color: var(--color-gold-text-deep);
+  background: var(--color-award-badge-bg);
+  color: var(--color-award-badge-text);
 }
 
 .publication-status-chip-text {
@@ -1242,12 +1247,18 @@ button.action-button-orb {
 
 .news-bullet-date {
   margin: 0;
+  display: inline-flex;
+  border: 0;
   justify-self: start;
+  align-items: center;
   text-align: left;
   font-weight: 600;
-  color: var(--color-apple-blue);
-  border-color: var(--color-apple-blue);
-  background: #f7fbff;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-news-badge-text);
+  background: var(--color-news-badge-bg);
+  text-transform: none;
 }
 
 .news-bullet-text {

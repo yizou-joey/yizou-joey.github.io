@@ -273,11 +273,30 @@ a {
 
 .editorial-date-column {
   font-family: var(--font-serif-sc);
+  font-variant-numeric: oldstyle-nums;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 2px;
+}
+
+.editorial-date-end {
+  color: var(--color-ink);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.editorial-date-end.editorial-date-present {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.editorial-date-start {
   color: var(--color-muted);
   font-size: 15px;
-  line-height: var(--type-body-line-height);
-  font-variant-numeric: oldstyle-nums;
-  text-transform: capitalize;
+  font-style: italic;
+  line-height: 1.2;
 }
 
 .editorial-detail-column {
@@ -289,14 +308,28 @@ a {
   font-weight: 600;
   color: var(--color-ink);
   font-size: 18px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
 .editorial-item-subtitle {
   font-family: var(--font-serif-sc);
-  font-style: italic;
   color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.editorial-inst-name {
+  font-style: normal;
   font-size: 16px;
+  color: var(--color-ink);
+}
+
+.editorial-inst-sub {
+  font-style: italic;
+  font-size: 15px;
+  color: var(--color-muted);
 }
 
 .editorial-news-content {
@@ -320,13 +353,18 @@ a {
   justify-content: flex-end;
   align-items: flex-start;
   padding-top: 4px;
+  flex-shrink: 0;
+  width: 160px;
 }
 
 .editorial-education-logo {
-  height: 56px;
-  width: auto;
+  height: 72px;
+  width: 100%;
+  max-width: 160px;
+  object-fit: contain;
+  object-position: right top;
   opacity: 0.6;
-  filter: grayscale(100%);
+  filter: grayscale(100%) contrast(1.2);
   mix-blend-mode: multiply;
   transition: opacity 0.2s ease, filter 0.2s ease;
 }
@@ -369,6 +407,19 @@ a {
 
 .publication-eyebrow-venue {
   font-weight: 700;
+}
+
+.publication-eyebrow a {
+  text-decoration: none;
+  font-weight: normal;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.publication-eyebrow a:hover,
+.publication-eyebrow a:focus-visible {
+  font-weight: 700;
+  color: var(--hover-color, var(--color-ink));
 }
 
 .publication-title-serif {

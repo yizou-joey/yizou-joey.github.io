@@ -75,10 +75,22 @@ const buildEducationItem = (item) => {
   const dateColumn = document.createElement("div");
   dateColumn.className = "editorial-date-column";
   
+  const endDiv = document.createElement("div");
+  endDiv.className = "editorial-date-end";
+  
+  const labelLower = (endLabel || "").toLowerCase();
+  if (labelLower === "present" || labelLower.includes("至今")) {
+    endDiv.classList.add("editorial-date-present");
+  }
+  
+  endDiv.textContent = endLabel;
+  dateColumn.appendChild(endDiv);
+
   if (startLabel) {
-    dateColumn.textContent = `${startLabel} — ${endLabel}`;
-  } else {
-    dateColumn.textContent = endLabel;
+    const startDiv = document.createElement("div");
+    startDiv.className = "editorial-date-start";
+    startDiv.textContent = startLabel;
+    dateColumn.appendChild(startDiv);
   }
 
   const detailColumn = document.createElement("div");
@@ -95,15 +107,26 @@ const buildEducationItem = (item) => {
     preserveLineBreaks: false,
   });
 
-  const instParts = [entry.institution, entry.subAffiliation]
-    .filter((value) => normalizeInlineText(value).length)
-    .join(" — ");
-  
-  const institution = document.createElement("p");
+  const institution = document.createElement("div");
   institution.className = "editorial-item-subtitle";
-  institution.innerHTML = renderInlineMarkdown(instParts || "", {
-    preserveLineBreaks: false,
-  });
+
+  if (entry.institution) {
+    const instName = document.createElement("div");
+    instName.className = "editorial-inst-name";
+    instName.innerHTML = renderInlineMarkdown(entry.institution, {
+      preserveLineBreaks: false,
+    });
+    institution.appendChild(instName);
+  }
+
+  if (entry.subAffiliation) {
+    const subName = document.createElement("div");
+    subName.className = "editorial-inst-sub";
+    subName.innerHTML = renderInlineMarkdown(entry.subAffiliation, {
+      preserveLineBreaks: false,
+    });
+    institution.appendChild(subName);
+  }
 
   const logoSrc = normalizeInlineText(entry.logo || "");
   let logoColumn = null;
@@ -120,7 +143,7 @@ const buildEducationItem = (item) => {
   }
 
   detailColumn.appendChild(degree);
-  if (instParts) {
+  if (entry.institution || entry.subAffiliation) {
     detailColumn.appendChild(institution);
   }
 

@@ -425,10 +425,18 @@ const buildPublicationCard = (item) => {
 
   const eyebrowParts = [];
   eyebrowParts.push(venueSpan.outerHTML);
-  eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
+  
+  const typeLinkUrl = String(entry.typeLink || "").trim();
   
   if (type === "W" && workshopLabel) {
-    eyebrowParts.push(`<span>${escapeHtml(workshopLabel.toUpperCase())}</span>`);
+    if (typeLinkUrl) {
+      const linkColor = accent || venueColor || 'var(--color-ink)';
+      eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())} <span class="publication-eyebrow-separator" style="margin: 0 4px;">-</span> <a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link" style="--hover-color: ${escapeHtml(linkColor)};">${escapeHtml(workshopLabel.toUpperCase())}</a></span>`);
+    } else {
+      eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())} <span class="publication-eyebrow-separator" style="margin: 0 4px;">-</span> ${escapeHtml(workshopLabel.toUpperCase())}</span>`);
+    }
+  } else {
+    eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
   }
   
   if (statusLabel) {

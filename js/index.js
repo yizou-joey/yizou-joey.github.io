@@ -160,7 +160,11 @@ const buildNewsItem = (item) => {
 
   const date = document.createElement("div");
   date.className = "editorial-date-column";
-  date.textContent = entry.date || "";
+  
+  const startDiv = document.createElement("div");
+  startDiv.className = "editorial-date-start";
+  startDiv.textContent = entry.date || "";
+  date.appendChild(startDiv);
 
   const content = document.createElement("div");
   content.className = "editorial-news-content";
@@ -199,7 +203,11 @@ const buildTeachingItem = (item) => {
 
   const date = document.createElement("div");
   date.className = "editorial-date-column";
-  date.textContent = datePeriod;
+  
+  const startDiv = document.createElement("div");
+  startDiv.className = "editorial-date-start";
+  startDiv.textContent = datePeriod;
+  date.appendChild(startDiv);
 
   const content = document.createElement("div");
   content.className = "editorial-detail-column";
@@ -207,20 +215,98 @@ const buildTeachingItem = (item) => {
   const role = document.createElement("h3");
   role.className = "editorial-item-title";
   role.textContent = entry.role || "";
-
-  const detail = document.createElement("p");
-  detail.className = "editorial-item-subtitle";
-  detail.innerHTML = renderInlineMarkdown(entry.detail || "");
-
   content.appendChild(role);
-  content.appendChild(detail);
+
+  const detail = document.createElement("div");
+  detail.className = "editorial-item-subtitle";
+
+  if (entry.courseCode || entry.courseName) {
+    const courseBlock = document.createElement("div");
+    courseBlock.className = "editorial-inst-name";
+    
+    if (entry.courseCode) {
+        courseBlock.innerHTML += `<strong>${escapeHtml(entry.courseCode)}</strong>`;
+        if (entry.courseName) courseBlock.innerHTML += ` &mdash; `;
+    }
+    if (entry.courseName) courseBlock.innerHTML += `${escapeHtml(entry.courseName)}`;
+    
+    detail.appendChild(courseBlock);
+  } else if (entry.detail) {
+    const fallbackBlock = document.createElement("div");
+    fallbackBlock.className = "editorial-inst-name";
+    fallbackBlock.innerHTML = renderInlineMarkdown(entry.detail || "");
+    detail.appendChild(fallbackBlock);
+  }
+
+  if (entry.institution) {
+    const instBlock = document.createElement("div");
+    instBlock.className = "editorial-inst-sub";
+    instBlock.innerHTML = renderInlineMarkdown(entry.institution);
+    detail.appendChild(instBlock);
+  }
+  
+  if (detail.childNodes.length > 0) {
+    content.appendChild(detail);
+  }
 
   row.appendChild(date);
   row.appendChild(content);
   return row;
 };
 
-const buildServicesItem = (item) => buildTeachingItem(item);
+const buildServicesItem = (item) => {
+  const entry = item || {};
+  const row = document.createElement("div");
+  row.className = "editorial-grid-row";
+
+  const datePeriod = normalizeInlineText(entry.period) || normalizeInlineText(entry.year) || "";
+
+  const date = document.createElement("div");
+  date.className = "editorial-date-column";
+  
+  const startDiv = document.createElement("div");
+  startDiv.className = "editorial-date-start";
+  startDiv.textContent = datePeriod;
+  date.appendChild(startDiv);
+
+  const content = document.createElement("div");
+  content.className = "editorial-detail-column";
+
+  const role = document.createElement("h3");
+  role.className = "editorial-item-title";
+  role.textContent = entry.role || "";
+  content.appendChild(role);
+
+  const detail = document.createElement("div");
+  detail.className = "editorial-item-subtitle";
+
+  if (entry.event) {
+    const eventBlock = document.createElement("div");
+    eventBlock.className = "editorial-inst-name";
+    eventBlock.innerHTML = renderInlineMarkdown(entry.event);
+    detail.appendChild(eventBlock);
+  } else if (entry.detail) {
+    const fallbackBlock = document.createElement("div");
+    fallbackBlock.className = "editorial-inst-name";
+    fallbackBlock.innerHTML = renderInlineMarkdown(entry.detail || "");
+    detail.appendChild(fallbackBlock);
+  }
+
+  if (entry.location) {
+    const locationBlock = document.createElement("div");
+    locationBlock.className = "editorial-inst-sub";
+    locationBlock.innerHTML = renderInlineMarkdown(entry.location);
+    detail.appendChild(locationBlock);
+  }
+  
+  if (detail.childNodes.length > 0) {
+    content.appendChild(detail);
+  }
+
+  row.appendChild(date);
+  row.appendChild(content);
+  return row;
+};
 
 const compareByDateDesc = (a, b) => {
   const aTime = getDateSortValue(a?.date);

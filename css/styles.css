@@ -254,6 +254,7 @@ a {
   .editorial-grid-row {
     grid-template-columns: 140px 1fr;
     gap: 32px;
+    align-items: start;
   }
 }
 
@@ -324,6 +325,10 @@ a {
   font-style: normal;
   font-size: 16px;
   color: var(--color-ink);
+}
+
+.editorial-inst-name strong {
+  font-weight: 600;
 }
 
 .editorial-inst-sub {
@@ -1025,7 +1030,6 @@ button.action-button-orb {
 
 .editorial-news-content {
   margin: 0;
-  grid-column: 2;
   min-width: 0;
   color: var(--color-ink);
   text-wrap: pretty;

@@ -290,28 +290,42 @@ a {
 }
 
 .editorial-logo-column {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  display: grid;
+  grid-template-areas: "logo";
+  align-items: start;
+  justify-items: end;
   padding-top: 4px;
   flex-shrink: 0;
   width: 160px;
 }
 
-.editorial-education-logo {
+.editorial-education-logo-mono,
+.editorial-education-logo-color {
+  grid-area: logo;
   height: 72px;
   width: 100%;
   max-width: 160px;
   object-fit: contain;
   object-position: right top;
-  opacity: 0.6;
-  filter: grayscale(100%) contrast(1.2);
-  mix-blend-mode: multiply;
-  transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
-.editorial-education-logo:hover {
-  filter: grayscale(0%);
+.editorial-education-logo-mono {
+  opacity: 0.85;
+  filter: grayscale(100%) brightness(80%) contrast(200%);
+  transition: opacity 0.35s ease-in-out;
+}
+
+.editorial-education-logo-color {
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out;
+  pointer-events: none;
+}
+
+.editorial-logo-column:hover .editorial-education-logo-mono {
+  opacity: 0;
+}
+
+.editorial-logo-column:hover .editorial-education-logo-color {
   opacity: 1;
 }
 

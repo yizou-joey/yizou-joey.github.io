@@ -133,13 +133,24 @@ const buildEducationItem = (item) => {
   if (logoSrc) {
     logoColumn = document.createElement("div");
     logoColumn.className = "editorial-logo-column";
-    const logo = document.createElement("img");
-    logo.className = "editorial-education-logo";
-    logo.src = encodeURI(logoSrc);
-    logo.alt = normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`);
-    logo.loading = "lazy";
-    logo.decoding = "async";
-    logoColumn.appendChild(logo);
+    
+    // Create base monochrome logo
+    const logoMono = document.createElement("img");
+    logoMono.className = "editorial-education-logo-mono";
+    logoMono.src = encodeURI(logoSrc);
+    logoMono.alt = "";
+    logoMono.loading = "lazy";
+    logoMono.decoding = "async";
+    logoColumn.appendChild(logoMono);
+    
+    // Create hover color logo overlay
+    const logoColor = document.createElement("img");
+    logoColor.className = "editorial-education-logo-color";
+    logoColor.src = encodeURI(logoSrc);
+    logoColor.alt = normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`);
+    logoColor.loading = "lazy";
+    logoColor.decoding = "async";
+    logoColumn.appendChild(logoColor);
   }
 
   detailColumn.appendChild(degree);

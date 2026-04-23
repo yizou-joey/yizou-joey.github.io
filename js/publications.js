@@ -11,7 +11,7 @@ const buildYearSection = (year, items) => {
   header.appendChild(title);
 
   const list = document.createElement("div");
-  list.className = "flex w-full flex-col items-center gap-[30px]";
+  list.className = "flex w-full flex-col items-center";
   items.forEach((item) => list.appendChild(buildPublicationCard(item)));
 
   section.appendChild(header);

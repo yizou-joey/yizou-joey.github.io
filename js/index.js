@@ -53,7 +53,7 @@ const buildEducationItem = (item) => {
   const entry = item || {};
 
   const node = document.createElement("article");
-  node.className = "education-timeline-vertical-item";
+  node.className = "editorial-education-row";
 
   const splitPeriod = (value) => {
     const text = normalizeInlineText(value || "");
@@ -71,109 +71,96 @@ const buildEducationItem = (item) => {
   const periodInfo = splitPeriod(entry.period || "");
   const endLabel = formatEducationPeriodLabel(periodInfo.end || entry.period || "");
   const startLabel = formatEducationPeriodLabel(periodInfo.start || "");
-  const isCurrent = /present/i.test(endLabel);
 
-  const period = document.createElement("div");
-  period.className = "education-timeline-vertical-period";
-
-  const periodEnd = document.createElement("span");
-  periodEnd.className = "education-timeline-vertical-date";
-  periodEnd.textContent = endLabel;
-  if (isCurrent) {
-    periodEnd.classList.add("is-current");
-    node.classList.add("is-current");
-  }
-
-  period.appendChild(periodEnd);
-
+  const dateColumn = document.createElement("div");
+  dateColumn.className = "editorial-date-column";
+  
   if (startLabel) {
-    const periodStart = document.createElement("span");
-    periodStart.className = "education-timeline-vertical-date-secondary";
-    periodStart.textContent = startLabel;
-    period.appendChild(periodStart);
+    dateColumn.textContent = `${startLabel} — ${endLabel}`;
+  } else {
+    dateColumn.textContent = endLabel;
   }
 
-  const track = document.createElement("div");
-  track.className = "education-timeline-vertical-track";
-  track.setAttribute("aria-hidden", "true");
-
-  const nodeDot = document.createElement("div");
-  nodeDot.className = `education-timeline-vertical-node${isCurrent ? " is-active" : ""}`;
-
-  const line = document.createElement("div");
-  line.className = "education-timeline-vertical-line";
-
-  track.appendChild(nodeDot);
-  track.appendChild(line);
+  const detailColumn = document.createElement("div");
+  detailColumn.className = "editorial-detail-column";
 
   const summaryParts = [entry.degree, entry.major].filter(
     (value) => normalizeInlineText(value).length
   );
-
   const titleText = summaryParts.join(", ");
 
-  const center = document.createElement("div");
-  center.className = "education-timeline-vertical-content";
-
-  const title = document.createElement("h3");
-  title.className = "education-timeline-vertical-title";
-  title.innerHTML = renderInlineMarkdown(titleText || entry.institution || "", {
+  const degree = document.createElement("h3");
+  degree.className = "editorial-item-title";
+  degree.innerHTML = renderInlineMarkdown(titleText || entry.institution || "", {
     preserveLineBreaks: false,
   });
 
-  const subAffiliation = document.createElement("p");
-  subAffiliation.className = "education-timeline-vertical-sub";
-  subAffiliation.innerHTML = renderInlineMarkdown(entry.subAffiliation || "", {
+  const instParts = [entry.institution, entry.subAffiliation]
+    .filter((value) => normalizeInlineText(value).length)
+    .join(" — ");
+  
+  const institution = document.createElement("p");
+  institution.className = "editorial-item-subtitle";
+  institution.innerHTML = renderInlineMarkdown(instParts || "", {
     preserveLineBreaks: false,
   });
-
-  const affiliation = document.createElement("p");
-  affiliation.className = "education-timeline-vertical-affiliation";
-  affiliation.innerHTML = renderInlineMarkdown(entry.institution || "", {
-    preserveLineBreaks: false,
-  });
-
-  center.appendChild(title);
-  if (affiliation.textContent) {
-    center.appendChild(affiliation);
-  }
-  if (subAffiliation.textContent) {
-    center.appendChild(subAffiliation);
-  }
 
   const logoSrc = normalizeInlineText(entry.logo || "");
-  const logoWrap = document.createElement("div");
-  logoWrap.className = "education-timeline-vertical-logo-wrap";
-
+  let logoColumn = null;
   if (logoSrc) {
+    logoColumn = document.createElement("div");
+    logoColumn.className = "editorial-logo-column";
     const logo = document.createElement("img");
-    logo.className = "education-timeline-vertical-logo";
+    logo.className = "editorial-education-logo";
     logo.src = encodeURI(logoSrc);
     logo.alt = normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`);
     logo.loading = "lazy";
     logo.decoding = "async";
-    logoWrap.appendChild(logo);
+    logoColumn.appendChild(logo);
   }
 
-  node.appendChild(period);
-  node.appendChild(track);
-  node.appendChild(center);
-  node.appendChild(logoWrap);
+  detailColumn.appendChild(degree);
+  if (instParts) {
+    detailColumn.appendChild(institution);
+  }
+
+  node.appendChild(dateColumn);
+  node.appendChild(detailColumn);
+  if (logoColumn) node.appendChild(logoColumn);
   return node;
 };
 
 const buildNewsItem = (item) => {
   const entry = item || {};
   const row = document.createElement("li");
-  row.className = "news-bullet-item";
+  row.className = "editorial-grid-row";
 
-  const date = document.createElement("p");
-  date.className = "news-bullet-date badge news-badge type-label";
+  const date = document.createElement("div");
+  date.className = "editorial-date-column";
   date.textContent = entry.date || "";
 
-  const content = document.createElement("p");
-  content.className = "news-bullet-text type-body";
-  content.innerHTML = renderNewsInline(entry);
+  const content = document.createElement("div");
+  content.className = "editorial-news-content";
+  
+  const awardLabel = normalizeInlineText(entry.award);
+  if (awardLabel) {
+    const badge = document.createElement("strong");
+    badge.className = "editorial-news-badge";
+    badge.textContent = awardLabel;
+    badge.style.color = "var(--color-award-badge-text)";
+    
+    // We append the badge before the inner HTML content.
+    // However, the innerHTML could have p tags depending on parsing, 
+    // but renderNewsInline returns inline HTML.
+    content.appendChild(badge);
+    
+    // Create a span for the rest of the text so innerHTML doesn't overwrite the badge
+    const textSpan = document.createElement("span");
+    textSpan.innerHTML = renderNewsInline(entry);
+    content.appendChild(textSpan);
+  } else {
+    content.innerHTML = renderNewsInline(entry);
+  }
 
   row.appendChild(date);
   row.appendChild(content);
@@ -182,26 +169,32 @@ const buildNewsItem = (item) => {
 
 const buildTeachingItem = (item) => {
   const entry = item || {};
-  const card = document.createElement("div");
-  card.className = "teaching-card teaching-services-card card-surface radius-teaching section-aligned-card";
+  const row = document.createElement("div");
+  row.className = "editorial-grid-row";
 
-  const grid = document.createElement("div");
-  grid.className =
-    "grid w-full grid-cols-1 items-center gap-2 sm:grid-cols-[170px_1fr] sm:gap-3";
+  const datePeriod = normalizeInlineText(entry.period) || normalizeInlineText(entry.year) || "";
 
-  const role = document.createElement("span");
-  role.className = "type-title-minor";
+  const date = document.createElement("div");
+  date.className = "editorial-date-column";
+  date.textContent = datePeriod;
+
+  const content = document.createElement("div");
+  content.className = "editorial-detail-column";
+
+  const role = document.createElement("h3");
+  role.className = "editorial-item-title";
   role.textContent = entry.role || "";
 
-  const detail = document.createElement("span");
-  detail.className =
-    "teaching-item-detail text-muted sm:justify-self-end sm:text-right";
+  const detail = document.createElement("p");
+  detail.className = "editorial-item-subtitle";
   detail.innerHTML = renderInlineMarkdown(entry.detail || "");
 
-  grid.appendChild(role);
-  grid.appendChild(detail);
-  card.appendChild(grid);
-  return card;
+  content.appendChild(role);
+  content.appendChild(detail);
+
+  row.appendChild(date);
+  row.appendChild(content);
+  return row;
 };
 
 const buildServicesItem = (item) => buildTeachingItem(item);

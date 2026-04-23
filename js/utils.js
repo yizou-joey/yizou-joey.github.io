@@ -397,127 +397,73 @@ const buildPublicationCard = (item) => {
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
-  const publicationTypeLink = String(entry.typeLink || entry.workshopUrl || "").trim();
+  
   const article = document.createElement("article");
-  article.className = "card-surface radius-card publication-ticket";
+  article.className = "editorial-publication-item";
 
-  const main = document.createElement("div");
-  main.className = "publication-ticket-main";
+  const eyebrow = document.createElement("div");
+  eyebrow.className = "publication-eyebrow";
 
-  const container = document.createElement("div");
-  container.className = "publication-ticket-content";
-
-  const identityStrip = document.createElement("div");
-  identityStrip.className = "publication-identity-strip";
-
-  const identityBadges = document.createElement("div");
-  identityBadges.className = "publication-identity-badges";
-
-  const typeChip = document.createElement("span");
-  typeChip.className = "badge publication-badge publication-type-badge type-label";
-
-  const typeText = document.createElement("span");
-  typeText.textContent = typeLabel;
-  typeChip.appendChild(typeText);
-
-  if (type === "W" && workshopLabel) {
-    const divider = document.createElement("span");
-    divider.className = "publication-type-divider";
-    divider.setAttribute("aria-hidden", "true");
-    typeChip.appendChild(divider);
-
-    const note = buildPublicationTypeLabelNode({
-      label: workshopLabel,
-      href: publicationTypeLink,
-    });
-    typeChip.appendChild(note);
-  } else {
-    const typeTextNode = document.createElement(publicationTypeLink ? "a" : "span");
-    typeTextNode.textContent = typeLabel;
-    if (publicationTypeLink) {
-      typeTextNode.className = "publication-type-note publication-type-note-link";
-      typeTextNode.href = publicationTypeLink;
-      typeTextNode.target = "_blank";
-      typeTextNode.rel = "noopener noreferrer";
-    }
-
-    typeChip.replaceChildren(typeTextNode);
-  }
-
-  const venue = document.createElement("div");
-  venue.className = "badge publication-badge publication-venue-badge type-label";
+  // Venue
+  const venueSpan = document.createElement("span");
+  venueSpan.className = "publication-eyebrow-venue";
+  venueSpan.textContent = entry.venue || "";
   const venueKey = normalizeVenueKey(entry);
   const venueColor = String(entry.venueColor || "").trim();
-  if (venueKey) {
-    venue.dataset.venue = venueKey;
+  const accent = normalizeVenueAccent(entry) || getVenueAccentFromKey(venueKey);
+  
+  if (accent) {
+    venueSpan.style.color = accent;
   } else if (venueColor) {
-    venue.style.setProperty("--badge-venue-color", venueColor);
+    venueSpan.style.color = venueColor;
   }
-
-  const venueText = document.createElement("span");
-  venueText.className = "publication-venue-badge-text type-label";
-  venueText.textContent = entry.venue || "";
-  venue.appendChild(venueText);
-
-  identityBadges.appendChild(venue);
-
+  
+  // Status / Award
   const awardLabel = normalizeInlineText(entry.award);
   const fallbackStatusLabel = normalizeInlineText(entry.status);
   const statusLabel = awardLabel || fallbackStatusLabel;
-  identityStrip.appendChild(identityBadges);
 
-  identityBadges.appendChild(typeChip);
-
-  if (statusLabel) {
-    const statusChip = document.createElement("span");
-    statusChip.className = awardLabel
-      ? "badge publication-badge publication-status-badge award-badge type-label"
-      : "badge publication-badge publication-status-badge type-label";
-
-    const statusText = document.createElement("span");
-    statusText.className = "publication-status-badge-text";
-    statusText.textContent = statusLabel;
-
-    statusChip.appendChild(statusText);
-    identityBadges.appendChild(statusChip);
+  const eyebrowParts = [];
+  eyebrowParts.push(venueSpan.outerHTML);
+  eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
+  
+  if (type === "W" && workshopLabel) {
+    eyebrowParts.push(`<span>${escapeHtml(workshopLabel.toUpperCase())}</span>`);
   }
+  
+  if (statusLabel) {
+    eyebrowParts.push(`<span style="${awardLabel ? 'color: var(--color-award-badge-text); font-weight: 700;' : ''}">${escapeHtml(statusLabel.toUpperCase())}</span>`);
+  }
+
+  eyebrow.innerHTML = eyebrowParts.join('<span class="publication-eyebrow-separator">|</span>');
+  article.appendChild(eyebrow);
 
   const title = document.createElement("h3");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  title.className = "publication-title type-body-large";
+  title.className = "publication-title-serif";
   title.innerHTML = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
+  article.appendChild(title);
 
   const authors = document.createElement("p");
-  authors.className = "publication-authors type-body";
+  authors.className = "publication-authors-serif";
   authors.innerHTML = renderAuthors(entry.authors || "");
+  article.appendChild(authors);
 
   const supplements = getPublicationSupplementLinks(entry);
-
-  container.appendChild(identityStrip);
-  container.appendChild(title);
-  container.appendChild(authors);
-
-  main.appendChild(container);
-  article.appendChild(main);
-
   if (supplements.length) {
-    const stub = document.createElement("aside");
-    stub.className = "publication-ticket-stub";
-
-    const stack = document.createElement("div");
-    const stackStateClass =
-      supplements.length === 1
-        ? " is-single"
-        : supplements.length === 2
-          ? " is-pair"
-          : "";
-    stack.className = `publication-ticket-stub-stack${stackStateClass}`;
-    supplements.forEach((supplement) => stack.appendChild(buildSupplementChip(supplement)));
-
-    stub.appendChild(stack);
-    article.appendChild(stub);
+    const linksDiv = document.createElement("div");
+    linksDiv.className = "publication-bracket-links";
+    supplements.forEach((supplement) => {
+      const link = document.createElement("a");
+      link.href = supplement.href;
+      link.textContent = `[${supplement.label} ↗]`;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      linksDiv.appendChild(link);
+    });
+    article.appendChild(linksDiv);
   }
 
   return article;

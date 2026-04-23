@@ -12,7 +12,7 @@ const buildYearSection = (year, items) => {
 
   const list = document.createElement("div");
   list.className = "flex w-full flex-col items-center";
-  items.forEach((item) => list.appendChild(buildPublicationCard(item)));
+  items.forEach((item) => list.appendChild(buildPublicationItem(item)));
 
   section.appendChild(header);
   section.appendChild(list);

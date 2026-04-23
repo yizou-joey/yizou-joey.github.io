@@ -285,48 +285,39 @@ const PUBLICATION_SUPPLEMENT_FIELDS = [
   {
     key: "paperUrl",
     label: "Paper",
-    iconPath: "files/icons/pdf.svg",
   },
   {
     key: "youtubeUrl",
     label: "Video",
     customLabelKey: "youtubeLabel",
-    iconPath: "files/icons/youtube.svg",
   },
   {
     key: "videoUrl",
     label: "Video",
-    iconPath: "files/icons/youtube.svg",
   },
   {
     key: "demoUrl",
     label: "Demo",
-    iconPath: "files/icons/youtube.svg",
   },
   {
     key: "arxivUrl",
     label: "arXiv",
-    iconPath: "files/icons/arxiv.svg",
   },
   {
     key: "pdfUrl",
     label: "PDF",
-    iconPath: "files/icons/pdf.svg",
   },
   {
     key: "slidesUrl",
     label: "Slides",
-    iconPath: "files/icons/slides.svg",
   },
   {
     key: "posterUrl",
     label: "Poster",
-    iconPath: "files/icons/poster.svg",
   },
   {
     key: "codeUrl",
     label: "Code",
-    iconPath: "files/icons/github.svg",
   },
 ];
 
@@ -341,58 +332,11 @@ const getPublicationSupplementLinks = (entry) =>
     acc.push({
       href,
       label: customLabel || field.label,
-      iconPath: field.iconPath,
     });
     return acc;
   }, []);
 
-const buildSupplementChip = ({ href, label, iconPath }) => {
-  const link = document.createElement("a");
-  link.className = "publication-resource-action type-nav-label";
-  link.href = href;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-
-  const icon = document.createElement("img");
-  icon.src = iconPath;
-  icon.alt = "";
-  icon.loading = "lazy";
-  icon.decoding = "async";
-  icon.width = iconPath.includes("youtube.svg") ? 16 : 14;
-  icon.height = iconPath.includes("youtube.svg") ? 16 : 14;
-  icon.setAttribute("aria-hidden", "true");
-  const isYouTube = iconPath.includes("youtube.svg");
-  icon.className = isYouTube
-    ? "publication-resource-icon is-youtube"
-    : "publication-resource-icon";
-
-  const text = document.createElement("span");
-  text.className = "publication-resource-text";
-  text.textContent = label;
-
-  link.appendChild(icon);
-  link.appendChild(text);
-  return link;
-};
-
-const buildPublicationTypeLabelNode = ({ label, href }) => {
-  if (!href) {
-    const text = document.createElement("span");
-    text.className = "publication-type-note";
-    text.textContent = label;
-    return text;
-  }
-
-  const link = document.createElement("a");
-  link.className = "publication-type-note publication-type-note-link";
-  link.href = href;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
-  link.textContent = label;
-  return link;
-};
-
-const buildPublicationCard = (item) => {
+const buildPublicationItem = (item) => {
   const entry = item || {};
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";

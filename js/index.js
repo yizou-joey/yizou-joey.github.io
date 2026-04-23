@@ -360,7 +360,7 @@ const renderPublicationsSection = async () => {
     renderItems({
       container: publicationsList,
       items: selectedItems,
-      buildItem: buildPublicationCard,
+      buildItem: buildPublicationItem,
     });
   } catch {
     renderError(

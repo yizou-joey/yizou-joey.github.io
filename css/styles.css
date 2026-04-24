@@ -403,11 +403,35 @@ a {
 }
 
 .publication-bracket-links a {
+  position: relative;
+  display: inline-block;
   color: var(--color-gold-dark);
+  text-decoration: none;
 }
 
-.publication-bracket-links a:hover {
-  text-decoration: underline;
+.publication-bracket-links a::after,
+.publication-resource-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+.publication-bracket-links a:hover::after,
+.publication-bracket-links a:focus-visible::after,
+.publication-resource-action:hover .publication-resource-text::after,
+.publication-resource-action:focus-visible .publication-resource-text::after {
+  opacity: 0.9;
+  transform: scaleX(1);
 }
 
 .font-inter {
@@ -768,6 +792,8 @@ button.action-button-orb {
 }
 
 .publication-resource-text {
+  position: relative;
+  display: inline-block;
   min-width: 0;
   text-align: center;
 }

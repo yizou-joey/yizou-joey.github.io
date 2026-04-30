@@ -306,7 +306,7 @@ a {
   width: 100%;
   max-width: 160px;
   object-fit: contain;
-  object-position: right top;
+  object-position: center;
 }
 
 .editorial-education-logo-mono {

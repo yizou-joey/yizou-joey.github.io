@@ -180,26 +180,7 @@ const buildNewsItem = (item) => {
 
   const content = document.createElement("div");
   content.className = "editorial-news-content";
-  
-  const awardLabel = normalizeInlineText(entry.award);
-  if (awardLabel) {
-    const badge = document.createElement("strong");
-    badge.className = "editorial-news-badge";
-    badge.textContent = awardLabel;
-    badge.style.color = "var(--color-award-badge-text)";
-    
-    // We append the badge before the inner HTML content.
-    // However, the innerHTML could have p tags depending on parsing, 
-    // but renderNewsInline returns inline HTML.
-    content.appendChild(badge);
-    
-    // Create a span for the rest of the text so innerHTML doesn't overwrite the badge
-    const textSpan = document.createElement("span");
-    textSpan.innerHTML = renderNewsInline(entry);
-    content.appendChild(textSpan);
-  } else {
-    content.innerHTML = renderNewsInline(entry);
-  }
+  content.innerHTML = renderNewsInline(entry);
 
   row.appendChild(date);
   row.appendChild(content);

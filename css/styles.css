@@ -304,15 +304,6 @@ a {
   line-height: var(--type-body-line-height);
 }
 
-.editorial-news-badge {
-  font-family: var(--font-serif-sc);
-  font-weight: 700;
-  margin-right: 6px;
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
 .editorial-logo-column {
   display: grid;
   grid-template-areas: "logo";
@@ -994,6 +985,11 @@ button.publication-resource-action {
 .editorial-news-content .news-venue-token {
   color: inherit;
   font-weight: 600;
+}
+
+.editorial-news-content .news-award-token {
+  color: var(--color-award-badge-text);
+  font-weight: 700;
 }
 
 .editorial-news-content .news-venue-link {

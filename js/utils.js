@@ -120,6 +120,16 @@ const getVenueAccentFromKey = (venueKey) => {
 const renderNewsInline = (entry) => {
   const sourceText = String(entry?.text || "");
   let html = renderInlineMarkdown(sourceText);
+
+  const awardText = String(entry?.award || entry?.awardText || "").trim();
+  if (awardText) {
+    const awardPattern = new RegExp(escapeRegExp(awardText), "g");
+    html = html.replace(
+      awardPattern,
+      `<span class="news-award-token">${escapeHtml(awardText)}</span>`
+    );
+  }
+
   const venueKey = normalizeVenueKey(entry);
   const venueText = String(entry?.venueText || entry?.venue || "").trim();
   const venueUrl = String(entry?.venueUrl || "").trim();

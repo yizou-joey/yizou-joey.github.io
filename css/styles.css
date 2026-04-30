@@ -616,25 +616,46 @@ a {
   margin-top: var(--space-bio-paragraph-break);
 }
 
-/* Editorial research-keywords banner shown beneath the bio paragraph.
-   Phrases stay intact (nowrap) and use asymmetric horizontal offsets so
-   that, on wrap, lines do not perfectly left-align — echoing the
-   editorial reference. Width auto-matches the bio column. */
+/* === RESEARCH INTERESTS BANNER ===============================================
+   Designed to mirror the rest of the site's section-heading vocabulary:
+   - The label uses the existing `.type-title-section` token (same uppercase
+     14px Inter at 0.1em tracking used by every other section title).
+   - A single hairline `border-bottom` under the label echoes the
+     `.section-heading-row` rule used elsewhere, so the banner reads as
+     a miniature, embedded section rather than a foreign component.
+   - Phrases sit in italic Noto Serif SC at the bio size to differentiate
+     from the upright bio prose while keeping the family/scale cohesive.
+   - Asymmetric per-item left/right margins keep the editorial uneven
+     rhythm shown in the reference image. */
 .bio-stack {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 28px;
+}
+
+.bio-keywords-banner {
+  display: block;
+}
+
+.bio-keywords-heading {
+  /* Subtle hairline division replacing the former section label.
+     Thinner, lower-contrast, and short-margined so it reads as a
+     quiet separator rather than a heading underline. */
+  border-top: 1px solid var(--color-border-warm);
+  opacity: 0.6;
+  margin-bottom: 14px;
 }
 
 .bio-keywords {
   font-family: var(--font-serif-sc);
   font-feature-settings: var(--type-feature-serif);
-  font-size: 21px;
+  font-size: var(--type-body-bio-size);
+  font-style: italic;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--color-ink);
-  /* Negative right margin absorbs the trailing margin of the last child
-     so total banner width equals the bio paragraph. */
+  /* Negative right margin absorbs trailing margin so total width
+     visually matches the bio paragraph column. */
   margin-right: -2.4em;
   text-align: left;
 }
@@ -642,21 +663,21 @@ a {
 .bio-keyword {
   display: inline-block;
   white-space: nowrap;
-  /* Default inter-phrase blank; overridden per-item below for editorial rhythm. */
   margin-right: 2.4em;
 }
 
 .bio-keyword--1 {
-  margin-left: 0.4em;
+  margin-left: 0;
   margin-right: 3em;
 }
 
 .bio-keyword--2 {
-  margin-right: 2em;
+  margin-left: 0.4em;
+  margin-right: 2.2em;
 }
 
 .bio-keyword--3 {
-  margin-left: 1.4em;
+  margin-left: 1.6em;
   margin-right: 2.6em;
 }
 
@@ -672,6 +693,9 @@ a {
   .bio-keyword {
     margin-left: 0 !important;
     margin-right: 1.4em !important;
+  }
+  .bio-keywords-heading {
+    text-align: center;
   }
 }
 
@@ -911,6 +935,68 @@ button.publication-resource-action {
 /* Reduced-motion: skip animation, keep the sticker visible in color */
 @media (prefers-reduced-motion: reduce) {
   .news-mascot-sticker {
+    transition: none !important;
+    transform: translateZ(0) rotate(-4deg) !important;
+  }
+}
+
+/* === SERVICE LOGO STICKER ====================================================
+   The sticker silhouette (white paper pad + thin gray outline + recolored
+   gray artwork) is pre-baked into the PNG via the ImageMagick recipe in
+   docs/sticker-logo-recipe.md. CSS only adds the lift shadow + hover
+   interaction — no invert/opacity/filter-chain on the artwork itself. */
+.service-logo-column {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  /* Wide enough to accommodate the skyline logo's ~1.9:1 aspect ratio
+     plus the baked-in white pad + outline + tilt overflow. */
+  width: 132px;
+  padding-right: 4px;
+}
+
+.service-logo-sticker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Match the source PNG aspect ratio (1024 × 539 ≈ 1.9 : 1). */
+  width: 116px;
+  height: 61px;
+
+  /* Two-shadow lift — neutral gray tint to match the warm paper bg. */
+  filter:
+    drop-shadow(0 1px 1.5px rgba(60, 56, 50, 0.10))
+    drop-shadow(0 4px 8px rgba(60, 56, 50, 0.12));
+
+  transform: translateZ(0) rotate(-4deg);
+  transform-origin: center;
+  transition:
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+
+.service-logo-sticker:hover {
+  transform: translateZ(0) rotate(-6deg) scale(1.08);
+  filter:
+    drop-shadow(0 2px 3px rgba(60, 56, 50, 0.18))
+    drop-shadow(0 8px 14px rgba(60, 56, 50, 0.22));
+}
+
+.service-logo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  image-rendering: smooth;
+  -ms-interpolation-mode: bicubic;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-logo-sticker {
     transition: none !important;
     transform: translateZ(0) rotate(-4deg) !important;
   }

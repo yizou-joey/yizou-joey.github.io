@@ -316,6 +316,31 @@ const buildServicesItem = (item) => {
 
   row.appendChild(date);
   row.appendChild(content);
+
+  if (entry.logo) {
+    const logoCol = document.createElement("div");
+    logoCol.className = "service-logo-column";
+
+    const sticker = document.createElement("div");
+    sticker.className = "service-logo-sticker";
+
+    const img = document.createElement("img");
+    img.className = "service-logo-img";
+    img.src = entry.logo;
+    img.alt = entry.logoAlt || `${entry.event || "Event"} logo`;
+    img.loading = "lazy";
+    img.decoding = "async";
+    // Match the rendered CSS size (matches the .news-mascot-sticker
+    // recipe). The browser still downscales from the high-res source
+    // PNG using its best-quality resampler.
+    img.width = 100;
+    img.height = 53;
+
+    sticker.appendChild(img);
+    logoCol.appendChild(sticker);
+    row.appendChild(logoCol);
+  }
+
   return row;
 };
 

@@ -1,28 +1,28 @@
 const MONTH_SHORT_LABEL = {
-  january: "Jan",
-  february: "Feb",
-  march: "Mar",
-  april: "Apr",
+  january: "Jan.",
+  february: "Feb.",
+  march: "Mar.",
+  april: "Apr.",
   may: "May",
-  june: "Jun",
-  july: "Jul",
-  august: "Aug",
-  september: "Sep",
-  october: "Oct",
-  november: "Nov",
-  december: "Dec",
-  jan: "Jan",
-  feb: "Feb",
-  mar: "Mar",
-  apr: "Apr",
-  jun: "Jun",
-  jul: "Jul",
-  aug: "Aug",
-  sep: "Sep",
-  sept: "Sep",
-  oct: "Oct",
-  nov: "Nov",
-  dec: "Dec",
+  june: "Jun.",
+  july: "Jul.",
+  august: "Aug.",
+  september: "Sep.",
+  october: "Oct.",
+  november: "Nov.",
+  december: "Dec.",
+  jan: "Jan.",
+  feb: "Feb.",
+  mar: "Mar.",
+  apr: "Apr.",
+  jun: "Jun.",
+  jul: "Jul.",
+  aug: "Aug.",
+  sep: "Sep.",
+  sept: "Sep.",
+  oct: "Oct.",
+  nov: "Nov.",
+  dec: "Dec.",
 };
 
 const formatEducationPeriodLabel = (value) => {
@@ -58,13 +58,14 @@ const buildEducationItem = (item) => {
   const splitPeriod = (value) => {
     const text = normalizeInlineText(value || "");
     if (!text) return { start: "", end: "" };
-    const parts = text.split(/\s*-\s*/);
+    // Accept hyphen, en-dash, or em-dash as range separators.
+    const parts = text.split(/\s*[-\u2013\u2014]\s*/);
     if (parts.length < 2) {
       return { start: "", end: text };
     }
     return {
       start: normalizeInlineText(parts[0]),
-      end: normalizeInlineText(parts.slice(1).join(" - ")),
+      end: normalizeInlineText(parts.slice(1).join(" \u2014 ")),
     };
   };
 

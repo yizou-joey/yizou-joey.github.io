@@ -814,9 +814,18 @@ button.action-button-orb {
   height: 64px;
   object-fit: contain;
   display: block;
-  /* Better scaling for high-res images */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: high-quality;
+  /*
+    Downscaling: force smooth/bilinear resampling.
+    `-webkit-optimize-contrast` sharpens edges and produces jagged whiskers/tail
+    when a high-res PNG is shrunk to ~64px. `auto` + `smooth` lets the browser
+    use its best quality resampler. The `scale(0.999)` nudge forces some engines
+    to take the GPU compositing path, which uses higher-quality filtering than
+    the default 2D rasterizer for transformed images.
+  */
+  image-rendering: auto;
+  image-rendering: smooth;
+  -ms-interpolation-mode: bicubic;
+  backface-visibility: hidden;
 
   /*
     Outline: rely on the PNG's own white pad + navy stroke (baked in).

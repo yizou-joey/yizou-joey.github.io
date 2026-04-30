@@ -410,7 +410,7 @@ const buildPublicationItem = (item) => {
     supplements.forEach((supplement) => {
       const link = document.createElement("a");
       link.href = supplement.href;
-      link.textContent = `[${supplement.label} ↗]`;
+      link.innerHTML = `[<span class="bracket-text">${supplement.label}</span>]`;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
       linksDiv.appendChild(link);

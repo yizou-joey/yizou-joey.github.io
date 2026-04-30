@@ -25,6 +25,7 @@
 
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   --type-brand-size: 20px;
   --type-brand-line-height: 20px;
@@ -296,15 +297,15 @@ a {
   justify-items: end;
   padding-top: 4px;
   flex-shrink: 0;
-  width: 160px;
+  width: 120px;
 }
 
 .editorial-education-logo-mono,
 .editorial-education-logo-color {
   grid-area: logo;
-  height: 72px;
+  height: 56px;
   width: 100%;
-  max-width: 160px;
+  max-width: 120px;
   object-fit: contain;
   object-position: center;
 }
@@ -404,9 +405,36 @@ a {
 
 .publication-bracket-links a {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: baseline;
   color: var(--color-gold-dark);
   text-decoration: none;
+  padding: 0 4px;
+  /* Fix Safari text smearing during width transitions */
+  transform: translateZ(0); 
+}
+
+.bracket-text {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.bracket-text::before {
+  content: "↗ ";
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  white-space: pre;
+  overflow: hidden;
+  vertical-align: baseline;
+  transition: max-width 260ms cubic-bezier(0.4, 0, 0.2, 1), opacity 260ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: max-width, opacity;
+}
+
+.publication-bracket-links a:hover .bracket-text::before,
+.publication-bracket-links a:focus-visible .bracket-text::before {
+  max-width: 1.2em; /* Just enough for the arrow and space */
+  opacity: 1;
 }
 
 .publication-bracket-links a::after,
@@ -421,16 +449,17 @@ a {
   opacity: 0;
   transform: scaleX(0);
   transform-origin: left center;
+  will-change: transform, opacity;
   transition:
-    opacity 260ms ease,
-    transform 260ms ease;
+    opacity 260ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .publication-bracket-links a:hover::after,
 .publication-bracket-links a:focus-visible::after,
 .publication-resource-action:hover .publication-resource-text::after,
 .publication-resource-action:focus-visible .publication-resource-text::after {
-  opacity: 0.9;
+  opacity: 1; /* Match the arrow's opacity: 1, was 0.9 before */
   transform: scaleX(1);
 }
 
@@ -450,12 +479,13 @@ a {
 }
 
 .type-nav {
-  font-family: var(--font-serif-sc);
-  font-size: var(--type-nav-label-size);
-  font-feature-settings: var(--type-feature-serif);
-  font-weight: 500;
+  font-family: var(--font-inter);
+  font-size: 16px;
+  font-weight: 300;
   line-height: var(--type-nav-label-line-height);
-  letter-spacing: var(--type-nav-label-tracking);
+  letter-spacing: normal;
+  text-transform: none;
+  font-feature-settings: var(--type-feature-sans);
 }
 
 .type-title-hero {
@@ -486,13 +516,27 @@ a {
 }
 
 .type-title-section {
-  font-family: var(--font-serif-sc);
-  font-size: var(--type-subheading-size);
-  font-feature-settings: var(--type-feature-serif);
-  font-weight: 700;
-  line-height: var(--type-subheading-line-height);
-  letter-spacing: -0.5px;
+  font-family: var(--font-inter);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--color-muted);
   margin: 0;
+  font-feature-settings: var(--type-feature-sans);
+}
+
+.type-title-subsection {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--color-muted);
+  margin: 0;
+  font-feature-settings: "tnum" on, var(--type-feature-sans);
 }
 
 .type-title-body {
@@ -502,16 +546,6 @@ a {
   font-weight: var(--type-body-title-weight);
   line-height: var(--type-body-title-line-height);
   letter-spacing: var(--type-body-title-tracking);
-}
-
-.type-title-subsection {
-  font-family: var(--font-serif-sc);
-  font-size: var(--type-subsection-size);
-  font-feature-settings: var(--type-feature-serif);
-  font-weight: 700;
-  line-height: var(--type-subsection-line-height);
-  letter-spacing: -0.25px;
-  margin: 0;
 }
 
 .type-title-minor {
@@ -586,15 +620,6 @@ a {
   letter-spacing: var(--type-badge-micro-tracking);
 }
 
-.type-nav-label {
-  font-family: var(--font-inter);
-  font-size: var(--type-nav-label-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-nav-label-weight);
-  line-height: var(--type-nav-label-line-height);
-  letter-spacing: var(--type-nav-label-tracking);
-}
-
 .type-caption {
   font-family: var(--font-inter);
   font-size: var(--type-caption-size);
@@ -623,9 +648,9 @@ a {
 .section-heading-row {
   display: block;
   width: 100%;
-  border-bottom: 2px solid var(--color-ink);
-  padding-bottom: 8px;
-  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-border-warm);
+  padding-bottom: 10px;
+  margin-bottom: 28px;
 }
 
 .site-header {
@@ -669,6 +694,7 @@ a {
   text-decoration: none;
   cursor: pointer;
   transition: color 160ms ease;
+  position: relative;
 }
 
 .site-header-link:hover {

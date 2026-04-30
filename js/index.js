@@ -202,6 +202,24 @@ const buildNewsItem = (item) => {
 
   row.appendChild(date);
   row.appendChild(content);
+
+  if (entry.mascot) {
+    const mascotCol = document.createElement("div");
+    mascotCol.className = "news-mascot-column";
+
+    const img = document.createElement("img");
+    img.className = "news-mascot-sticker";
+    img.src = entry.mascot;
+    img.alt = entry.mascotAlt || "Conference mascot";
+    img.loading = "lazy";
+    img.decoding = "async";
+    img.width = 64;
+    img.height = 64;
+
+    mascotCol.appendChild(img);
+    row.appendChild(mascotCol);
+  }
+
   return row;
 };
 

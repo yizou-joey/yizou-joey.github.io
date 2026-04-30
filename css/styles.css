@@ -322,11 +322,11 @@ a {
   pointer-events: none;
 }
 
-.editorial-logo-column:hover .editorial-education-logo-mono {
+.editorial-education-row:hover .editorial-education-logo-mono {
   opacity: 0;
 }
 
-.editorial-logo-column:hover .editorial-education-logo-color {
+.editorial-education-row:hover .editorial-education-logo-color {
   opacity: 1;
 }
 
@@ -480,11 +480,11 @@ a {
 
 .type-nav {
   font-family: var(--font-inter);
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 13px;
+  font-weight: 500;
   line-height: var(--type-nav-label-line-height);
-  letter-spacing: normal;
-  text-transform: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   font-feature-settings: var(--type-feature-sans);
 }
 
@@ -517,14 +517,14 @@ a {
 
 .type-title-section {
   font-family: var(--font-inter);
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.4;
-  letter-spacing: normal;
-  text-transform: none;
-  color: var(--color-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
   margin: 0;
-  font-feature-settings: var(--type-feature-sans);
+  /* font-feature-settings: var(--type-feature-sans); */
 }
 
 .type-title-subsection {

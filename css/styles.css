@@ -616,6 +616,65 @@ a {
   margin-top: var(--space-bio-paragraph-break);
 }
 
+/* Editorial research-keywords banner shown beneath the bio paragraph.
+   Phrases stay intact (nowrap) and use asymmetric horizontal offsets so
+   that, on wrap, lines do not perfectly left-align — echoing the
+   editorial reference. Width auto-matches the bio column. */
+.bio-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.bio-keywords {
+  font-family: var(--font-serif-sc);
+  font-feature-settings: var(--type-feature-serif);
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--color-ink);
+  /* Negative right margin absorbs the trailing margin of the last child
+     so total banner width equals the bio paragraph. */
+  margin-right: -2.4em;
+  text-align: left;
+}
+
+.bio-keyword {
+  display: inline-block;
+  white-space: nowrap;
+  /* Default inter-phrase blank; overridden per-item below for editorial rhythm. */
+  margin-right: 2.4em;
+}
+
+.bio-keyword--1 {
+  margin-left: 0.4em;
+  margin-right: 3em;
+}
+
+.bio-keyword--2 {
+  margin-right: 2em;
+}
+
+.bio-keyword--3 {
+  margin-left: 1.4em;
+  margin-right: 2.6em;
+}
+
+.bio-keyword--4 {
+  margin-left: 0.6em;
+}
+
+@media (max-width: 767px) {
+  .bio-keywords {
+    text-align: center;
+    margin-right: 0;
+  }
+  .bio-keyword {
+    margin-left: 0 !important;
+    margin-right: 1.4em !important;
+  }
+}
+
 .type-body-sm {
   /* Preview helper alias for Caption; not a separate semantic tier. */
   font-family: var(--font-serif-sc);

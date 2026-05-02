@@ -635,15 +635,28 @@ a {
 
 .bio-keywords-banner {
   display: block;
+  /* Flat compact background */
+  background: rgba(253, 253, 252, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* Sharp editorial corners */
+  border-radius: 0;
+  border: 1px solid var(--color-border-warm);
+  
+  /* Compact simple shadow */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
+    
+  position: relative;
+  overflow: hidden;
+  /* Decreased vertical padding, balanced horizontal */
+  padding: 10px 16px;
+  margin-top: 14px;
 }
 
+/* Kept for compatibility if used elsewhere, otherwise unused */
 .bio-keywords-heading {
-  /* Subtle hairline division replacing the former section label.
-     Thinner, lower-contrast, and short-margined so it reads as a
-     quiet separator rather than a heading underline. */
-  border-top: 1px solid var(--color-border-warm);
-  opacity: 0.6;
-  margin-bottom: 14px;
+  display: none;
 }
 
 .bio-keywords {
@@ -654,48 +667,22 @@ a {
   font-weight: 400;
   line-height: 1.7;
   color: var(--color-ink);
-  /* Negative right margin absorbs trailing margin so total width
-     visually matches the bio paragraph column. */
-  margin-right: -2.4em;
-  text-align: left;
+  /* Perfect center alignment with balanced gaps */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 28px;
 }
 
 .bio-keyword {
   display: inline-block;
   white-space: nowrap;
-  margin-right: 2.4em;
-}
-
-.bio-keyword--1 {
-  margin-left: 0;
-  margin-right: 3em;
-}
-
-.bio-keyword--2 {
-  margin-left: 0.4em;
-  margin-right: 2.2em;
-}
-
-.bio-keyword--3 {
-  margin-left: 1.6em;
-  margin-right: 2.6em;
-}
-
-.bio-keyword--4 {
-  margin-left: 0.6em;
 }
 
 @media (max-width: 767px) {
   .bio-keywords {
-    text-align: center;
-    margin-right: 0;
-  }
-  .bio-keyword {
-    margin-left: 0 !important;
-    margin-right: 1.4em !important;
-  }
-  .bio-keywords-heading {
-    text-align: center;
+    gap: 6px 16px;
   }
 }
 

@@ -673,11 +673,18 @@ a {
   justify-content: center;
   align-items: center;
   gap: 4px 28px;
+  /* Apply the bubbling sticker filter to the entire container to merge overlapping lines cleanly */
+  filter: url(#tight-bubble);
+  /* Slight padding to avoid clipping the SVG bounds at the edges */
+  padding: 12px;
+  margin: -12px;
 }
 
 .bio-keyword {
   display: inline-block;
   white-space: nowrap;
+  position: relative;
+  color: #3d3d3d; /* Text color from reference */
 }
 
 @media (max-width: 767px) {

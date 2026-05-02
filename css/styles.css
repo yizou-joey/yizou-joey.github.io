@@ -633,26 +633,6 @@ a {
   gap: 28px;
 }
 
-.bio-keywords-banner {
-  display: block;
-  /* Flat compact background */
-  background: rgba(253, 253, 252, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  
-  /* Sharp editorial corners */
-  border-radius: 0;
-  border: 1px solid var(--color-border-warm);
-  
-  /* Compact simple shadow */
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.03);
-    
-  position: relative;
-  overflow: hidden;
-  /* Decreased vertical padding, balanced horizontal */
-  padding: 10px 16px;
-  margin-top: 14px;
-}
 
 /* Kept for compatibility if used elsewhere, otherwise unused */
 .bio-keywords-heading {

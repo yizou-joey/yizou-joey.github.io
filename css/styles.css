@@ -659,6 +659,32 @@ a {
   display: none;
 }
 
+/* Grid stage: both layers share the same cell for identical layout constraints */
+.bio-keywords-stage {
+  display: grid;
+}
+
+/* Shape-clone layer: drives the SVG filter to produce the yellow bubble background.
+   Text here is invisible in the final output (filter outputs only the yellow shape).
+   Shares grid cell 1/1 with .bio-keywords so layout is identical. */
+.bio-keywords-bg {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px 28px;
+  font-family: var(--font-serif-sc);
+  font-feature-settings: var(--type-feature-serif);
+  font-size: var(--type-body-bio-size);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #3d3d3d; /* must be non-transparent so SourceAlpha captures glyph shapes */
+  filter: url(#tight-bubble);
+  pointer-events: none;
+}
+
 .bio-keywords {
   font-family: var(--font-serif-sc);
   font-feature-settings: var(--type-feature-serif);
@@ -673,11 +699,10 @@ a {
   justify-content: center;
   align-items: center;
   gap: 4px 28px;
-  /* Apply the bubbling sticker filter to the entire container to merge overlapping lines cleanly */
-  filter: url(#tight-bubble);
-  /* Slight padding to avoid clipping the SVG bounds at the edges */
-  padding: 12px;
-  margin: -12px;
+  /* No filter here — text renders natively for full sharpness */
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 1;
 }
 
 .bio-keyword {
@@ -688,8 +713,13 @@ a {
 }
 
 @media (max-width: 767px) {
+  .bio-keywords-bg,
   .bio-keywords {
     gap: 6px 16px;
+  }
+  .bio-keywords-stage {
+    /* ensure stage doesn't add horizontal scroll on mobile */
+    min-width: 0;
   }
 }
 

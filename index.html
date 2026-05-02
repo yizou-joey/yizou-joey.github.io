@@ -67,19 +67,17 @@
             <feMorphology operator="dilate" radius="5" in="SourceAlpha" result="dilated" />
             <!-- 2. Produce smooth rolling noise -->
             <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" seed="4" />
-            <!-- 3. Displace the dilated contour — reduced scale for a smoother outline -->
-            <feDisplacementMap in="dilated" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-            <!-- 4. Smooth and harden the edge — more blur rounds the curves, steeper ramp re-hardens to a crisp boundary -->
-            <feGaussianBlur stdDeviation="2.5" in="displaced" result="blurred" />
-            <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 35 -15" in="blurred" result="gooey" />
+            <!-- 3. Displace the dilated contour — small scale keeps organic feel without character bumps -->
+            <feDisplacementMap in="dilated" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+            <!-- 4. Heavy blur melts individual character protrusions into one unified blob.
+                 Steep ramp (threshold = 35/80 ≈ 0.44) snaps the boundary to a fully-opaque hard edge. -->
+            <feGaussianBlur stdDeviation="7" in="displaced" result="blurred" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 80 -35" in="blurred" result="gooey" />
             <!-- 5. Fill with yellow and composite to clip to the gooey shape -->
+            <!-- Output is only the bubble — SourceGraphic (text) is NOT included here.   -->
+            <!-- The real text is rendered natively outside this filter for full sharpness. -->
             <feFlood flood-color="#FFE800" result="yellow" />
-            <feComposite in="yellow" in2="gooey" operator="in" result="bubble" />
-            <!-- 6. Snap text-edge pixels to full opacity so the glyphs render crisply -->
-            <feMerge>
-              <feMergeNode in="bubble" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+            <feComposite in="yellow" in2="gooey" operator="in" />
           </filter>
           
           <!--
@@ -214,12 +212,23 @@
                   aria-label="Research interests"
                 >
                   <h3 class="sr-only">Research Interests</h3>
+                  <!-- Grid stage: both layers share the same cell so they get identical layout constraints -->
+                  <div class="bio-keywords-stage">
+                  <!-- Shape-clone: aria-hidden, drives the yellow bubble filter only.
+                       Text here is never seen — the filter outputs only the background shape. -->
+                  <div class="bio-keywords-bg" aria-hidden="true">
+                    <span class="bio-keyword">Human-Computer Interaction</span>
+                    <span class="bio-keyword">AR/MR/XR</span>
+                    <span class="bio-keyword">Adaptive User Interfaces</span>
+                  </div>
+                  <!-- Real text: no filter, renders natively sharp -->
                   <div class="bio-keywords">
-                    <span class="bio-keyword bio-keyword--1">Human–Computer Interaction</span>
+                    <span class="bio-keyword bio-keyword--1">Human-Computer Interaction</span>
                     <span class="bio-keyword bio-keyword--2">AR/MR/XR</span>
                     <span class="bio-keyword bio-keyword--3">Adaptive User Interfaces</span>
                     <!-- <span class="bio-keyword bio-keyword--4">Context-Aware Systems</span> -->
                   </div>
+                  </div><!-- /.bio-keywords-stage -->
                 </aside>
               </div>
             </div>

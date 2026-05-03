@@ -319,25 +319,28 @@ const buildServicesItem = (item) => {
 
   if (entry.logo) {
     const logoCol = document.createElement("div");
-    logoCol.className = "service-logo-column";
-
-    const sticker = document.createElement("div");
-    sticker.className = "service-logo-sticker";
+    logoCol.className = "service-mascot-column";
 
     const img = document.createElement("img");
-    img.className = "service-logo-img";
+    img.className = "service-mascot-sticker";
     img.src = entry.logo;
-    img.alt = entry.logoAlt || `${entry.event || "Event"} logo`;
+    img.alt = entry.logoAlt || "Conference mascot";
     img.loading = "lazy";
     img.decoding = "async";
-    // Match the rendered CSS size (matches the .news-mascot-sticker
-    // recipe). The browser still downscales from the high-res source
-    // PNG using its best-quality resampler.
-    img.width = 100;
-    img.height = 53;
+    img.width = 80;
+    img.height = 80;
 
-    sticker.appendChild(img);
-    logoCol.appendChild(sticker);
+    if (entry.logoLink) {
+      const link = document.createElement("a");
+      link.href = entry.logoLink;
+      link.className = "service-logo-link";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.appendChild(img);
+      logoCol.appendChild(link);
+    } else {
+      logoCol.appendChild(img);
+    }
     row.appendChild(logoCol);
   }
 

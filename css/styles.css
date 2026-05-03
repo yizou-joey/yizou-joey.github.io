@@ -895,8 +895,8 @@ button.publication-resource-action {
 }
 
 .news-mascot-sticker {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   display: block;
   image-rendering: auto;
@@ -917,8 +917,8 @@ button.publication-resource-action {
 .news-mascot-sticker:hover {
   transform: translateZ(0) rotate(-6deg) scale(1.08);
   filter:
-    drop-shadow(0 2px 3px rgba(38, 33, 137, 0.18))
-    drop-shadow(0 8px 14px rgba(38, 33, 137, 0.22));
+    drop-shadow(0 2px 3px rgba(36, 32, 28, 0.50))
+    drop-shadow(0 8px 14px rgba(36, 32, 28, 0.18));
 }
 
 /* Tier 2: venue link hover → floats upward with a richer iconic glow */
@@ -926,8 +926,8 @@ button.publication-resource-action {
 .editorial-grid-row:has(.news-venue-link:hover) .news-mascot-sticker {
   transform: translateZ(0) rotate(-6deg) scale(1.1) translateY(-5px);
   filter:
-    drop-shadow(0 3px 4px rgba(38, 33, 137, 0.22))
-    drop-shadow(0 14px 22px rgba(38, 33, 137, 0.32));
+    drop-shadow(0 3px 4px rgba(36, 32, 28, 0.50))
+    drop-shadow(0 14px 22px rgba(36, 32, 28, 0.18));
 }
 
 /* Reduced-motion: skip animation, keep the sticker visible in color */

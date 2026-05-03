@@ -195,8 +195,8 @@ const buildNewsItem = (item) => {
     img.alt = entry.mascotAlt || "Conference mascot";
     img.loading = "lazy";
     img.decoding = "async";
-    img.width = 64;
-    img.height = 64;
+    img.width = 80;
+    img.height = 80;
 
     mascotCol.appendChild(img);
     row.appendChild(mascotCol);

@@ -47,6 +47,20 @@
       flex-wrap: wrap;
       justify-content: center;
     }
+    .drop-zone {
+      border: 2px dashed rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 20px 32px;
+      text-align: center;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      transition: border-color 0.2s, opacity 0.2s;
+      cursor: pointer;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #FDF2D5;
+      opacity: 1;
+    }
     .ctrl-group {
       display: flex;
       flex-direction: column;
@@ -92,7 +106,7 @@
   </div>
   <div class="ctrl-group">
     <label>Border Color</label>
-    <input type="color" id="colorPicker" value="#ffffff"
+    <input type="color" id="colorPicker" value="#FDF2D5"
            style="cursor:pointer;width:60px;height:32px;border:none;background:none;" />
   </div>
   <button id="renderBtn" onclick="scheduleRender()">Re-render</button>
@@ -104,9 +118,13 @@
 <div class="row">
   <div class="card">
     <span class="label">Original</span>
+    <div id="dropZone" class="drop-zone">
+      🖼️ Drop image here or click to browse
+    </div>
     <img id="originalImg" class="original"
-         src="files/logos/IEEE VR 26 Mascot Sticker.png"
-         crossorigin="anonymous" alt="Original mascot" />
+         src="Human Computer Interaction.png"
+         crossorigin="anonymous" alt="Original mascot"
+         style="display:none" />
   </div>
   <div class="card">
     <span class="label">Sticker Output</span>
@@ -115,6 +133,7 @@
 </div>
 
 <canvas id="srcCanvas" style="display:none"></canvas>
+<input type="file" id="fileInput" accept="image/*" style="display:none" />
 
 <script>
 const WORKER_SRC = `
@@ -198,6 +217,7 @@ const status    = document.getElementById('status');
 
 let cachedSrcData = null;
 let cachedPW = 0, cachedPH = 0;
+let currentImageName = 'Human Computer Interaction.png';
 
 function ensureSrcCache(PAD) {
   const W = img.naturalWidth, H = img.naturalHeight;
@@ -314,7 +334,9 @@ function render() {
 
 function download() {
   const link = document.createElement('a');
-  link.download = 'mascot-sticker.png';
+  const nameWithoutExt = currentImageName.replace(/\.[^.]+$/, '');
+  const ext = currentImageName.match(/\.([^.]+)$/)?.[1] || 'png';
+  link.download = `${nameWithoutExt}_sticker.${ext}`;
   link.href = canvas.toDataURL('image/png');
   link.click();
 }
@@ -329,6 +351,50 @@ document.getElementById('smoothSlider').addEventListener('input', function() {
   scheduleRender();
 });
 document.getElementById('colorPicker').addEventListener('input', scheduleRender);
+
+// Drag and drop functionality
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+function loadImageFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  currentImageName = file.name;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    img.src = e.target.result;
+    img.onload = function() {
+      cachedSrcData = null;
+      img.style.display = 'block';
+      dropZone.textContent = file.name;
+      dropZone.style.borderColor = '#FDF2D5';
+      render();
+    };
+  };
+  reader.readAsDataURL(file);
+}
+
+dropZone.addEventListener('click', () => fileInput.click());
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  loadImageFile(file);
+});
+
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  loadImageFile(file);
+});
 
 if (img.complete && img.naturalWidth) { render(); }
 else { img.onload = render; }

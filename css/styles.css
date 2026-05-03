@@ -138,12 +138,12 @@
   /* Hover shadow: logo hover state - slightly larger, softer lift */
   --sticker-shadow-hover:
     drop-shadow(0 2px 4px rgba(36, 32, 28, 0.32))
-    drop-shadow(0 5px 10px rgba(36, 32, 28, 0.12));
+    drop-shadow(0 4px 8px rgba(36, 32, 28, 0.10));
 
   /* Venue link hover shadow: deepest shadow when IEEE VR text is hovered */
   --sticker-shadow-venue-hover:
-    drop-shadow(0 4px 8px rgba(36, 32, 28, 0.25))
-    drop-shadow(0 10px 18px rgba(36, 32, 28, 0.15));
+    drop-shadow(0 3px 6px rgba(36, 32, 28, 0.25))
+    drop-shadow(0 6px 12px rgba(36, 32, 28, 0.15));
 }
 
 body {
@@ -938,8 +938,8 @@ button.publication-resource-action {
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  width: 80px;       /* enough breathing room for the sticker border + tilt */
-  padding-right: 8px;
+  width: 80px;
+  align-self: center;
 }
 
 .news-mascot-sticker {

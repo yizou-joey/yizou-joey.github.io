@@ -105,7 +105,7 @@
   <div class="card">
     <span class="label">Original</span>
     <img id="originalImg" class="original"
-         src="files/logos/Background 1.png"
+         src="files/logos/IEEE VR 26 Mascot Sticker.png"
          crossorigin="anonymous" alt="Original mascot" />
   </div>
   <div class="card">
@@ -129,10 +129,14 @@ self.onmessage = function(e) {
   }
 
   const r2 = radius * radius;
-  const offsets = [];
+  const offsets = [], dxList = [], dyList = [];
   for (let dy = -radius; dy <= radius; dy++) {
     for (let dx = -radius; dx <= radius; dx++) {
-      if (dx*dx + dy*dy <= r2) offsets.push(dy * PW + dx);
+      if (dx*dx + dy*dy <= r2) {
+        offsets.push(dy * PW + dx);
+        dxList.push(dx);
+        dyList.push(dy);
+      }
     }
   }
   const K = offsets.length;
@@ -153,8 +157,8 @@ self.onmessage = function(e) {
       const idx = y * PW + x;
       if (alphaMask[idx]) continue;
       outer: for (let k = 0; k < K; k++) {
-        const nx = x + (offsets[k] % PW);
-        const ny = y + Math.trunc(offsets[k] / PW);
+        const nx = x + dxList[k];
+        const ny = y + dyList[k];
         if (nx >= 0 && ny >= 0 && nx < PW && ny < PH && alphaMask[ny * PW + nx]) {
           borderMask[idx] = 1; break outer;
         }

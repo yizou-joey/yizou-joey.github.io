@@ -47,89 +47,10 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
     <body class="text-ink">
-      <!-- Reusable SVG filters: keep at document root so any element on the
-           page can reference them via filter: url(#id). The sticker-pad
-           filter dilates the source alpha to produce a smooth white
-           padding ring + a thin solid outline that exactly follows the
-           silhouette's natural rounded curves (no jitter). -->
-      <svg width="0" height="0" aria-hidden="true" focusable="false"
-           style="position:absolute;width:0;height:0;overflow:hidden">
-        <defs>
-          <filter id="blob" x="-20%" y="-20%" width="140%" height="140%">
-            <!-- A very smooth noise (numOctaves 1 or 2, low baseFrequency) creates the rolling bubble effect without jagged edges -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" seed="4"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G"/>
-          </filter>
-
-          <!-- Tightly conforming smooth bubble highlighting -->
-          <filter id="tight-bubble" x="-50%" y="-50%" width="200%" height="200%" color-interpolation-filters="sRGB">
-            <!-- 1. Dilate the text to create a tight offset -->
-            <feMorphology operator="dilate" radius="5" in="SourceAlpha" result="dilated" />
-            <!-- 2. Produce smooth rolling noise -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" result="noise" seed="4" />
-            <!-- 3. Displace the dilated contour — small scale keeps organic feel without character bumps -->
-            <feDisplacementMap in="dilated" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-            <!-- 4. Heavy blur melts individual character protrusions into one unified blob.
-                 Steep ramp (threshold = 35/80 ≈ 0.44) snaps the boundary to a fully-opaque hard edge. -->
-            <feGaussianBlur stdDeviation="7" in="displaced" result="blurred" />
-            <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0   0 0 0 80 -35" in="blurred" result="gooey" />
-            <!-- 5. Fill with yellow and composite to clip to the gooey shape -->
-            <!-- Output is only the bubble — SourceGraphic (text) is NOT included here.   -->
-            <!-- The real text is rendered natively outside this filter for full sharpness. -->
-            <feFlood flood-color="#b3e0f2" result="yellow" />
-            <feComposite in="yellow" in2="gooey" operator="in" />
-          </filter>
-          
-          <!--
-            Sticker pad filter.
-            Recipe per layer (outline + white pad):
-              1. dilate SourceAlpha by N
-              2. gaussian-blur the dilated alpha → softens corners and
-                 bridges the small gaps between separate sub-shapes so
-                 the outline reads as one continuous fluent curve
-              3. feColorMatrix with a steep alpha ramp re-hardens the
-                 edge → smooth rounded curves, no jitter, no halftone
-              4. flood-fill with the desired color, composite-in
-            Stack order: outline (back) → white pad → original silhouette.
-          -->
-          <filter id="sticker-pad" x="-50%" y="-50%" width="200%" height="200%"
-                  color-interpolation-filters="sRGB">
-            <!-- OUTLINE LAYER -->
-            <feMorphology in="SourceAlpha" operator="dilate" radius="7"
-                          result="outlineDilate"/>
-            <feGaussianBlur in="outlineDilate" stdDeviation="1.6"
-                            result="outlineBlur"/>
-            <feColorMatrix in="outlineBlur" type="matrix"
-                           values="0 0 0 0 0
-                                   0 0 0 0 0
-                                   0 0 0 0 0
-                                   0 0 0 14 -6"
-                           result="outlineShape"/>
-            <feFlood flood-color="#bcb8ad" flood-opacity="0.9"/>
-            <feComposite in2="outlineShape" operator="in" result="outlineLayer"/>
-
-            <!-- WHITE PAD LAYER (sits inside the outline) -->
-            <feMorphology in="SourceAlpha" operator="dilate" radius="5.6"
-                          result="padDilate"/>
-            <feGaussianBlur in="padDilate" stdDeviation="1.4"
-                            result="padBlur"/>
-            <feColorMatrix in="padBlur" type="matrix"
-                           values="0 0 0 0 0
-                                   0 0 0 0 0
-                                   0 0 0 0 0
-                                   0 0 0 14 -6"
-                           result="padShape"/>
-            <feFlood flood-color="#ffffff"/>
-            <feComposite in2="padShape" operator="in" result="padLayer"/>
-
-            <feMerge>
-              <feMergeNode in="outlineLayer"/>
-              <feMergeNode in="padLayer"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-      </svg>
+      <!-- SVG filter definitions (text bubble effects) are injected by
+           js/text-filters.js. Loaded synchronously so filter IDs exist
+           before CSS applies url(#tight-bubble) etc. on first paint. -->
+      <script src="js/text-filters.js"></script>
       <div class="relative size-full">
       <div class="flex flex-col items-center section-gap w-full">
         <!-- Header -->

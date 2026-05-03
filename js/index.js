@@ -330,17 +330,7 @@ const buildServicesItem = (item) => {
     img.width = 80;
     img.height = 80;
 
-    if (entry.logoLink) {
-      const link = document.createElement("a");
-      link.href = entry.logoLink;
-      link.className = "service-logo-link";
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.appendChild(img);
-      logoCol.appendChild(link);
-    } else {
-      logoCol.appendChild(img);
-    }
+    logoCol.appendChild(img);
     row.appendChild(logoCol);
   }
 

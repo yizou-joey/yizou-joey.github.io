@@ -57,9 +57,12 @@ const boldMarkdownPattern = /\*\*([^*]+)\*\*/g;
 const italicMarkdownPattern = /\*([^*]+)\*/g;
 
 const applyInlineLinks = (html) =>
-  html.replace(linkMarkdownPattern, (_, text, url) =>
-    /^javascript:/i.test(url.trim()) ? text : `<a href="${url}" class="inline-link">${text}</a>`
-  );
+  html.replace(linkMarkdownPattern, (_, text, url) => {
+    if (/^javascript:/i.test(url.trim())) return text;
+    const isExternal = /^https?:\/\//i.test(url.trim());
+    const targetAttr = isExternal ? ` target="_blank" rel="noopener noreferrer"` : "";
+    return `<a href="${url}" class="inline-link"${targetAttr}>${text}</a>`;
+  });
 
 const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1</strong>");
 

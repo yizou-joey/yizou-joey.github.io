@@ -130,20 +130,20 @@
 
   /* === Shadows === */
   /* Resting sticker-on-paper shadow: dark warm-gray, compact blur.
-     Applied to mascot stickers and bio keyword bubbles. */
+     Applied to mascot stickers and bio keyword bubbles. Falls slightly right. */
   --sticker-shadow-base:
-    drop-shadow(0 1px 1.5px rgba(36, 32, 28, 0.40))
-    drop-shadow(0 2px 3px rgba(36, 32, 28, 0.05));
+    drop-shadow(1px 2px 2px rgba(36, 32, 28, 0.35))
+    drop-shadow(2px 3px 4px rgba(36, 32, 28, 0.08));
 
-  /* Hover shadow: logo hover state - slightly larger, softer lift */
+  /* Hover shadow: logo hover state - slightly larger, softer lift, rightward fall */
   --sticker-shadow-hover:
-    drop-shadow(0 2px 4px rgba(36, 32, 28, 0.32))
-    drop-shadow(0 4px 8px rgba(36, 32, 28, 0.10));
+    drop-shadow(1px 2px 3px rgba(36, 32, 28, 0.30))
+    drop-shadow(2px 4px 6px rgba(36, 32, 28, 0.12));
 
   /* Venue link hover shadow: deepest shadow when IEEE VR text is hovered */
   --sticker-shadow-venue-hover:
-    drop-shadow(0 3px 6px rgba(36, 32, 28, 0.25))
-    drop-shadow(0 6px 12px rgba(36, 32, 28, 0.15));
+    drop-shadow(2px 3px 4px rgba(36, 32, 28, 0.25))
+    drop-shadow(3px 5px 8px rgba(36, 32, 28, 0.15));
 }
 
 body {
@@ -694,73 +694,19 @@ a {
 }
 
 
-/* Grid stage: both layers share the same cell for identical layout constraints */
+/* Pre-baked sticker images stage */
 .bio-keywords-stage {
-  display: grid;
-}
-
-/* Shape-clone layer: drives the SVG filter to produce the yellow bubble background.
-   Text here is invisible in the final output (filter outputs only the yellow shape).
-   Shares grid cell 1/1 with .bio-keywords so layout is identical. */
-.bio-keywords-bg {
-  grid-area: 1 / 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 10px 30px;
-  font-family: var(--font-serif-sc);
-  font-feature-settings: var(--type-feature-serif);
-  font-size: var(--type-body-bio-size);
-  font-style: italic;
-  font-weight: 500;
-  line-height: 1.7;
-  color: #FDF2D5; /* must be non-transparent so SourceAlpha captures glyph shapes */
-  /*
-    filter chain: SVG filter produces the bubble background shape first,
-    then drop-shadow traces that output shape — not the raw text alpha.
-    Shadow value shared with image stickers via --sticker-shadow-base.
-  */
-  filter: url(#tight-bubble) var(--sticker-shadow-base);
-  pointer-events: none;
 }
 
-.bio-keywords {
-  font-family: var(--font-serif-sc);
-  font-feature-settings: var(--type-feature-serif);
-  font-size: var(--type-body-bio-size);
-  font-style: italic;
-  font-weight: 500;
-  line-height: 1.7;
-  color: var(--color-ink);
-  /* Perfect center alignment with balanced gaps */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px 30px;
-  /* No filter here — text renders natively for full sharpness */
-  grid-area: 1 / 1;
-  position: relative;
-  z-index: 1;
-}
-
-.bio-keyword {
-  display: inline-block;
-  white-space: nowrap;
-  position: relative;
-  color: #2A2A2A; /* Text color from reference */
-}
-
-@media (max-width: 767px) {
-  .bio-keywords-bg,
-  .bio-keywords {
-    gap: 18px 32px;
-  }
-  .bio-keywords-stage {
-    /* ensure stage doesn't add horizontal scroll on mobile */
-    min-width: 0;
-  }
+.bio-keyword-img {
+  height: 32px;
+  width: auto;
+  filter: var(--sticker-shadow-base);
 }
 
 .type-body-sm {

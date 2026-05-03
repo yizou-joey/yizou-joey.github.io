@@ -331,6 +331,10 @@ const PUBLICATION_SUPPLEMENT_FIELDS = [
     key: "codeUrl",
     label: "Code",
   },
+  {
+    key: "doi",
+    label: "DOI",
+  },
 ];
 
 const getPublicationSupplementLinks = (entry) =>

@@ -24,6 +24,7 @@
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
   youtubeLabel: Presentation Video
   posterUrl: files/materials/Poster-1153.pdf
+  doi: https://doi.org/10.1109/VRW70859.2026.00233
   award: Best Poster Award
 
 - date: 2026-01-01
@@ -37,6 +38,7 @@
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s
   youtubeLabel: Demo Video
+  doi: https://doi.org/10.1109/VRW70859.2026.00072
   slidesUrl: files/materials/2026.03.22 NIDIT Presentation.pdf
   
   <!-- arxivUrl: https://arxiv.org/ -->

@@ -16,6 +16,18 @@
 
 - date: 2026-01-01
   selected: true
+  type: P
+  venue: IEEE VR 2026
+  venueColor: #262189
+  title: DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR
+  authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
+  youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
+  youtubeLabel: Presentation Video
+  posterUrl: files/materials/Poster-1153.pdf
+  award: Best Poster Award
+
+- date: 2026-01-01
+  selected: true
   type: W
   workshopLabel: NIDIT
   typeLink: https://sites.google.com/view/nidit/nidit-2026
@@ -29,15 +41,3 @@
   
   <!-- arxivUrl: https://arxiv.org/ -->
   <!-- pdfUrl: files/CV_EN.pdf -->
-
-- date: 2026-01-01
-  selected: true
-  type: P
-  venue: IEEE VR 2026
-  venueColor: #262189
-  title: DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR
-  authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
-  youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
-  youtubeLabel: Presentation Video
-  posterUrl: files/materials/Poster-1153.pdf
-  award: Best Poster Award

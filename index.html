@@ -55,19 +55,19 @@
         <defs>
           <filter id="tight-bubble" x="-50%" y="-50%" width="200%" height="200%"
                   color-interpolation-filters="sRGB">
-            <feMorphology operator="dilate" radius="5"
+            <feMorphology operator="dilate" radius="8"
                           in="SourceAlpha" result="dilated"/>
             <feTurbulence type="fractalNoise" baseFrequency="0.04"
                           numOctaves="1" result="noise" seed="4"/>
             <feDisplacementMap in="dilated" in2="noise" scale="2"
                                xChannelSelector="R" yChannelSelector="G"
                                result="displaced"/>
-            <feGaussianBlur stdDeviation="7" in="displaced" result="blurred"/>
+            <feGaussianBlur stdDeviation="5" in="displaced" result="blurred"/>
             <feColorMatrix type="matrix"
                            values="0 0 0 0 0
                                    0 0 0 0 0
                                    0 0 0 0 0
-                                   0 0 0 80 -35"
+                                   0 0 0 80 -25"
                            in="blurred" result="gooey"/>
             <feFlood flood-color="#FDF2D5" result="highlight"/>
             <feComposite in="highlight" in2="gooey" operator="in"/>

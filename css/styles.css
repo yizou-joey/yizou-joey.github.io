@@ -225,17 +225,60 @@ a {
   }
 }
 
+/* Mobile: date + logo side-by-side in row 1, detail full-width in row 2. */
 .editorial-education-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  row-gap: 10px;
+  column-gap: 12px;
   padding-bottom: 24px;
 }
+
+.editorial-education-row > .editorial-date-column {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.editorial-education-row > .editorial-detail-column {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.editorial-education-row > .editorial-logo-column {
+  grid-column: 2;
+  grid-row: 1;
+  width: 80px;
+  align-self: start;
+}
+
+.editorial-education-row .editorial-education-logo-mono,
+.editorial-education-row .editorial-education-logo-color {
+  max-width: 80px;
+  height: 42px;
+}
+
 @media (min-width: 640px) {
   .editorial-education-row {
     grid-template-columns: 140px minmax(0, 1fr) auto;
-    gap: 32px;
+    grid-template-rows: auto;
+    row-gap: 0;
+    column-gap: 32px;
     align-items: start;
+  }
+  .editorial-education-row > .editorial-date-column,
+  .editorial-education-row > .editorial-detail-column,
+  .editorial-education-row > .editorial-logo-column {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .editorial-education-row > .editorial-logo-column {
+    width: 120px;
+  }
+  .editorial-education-row .editorial-education-logo-mono,
+  .editorial-education-row .editorial-education-logo-color {
+    max-width: 120px;
+    height: 56px;
   }
 }
 
@@ -641,11 +684,6 @@ a {
 }
 
 
-/* Kept for compatibility if used elsewhere, otherwise unused */
-.bio-keywords-heading {
-  display: none;
-}
-
 /* Grid stage: both layers share the same cell for identical layout constraints */
 .bio-keywords-stage {
   display: grid;
@@ -660,14 +698,14 @@ a {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 4px 28px;
+  gap: 10px 30px;
   font-family: var(--font-serif-sc);
   font-feature-settings: var(--type-feature-serif);
   font-size: var(--type-body-bio-size);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.7;
-  color: #3d3d3d; /* must be non-transparent so SourceAlpha captures glyph shapes */
+  color: #FDF2D5; /* must be non-transparent so SourceAlpha captures glyph shapes */
   /*
     filter chain: SVG filter produces the bubble background shape first,
     then drop-shadow traces that output shape — not the raw text alpha.
@@ -682,7 +720,7 @@ a {
   font-feature-settings: var(--type-feature-serif);
   font-size: var(--type-body-bio-size);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.7;
   color: var(--color-ink);
   /* Perfect center alignment with balanced gaps */
@@ -690,7 +728,7 @@ a {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 4px 28px;
+  gap: 10px 30px;
   /* No filter here — text renders natively for full sharpness */
   grid-area: 1 / 1;
   position: relative;
@@ -701,13 +739,13 @@ a {
   display: inline-block;
   white-space: nowrap;
   position: relative;
-  color: #3d3d3d; /* Text color from reference */
+  color: #2A2A2A; /* Text color from reference */
 }
 
 @media (max-width: 767px) {
   .bio-keywords-bg,
   .bio-keywords {
-    gap: 6px 16px;
+    gap: 18px 32px;
   }
   .bio-keywords-stage {
     /* ensure stage doesn't add horizontal scroll on mobile */
@@ -915,13 +953,18 @@ button.publication-resource-action {
 
 .news-mascot-sticker:hover {
   transform: translateZ(0) rotate(-6deg) scale(1.08);
-  filter: var(--sticker-shadow-base);
+  filter:
+    drop-shadow(0 2px 4px rgba(36, 32, 28, 0.32))
+    drop-shadow(0 5px 10px rgba(36, 32, 28, 0.12));
 }
 
+/* Tier 2: venue link hover → sticker floats higher with a deeper shadow */
 .news-venue-link:hover ~ .news-mascot-column .news-mascot-sticker,
 .editorial-grid-row:has(.news-venue-link:hover) .news-mascot-sticker {
   transform: translateZ(0) rotate(-6deg) scale(1.1) translateY(-5px);
-  filter: var(--sticker-shadow-base);
+  filter:
+    drop-shadow(0 4px 8px rgba(36, 32, 28, 0.25))
+    drop-shadow(0 10px 18px rgba(36, 32, 28, 0.15));
 }
 
 /* Reduced-motion: skip animation, keep the sticker visible in color */

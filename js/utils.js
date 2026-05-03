@@ -57,9 +57,8 @@ const boldMarkdownPattern = /\*\*([^*]+)\*\*/g;
 const italicMarkdownPattern = /\*([^*]+)\*/g;
 
 const applyInlineLinks = (html) =>
-  html.replace(
-    linkMarkdownPattern,
-    '<a href="$2" class="inline-link">$1</a>'
+  html.replace(linkMarkdownPattern, (_, text, url) =>
+    /^javascript:/i.test(url.trim()) ? text : `<a href="${url}" class="inline-link">${text}</a>`
   );
 
 const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1</strong>");

@@ -1,3 +1,10 @@
 title: Yi ZOU (Joey)
 description: "Academic homepage of Yi ZOU (Joey), an MPhil student at HKUST (Guangzhou) researching HCI, extended reality, and adaptive user interfaces."
 timezone: Asia/Shanghai
+
+exclude:
+  - sticker_effect.html
+  - ref/
+  - docs/
+  - tmp/
+  - README.md

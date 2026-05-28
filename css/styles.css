@@ -701,11 +701,11 @@ a {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 10px 30px;
+  gap: 10px 20px;
 }
 
 .bio-keyword-img {
-  height: 32px;
+  height: 26px;
   width: auto;
   filter: var(--sticker-shadow-base);
 }

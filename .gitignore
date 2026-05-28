@@ -1,5 +1,6 @@
 .DS_Store
 .omx/
+.omc/
 .agents/
 skills-lock.json
 

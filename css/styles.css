@@ -1204,6 +1204,35 @@ button.publication-resource-action {
   letter-spacing: 0.08em;
 }
 
+/* === HALFTONE COLOPHON ===
+   Printed-on-paper halftone mark at page end.
+   No shadows, no rotation — flat ink-on-paper via multiply blend. */
+.halftone-colophon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+  image-rendering: auto;
+  opacity: 0;
+  mix-blend-mode: multiply;
+  filter: none;
+  transform: translateY(16px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.halftone-colophon.is-visible {
+  opacity: 0.72;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halftone-colophon {
+    transition: none !important;
+    opacity: 0.72;
+    transform: none;
+  }
+}
+
 .error404-display {
   margin: 0;
   color: var(--color-ink);

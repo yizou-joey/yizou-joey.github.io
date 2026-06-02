@@ -482,9 +482,26 @@ const renderBioSection = async () => {
   }
 };
 
+const observeHalftoneColophon = () => {
+  const el = document.querySelector(".halftone-colophon");
+  if (!el) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  observer.observe(el);
+};
+
 renderPublicationsSection();
 renderNewsSection();
 renderServicesSection();
 renderTeachingSection();
 renderEducationSection();
 renderBioSection();
+observeHalftoneColophon();

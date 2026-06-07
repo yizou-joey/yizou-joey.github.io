@@ -1142,6 +1142,26 @@ button.publication-resource-action {
   }
 }
 
+/* === PUBLICATIONS BANNER ===
+   Full-width banner flush against the sticky header.
+   Image scales naturally up to a max-width suited for 1080p viewing;
+   beyond that the image holds its size and the banner fills with a
+   warm background tone. Bottom hairline echoes section-heading-row. */
+.publications-banner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #F0E9E5;
+  border-bottom: 1px solid var(--color-border-warm);
+}
+
+.publications-banner-img {
+  display: block;
+  width: 100%;
+  max-width: 860px;
+  height: auto;
+}
+
 .site-footer {
   width: 100%;
   margin-top: auto;

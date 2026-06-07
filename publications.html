@@ -44,22 +44,35 @@
   </head>
     <body class="text-ink">
     <div class="relative size-full">
-      <div class="flex flex-col items-center section-gap w-full">
-        <header class="site-header w-full">
-          <div class="flex w-full items-center justify-center">
-            <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 md:gap-6">
-              <div class="site-header-brand flex w-[20px] items-center justify-center">
-                <span class="type-brand text-ink">Yi</span>
+      <div class="flex flex-col items-center w-full">
+        <div class="flex flex-col items-center w-full">
+          <header class="site-header w-full">
+            <div class="flex w-full items-center justify-center">
+              <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 md:gap-6">
+                <div class="site-header-brand flex w-[20px] items-center justify-center">
+                  <span class="type-brand text-ink">Yi</span>
+                </div>
+                <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
+                  <a href="index.html" class="site-header-link">About</a>
+                  <a href="publications.html" class="site-header-link" aria-current="page">Publications</a>
+                </nav>
               </div>
-              <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
-                <a href="index.html" class="site-header-link">About</a>
-                <a href="publications.html" class="site-header-link" aria-current="page">Publications</a>
-              </nav>
             </div>
-          </div>
-          <div class="h-px w-full bg-line"></div>
-        </header>
+            <div class="h-px w-full bg-line"></div>
+          </header>
 
+          <div class="publications-banner">
+            <img
+              src="files/visual.png"
+              alt=""
+              class="publications-banner-img"
+              width="1672"
+              height="941"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col items-center section-gap w-full">
         <section class="w-full page-gutter">
           <div class="section-rail-l1 section-heading-row">
             <h2 class="type-title-section">
@@ -74,6 +87,7 @@
           </div>
         </section>
       </div>
+    </div>
     </div>
 
     <script src="js/utils.js" defer></script>

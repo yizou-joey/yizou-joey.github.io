@@ -1142,28 +1142,27 @@ button.publication-resource-action {
   }
 }
 
-/* === PUBLICATIONS BANNER ===
-   Full-width banner flush against the sticky header.
-   Image is 16:9 — cropped to a wider editorial banner proportion
-   via max-height + cover, centered so the main subject stays visible.
-   Background fill for viewports beyond the image max-width. */
-.publications-banner {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: #F0E9E5;
-  border-bottom: 1px solid var(--color-border-warm);
+/* === PUBLICATIONS VISUAL ===
+   Flat rounded-rectangle framed image at page bottom.
+   Frame stays fixed; image inside is slightly enlarged via scale
+   and clipped by overflow. */
+.publications-visual {
+  padding-top: var(--space-section-py);
+  padding-bottom: var(--space-section-py);
 }
 
-.publications-banner-img {
+.publications-visual-inner {
+  max-width: var(--width-rail-level-2);
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.publications-visual-frame {
   display: block;
   width: 100%;
-  max-width: 860px;
   height: auto;
-  aspect-ratio: 860 / 300;
-  max-height: 300px;
-  object-fit: cover;
-  object-position: center 60%;
+  transform: scale(1.08);
 }
 
 .site-footer {

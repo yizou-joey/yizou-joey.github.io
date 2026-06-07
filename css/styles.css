@@ -1144,9 +1144,9 @@ button.publication-resource-action {
 
 /* === PUBLICATIONS BANNER ===
    Full-width banner flush against the sticky header.
-   Image scales naturally up to a max-width suited for 1080p viewing;
-   beyond that the image holds its size and the banner fills with a
-   warm background tone. Bottom hairline echoes section-heading-row. */
+   Image is 16:9 — cropped to a wider editorial banner proportion
+   via max-height + cover, centered so the main subject stays visible.
+   Background fill for viewports beyond the image max-width. */
 .publications-banner {
   width: 100%;
   display: flex;
@@ -1160,6 +1160,10 @@ button.publication-resource-action {
   width: 100%;
   max-width: 860px;
   height: auto;
+  aspect-ratio: 860 / 300;
+  max-height: 300px;
+  object-fit: cover;
+  object-position: center 60%;
 }
 
 .site-footer {

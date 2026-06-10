@@ -71,6 +71,22 @@ In HTML, use the shared CSS utility classes:
 <section class="section-py">
 ```
 
+## Interaction and motion guidelines
+
+- Use motion only where it clarifies interactivity or feedback. Static display
+  assets, such as bio keyword stickers, should stay visually stable unless they
+  are part of an explicit interactive control.
+- Hover motion should have a clear ownership model: direct hover on an
+  interactive visual may use a small response; hover on a related link may use a
+  stronger paired response when it helps connect the link and visual object.
+- `prefers-reduced-motion: reduce` should remove transition/animation timing,
+  but should not use `transform: ... !important` to suppress the final hover or
+  focus state. Users who reduce motion should still receive state feedback,
+  just without animated interpolation.
+- Always verify interaction states under reduced-motion settings when adding or
+  refactoring hover effects. Otherwise accessibility overrides can silently
+  flatten the intended design in local previews.
+
 ## Pages
 
 - `index.html`: main homepage

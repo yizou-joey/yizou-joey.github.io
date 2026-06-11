@@ -11,4 +11,4 @@
   major: Electrical Engineering
   subAffiliation: School of Electric Power Engineering
   location: Guangzhou, China
-  logo: files/logos/SCUT Logo Only.png
+  logo: files/generated/logos/scut-logo-only.webp

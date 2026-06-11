@@ -458,3 +458,18 @@ const ensureSiteFooter = () => {
 };
 
 ensureSiteFooter();
+
+export {
+  buildPublicationItem,
+  escapeHtml,
+  fetchTextOrThrow,
+  getDateSortValue,
+  loadList,
+  normalizeInlineText,
+  parseBooleanLike,
+  renderEmpty,
+  renderError,
+  renderInlineMarkdown,
+  renderItems,
+  renderNewsInline,
+};

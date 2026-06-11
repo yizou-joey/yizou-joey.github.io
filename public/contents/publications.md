@@ -14,7 +14,7 @@
 # arxivUrl: https://arxiv.org/abs/0000.00000
 # pdfUrl: files/example.pdf
 
-- date: 2026-01-01
+- date: 2026-03-20
   selected: true
   type: P
   venue: IEEE VR 2026
@@ -27,7 +27,7 @@
   doi: https://doi.org/10.1109/VRW70859.2026.00233
   award: Best Poster Award
 
-- date: 2026-01-01
+- date: 2026-03-20
   selected: true
   type: W
   workshopLabel: NIDIT

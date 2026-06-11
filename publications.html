@@ -39,8 +39,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400&display=swap"
       rel="stylesheet"
     />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="/src/styles.css" />
   </head>
     <body class="text-ink">
     <div class="relative size-full">
@@ -61,23 +60,38 @@
         </header>
 
         <section class="w-full page-gutter">
-          <div class="section-rail-l1 section-heading-row">
+          <div class="section-rail-l1 section-heading-row" style="margin-bottom: 12px">
             <h2 class="type-title-section">
               Publications
             </h2>
           </div>
         </section>
 
-        <section class="w-full section-py">
+        <section class="w-full section-py" style="padding-top: 0">
           <div class="mx-auto section-list flex w-full flex-col items-center page-gutter">
             <div id="publications-by-year" class="section-rail-l2 flex w-full flex-col gap-[32px]"></div>
           </div>
         </section>
+
+        <div class="w-full page-gutter">
+          <div class="section-rail-l2" style="border-top: 1px solid var(--color-border-warm); padding-top: 24px"></div>
+        </div>
+
+        <div class="publications-visual page-gutter">
+          <div class="publications-visual-inner">
+            <img
+              src="files/visual.svg"
+              alt=""
+              class="publications-visual-frame"
+              width="1672"
+              height="941"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
-    <script src="js/utils.js" defer></script>
-    <script src="js/publications.js" defer></script>
+    <script type="module" src="/js/publications.js"></script>
 
     <script
       data-goatcounter="https://joeyzou.goatcounter.com/count"

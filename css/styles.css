@@ -894,13 +894,9 @@ button.publication-resource-action {
   height: 80px;
   object-fit: contain;
   display: block;
-  image-rendering: auto;
-  image-rendering: smooth;
-  -ms-interpolation-mode: bicubic;
   backface-visibility: hidden;
-  /* Sticker border pre-baked into the PNG. Shadow via CSS token. */
   filter: var(--sticker-shadow-base);
-  transform: translateZ(0) rotate(-4deg);
+  transform: rotate(-4deg) scale(1) translateY(0);
   transform-origin: center;
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -909,14 +905,13 @@ button.publication-resource-action {
 }
 
 .news-mascot-sticker:hover {
-  transform: translateZ(0) rotate(-6deg) scale(1.08);
+  transform: rotate(-6deg) scale(1.08) translateY(-2px);
   filter: var(--sticker-shadow-hover);
 }
 
 /* Tier 2: venue link hover → sticker floats higher with a deeper shadow */
-.news-venue-link:hover ~ .news-mascot-column .news-mascot-sticker,
 .editorial-grid-row:has(.news-venue-link:hover) .news-mascot-sticker {
-  transform: translateZ(0) rotate(-6deg) scale(1.1) translateY(-5px);
+  transform: rotate(-6deg) scale(1.1) translateY(-5px);
   filter: var(--sticker-shadow-venue-hover);
 }
 
@@ -924,7 +919,6 @@ button.publication-resource-action {
 @media (prefers-reduced-motion: reduce) {
   .news-mascot-sticker {
     transition: none !important;
-    transform: translateZ(0) rotate(-4deg) !important;
   }
 }
 
@@ -944,12 +938,9 @@ button.publication-resource-action {
   width: 80px;
   height: 80px;
   object-fit: contain;
-  image-rendering: auto;
-  image-rendering: smooth;
-  -ms-interpolation-mode: bicubic;
   backface-visibility: hidden;
   filter: var(--sticker-shadow-base);
-  transform: translateZ(0) rotate(-4deg);
+  transform: rotate(-4deg) scale(1) translateY(0);
   transform-origin: center;
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -958,14 +949,16 @@ button.publication-resource-action {
 }
 
 .service-mascot-sticker:hover {
-  transform: translateZ(0) rotate(-6deg) scale(1.08);
+  transform: rotate(-6deg) scale(1.08) translateY(-2px);
   filter: var(--sticker-shadow-hover);
 }
 
 /* Tier 3: venue link in content area hover → sticker floats higher */
 .editorial-grid-row:has(.editorial-inst-name a:hover) .service-mascot-sticker,
-.editorial-grid-row:has(.editorial-item-title a:hover) .service-mascot-sticker {
-  transform: translateZ(0) rotate(-6deg) scale(1.1) translateY(-5px);
+.editorial-grid-row:has(.editorial-inst-name a:focus-visible) .service-mascot-sticker,
+.editorial-grid-row:has(.editorial-item-title a:hover) .service-mascot-sticker,
+.editorial-grid-row:has(.editorial-item-title a:focus-visible) .service-mascot-sticker {
+  transform: rotate(-6deg) scale(1.1) translateY(-5px);
   filter: var(--sticker-shadow-venue-hover);
 }
 
@@ -978,7 +971,6 @@ button.publication-resource-action {
 @media (prefers-reduced-motion: reduce) {
   .service-mascot-sticker {
     transition: none !important;
-    transform: translateZ(0) rotate(-4deg) !important;
   }
 }
 
@@ -1140,6 +1132,29 @@ button.publication-resource-action {
     align-self: center;
     justify-content: center;
   }
+}
+
+/* === PUBLICATIONS VISUAL ===
+   Flat rounded-rectangle framed image at page bottom.
+   Frame stays fixed; image inside is slightly enlarged via scale
+   and clipped by overflow. */
+.publications-visual {
+  padding-top: var(--space-section-py);
+  padding-bottom: var(--space-section-py);
+}
+
+.publications-visual-inner {
+  max-width: var(--width-rail-level-2);
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.publications-visual-frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: scale(1.08);
 }
 
 .site-footer {

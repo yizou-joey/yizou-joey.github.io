@@ -2,34 +2,16 @@
 
 This document describes how this GitHub Pages academic homepage is structured and how content is rendered.
 
-## What we did
+## Current Structure
 
-- Render Publications, News, and Teaching from markdown lists with inline markdown support.
-- Added corresponding author markers: `\*` and `*` in `authors` render as superscript.
-- Added a `publications.html` page and updated the homepage nav to point to it.
-- Renamed `content` to `contents`.
-- **Refactored JS**: Separated shared utilities and page-specific logic into separate files.
-- **Behavior-preserving cleanup**: Kept rendered output/content rules the same while improving readability and defensive handling in JS.
-- **Shared CSS tokens**: Centralized font families, colors, and spacing in `css/styles.css`.
-
-## File Structure
-
-```
-css/
-└── styles.css           # Shared CSS tokens and semantic utility classes
-
-design-system/
-├── design.html          # Visual design language specification page
-├── design.md            # Source-of-truth design language document
-├── design-spec.css      # Styling for design language visualization
-├── design-conventions.md
-└── inspirations.md
-
-js/
-├── utils.js             # Shared rendering + data loading utilities
-├── index.js             # Index page specific logic
-└── publications.js      # Publications page specific logic
-```
+- `docs/design-system.md`: visual design source of truth.
+- `docs/content-schema.md`: content authoring contract.
+- `css/styles.css`: shared design tokens, semantic utility classes, and component styles.
+- `js/site-contracts.js`: machine-readable venue registry and content schema fields.
+- `js/utils.js`: shared parsing, rendering, data loading, and publication rendering utilities.
+- `js/index.js`: homepage section renderers.
+- `js/publications.js`: publications page year grouping.
+- `scripts/check-site-contracts.mjs`: zero-dependency contract checker used by `npm run check`.
 
 ### Shared JS pipeline
 
@@ -44,21 +26,20 @@ This refactor is intended to improve robustness/readability without changing use
 
 ## Shared CSS Tokens
 
-Shared styling tokens and semantic utility classes are in `css/styles.css`:
+Shared styling tokens and semantic utility classes are in `css/styles.css`. The design direction is documented in `docs/design-system.md`.
 
 ```css
 :root {
+  --color-page-bg: #fdfdfc;
   --color-ink: #15120f;
   --color-muted: #787774;
-  --color-paper: #f7f4ef;
-  --color-stone: #f6f5f4;
-  --color-line: #e9e7e3;
-  --space-section: clamp(24px, 2.4vw, 32px);
-  --space-section-md: clamp(28px, 3vw, 36px);
-  --space-section-py: clamp(28px, 3.2vw, 40px);
+  --color-line: #f2f1ee;
+  --color-border-warm: #dfdcd4;
+  --color-venue-ieee-vr: #262189;
+  --color-venue-mmsys: rgb(24, 86, 105);
+  --space-section-py: 32px;
   --space-gutter-fluid: clamp(16px, 3vw, 32px);
   --space-col-gap-fluid: clamp(20px, 4vw, 56px);
-  --space-card-inline: clamp(18px, 2vw, 24px);
 }
 ```
 
@@ -70,6 +51,9 @@ In HTML, use the shared CSS utility classes:
 <div class="section-gap">
 <section class="section-py">
 ```
+
+Page-specific exceptions should also be semantic classes. Avoid inline `style`
+attributes in HTML.
 
 ## Interaction and motion guidelines
 
@@ -97,6 +81,8 @@ In HTML, use the shared CSS utility classes:
 - Publications: `contents/publications.md`
 - News: `contents/news.md`
 - Teaching: `contents/teaching.md`
+- Education: `contents/education.md`
+- Services: `contents/services.md`
 
 Each file uses list entries:
 
@@ -105,35 +91,11 @@ Each file uses list entries:
   key: value
 ```
 
-### Publications fields
+Field rules are documented in `docs/content-schema.md` and enforced by `npm run check`.
+Venue accents use `venueKey` and `js/site-contracts.js`; do not add per-entry `venueColor`.
 
-- `date` (required, ISO `YYYY-MM-DD` for sorting and yearly grouping)
-- `selected` (optional boolean; when `true`, the item appears in the homepage research/publications section)
-- `venue`
-- `venueColor` (hex color)
-- `title` (supports inline markdown; avoid manual `\n` line breaks so titles wrap naturally)
-- `authors` (use `\*` or `*` for corresponding author marker)
-- `award` (optional, canonical field for award badge text, e.g. `Best Paper Honorable Mention`)
-- `status` (optional legacy fallback; used only when `award` is missing/empty)
-- `youtubeUrl` (optional, renders a video supplemental chip with YouTube icon)
-- `youtubeLabel` (optional, custom text for the YouTube/video chip, e.g. `presentation video` or `demo video`)
-- `arxivUrl` (optional, renders an `arXiv` supplemental chip)
-- `pdfUrl` (optional, renders a `PDF` supplemental chip; supports relative paths such as `files/...`)
-- `slidesUrl` (optional, renders a `Slides` supplemental chip; supports relative paths such as `files/...`)
-
-If any supplemental URL fields are present, publication cards render a compact chip row below
-the authors. Chips use local monochrome SVG icons from `files/icons/`, keep neutral styling,
-and open links in a new tab.
-
-### News fields
-
-- `date` (required, ISO `YYYY-MM-DD` for sorting)
-- `text` (supports `**bold**`, `*italic*`, and `[link](url)`)
-
-### Teaching fields
-
-- `role`
-- `detail` (supports `**bold**`, `*italic*`, and `[link](url)`)
+If any supplemental URL fields are present, publication cards render compact bracket links below
+the authors. Supplemental links open in a new tab.
 
 ## Next steps
 

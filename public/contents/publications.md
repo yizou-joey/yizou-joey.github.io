@@ -4,8 +4,8 @@
 # type: W
 # workshopLabel: Example Workshop
 # typeLink: https://example.com/publication-type
+# venueKey: ieee-vr
 # venue: Example Conference 2026
-# venueColor: "#262189"
 # title: Example Publication Title
 # authors: First AUTHOR, Second AUTHOR, Corresponding AUTHOR\*
 # award: Best Paper Honorable Mention
@@ -17,8 +17,8 @@
 - date: 2026-03-20
   selected: true
   type: P
+  venueKey: ieee-vr
   venue: IEEE VR 2026
-  venueColor: #262189
   title: DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR
   authors: Yi ZOU, Ao YU, Ziming LI, Hai-Ning LIANG\*, Pan HUI\*
   youtubeUrl: https://www.youtube.com/watch?v=6GY7u8pQ9s8
@@ -32,8 +32,8 @@
   type: W
   workshopLabel: NIDIT
   typeLink: https://sites.google.com/view/nidit/nidit-2026
+  venueKey: ieee-vr
   venue: IEEE VR 2026
-  venueColor: #262189
   title: Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning
   authors: Yi ZOU, Ziming LI, Hai-Ning LIANG\*, Zhiming HU\*
   youtubeUrl: https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s

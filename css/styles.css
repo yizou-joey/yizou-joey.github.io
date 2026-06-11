@@ -11,8 +11,8 @@
 
   /* Brand & accent */
   --color-apple-blue: #0071e3;
-  --color-ieee-vr-blue: #262189;
-  --color-news-venue-accent: var(--color-ieee-vr-blue);
+  --color-venue-ieee-vr: #262189;
+  --color-news-venue-accent: var(--color-venue-ieee-vr);
   --color-venue-mmsys: rgb(24, 86, 105);
   --color-award-badge-text: #F2A900;
   --color-gold-dark: #92400e;
@@ -29,6 +29,11 @@
   --color-chip-text-muted: #3c3c3c;
   --color-resource-border: #e8e4da;
   --color-resource-bg: #faf9f6;
+  --color-resource-border-hover: #e4e0d5;
+  --color-resource-bg-hover: #f8f6f1;
+  --color-resource-bg-active: #f3f1ea;
+  --color-resource-text-hover: #32312f;
+  --color-footer-note: #7a7975;
 
   /* === Typography: families === */
   --font-inter: "Inter", sans-serif;
@@ -440,6 +445,10 @@ a {
   font-weight: 700;
 }
 
+.publication-eyebrow.venue-ieee-vr .publication-eyebrow-venue {
+  color: var(--color-venue-ieee-vr);
+}
+
 .publication-eyebrow a {
   text-decoration: none;
   font-weight: normal;
@@ -450,7 +459,21 @@ a {
 .publication-eyebrow a:hover,
 .publication-eyebrow a:focus-visible {
   font-weight: 700;
-  color: var(--hover-color, var(--color-ink));
+  color: var(--color-ink);
+}
+
+.publication-eyebrow.venue-ieee-vr a:hover,
+.publication-eyebrow.venue-ieee-vr a:focus-visible {
+  color: var(--color-venue-ieee-vr);
+}
+
+.publication-eyebrow-dash {
+  margin: 0 4px;
+}
+
+.publication-eyebrow-award {
+  color: var(--color-award-badge-text);
+  font-weight: 700;
 }
 
 .publication-title-serif {
@@ -867,14 +890,14 @@ button.publication-resource-action {
 }
 
 .publication-resource-action:hover {
-  border-color: #e4e0d5;
-  background: #f8f6f1;
-  color: #32312f;
+  border-color: var(--color-resource-border-hover);
+  background: var(--color-resource-bg-hover);
+  color: var(--color-resource-text-hover);
   box-shadow: none;
 }
 
 .publication-resource-action:active {
-  background: #f3f1ea;
+  background: var(--color-resource-bg-active);
   box-shadow: none;
 }
 
@@ -1113,6 +1136,10 @@ button.publication-resource-action {
   --news-venue-hover-color: var(--color-news-venue-accent);
 }
 
+.editorial-news-content .news-venue-token.venue-ieee-vr {
+  --news-venue-hover-color: var(--color-venue-ieee-vr);
+}
+
 .editorial-news-content .news-venue-link:hover,
 .editorial-news-content .news-venue-link:focus-visible {
   color: var(--news-venue-hover-color);
@@ -1157,6 +1184,23 @@ button.publication-resource-action {
   transform: scale(1.08);
 }
 
+.publications-page-heading {
+  margin-bottom: 12px;
+}
+
+.publications-list-section {
+  padding-top: 0;
+}
+
+.publications-year-list {
+  gap: var(--gap-32);
+}
+
+.publications-page-divider {
+  border-top: 1px solid var(--color-border-warm);
+  padding-top: 24px;
+}
+
 .site-footer {
   width: 100%;
   margin-top: auto;
@@ -1184,7 +1228,7 @@ button.publication-resource-action {
   font-weight: 400;
   line-height: 14px;
   letter-spacing: 0;
-  color: #7a7975;
+  color: var(--color-footer-note);
 }
 
 /* 404 page: homepage-aligned editorial hero with subtle surface treatment. */

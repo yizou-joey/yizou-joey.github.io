@@ -1,3 +1,5 @@
+import { getVenueConfig } from "./site-contracts.js";
+
 const getNormalizedLines = (text) => String(text || "").replace(/\r/g, "").split("\n");
 
 const parseKeyValueLine = (line) => {
@@ -26,6 +28,7 @@ const parseListData = (text) => {
   for (const rawLine of lines) {
     const line = rawLine.trim();
     if (!line) continue;
+    if (line.startsWith("#") || line.startsWith("<!--") || line.startsWith("-->")) continue;
 
     if (line.startsWith("- ")) {
       finalizeCurrent();
@@ -103,22 +106,6 @@ const normalizeVenueKey = (entry) => {
   return "";
 };
 
-const CSS_COLOR_TOKEN_PATTERN = /^(#[0-9a-fA-F]{3,8}|(?:rgb|hsl)a?\([^)]+\)|var\(--[a-zA-Z0-9-_]+\)|[a-zA-Z]+)$/;
-
-const normalizeVenueAccent = (entry) => {
-  const accent = String(entry?.venueAccent || "").trim();
-  if (!accent) return "";
-  return CSS_COLOR_TOKEN_PATTERN.test(accent) ? accent : "";
-};
-
-const VENUE_KEY_PATTERN = /^[a-z0-9-]+$/;
-
-const getVenueAccentFromKey = (venueKey) => {
-  const normalizedKey = String(venueKey || "").trim().toLowerCase();
-  if (!VENUE_KEY_PATTERN.test(normalizedKey)) return "";
-  return `var(--color-venue-${normalizedKey}, var(--color-news-venue-accent))`;
-};
-
 const renderNewsInline = (entry) => {
   const sourceText = String(entry?.text || "");
   let html = renderInlineMarkdown(sourceText);
@@ -135,25 +122,23 @@ const renderNewsInline = (entry) => {
   const venueKey = normalizeVenueKey(entry);
   const venueText = String(entry?.venueText || entry?.venue || "").trim();
   const venueUrl = String(entry?.venueUrl || "").trim();
-  const venueAccent = normalizeVenueAccent(entry) || getVenueAccentFromKey(venueKey);
+  const venueConfig = getVenueConfig(venueKey);
+  const venueClass = venueConfig ? ` ${venueConfig.className}` : "";
 
   if (!venueKey || !venueText) return html;
 
   const venuePattern = new RegExp(escapeRegExp(venueText), "g");
-  const accentAttr = venueAccent
-    ? ` style="--news-venue-hover-color: ${escapeHtml(venueAccent)};"`
-    : "";
 
   if (venueUrl) {
     return html.replace(
       venuePattern,
-      `<a href="${escapeHtml(venueUrl)}" class="inline-link news-venue-link news-venue-token" data-venue="${escapeHtml(venueKey)}"${accentAttr} target="_blank" rel="noopener noreferrer">${escapeHtml(venueText)}</a>`
+      `<a href="${escapeHtml(venueUrl)}" class="inline-link news-venue-link news-venue-token${venueClass}" data-venue="${escapeHtml(venueKey)}" target="_blank" rel="noopener noreferrer">${escapeHtml(venueText)}</a>`
     );
   }
 
   return html.replace(
     venuePattern,
-    `<span class="news-venue-token" data-venue="${escapeHtml(venueKey)}"${accentAttr}>${escapeHtml(venueText)}</span>`
+    `<span class="news-venue-token${venueClass}" data-venue="${escapeHtml(venueKey)}">${escapeHtml(venueText)}</span>`
   );
 };
 
@@ -357,53 +342,74 @@ const buildPublicationItem = (item) => {
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
+  const venueKey = normalizeVenueKey(entry);
+  const venueConfig = getVenueConfig(venueKey);
   
   const article = document.createElement("article");
   article.className = "editorial-publication-item";
 
   const eyebrow = document.createElement("div");
   eyebrow.className = "publication-eyebrow";
+  if (venueConfig) {
+    eyebrow.classList.add(venueConfig.className);
+  }
+
+  const appendEyebrowSeparator = () => {
+    if (!eyebrow.childNodes.length) return;
+    const separator = document.createElement("span");
+    separator.className = "publication-eyebrow-separator";
+    separator.textContent = "|";
+    eyebrow.appendChild(separator);
+  };
 
   // Venue
   const venueSpan = document.createElement("span");
   venueSpan.className = "publication-eyebrow-venue";
   venueSpan.textContent = entry.venue || "";
-  const venueKey = normalizeVenueKey(entry);
-  const venueColor = String(entry.venueColor || "").trim();
-  const accent = normalizeVenueAccent(entry) || getVenueAccentFromKey(venueKey);
-  
-  if (accent) {
-    venueSpan.style.color = accent;
-  } else if (venueColor) {
-    venueSpan.style.color = venueColor;
-  }
+  eyebrow.appendChild(venueSpan);
   
   // Status / Award
   const awardLabel = normalizeInlineText(entry.award);
   const fallbackStatusLabel = normalizeInlineText(entry.status);
   const statusLabel = awardLabel || fallbackStatusLabel;
-
-  const eyebrowParts = [];
-  eyebrowParts.push(venueSpan.outerHTML);
   
   const typeLinkUrl = String(entry.typeLink || "").trim();
+  const typeSpan = document.createElement("span");
   
   if (type === "W" && workshopLabel) {
+    typeSpan.append(document.createTextNode(typeLabel.toUpperCase()));
+    const dash = document.createElement("span");
+    dash.className = "publication-eyebrow-dash";
+    dash.textContent = "-";
+    typeSpan.appendChild(dash);
+
     if (typeLinkUrl) {
-      const linkColor = accent || venueColor || 'var(--color-ink)';
-      eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())} <span class="publication-eyebrow-separator" style="margin: 0 4px;">-</span> <a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link" style="--hover-color: ${escapeHtml(linkColor)};">${escapeHtml(workshopLabel.toUpperCase())}</a></span>`);
+      const link = document.createElement("a");
+      link.href = typeLinkUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.className = "publication-eyebrow-workshop-link";
+      link.textContent = workshopLabel.toUpperCase();
+      typeSpan.appendChild(link);
     } else {
-      eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())} <span class="publication-eyebrow-separator" style="margin: 0 4px;">-</span> ${escapeHtml(workshopLabel.toUpperCase())}</span>`);
+      typeSpan.append(document.createTextNode(workshopLabel.toUpperCase()));
     }
   } else {
-    eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
+    typeSpan.textContent = typeLabel.toUpperCase();
   }
+  appendEyebrowSeparator();
+  eyebrow.appendChild(typeSpan);
   
   if (statusLabel) {
-    eyebrowParts.push(`<span style="${awardLabel ? 'color: var(--color-award-badge-text); font-weight: 700;' : ''}">${escapeHtml(statusLabel.toUpperCase())}</span>`);
+    const statusSpan = document.createElement("span");
+    statusSpan.className = awardLabel
+      ? "publication-eyebrow-status publication-eyebrow-award"
+      : "publication-eyebrow-status";
+    statusSpan.textContent = statusLabel.toUpperCase();
+    appendEyebrowSeparator();
+    eyebrow.appendChild(statusSpan);
   }
 
-  eyebrow.innerHTML = eyebrowParts.join('<span class="publication-eyebrow-separator">|</span>');
   article.appendChild(eyebrow);
 
   const title = document.createElement("h3");

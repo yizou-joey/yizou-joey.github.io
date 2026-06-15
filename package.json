@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "npm run optimize:images && vite",
-    "build": "npm run check && npm run optimize:images && vite build",
+    "build": "npm run check && npm run optimize:images && vite build && npm run render:static",
     "check": "node scripts/check-site-contracts.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
+    "render:static": "node scripts/render-static-content.mjs",
+    "prepreview": "npm run build",
     "preview": "vite preview"
   },
   "devDependencies": {

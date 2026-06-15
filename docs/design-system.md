@@ -17,6 +17,18 @@ clear chronology, thin rules, and small tactile conference marks.
 - Stickers and halftone marks are the memorable visual layer. They should feel
   printed or placed on paper, with compact warm shadows and restrained hover
   lift.
+- Treat paper and print effects as a material system, not decoration. Use three
+  layers: a quiet paper base, a restrained ink layer, and small semantic sticker
+  accents.
+- Avoid large poster-like illustrations on editorial listing pages. Publication
+  pages should remain closer to bibliographies, archives, or printed specimens
+  than standalone hero artwork.
+- Keep paper texture and ink noise extremely light. Texture should support the
+  warm surface and never compete with publication titles, dates, or resource
+  links.
+- Preserve the site's strongest existing qualities: calm academic typography,
+  thin rules, generous blank space, and sparse printed marks. Add tactile
+  effects only when they clarify meaning or provenance.
 
 ## Typography
 

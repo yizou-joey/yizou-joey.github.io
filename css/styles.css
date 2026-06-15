@@ -1161,29 +1161,6 @@ button.publication-resource-action {
   }
 }
 
-/* === PUBLICATIONS VISUAL ===
-   Flat rounded-rectangle framed image at page bottom.
-   Frame stays fixed; image inside is slightly enlarged via scale
-   and clipped by overflow. */
-.publications-visual {
-  padding-top: var(--space-section-py);
-  padding-bottom: var(--space-section-py);
-}
-
-.publications-visual-inner {
-  max-width: var(--width-rail-level-2);
-  margin: 0 auto;
-  border-radius: 18px;
-  overflow: hidden;
-}
-
-.publications-visual-frame {
-  display: block;
-  width: 100%;
-  height: auto;
-  transform: scale(1.08);
-}
-
 .publications-page-heading {
   margin-bottom: 12px;
 }

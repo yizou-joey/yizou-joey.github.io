@@ -145,10 +145,9 @@ const renderNewsInline = (entry) => {
 const renderAuthors = (value) => {
   if (!value) return "";
   const token = "__CORR_STAR__";
-  const escaped = value.replace(/\\\*/g, token);
+  const escaped = value.replace(/\\\*/g, token).replace(/\*/g, token);
   let html = renderInlineMarkdown(escaped);
   html = html.replace(new RegExp(token, "g"), "<sup>*</sup>");
-  html = html.replace(/\*/g, "<sup>*</sup>");
   return html;
 };
 
@@ -337,113 +336,77 @@ const getPublicationSupplementLinks = (entry) =>
     return acc;
   }, []);
 
-const buildPublicationItem = (item) => {
+const renderPublicationItemHtml = (item) => {
   const entry = item || {};
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
   const venueKey = normalizeVenueKey(entry);
   const venueConfig = getVenueConfig(venueKey);
-  
-  const article = document.createElement("article");
-  article.className = "editorial-publication-item";
-
-  const eyebrow = document.createElement("div");
-  eyebrow.className = "publication-eyebrow";
-  if (venueConfig) {
-    eyebrow.classList.add(venueConfig.className);
-  }
-
-  const appendEyebrowSeparator = () => {
-    if (!eyebrow.childNodes.length) return;
-    const separator = document.createElement("span");
-    separator.className = "publication-eyebrow-separator";
-    separator.textContent = "|";
-    eyebrow.appendChild(separator);
-  };
-
-  // Venue
-  const venueSpan = document.createElement("span");
-  venueSpan.className = "publication-eyebrow-venue";
-  venueSpan.textContent = entry.venue || "";
-  eyebrow.appendChild(venueSpan);
-  
-  // Status / Award
+  const venueClass = venueConfig ? ` ${venueConfig.className}` : "";
   const awardLabel = normalizeInlineText(entry.award);
   const fallbackStatusLabel = normalizeInlineText(entry.status);
   const statusLabel = awardLabel || fallbackStatusLabel;
-  
   const typeLinkUrl = String(entry.typeLink || "").trim();
-  const typeSpan = document.createElement("span");
-  
-  if (type === "W" && workshopLabel) {
-    typeSpan.append(document.createTextNode(typeLabel.toUpperCase()));
-    const dash = document.createElement("span");
-    dash.className = "publication-eyebrow-dash";
-    dash.textContent = "-";
-    typeSpan.appendChild(dash);
+  const eyebrowParts = [
+    `<span class="publication-eyebrow-venue">${escapeHtml(entry.venue || "")}</span>`,
+  ];
 
+  if (type === "W" && workshopLabel) {
+    const workshopHtml = escapeHtml(workshopLabel.toUpperCase());
     if (typeLinkUrl) {
-      const link = document.createElement("a");
-      link.href = typeLinkUrl;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.className = "publication-eyebrow-workshop-link";
-      link.textContent = workshopLabel.toUpperCase();
-      typeSpan.appendChild(link);
+      eyebrowParts.push(
+        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">-</span><a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link">${workshopHtml}</a></span>`
+      );
     } else {
-      typeSpan.append(document.createTextNode(workshopLabel.toUpperCase()));
+      eyebrowParts.push(
+        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">-</span>${workshopHtml}</span>`
+      );
     }
   } else {
-    typeSpan.textContent = typeLabel.toUpperCase();
+    eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
   }
-  appendEyebrowSeparator();
-  eyebrow.appendChild(typeSpan);
-  
+
   if (statusLabel) {
-    const statusSpan = document.createElement("span");
-    statusSpan.className = awardLabel
+    const statusClass = awardLabel
       ? "publication-eyebrow-status publication-eyebrow-award"
       : "publication-eyebrow-status";
-    statusSpan.textContent = statusLabel.toUpperCase();
-    appendEyebrowSeparator();
-    eyebrow.appendChild(statusSpan);
+    eyebrowParts.push(
+      `<span class="${statusClass}">${escapeHtml(statusLabel.toUpperCase())}</span>`
+    );
   }
 
-  article.appendChild(eyebrow);
-
-  const title = document.createElement("h3");
+  const eyebrowHtml = eyebrowParts.join(
+    '<span class="publication-eyebrow-separator">|</span>'
+  );
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  title.className = "publication-title-serif";
-  title.innerHTML = renderInlineMarkdown(normalizedTitle, {
+  const titleHtml = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
-  article.appendChild(title);
+  const authorsHtml = renderAuthors(entry.authors || "");
 
-  const authors = document.createElement("p");
-  authors.className = "publication-authors-serif";
-  authors.innerHTML = renderAuthors(entry.authors || "");
-  article.appendChild(authors);
+  const supplementsHtml = getPublicationSupplementLinks(entry)
+    .map(
+      (supplement) =>
+        `<a href="${escapeHtml(supplement.href)}" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">${escapeHtml(supplement.label)}</span>]</a>`
+    )
+    .join("");
+  const linksHtml = supplementsHtml
+    ? `<div class="publication-bracket-links">${supplementsHtml}</div>`
+    : "";
 
-  const supplements = getPublicationSupplementLinks(entry);
-  if (supplements.length) {
-    const linksDiv = document.createElement("div");
-    linksDiv.className = "publication-bracket-links";
-    supplements.forEach((supplement) => {
-      const link = document.createElement("a");
-      link.href = supplement.href;
-      link.innerHTML = `[<span class="bracket-text">${supplement.label}</span>]`;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      linksDiv.appendChild(link);
-    });
-    article.appendChild(linksDiv);
-  }
+  return `<article class="editorial-publication-item"><div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div><h3 class="publication-title-serif">${titleHtml}</h3><p class="publication-authors-serif">${authorsHtml}</p>${linksHtml}</article>`;
+};
 
-  return article;
+const buildPublicationItem = (item) => {
+  if (typeof document === "undefined") return null;
+  const template = document.createElement("template");
+  template.innerHTML = renderPublicationItemHtml(item).trim();
+  return template.content.firstElementChild;
 };
 
 const ensureSiteFooter = () => {
+  if (typeof document === "undefined") return;
   if (!document.body || document.querySelector('[data-site-footer="true"]')) return;
 
   const footer = document.createElement("footer");
@@ -472,10 +435,12 @@ export {
   getDateSortValue,
   loadList,
   normalizeInlineText,
+  parseListData,
   parseBooleanLike,
   renderEmpty,
   renderError,
   renderInlineMarkdown,
   renderItems,
   renderNewsInline,
+  renderPublicationItemHtml,
 };

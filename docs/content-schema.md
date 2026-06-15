@@ -8,7 +8,9 @@ Content files live in `public/contents/*.md`. They use simple list entries:
 ```
 
 The source of truth for machine-checkable fields is `js/site-contracts.js`.
-Run `npm run check` before committing content changes.
+Run `npm run check` before committing content changes. During production builds,
+these Markdown files are rendered into `dist/*.html` so the deployed pages
+contain complete static content before browser JavaScript runs.
 
 ## Shared Rules
 

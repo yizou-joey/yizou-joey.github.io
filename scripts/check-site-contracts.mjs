@@ -112,6 +112,7 @@ const validatePathOrUrl = async ({ filePath, item, field, value }) => {
     report(`${itemLabel(filePath, item)} field "${field}" must be an external URL or public-relative path.`);
     return;
   }
+  if (text.startsWith("files/generated/")) return;
 
   const publicPath = path.join(root, "public", text);
   try {
@@ -204,7 +205,7 @@ const validateNoInlineHtmlStyles = async () => {
 };
 
 const validateNoGeneratedInlineStyles = async () => {
-  const jsFiles = ["js/utils.js", "js/index.js", "js/publications.js"];
+  const jsFiles = ["js/utils.js", "js/renderers.js", "js/index.js", "js/publications.js"];
   for (const filePath of jsFiles) {
     const text = await readUtf8(filePath);
     const lines = text.split("\n");

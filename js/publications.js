@@ -1,67 +1,27 @@
 import {
-  buildPublicationItem,
-  getDateSortValue,
   loadList,
   renderEmpty,
   renderError,
 } from "./utils.js";
+import {
+  compareByDateDesc,
+  renderPublicationsByYearHtml,
+} from "./renderers.js";
 
-const buildYearSection = (year, items) => {
-  const section = document.createElement("section");
-  section.className = "flex w-full flex-col items-center gap-[20px]";
-
-  const header = document.createElement("div");
-  header.className = "section-heading-row";
-
-  const title = document.createElement("h2");
-  title.className = "type-title-subsection";
-  title.textContent = year;
-  header.appendChild(title);
-
-  const list = document.createElement("div");
-  list.className = "flex w-full flex-col items-center";
-  items.forEach((item) => list.appendChild(buildPublicationItem(item)));
-
-  section.appendChild(header);
-  section.appendChild(list);
-  return section;
-};
-
-const compareByDateDesc = (a, b) => {
-  const aDate = getDateSortValue(a?.date);
-  const bDate = getDateSortValue(b?.date);
-  if (aDate === bDate) return 0;
-  return bDate - aDate;
-};
-
-const groupPublicationsByYear = (items) => {
-  const groups = new Map();
-  items.forEach((item) => {
-    const year = (item?.date || "").slice(0, 4) || "Unknown";
-    if (!groups.has(year)) groups.set(year, []);
-    groups.get(year).push(item);
-  });
-  return groups;
-};
-
-const renderPublicationYearGroups = (container, groups) => {
-  Array.from(groups.entries())
-    .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
-    .forEach(([year, items]) => {
-      container.appendChild(buildYearSection(year, items));
-    });
-};
+const isStaticRendered = (container) =>
+  container?.dataset?.contentRendered === "static";
 
 const renderPublicationsByYear = async () => {
   const publicationsByYear = document.getElementById("publications-by-year");
-  if (!publicationsByYear) return;
+  if (!publicationsByYear || isStaticRendered(publicationsByYear)) return;
 
   try {
     const items = await loadList({
       url: "contents/publications.md",
       sortFn: compareByDateDesc,
     });
-    if (!items.length) {
+    const html = renderPublicationsByYearHtml(items);
+    if (!html) {
       renderEmpty(
         publicationsByYear,
         '<p class="type-body-sm text-muted">No publications yet.</p>'
@@ -69,8 +29,7 @@ const renderPublicationsByYear = async () => {
       return;
     }
 
-    const groups = groupPublicationsByYear(items);
-    renderPublicationYearGroups(publicationsByYear, groups);
+    publicationsByYear.innerHTML = html;
   } catch {
     renderError(
       publicationsByYear,

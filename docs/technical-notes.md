@@ -8,46 +8,42 @@ This document describes how this GitHub Pages academic homepage is structured an
 - `docs/content-schema.md`: content authoring contract.
 - `css/styles.css`: shared design tokens, semantic utility classes, and component styles.
 - `js/site-contracts.js`: machine-readable venue registry and content schema fields.
-- `js/renderers.js`: shared HTML renderers used by browser fallback and static rendering.
-- `js/utils.js`: shared parsing, rendering, data loading, and publication rendering utilities.
-- `js/index.js`: homepage section renderers.
-- `js/publications.js`: publications page year grouping.
+- `js/renderers.js`: shared HTML renderers used by Vite's HTML transform.
+- `js/utils.js`: pure parsing, escaping, and publication rendering utilities.
 - `scripts/check-site-contracts.mjs`: zero-dependency contract checker used by `npm run check`.
-- `scripts/render-static-content.mjs`: build-time renderer that injects content into `dist/*.html`.
+- `vite.config.js`: Vite configuration plus the HTML transform that injects content.
 
-### Shared JS pipeline
+### Shared rendering pipeline
 
-Main list-driven sections now use shared helpers in `js/utils.js`:
+Main list-driven sections use shared helpers in `js/utils.js`:
 
-- `fetchTextOrThrow(url)` for fetch + status checking
-- `loadList({ url, sortFn })` for fetch + markdown parse + optional sort
-- `renderItems({ container, items, buildItem })` for DOM rendering
-- `renderEmpty(container, html)` and `renderError(container, html)` for section fallback states
+- `parseListData(markdown)` for content parsing
+- `renderInlineMarkdown(value)` for compact inline Markdown rendering
+- `renderPublicationItemHtml(item)` for publication card markup
 
-This refactor is intended to improve robustness/readability without changing user-facing behavior.
+The browser-facing pages no longer fetch Markdown at runtime. HTML is the content delivery surface.
 
-### Static rendering pipeline
+### HTML-first rendering pipeline
 
-The source HTML files keep lightweight empty containers so local development can
-still use browser-side fallback rendering. Production builds render content into
-the final HTML:
+The source HTML files keep lightweight empty containers. Vite injects content
+into those containers during both local development and production builds:
 
-1. `npm run check` validates content and design contracts.
-2. `npm run optimize:images` regenerates optimized static assets.
-3. `vite build` writes `dist/index.html` and `dist/publications.html`.
-4. `npm run render:static` reads `public/contents/*.md`, renders HTML through
-   `js/renderers.js`, and injects the result into `dist/*.html`.
+1. `npm run optimize:images` regenerates optimized static assets.
+2. `npm run check` validates content, design contracts, generated assets, and
+   public directory hygiene.
+3. `vite build` reads `contents/*.md`, renders HTML through `js/renderers.js`,
+   and writes complete `dist/index.html` and `dist/publications.html`.
 
-Injected containers receive `data-content-rendered="static"`. Browser scripts
-check that marker and skip runtime fetch/rendering when static content already
-exists. If the marker is absent, the same renderers still provide the local dev
-fallback.
+Injected containers receive `data-content-rendered="static"`. The deployed
+HTML itself contains the biography, news, publication, education, service, and
+teaching text, so crawlers and AI assistants do not need to execute JavaScript
+to read the page.
 
-The source `index.html` and `publications.html` intentionally remain lightweight
-templates with empty content containers. Inspect `dist/*.html` or the deployed
-GitHub Pages artifact when you need to verify the full static HTML. `npm run
-preview` runs `npm run build` first through the `prepreview` npm hook so local
-preview serves a fresh statically-rendered `dist`.
+Content sources live outside `public/` and are not deployed as standalone
+Markdown files. Inspect `dist/*.html` or the deployed GitHub Pages artifact when
+you need to verify the full static HTML. `npm run preview` runs `npm run build`
+first through the `prepreview` npm hook so local preview serves a fresh
+statically-rendered `dist`.
 
 ## Shared CSS Tokens
 

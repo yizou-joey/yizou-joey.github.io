@@ -27,7 +27,7 @@ const VENUE_REGISTRY = Object.freeze({
 
 const CONTENT_SCHEMAS = Object.freeze({
   publications: Object.freeze({
-    path: "public/contents/publications.md",
+    path: "contents/publications.md",
     required: Object.freeze(["date", "selected", "type", "venueKey", "venue", "title", "authors"]),
     optional: Object.freeze([
       "workshopLabel",
@@ -51,7 +51,7 @@ const CONTENT_SCHEMAS = Object.freeze({
     venueKey: "required",
   }),
   news: Object.freeze({
-    path: "public/contents/news.md",
+    path: "contents/news.md",
     required: Object.freeze(["date", "text"]),
     optional: Object.freeze([
       "venueKey",
@@ -67,19 +67,19 @@ const CONTENT_SCHEMAS = Object.freeze({
     venueKey: "when-venue-text",
   }),
   education: Object.freeze({
-    path: "public/contents/education.md",
+    path: "contents/education.md",
     required: Object.freeze(["period", "institution", "degree", "major"]),
     optional: Object.freeze(["subAffiliation", "location", "logo", "logoAlt"]),
     deprecated: Object.freeze([]),
   }),
   services: Object.freeze({
-    path: "public/contents/services.md",
+    path: "contents/services.md",
     required: Object.freeze(["period", "role"]),
     optional: Object.freeze(["event", "detail", "location", "logo", "logoAlt", "logoLink"]),
     deprecated: Object.freeze([]),
   }),
   teaching: Object.freeze({
-    path: "public/contents/teaching.md",
+    path: "contents/teaching.md",
     required: Object.freeze(["period", "role"]),
     optional: Object.freeze(["courseCode", "courseName", "institution", "detail"]),
     deprecated: Object.freeze([]),

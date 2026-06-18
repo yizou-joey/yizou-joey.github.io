@@ -156,45 +156,6 @@ const normalizeInlineText = (value) =>
     .replace(/\s+/g, " ")
     .trim();
 
-const fetchTextCache = new Map();
-
-const fetchTextOrThrow = async (url) => {
-  if (!fetchTextCache.has(url)) {
-    fetchTextCache.set(
-      url,
-      (async () => {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch ${url}: ${response.status}`);
-        }
-        return response.text();
-      })().catch((error) => {
-        fetchTextCache.delete(url);
-        throw error;
-      })
-    );
-  }
-
-  return fetchTextCache.get(url);
-};
-
-const renderEmpty = (container, html) => {
-  if (!container) return;
-  container.innerHTML = html;
-};
-
-const renderError = (container, html) => {
-  if (!container) return;
-  container.innerHTML = html;
-};
-
-const loadList = async ({ url, sortFn }) => {
-  const markdown = await fetchTextOrThrow(url);
-  const items = parseListData(markdown);
-  if (!sortFn) return items;
-  return [...items].sort(sortFn);
-};
-
 const parseBooleanLike = (value) => {
   if (typeof value === "boolean") return value;
   const normalized = String(value || "")
@@ -203,14 +164,6 @@ const parseBooleanLike = (value) => {
   if (["true", "1", "yes", "y", "on"].includes(normalized)) return true;
   if (["false", "0", "no", "n", "off"].includes(normalized)) return false;
   return false;
-};
-
-const renderItems = ({ container, items, buildItem }) => {
-  if (!container || !Array.isArray(items) || typeof buildItem !== "function") return;
-  items.forEach((item) => {
-    const node = buildItem(item || {});
-    if (node) container.appendChild(node);
-  });
 };
 
 const MONTH_NUMBER_BY_NAME = {
@@ -398,49 +351,13 @@ const renderPublicationItemHtml = (item) => {
   return `<article class="editorial-publication-item"><div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div><h3 class="publication-title-serif">${titleHtml}</h3><p class="publication-authors-serif">${authorsHtml}</p>${linksHtml}</article>`;
 };
 
-const buildPublicationItem = (item) => {
-  if (typeof document === "undefined") return null;
-  const template = document.createElement("template");
-  template.innerHTML = renderPublicationItemHtml(item).trim();
-  return template.content.firstElementChild;
-};
-
-const ensureSiteFooter = () => {
-  if (typeof document === "undefined") return;
-  if (!document.body || document.querySelector('[data-site-footer="true"]')) return;
-
-  const footer = document.createElement("footer");
-  footer.className = "site-footer";
-  footer.setAttribute("data-site-footer", "true");
-
-  const inner = document.createElement("div");
-  inner.className = "site-footer-inner";
-
-  const year = new Date().getFullYear();
-  const footerText = document.createElement("p");
-  footerText.className = "site-footer-note";
-  footerText.textContent = `© ${year} Yi ZOU. Powered by GitHub Pages.`;
-
-  inner.appendChild(footerText);
-  footer.appendChild(inner);
-  document.body.appendChild(footer);
-};
-
-ensureSiteFooter();
-
 export {
-  buildPublicationItem,
   escapeHtml,
-  fetchTextOrThrow,
   getDateSortValue,
-  loadList,
   normalizeInlineText,
   parseListData,
   parseBooleanLike,
-  renderEmpty,
-  renderError,
   renderInlineMarkdown,
-  renderItems,
   renderNewsInline,
   renderPublicationItemHtml,
 };

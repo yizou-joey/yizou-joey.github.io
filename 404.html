@@ -61,31 +61,13 @@
             </article>
           </section>
         </main>
+        <footer class="site-footer" data-site-footer="true">
+          <div class="site-footer-inner">
+            <p class="site-footer-note">© 2026 Yi ZOU. Powered by GitHub Pages.</p>
+          </div>
+        </footer>
       </div>
     </div>
-
-    <script type="module" src="/js/utils.js"></script>
-    <script>
-      (() => {
-        const isSafeReferrer = (() => {
-          if (!document.referrer) return false;
-          try {
-            return new URL(document.referrer).origin === window.location.origin;
-          } catch {
-            return false;
-          }
-        })();
-
-        const backLink = document.getElementById("error404-back");
-        if (!backLink) return;
-
-        backLink.addEventListener("click", (event) => {
-          if (!isSafeReferrer) return;
-          event.preventDefault();
-          window.history.back();
-        });
-      })();
-    </script>
     <script
       data-goatcounter="https://joeyzou.goatcounter.com/count"
       async

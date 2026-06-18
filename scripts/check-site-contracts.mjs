@@ -112,7 +112,6 @@ const validatePathOrUrl = async ({ filePath, item, field, value }) => {
     report(`${itemLabel(filePath, item)} field "${field}" must be an external URL or public-relative path.`);
     return;
   }
-  if (text.startsWith("files/generated/")) return;
 
   const publicPath = path.join(root, "public", text);
   try {
@@ -205,7 +204,7 @@ const validateNoInlineHtmlStyles = async () => {
 };
 
 const validateNoGeneratedInlineStyles = async () => {
-  const jsFiles = ["js/utils.js", "js/renderers.js", "js/index.js", "js/publications.js"];
+  const jsFiles = ["js/utils.js", "js/renderers.js"];
   for (const filePath of jsFiles) {
     const text = await readUtf8(filePath);
     const lines = text.split("\n");
@@ -247,6 +246,37 @@ const validateDocsMentionContracts = async () => {
   }
 };
 
+const validatePublicDirectoryHygiene = async () => {
+  const publicContentsPath = path.join(root, "public", "contents");
+  try {
+    await fs.access(publicContentsPath);
+    report("public/contents must not exist; content sources should stay outside the deployed public directory.");
+  } catch {
+    // Expected: content sources live in contents/.
+  }
+
+  const scan = async (dirPath) => {
+    let entries = [];
+    try {
+      entries = await fs.readdir(dirPath, { withFileTypes: true });
+    } catch {
+      return;
+    }
+
+    for (const entry of entries) {
+      const entryPath = path.join(dirPath, entry.name);
+      if (entry.name === ".DS_Store") {
+        report(`${path.relative(root, entryPath)} must not be committed or deployed.`);
+      }
+      if (entry.isDirectory()) {
+        await scan(entryPath);
+      }
+    }
+  };
+
+  await scan(path.join(root, "public"));
+};
+
 for (const [name, schema] of Object.entries(CONTENT_SCHEMAS)) {
   await validateContentFile(name, schema);
 }
@@ -254,6 +284,7 @@ await validateNoInlineHtmlStyles();
 await validateNoGeneratedInlineStyles();
 await validateCssColorsStayTokenized();
 await validateDocsMentionContracts();
+await validatePublicDirectoryHygiene();
 
 if (errors.length) {
   console.error("Site contract check failed:");

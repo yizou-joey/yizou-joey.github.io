@@ -1,6 +1,6 @@
 # Content Schema
 
-Content files live in `public/contents/*.md`. They use simple list entries:
+Content files live in `contents/*.md`. They use simple list entries:
 
 ```md
 - key: value
@@ -34,7 +34,7 @@ Add a new venue by updating both `js/site-contracts.js` and `css/styles.css`.
 
 ## Publications
 
-File: `public/contents/publications.md`
+File: `contents/publications.md`
 
 Required fields:
 
@@ -60,7 +60,7 @@ Deprecated fields:
 
 ## News
 
-File: `public/contents/news.md`
+File: `contents/news.md`
 
 Required fields:
 
@@ -76,7 +76,7 @@ Optional fields:
 
 ## Education
 
-File: `public/contents/education.md`
+File: `contents/education.md`
 
 Required fields:
 
@@ -93,7 +93,7 @@ Optional fields:
 
 ## Services
 
-File: `public/contents/services.md`
+File: `contents/services.md`
 
 Required fields:
 
@@ -108,7 +108,7 @@ Optional fields:
 
 ## Teaching
 
-File: `public/contents/teaching.md`
+File: `contents/teaching.md`
 
 Required fields:
 

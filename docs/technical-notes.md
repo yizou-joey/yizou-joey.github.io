@@ -4,7 +4,7 @@ This document describes how this GitHub Pages academic homepage is structured an
 
 ## Current Structure
 
-- `docs/design-system.md`: visual design source of truth.
+- `DESIGN.md`: canonical visual design steering for AI agents and maintainers.
 - `docs/content-schema.md`: content authoring contract.
 - `css/styles.css`: shared design tokens, semantic utility classes, and component styles.
 - `js/site-contracts.js`: machine-readable venue registry and content schema fields.
@@ -47,7 +47,9 @@ statically-rendered `dist`.
 
 ## Shared CSS Tokens
 
-Shared styling tokens and semantic utility classes are in `css/styles.css`. The design direction is documented in `docs/design-system.md`.
+Shared styling tokens and semantic utility classes are in `css/styles.css`.
+Design rationale, token permissions, and UI guardrails are documented in the
+root `DESIGN.md`.
 
 ```css
 :root {

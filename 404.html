@@ -25,24 +25,24 @@
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body class="text-ink">
-    <div class="relative size-full">
-      <div class="flex min-h-screen w-full flex-col items-center">
-        <header class="site-header w-full">
-          <div class="flex w-full items-center justify-center">
-            <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 md:gap-6">
-              <div class="site-header-brand flex w-[20px] items-center justify-center">
+    <div class="site-shell">
+      <div class="site-page-stack site-page-stack--screen">
+        <header class="site-header">
+          <div class="site-header-frame">
+            <div class="site-header-inner">
+              <div class="site-header-brand">
                 <span class="type-brand text-ink">Yi</span>
               </div>
-              <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
+              <nav class="site-header-nav type-nav">
                 <a href="index.html" class="site-header-link">About</a>
                 <a href="publications.html" class="site-header-link">Publications</a>
               </nav>
             </div>
           </div>
-          <div class="h-px w-full bg-line"></div>
+          <div class="site-header-rule"></div>
         </header>
 
-        <main class="error404-main w-full" aria-labelledby="error404-title">
+        <main class="error404-main" aria-labelledby="error404-title">
           <section class="error404-shell page-gutter">
             <article class="error404-container">
               <p class="error404-kicker type-label text-muted">Page Not Found</p>

@@ -216,6 +216,39 @@ const validateNoGeneratedInlineStyles = async () => {
   }
 };
 
+const validateNoArbitraryLayoutClasses = async () => {
+  const files = ["index.html", "publications.html", "404.html", "js/renderers.js"];
+  const layoutUtilityPatterns = [
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:flex|grid|block|inline-flex)$/,
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:flex-col|flex-row|flex-wrap|shrink-0|grow)$/,
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:items|justify|content|self)-/,
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:w|h|min-w|min-h|max-w|max-h|basis)-/,
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:gap|p|px|py|pt|pr|pb|pl|m|mx|my|mt|mr|mb|ml)-/,
+    /^(?:sm:|md:|lg:|xl:|2xl:)?(?:relative|absolute|fixed|sticky|overflow-|object-|text-center|text-left|whitespace-nowrap)$/,
+  ];
+
+  for (const filePath of files) {
+    const text = await readUtf8(filePath);
+    const lines = text.split("\n");
+    lines.forEach((line, index) => {
+      const classMatches = line.matchAll(/class="([^"]*)"/g);
+      for (const match of classMatches) {
+        const classValue = match[1] || "";
+        const tokens = classValue.split(/\s+/).filter(Boolean);
+        for (const token of tokens) {
+          const isArbitraryValue = /\[[^\]]+\]/.test(token);
+          const isLayoutUtility = layoutUtilityPatterns.some((pattern) => pattern.test(token));
+          if (isArbitraryValue || isLayoutUtility) {
+            report(
+              `${filePath}:${index + 1} uses layout utility class "${token}"; move layout values into semantic CSS classes.`
+            );
+          }
+        }
+      }
+    });
+  }
+};
+
 const validateCssColorsStayTokenized = async () => {
   const filePath = "css/styles.css";
   const text = await readUtf8(filePath);
@@ -282,6 +315,7 @@ for (const [name, schema] of Object.entries(CONTENT_SCHEMAS)) {
 }
 await validateNoInlineHtmlStyles();
 await validateNoGeneratedInlineStyles();
+await validateNoArbitraryLayoutClasses();
 await validateCssColorsStayTokenized();
 await validateDocsMentionContracts();
 await validatePublicDirectoryHygiene();

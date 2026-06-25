@@ -66,17 +66,18 @@ root `DESIGN.md`.
 }
 ```
 
-### Using semantic spacing classes
+### Using semantic layout classes
 
-In HTML, use the shared CSS utility classes:
+In HTML, use shared semantic layout classes instead of Tailwind layout
+utilities or arbitrary values:
 
 ```html
-<div class="section-gap">
-<section class="section-py">
+<section class="page-section page-gutter">
+<div class="section-rail-l1 section-stack section-stack--center">
 ```
 
 Page-specific exceptions should also be semantic classes. Avoid inline `style`
-attributes in HTML.
+attributes, arbitrary bracket classes, and raw layout utilities in HTML.
 
 ## Interaction and motion guidelines
 

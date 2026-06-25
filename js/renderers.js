@@ -184,7 +184,7 @@ const groupPublicationsByYear = (items) => {
 };
 
 const renderPublicationYearSectionHtml = (year, items) =>
-  `<section class="flex w-full flex-col items-center gap-[20px]"><div class="section-heading-row"><h2 class="type-title-subsection">${escapeHtml(year)}</h2></div><div class="flex w-full flex-col items-center">${renderListHtml(items, renderPublicationItemHtml)}</div></section>`;
+  `<section class="publication-year-section"><div class="section-heading-row"><h2 class="type-title-subsection">${escapeHtml(year)}</h2></div><div class="publication-year-items">${renderListHtml(items, renderPublicationItemHtml)}</div></section>`;
 
 const renderPublicationsByYearHtml = (items) =>
   Array.from(groupPublicationsByYear(items).entries())

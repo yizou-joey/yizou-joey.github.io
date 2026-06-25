@@ -46,29 +46,29 @@
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
     <body class="text-ink">
-      <div class="relative size-full">
-      <div class="flex flex-col items-center section-gap w-full">
+      <div class="site-shell">
+      <div class="site-page-stack site-page-stack--rhythm">
         <!-- Header -->
-        <header class="site-header w-full">
-          <div class="flex w-full items-center justify-center">
-            <div class="site-header-inner flex w-[1440px] max-w-full items-center justify-between gap-4 px-4 md:gap-6">
-              <div class="site-header-brand flex w-[20px] items-center justify-center">
+        <header class="site-header">
+          <div class="site-header-frame">
+            <div class="site-header-inner">
+              <div class="site-header-brand">
                 <span class="type-brand text-ink">Yi</span>
               </div>
-              <nav class="site-header-nav type-nav flex items-center justify-end whitespace-nowrap text-muted">
+              <nav class="site-header-nav type-nav">
                 <a href="index.html" class="site-header-link" aria-current="page">About</a>
                 <a href="publications.html" class="site-header-link">Publications</a>
               </nav>
             </div>
           </div>
-          <div class="h-px w-full bg-line"></div>
+          <div class="site-header-rule"></div>
         </header>
 
         <!-- Intro -->
-        <section id="about" class="w-full page-gutter py-2 md:min-h-[364px] md:py-[10px]">
-            <div class="about-layout section-rail-l2 flex w-full flex-col items-center justify-between content-gap md:flex-row md:items-center">
-            <div class="about-block-left flex flex-col items-center justify-center gap-[10px] md:shrink-0 md:basis-[240px]">
-              <div class="flex items-center justify-center overflow-hidden">
+        <section id="about" class="profile-intro page-gutter">
+            <div class="profile-intro-layout section-rail-l2">
+            <div class="profile-aside">
+              <div class="profile-photo-frame">
                 <picture>
                   <source srcset="files/generated/about-profile-400.avif" type="image/avif" />
                   <img
@@ -78,21 +78,21 @@
                     height="400"
                     fetchpriority="high"
                     decoding="async"
-                    class="h-[160px] w-[160px] object-cover sm:h-[180px] sm:w-[180px] md:h-[200px] md:w-[200px]"
+                    class="profile-photo"
                   />
                 </picture>
               </div>
-              <div class="flex flex-col items-center justify-center px-[20px]">
-                <div class="type-body-sm flex flex-col items-start gap-[15px] py-[10px]">
+              <div class="profile-contact-panel">
+                <div class="profile-contact-list type-body-sm">
                   <div class="contact-row">
-                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
                     <p class="text-resource-muted">Guangzhou, China</p>
                   </div>
                   <a
                     href="mailto:yzou906@connect.hkust-gz.edu.cn"
                     class="contact-row contact-link"
                   >
-                    <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
                     Email
                   </a>
                   <a
@@ -100,38 +100,38 @@
                     rel="me"
                     class="contact-row contact-link"
                   >
-                    <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
                     GitHub
                   </a>
                   <a
                     href="https://scholar.google.com/citations?user=RYMYBtcAAAAJ"
                     class="contact-row contact-link"
                   >
-                    <img src="files/icons/scholar.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/scholar.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
                     Google Scholar
                   </a>
                   <!-- <a
                     href="files/CV_EN.pdf"
                     class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
                   >
-                    <img src="files/icons/cv.svg" alt="" aria-hidden="true" class="h-4 w-4 shrink-0" />
+                    <img src="files/icons/cv.svg" alt="" aria-hidden="true" class="contact-icon" />
                     CV (Updated Oct. 2025)
                   </a> -->
                 </div>
               </div>
             </div>
-            <div class="about-block-right flex w-full min-w-0 flex-col items-center gap-6 text-center md:flex-1 md:items-start md:justify-center md:gap-12 md:text-left">
-              <div class="content-gap-tight flex flex-wrap items-center justify-center font-serifSc md:justify-start">
+            <div class="profile-main">
+              <div class="profile-name-row">
                 <h1 class="type-title-hero text-ink">Yi ZOU</h1>
                 <span class="type-title-hero-sub text-muted">Joey</span>
                 <span class="type-title-hero-sub text-muted">邹一</span>
               </div>
-              <div class="bio-stack w-full">
-                <p class="type-body-bio w-full text-center text-ink md:text-left md:pl-1.5">
+              <div class="bio-stack">
+                <p class="profile-bio type-body-bio">
                   <span id="bio-intro"></span>
                 </p>
                 <aside
-                  class="bio-keywords-banner w-full md:pl-1.5"
+                  class="profile-keywords bio-keywords-banner"
                   aria-label="Research interests"
                 >
                   <h3 class="sr-only">Research Interests</h3>
@@ -147,8 +147,8 @@
         </section>
 
         <!-- Recent News -->
-        <section id="news" class="w-full page-gutter">
-          <div class="section-rail-l1 section-stack flex flex-col items-center">
+        <section id="news" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
           <div class="section-heading-row">
             <h2 class="type-title-section">Recent News</h2>
           </div>
@@ -157,20 +157,20 @@
         </section>
 
         <!-- Selected Papers -->
-        <section id="publications" class="w-full section-py">
-          <div class="mx-auto section-stack flex w-full flex-col items-center page-gutter">
+        <section id="publications" class="page-section section-py">
+          <div class="section-stack section-stack--center page-gutter">
             <div class="section-rail-l1 section-heading-row">
                <h2 class="type-title-section">Research Projects</h2>
              </div>
-             <div class="section-rail-l2 flex w-full flex-col items-center justify-center">
-               <div id="publications-list" class="flex w-full flex-col items-center"></div>
+             <div class="section-rail-l2 section-list section-list--center">
+               <div id="publications-list"></div>
              </div>
           </div>
         </section>
 
         <!-- Education -->
-        <section id="education" class="w-full page-gutter">
-          <div class="section-rail-l1 section-stack flex w-full flex-col items-center">
+        <section id="education" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
             <div class="section-heading-row">
               <h2 class="type-title-section">Education</h2>
             </div>
@@ -179,8 +179,8 @@
         </section>
 
         <!-- Services -->
-        <section id="services" class="w-full page-gutter">
-          <div class="section-rail-l1 section-stack flex flex-col items-center">
+        <section id="services" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
             <div class="section-heading-row">
               <h2 class="type-title-section">Services</h2>
             </div>
@@ -189,8 +189,8 @@
         </section>
 
         <!-- Teaching -->
-        <section id="teaching" class="w-full page-gutter pb-0">
-          <div class="section-rail-l1 section-stack flex flex-col items-center">
+        <section id="teaching" class="page-section page-gutter page-section--flush-end">
+          <div class="section-rail-l1 section-stack section-stack--center">
           <div class="section-heading-row">
             <h2 class="type-title-section">Teaching</h2>
           </div>
@@ -199,8 +199,8 @@
         </section>
 
         <!-- Halftone colophon -->
-        <div class="w-full page-gutter pb-[12px] -mt-[16px]">
-          <div class="section-rail-l1 flex justify-center">
+        <div class="page-colophon">
+          <div class="page-colophon-inner">
             <img
               src="files/generated/halftone-colophon.webp"
               alt=""

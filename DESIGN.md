@@ -123,6 +123,7 @@ motion:
   reduced_motion: preserve visible state changes; remove nonessential transitions
 signature_components:
   - academic-sticky-header
+  - dynamic-favicon-microinteraction
   - profile-intro-block
   - bio-keyword-sticker-stage
   - editorial-grid-row
@@ -133,6 +134,7 @@ signature_components:
   - halftone-colophon
 source_references:
   - css/styles.css
+  - js/favicon.js
   - index.html
   - publications.html
   - docs/content-schema.md
@@ -338,6 +340,26 @@ visual object. Preserve reduced-motion behavior.
 The colophon is quiet ink at the end of the page. It should read as a printed
 closing mark, never as a decorative logo centerpiece.
 
+### Dynamic Favicon Microinteraction
+
+The favicon is treated as a small browser-chrome microinteraction rather than
+only a static logo slot. It may change state when the tab moves between active
+and background contexts, echoing the site's research archive language through a
+quiet open/closed object.
+
+The current implementation uses Lucide `folder-open` for the visible tab and
+Lucide `folder` for the hidden/idle tab. Both are intentionally line-only SVGs:
+dark ink lines in light browser contexts and warm-paper lines in dark browser
+contexts. Do not add a filled backplate by default; the current direction is a
+lightweight icon that belongs to browser chrome rather than a sticker object.
+
+Future icon explorations should preserve the same interaction model while
+looking for a more representative mark for Yi's work in HCI, XR, and adaptive
+interfaces. Good candidates include simplified reading glasses with open/folded
+states, an XR view frame, or another research-object metaphor that remains
+legible at 16px. Avoid intricate perspective, multiple nested symbols, text,
+shadows, and details that disappear at favicon scale.
+
 ## Motion & Accessibility
 
 Motion should clarify relationships between text and related visual objects.
@@ -349,6 +371,8 @@ Keep transitions short and physically restrained.
 - Respect `prefers-reduced-motion: reduce` by removing nonessential movement
   while preserving visible hover and focus states.
 - Keep image dimensions, grid columns, and action chip sizes stable.
+- Favicon state changes should be discrete swaps, not continuous animation.
+  They must remain decorative and never carry information unavailable elsewhere.
 
 ## Do's and Don'ts
 

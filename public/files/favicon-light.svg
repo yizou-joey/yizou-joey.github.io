@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Open folder">
   <title>Open folder</title>
-  <!-- Lucide folder-open icon, dark-line variant for light browser tabs. -->
+  <!-- Lucide folder-open icon, light-line variant for dark browser tabs. -->
   <g
     fill="none"
-    stroke="#15120f"
+    stroke="#fdfdfc"
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"

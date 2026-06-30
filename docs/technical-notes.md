@@ -95,6 +95,31 @@ attributes, arbitrary bracket classes, and raw layout utilities in HTML.
   refactoring hover effects. Otherwise accessibility overrides can silently
   flatten the intended design in local previews.
 
+### Dynamic favicon
+
+The site uses a small favicon microinteraction implemented in `js/favicon.js`.
+The active tab uses an open-folder SVG, while a hidden/background tab uses a
+closed-folder SVG. This is a decorative browser-chrome detail that reinforces
+the site's research archive feel without changing page content or navigation.
+
+The favicon also follows browser color-scheme context:
+
+- Light context: `public/files/favicon.svg` and
+  `public/files/favicon-idle.svg` use dark ink lines.
+- Dark context: `public/files/favicon-light.svg` and
+  `public/files/favicon-idle-light.svg` use warm-paper lines.
+
+HTML pages expose the icon paths through `data-active-light-icon`,
+`data-idle-light-icon`, `data-active-dark-icon`, and `data-idle-dark-icon` on
+the single `link[rel="icon"]`. The script listens to `visibilitychange` and
+`prefers-color-scheme: dark`, then updates that same link's `href`; it should
+not append additional favicon links.
+
+When changing this interaction, keep each icon legible at 16px and 32px on both
+light and dark browser chrome. Prefer simple SVG paths, no external fonts, no
+filters, no embedded bitmaps, and no information that depends on the favicon
+state for accessibility.
+
 ## Pages
 
 - `index.html`: main homepage
@@ -125,6 +150,8 @@ the authors. Supplemental links open in a new tab.
 
 - Add per-publication pages and link each entry to its detailed page.
 - Add anchors on the homepage so entries can link to their positions.
+- Explore a more representative favicon mark for HCI/XR/adaptive interface work
+  while preserving the current active/idle and light/dark microinteraction.
 
 ## To-do
 

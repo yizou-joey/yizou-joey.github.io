@@ -1342,7 +1342,8 @@ a {
   margin: 0;
   font-family: var(--font-inter);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
+  animation: error404-reveal 360ms 30ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* === HALFTONE COLOPHON ===
@@ -1375,53 +1376,74 @@ a {
 }
 
 .error404-display {
-  margin: 0;
+  margin: 18px 0 0;
   color: var(--color-ink);
   font-family: var(--font-serif-sc);
-  font-size: clamp(5rem, 18vw, 10.5rem);
-  font-weight: 500;
-  line-height: 0.86;
-  letter-spacing: -0.035em;
-  padding: 12px 0;
-}
-
-.error404-title {
-  margin: 10px 0 0;
-  max-width: 22ch;
-  color: var(--color-ink);
-  font-family: var(--font-serif-sc);
-  font-weight: 500;
-  text-wrap: balance;
+  font-size: clamp(7rem, 20vw, 11rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  text-indent: -0.055em;
+  font-variant-numeric: oldstyle-nums;
+  animation: error404-reveal 440ms 90ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .error404-copy {
-  margin: 14px 0 0;
-  max-width: 56ch;
-  font-family: var(--font-serif-sc);
-  text-wrap: pretty;
+  margin: 32px 0 0;
+  max-width: 38ch;
+  color: var(--color-ink);
+  text-wrap: balance;
+  animation: error404-reveal 420ms 160ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .error404-actions {
-  margin-top: 36px;
+  margin-top: 28px;
   display: flex;
   align-items: center;
   gap: 16px;
   justify-content: center;
   font-family: var(--font-serif-sc);
+  font-size: 15px;
   font-style: italic;
+  line-height: var(--type-body-line-height);
+  animation: error404-reveal 420ms 220ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .error404-link {
   color: var(--color-muted);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color 0.2s ease, font-weight 0.2s ease;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-link-decoration-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition:
+    color 180ms ease,
+    text-decoration-color 180ms ease,
+    text-underline-offset 180ms ease;
 }
 
 .error404-link:hover,
 .error404-link:focus-visible {
   color: var(--color-ink);
-  font-weight: 600;
+  text-decoration-color: var(--color-link-decoration-ink);
+  text-underline-offset: 5px;
+}
+
+.error404-link:focus-visible {
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@keyframes error404-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 640px) {
@@ -1434,9 +1456,26 @@ a {
     padding: 30px 18px;
   }
 
+  .error404-display {
+    margin-top: 16px;
+  }
+
+  .error404-copy {
+    max-width: 27ch;
+    margin-top: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error404-kicker,
+  .error404-display,
+  .error404-copy,
   .error404-actions {
-    flex-direction: row;
-    align-items: center;
+    animation: none;
+  }
+
+  .error404-link {
+    transition: none;
   }
 }
 

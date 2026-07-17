@@ -53,28 +53,29 @@
           <div class="site-header-rule"></div>
         </header>
 
-        <main class="error404-main" aria-labelledby="error404-title">
+        <main
+          class="error404-main"
+          aria-labelledby="error404-title"
+          aria-describedby="error404-message"
+        >
           <section class="error404-shell page-gutter">
             <article class="error404-container">
               <p class="error404-kicker type-label text-muted">Page Not Found</p>
-              <p class="error404-display" aria-hidden="true">404</p>
-              <h1 id="error404-title" class="error404-title type-title-page">
-                This page has moved or no longer exists.
-              </h1>
-              <p class="error404-copy type-body text-muted">
-                The link may be outdated, or the page may have moved. You can return to the homepage or go back to continue browsing.
+              <h1 id="error404-title" class="error404-display">404</h1>
+              <p id="error404-message" class="error404-copy type-body-bio">
+                This page may have moved or no longer exists.
               </p>
-              <div class="error404-actions">
+              <nav class="error404-actions" aria-label="Error recovery">
                 <a href="index.html" class="error404-link">Take me home</a>
-                <span class="publication-eyebrow-separator">/</span>
+                <span class="publication-eyebrow-separator" aria-hidden="true">/</span>
                 <a href="index.html" id="error404-back" class="error404-link">Go back</a>
-              </div>
+              </nav>
             </article>
           </section>
         </main>
         <footer class="site-footer" data-site-footer="true">
           <div class="site-footer-inner">
-            <p class="site-footer-note">© 2026 Yi ZOU. Powered by GitHub Pages.</p>
+            <p class="site-footer-note">© 2026 Yi ZOU. Last Updated March 2026.</p>
           </div>
         </footer>
       </div>
@@ -84,6 +85,7 @@
       async
       src="https://gc.zgo.at/count.js"
     ></script>
+    <script type="module" src="js/404.js"></script>
     <script type="module" src="js/favicon.js"></script>
   </body>
 </html>

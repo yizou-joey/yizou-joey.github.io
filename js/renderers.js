@@ -77,6 +77,17 @@ const splitEducationPeriod = (value) => {
   };
 };
 
+const splitNewsDateLabel = (value) => {
+  const text = normalizeInlineText(value || "");
+  const match = text.match(/^(.*?)(,?)\s+(\d{4})$/);
+  if (!match) return { lead: text, separator: "", year: "" };
+  return {
+    lead: normalizeInlineText(match[1]),
+    separator: match[2],
+    year: match[3],
+  };
+};
+
 const renderBioHtml = (markdown) => {
   const text = (markdown || "").trim();
   if (!text) return "";
@@ -94,11 +105,15 @@ const renderBioHtml = (markdown) => {
 
 const renderNewsItemHtml = (item) => {
   const entry = item || {};
+  const dateLabel = splitNewsDateLabel(entry.date || "");
+  const dateHtml = dateLabel.year
+    ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
+    : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
   const mascotHtml = entry.mascot
-    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="editorial-media-column news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
     : "";
 
-  return `<li class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(entry.date || "")}</div></div><div class="editorial-news-content">${renderNewsInline(entry)}</div>${mascotHtml}</li>`;
+  return `<li class="editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${renderNewsInline(entry)}</div>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {
@@ -113,13 +128,13 @@ const renderEducationItemHtml = (item) => {
 
   const logoSrc = normalizeInlineText(entry.logo || "");
   const logoHtml = logoSrc
-    ? `<div class="editorial-logo-column"><img class="editorial-education-logo-mono" src="${escapeHtml(encodeURI(logoSrc))}" alt="" loading="lazy" decoding="async" /><img class="editorial-education-logo-color" src="${escapeHtml(encodeURI(logoSrc))}" alt="${escapeHtml(normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`))}" loading="lazy" decoding="async" /></div>`
+    ? `<div class="editorial-media-column editorial-logo-column"><img class="editorial-education-logo-mono" src="${escapeHtml(encodeURI(logoSrc))}" alt="" loading="lazy" decoding="async" /><img class="editorial-education-logo-color" src="${escapeHtml(encodeURI(logoSrc))}" alt="${escapeHtml(normalizeInlineText(entry.logoAlt || `${entry.institution || "Institution"} logo`))}" loading="lazy" decoding="async" /></div>`
     : "";
   const subAffiliationHtml = entry.subAffiliation
     ? `<div class="editorial-inst-sub">${renderInlineMarkdown(entry.subAffiliation, { preserveLineBreaks: false })}</div>`
     : "";
 
-  return `<article class="editorial-education-row"><div class="editorial-date-column"><div class="editorial-date-end${isPresent ? " editorial-date-present" : ""}">${escapeHtml(endLabel)}</div>${startLabel ? `<div class="editorial-date-start">${escapeHtml(startLabel)}</div>` : ""}</div><div class="editorial-detail-column"><h3 class="editorial-item-title">${renderInlineMarkdown(titleText || entry.institution || "", { preserveLineBreaks: false })}</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name">${renderInlineMarkdown(entry.institution || "", { preserveLineBreaks: false })}</div>${subAffiliationHtml}</div></div>${logoHtml}</article>`;
+  return `<article class="editorial-media-row editorial-education-row"><div class="editorial-date-column"><div class="editorial-date-end${isPresent ? " editorial-date-present" : ""}">${escapeHtml(endLabel)}</div>${startLabel ? `<div class="editorial-date-start">${escapeHtml(startLabel)}</div>` : ""}</div><div class="editorial-detail-column"><h3 class="editorial-item-title">${renderInlineMarkdown(titleText || entry.institution || "", { preserveLineBreaks: false })}</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name">${renderInlineMarkdown(entry.institution || "", { preserveLineBreaks: false })}</div>${subAffiliationHtml}</div></div>${logoHtml}</article>`;
 };
 
 const renderTeachingItemHtml = (item) => {
@@ -158,10 +173,10 @@ const renderServicesItemHtml = (item) => {
     ? `<div class="editorial-item-subtitle">${eventHtml}${locationHtml}</div>`
     : "";
   const logoHtml = entry.logo
-    ? `<div class="service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
     : "";
 
-  return `<div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;
+  return `<div class="editorial-media-row editorial-service-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;
 };
 
 const renderListHtml = (items, renderItemHtml) =>

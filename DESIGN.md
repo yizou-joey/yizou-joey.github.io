@@ -50,7 +50,7 @@ colors:
     value: "rgb(24, 86, 105)"
     permission: MMSys venue identity through venueKey-backed classes
   award_gold:
-    token: --color-award-badge-text
+    token: --color-award
     value: "#F2A900"
     permission: awards, recognitions, and status emphasis
   resource_gold:
@@ -100,8 +100,24 @@ layout:
     mobile: single column
     desktop: 140px date column, flexible detail column, optional logo or mascot column
   section_rhythm:
-    vertical_padding: --space-section-py
+    page_start: --space-page-start
+    between_sections: --space-section-between
     heading_to_content: --space-section-heading-content
+    list_item: --space-list-item
+spacing:
+  primitives:
+    space_2: 2px
+    space_4: 4px
+    space_6: 6px
+    space_8: 8px
+    space_10: 10px
+    space_12: 12px
+    space_16: 16px
+    space_20: 20px
+    space_24: 24px
+    space_28: 28px
+    space_32: 32px
+    space_48: 48px
 radii:
   badge:
     token: --radius-badge
@@ -195,7 +211,7 @@ Accent colors have permissions, not just values:
   interactive affordances. Do not use it as a decorative brand wash.
 - Venue colors belong to venue identity only. They must come through
   `venueKey`, `js/site-contracts.js`, and matching CSS token/class rules.
-- `--color-award-badge-text` (`#F2A900`) is for awards and recognitions.
+- `--color-award` (`#F2A900`) is for awards and recognitions.
 - `--color-gold-dark` (`#92400e`) is for publication resource links and
   bracket-style links.
 
@@ -242,6 +258,18 @@ On desktop, let chronology and details align cleanly across rows.
 
 Page-specific exceptions should become semantic classes such as
  `.publications-page-heading` or `.publications-page-divider`, not inline styles.
+
+## Spacing
+
+Spacing uses a small primitive scale from `--space-2` through `--space-48`.
+Repeated component gaps, margins, and padding must consume these primitives or
+a semantic composite token such as `--space-list-item`; do not repeat the
+equivalent pixel values in component rules.
+
+Keep typography measurements, media dimensions, border thicknesses, shadow
+geometry, transform offsets, and responsive breakpoints outside the spacing
+scale. A unique optical adjustment may remain local when turning it into a
+reusable token would imply a false design relationship.
 
 ## Surface & Hierarchy
 

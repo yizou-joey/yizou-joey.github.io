@@ -249,16 +249,50 @@ const validateNoArbitraryLayoutClasses = async () => {
   }
 };
 
+const getCssOutsideRoot = (text) => {
+  const rootEnd = text.indexOf("\n}\n");
+  const outsideRootStart = rootEnd >= 0 ? rootEnd + 3 : 0;
+  const lineOffset = text.slice(0, outsideRootStart).split("\n").length - 1;
+  return {
+    lineOffset,
+    outsideRoot: text.slice(outsideRootStart),
+  };
+};
+
 const validateCssColorsStayTokenized = async () => {
   const filePath = "css/styles.css";
   const text = await readUtf8(filePath);
-  const rootEnd = text.indexOf("\n}\n");
-  const outsideRoot = rootEnd >= 0 ? text.slice(rootEnd + 3) : text;
+  const { lineOffset, outsideRoot } = getCssOutsideRoot(text);
   const lines = outsideRoot.split("\n");
   lines.forEach((line, index) => {
     const withoutComments = line.replace(/\/\*.*?\*\//g, "");
     if (/(#[0-9a-fA-F]{3,8}|rgba?\()/i.test(withoutComments)) {
-      report(`${filePath}:${index + 1} has a hard-coded color outside :root; add or reuse a token.`);
+      report(
+        `${filePath}:${lineOffset + index + 1} has a hard-coded color outside :root; add or reuse a token.`
+      );
+    }
+  });
+};
+
+const validateCssSpacingStaysTokenized = async () => {
+  const filePath = "css/styles.css";
+  const text = await readUtf8(filePath);
+  const { lineOffset, outsideRoot } = getCssOutsideRoot(text);
+  const lines = outsideRoot.split("\n");
+  const spacingPropertyPattern =
+    /^\s*(?:gap|row-gap|column-gap|margin(?:-(?:top|right|bottom|left|inline|block))?|padding(?:-(?:top|right|bottom|left|inline|block))?)\s*:/;
+  const repeatedRawSpacingPattern =
+    /(?:^|[^\w.-])(?:2|4|6|8|10|12|16|20|24|28|32|48)px(?![\w-])/;
+
+  lines.forEach((line, index) => {
+    const withoutComments = line.replace(/\/\*.*?\*\//g, "");
+    if (
+      spacingPropertyPattern.test(withoutComments) &&
+      repeatedRawSpacingPattern.test(withoutComments)
+    ) {
+      report(
+        `${filePath}:${lineOffset + index + 1} uses a repeated raw spacing value; use a --space-* token.`
+      );
     }
   });
 };
@@ -317,6 +351,7 @@ await validateNoInlineHtmlStyles();
 await validateNoGeneratedInlineStyles();
 await validateNoArbitraryLayoutClasses();
 await validateCssColorsStayTokenized();
+await validateCssSpacingStaysTokenized();
 await validateDocsMentionContracts();
 await validatePublicDirectoryHygiene();
 

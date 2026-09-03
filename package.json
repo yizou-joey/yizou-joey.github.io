@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "npm run optimize:images && vite",
-    "build": "npm run optimize:images && npm run check && vite build && npm run check:dist",
-    "check": "node scripts/check-site-contracts.mjs",
+    "build": "npm run optimize:images && vite build && npm run check:dist",
+    "check": "npm run build",
     "check:dist": "node scripts/check-dist.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "prepreview": "npm run build",

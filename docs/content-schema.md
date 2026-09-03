@@ -1,122 +1,51 @@
-# Content Schema
+# Content Guide
 
-Content files live in `contents/*.md`. They use simple list entries:
+Content lives in `contents/*.js`. Each section is one ES module that exports its
+content as the default value. There is no field whitelist: renderers use the
+fields they recognize and ignore the rest.
 
-```md
-- key: value
-  key: value
+## Lists
+
+News, publications, education, services, and teaching export arrays of plain
+objects:
+
+```js
+export default [
+  {
+    date: "2026-03-25",
+    text: "Natural-language copy with **bold** and [links](https://example.com/).",
+  },
+];
 ```
 
-The source of truth for machine-checkable fields is `js/site-contracts.js`.
-Run `npm run check` before committing content changes. During production builds,
-these Markdown files are rendered into `dist/*.html` so the deployed pages
-contain complete static content before browser JavaScript runs.
+Biography content exports an array of paragraph strings. Supported inline
+formatting remains intentionally small: `**bold**`, `*italic*`, and
+`[label](url)`.
 
-## Shared Rules
+## Dates
 
-- Unknown fields fail validation.
-- Deprecated fields fail validation.
-- Relative asset paths must point inside `public/`.
-- External links must use `https://`, `http://`, or `mailto:`.
-- Inline markdown is intentionally small: `**bold**`, `*italic*`, and
-  `[label](url)`.
-- Venue color is never written in content. Use `venueKey` and the venue
-  registry.
+Machine-readable dates use the available ISO precision: `YYYY`, `YYYY-MM`, or
+`YYYY-MM-DD`.
 
-## Venue Registry
+- Publications, news, services, and teaching use `date`.
+- Education uses `startDate` and an optional `endDate`. Omit `endDate` for an
+  ongoing entry.
+- Use `dateLabel` or `periodLabel` only when the displayed wording should differ
+  from the automatically formatted ISO value.
 
-Registered venue keys:
+List order is preserved except for news and the full publications page, which
+are sorted newest first by `date`. Homepage publications set `selected: true`
+with a boolean value.
 
-- `ieee-vr`: IEEE VR accent, backed by `--color-venue-ieee-vr`.
-- `mmsys`: MMSys accent, backed by `--color-venue-mmsys`.
+## Assets and venues
 
-Add a new venue by updating both `js/site-contracts.js` and `css/styles.css`.
+Local assets use public-relative paths such as
+`files/materials/paper.pdf`. A production build fails if a rendered local
+reference is missing.
 
-## Publications
+Venue accents use `venueKey`. Their small display registry lives beside the
+rendering helpers in `js/utils.js`; unregistered venues simply render without a
+special accent.
 
-File: `contents/publications.md`
-
-Required fields:
-
-- `date`: ISO date, `YYYY-MM-DD`.
-- `selected`: boolean-like value, usually `true` or `false`.
-- `type`: one of `C`, `J`, `W`, `P`.
-- `venueKey`: registered venue key.
-- `venue`: display venue text.
-- `title`: publication title, inline markdown allowed.
-- `authors`: author list; `\*` or `*` renders as a corresponding-author marker.
-
-Optional fields:
-
-- `workshopLabel`, `typeLink`
-- `award`, `status`
-- `paperUrl`, `youtubeUrl`, `youtubeLabel`, `videoUrl`, `demoUrl`, `arxivUrl`
-- `pdfUrl`, `slidesUrl`, `posterUrl`, `codeUrl`, `doi`
-
-Deprecated fields:
-
-- `venueColor`
-- `venueAccent`
-
-## News
-
-File: `contents/news.md`
-
-Required fields:
-
-- `date`: display date, e.g. `Mar. 25, 2026` or `Jan. 2026`.
-- `text`: news copy, inline markdown allowed.
-
-Optional fields:
-
-- `venueKey`, required when `venueText` is present.
-- `venueText`, `venueUrl`
-- `award`, `awardText`
-- `mascot`, `mascotAlt`
-
-## Education
-
-File: `contents/education.md`
-
-Required fields:
-
-- `period`
-- `institution`
-- `degree`
-- `major`
-
-Optional fields:
-
-- `subAffiliation`
-- `location`
-- `logo`, `logoAlt`
-
-## Services
-
-File: `contents/services.md`
-
-Required fields:
-
-- `period`
-- `role`
-
-Optional fields:
-
-- `event` or `detail`
-- `location`
-- `logo`, `logoAlt`, `logoLink`
-
-## Teaching
-
-File: `contents/teaching.md`
-
-Required fields:
-
-- `period`
-- `role`
-
-Optional fields:
-
-- `courseCode`, `courseName`
-- `institution`
-- `detail`
+Run `npm run build` or `npm run check` after editing content. Both commands build
+the complete static site and verify its rendered local references.

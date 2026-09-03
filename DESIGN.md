@@ -210,7 +210,7 @@ Accent colors have permissions, not just values:
 - `--color-apple-blue` (`#0071e3`) is reserved for focus rings and clear
   interactive affordances. Do not use it as a decorative brand wash.
 - Venue colors belong to venue identity only. They must come through
-  `venueKey`, `js/site-contracts.js`, and matching CSS token/class rules.
+  `venueKey`, the venue registry in `js/utils.js`, and matching CSS token/class rules.
 - `--color-award` (`#F2A900`) is for awards and recognitions.
 - `--color-gold-dark` (`#92400e`) is for publication resource links and
   bracket-style links.
@@ -435,13 +435,13 @@ contracts before adding new primitives.
 
 - Colors and spacing should reference CSS custom properties when a matching
   token exists.
-- New venue accents must be added through `js/site-contracts.js` and matching
+- New venue accents must be added through the registry in `js/utils.js` and matching
   CSS token/class rules in `css/styles.css`.
 - New content components should reuse the rail, section, editorial row,
   publication, and bracket resource-link vocabulary where possible.
 - Page-specific layout differences should be named as semantic classes, not
   embedded as inline styles.
-- Static content fields must follow `docs/content-schema.md`.
+- Static content should follow the lightweight authoring conventions in `docs/content-schema.md`.
 - If a new visual asset is needed, it should support the paper/editorial
   material system and remain secondary to text.
 

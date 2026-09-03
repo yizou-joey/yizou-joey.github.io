@@ -5,23 +5,18 @@ This document describes how this GitHub Pages academic homepage is structured an
 ## Current Structure
 
 - `DESIGN.md`: canonical visual design steering for AI agents and maintainers.
-- `docs/content-schema.md`: content authoring contract.
+- `docs/content-schema.md`: lightweight content authoring guide.
 - `css/styles.css`: shared design tokens, semantic utility classes, and component styles.
-- `js/site-contracts.js`: machine-readable venue registry and content schema fields.
 - `js/renderers.js`: shared HTML renderers used by Vite's HTML transform.
-- `js/utils.js`: pure parsing, escaping, and publication rendering utilities.
-- `scripts/check-site-contracts.mjs`: zero-dependency contract checker used by `npm run check`.
+- `js/utils.js`: escaping, inline formatting, venue, date, and publication rendering utilities.
 - `vite.config.js`: Vite configuration plus the HTML transform that injects content.
 
 ### Shared rendering pipeline
 
-Main list-driven sections use shared helpers in `js/utils.js`:
-
-- `parseListData(markdown)` for content parsing
-- `renderInlineMarkdown(value)` for compact inline Markdown rendering
-- `renderPublicationItemHtml(item)` for publication card markup
-
-The browser-facing pages no longer fetch Markdown at runtime. HTML is the content delivery surface.
+Each file in `contents/*.js` is a directly imported ES module. There is no
+custom content parser or field whitelist. Shared helpers still provide compact
+inline Markdown rendering and publication markup. The browser-facing pages do
+not fetch content at runtime; HTML remains the content delivery surface.
 
 ### HTML-first rendering pipeline
 
@@ -29,10 +24,10 @@ The source HTML files keep lightweight empty containers. Vite injects content
 into those containers during both local development and production builds:
 
 1. `npm run optimize:images` regenerates optimized static assets.
-2. `npm run check` validates content, design contracts, generated assets, and
-   public directory hygiene.
-3. `vite build` reads `contents/*.md`, renders HTML through `js/renderers.js`,
+2. `vite build` imports `contents/*.js`, renders HTML through `js/renderers.js`,
    and writes complete `dist/index.html` and `dist/publications.html`.
+3. `npm run check:dist` verifies the generated pages, static content markers,
+   and rendered local references.
 
 Injected containers receive `data-content-rendered="static"`. The deployed
 HTML itself contains the biography, news, publication, education, service, and
@@ -40,10 +35,9 @@ teaching text, so crawlers and AI assistants do not need to execute JavaScript
 to read the page.
 
 Content sources live outside `public/` and are not deployed as standalone
-Markdown files. Inspect `dist/*.html` or the deployed GitHub Pages artifact when
-you need to verify the full static HTML. `npm run preview` runs `npm run build`
-first through the `prepreview` npm hook so local preview serves a fresh
-statically-rendered `dist`.
+files. Inspect `dist/*.html` or the deployed GitHub Pages artifact when you need
+to verify the full static HTML. `npm run check` aliases the complete production
+build, and `npm run preview` builds first through the `prepreview` hook.
 
 ## Shared CSS Tokens
 
@@ -127,21 +121,27 @@ state for accessibility.
 
 ## Content files
 
-- Publications: `contents/publications.md`
-- News: `contents/news.md`
-- Teaching: `contents/teaching.md`
-- Education: `contents/education.md`
-- Services: `contents/services.md`
+- Biography: `contents/bio.js`
+- Publications: `contents/publications.js`
+- News: `contents/news.js`
+- Teaching: `contents/teaching.js`
+- Education: `contents/education.js`
+- Services: `contents/services.js`
 
-Each file uses list entries:
+List-driven files export arrays of plain objects:
 
-```md
-- key: value
-  key: value
+```js
+export default [
+  {
+    date: "2026-03-25",
+    text: "Natural-language content",
+  },
+];
 ```
 
-Field rules are documented in `docs/content-schema.md` and enforced by `npm run check`.
-Venue accents use `venueKey` and `js/site-contracts.js`; do not add per-entry `venueColor`.
+Authoring conventions are documented in `docs/content-schema.md`. Renderers
+ignore fields they do not use. Venue accents use `venueKey` and the compact
+registry in `js/utils.js`.
 
 If any supplemental URL fields are present, publication cards render compact bracket links below
 the authors. Supplemental links open in a new tab.

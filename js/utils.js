@@ -1,51 +1,15 @@
-import { getVenueConfig } from "./site-contracts.js";
+const VENUE_REGISTRY = Object.freeze({
+  "ieee-vr": Object.freeze({
+    className: "venue-ieee-vr",
+  }),
+  mmsys: Object.freeze({
+    className: "venue-mmsys",
+  }),
+});
 
-const getNormalizedLines = (text) => String(text || "").replace(/\r/g, "").split("\n");
-
-const parseKeyValueLine = (line) => {
-  const [key, ...rest] = line.split(":");
-  if (!key || !rest.length) return null;
-  return {
-    key: key.trim(),
-    value: rest.join(":").trim(),
-  };
-};
-
-const hasItemContent = (item) =>
-  Object.values(item).some((value) => typeof value === "string" && value.trim());
-
-const parseListData = (text) => {
-  const lines = getNormalizedLines(text);
-  const items = [];
-  let current = null;
-
-  const finalizeCurrent = () => {
-    if (!current) return;
-    if (hasItemContent(current)) items.push(current);
-    current = null;
-  };
-
-  for (const rawLine of lines) {
-    const line = rawLine.trim();
-    if (!line) continue;
-    if (line.startsWith("#") || line.startsWith("<!--") || line.startsWith("-->")) continue;
-
-    if (line.startsWith("- ")) {
-      finalizeCurrent();
-      current = {};
-      const firstEntry = parseKeyValueLine(line.slice(2));
-      if (firstEntry) current[firstEntry.key] = firstEntry.value;
-      continue;
-    }
-
-    if (!current) continue;
-    const entry = parseKeyValueLine(line);
-    if (!entry) continue;
-    current[entry.key] = entry.value;
-  }
-
-  finalizeCurrent();
-  return items;
+const getVenueConfig = (venueKey) => {
+  const normalizedKey = String(venueKey || "").trim().toLowerCase();
+  return VENUE_REGISTRY[normalizedKey] || null;
 };
 
 const escapeHtml = (value) =>
@@ -155,16 +119,6 @@ const normalizeInlineText = (value) =>
   String(value || "")
     .replace(/\s+/g, " ")
     .trim();
-
-const parseBooleanLike = (value) => {
-  if (typeof value === "boolean") return value;
-  const normalized = String(value || "")
-    .trim()
-    .toLowerCase();
-  if (["true", "1", "yes", "y", "on"].includes(normalized)) return true;
-  if (["false", "0", "no", "n", "off"].includes(normalized)) return false;
-  return false;
-};
 
 const MONTH_NUMBER_BY_NAME = {
   jan: 0,
@@ -355,8 +309,6 @@ export {
   escapeHtml,
   getDateSortValue,
   normalizeInlineText,
-  parseListData,
-  parseBooleanLike,
   renderInlineMarkdown,
   renderNewsInline,
   renderPublicationItemHtml,

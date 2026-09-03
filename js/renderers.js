@@ -2,7 +2,6 @@ import {
   escapeHtml,
   getDateSortValue,
   normalizeInlineText,
-  parseBooleanLike,
   renderInlineMarkdown,
   renderNewsInline,
   renderPublicationItemHtml,
@@ -42,39 +41,33 @@ const compareByDateDesc = (a, b) => {
   return bTime - aTime;
 };
 
-const formatEducationPeriodLabel = (value) => {
+const formatIsoDateLabel = (value) => {
   const text = normalizeInlineText(value || "");
   if (!text) return "";
-  if (/present/i.test(text)) return "Present";
+  const match = text.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
+  if (!match) return text;
 
-  const yearFirst = text.match(/^(\d{4})\s+([a-zA-Z.]+)$/);
-  if (yearFirst) {
-    const [, year, monthRaw] = yearFirst;
-    const monthKey = monthRaw.replace(/\./g, "").toLowerCase();
-    const month = MONTH_SHORT_LABEL[monthKey];
-    if (month) return `${month} ${year}`;
-  }
+  const [, year, monthValue, dayValue] = match;
+  if (!monthValue) return year;
 
-  const monthFirst = text.match(/^([a-zA-Z.]+)\s+(\d{4})$/);
-  if (monthFirst) {
-    const [, monthRaw, year] = monthFirst;
-    const monthKey = monthRaw.replace(/\./g, "").toLowerCase();
-    const month = MONTH_SHORT_LABEL[monthKey];
-    if (month) return `${month} ${year}`;
-  }
-
-  return text;
-};
-
-const splitEducationPeriod = (value) => {
-  const text = normalizeInlineText(value || "");
-  if (!text) return { start: "", end: "" };
-  const parts = text.split(/\s*[-\u2013\u2014]\s*/);
-  if (parts.length < 2) return { start: "", end: text };
-  return {
-    start: normalizeInlineText(parts[0]),
-    end: normalizeInlineText(parts.slice(1).join(" \u2014 ")),
-  };
+  const monthKeys = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
+  const month = MONTH_SHORT_LABEL[monthKeys[Number(monthValue) - 1]];
+  if (!month) return text;
+  if (!dayValue) return `${month} ${year}`;
+  return `${month} ${Number(dayValue)}, ${year}`;
 };
 
 const splitNewsDateLabel = (value) => {
@@ -88,11 +81,9 @@ const splitNewsDateLabel = (value) => {
   };
 };
 
-const renderBioHtml = (markdown) => {
-  const text = (markdown || "").trim();
-  if (!text) return "";
-  return text
-    .split(/\n+/)
+const renderBioHtml = (paragraphs) => {
+  const content = Array.isArray(paragraphs) ? paragraphs : [];
+  return content
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => renderInlineMarkdown(line, { preserveLineBreaks: false }))
@@ -105,7 +96,8 @@ const renderBioHtml = (markdown) => {
 
 const renderNewsItemHtml = (item) => {
   const entry = item || {};
-  const dateLabel = splitNewsDateLabel(entry.date || "");
+  const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
+  const dateLabel = splitNewsDateLabel(displayDate);
   const dateHtml = dateLabel.year
     ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
     : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
@@ -118,10 +110,11 @@ const renderNewsItemHtml = (item) => {
 
 const renderEducationItemHtml = (item) => {
   const entry = item || {};
-  const periodInfo = splitEducationPeriod(entry.period || "");
-  const endLabel = formatEducationPeriodLabel(periodInfo.end || entry.period || "");
-  const startLabel = formatEducationPeriodLabel(periodInfo.start || "");
-  const isPresent = /^(present|.*至今.*)$/i.test(endLabel || "");
+  const periodLabel = normalizeInlineText(entry.periodLabel);
+  const startLabel = periodLabel ? "" : formatIsoDateLabel(entry.startDate);
+  const endLabel = periodLabel
+    || (entry.endDate ? formatIsoDateLabel(entry.endDate) : "Present");
+  const isPresent = !periodLabel && !entry.endDate;
   const titleText = [entry.degree, entry.major]
     .filter((value) => normalizeInlineText(value).length)
     .join(", ");
@@ -139,7 +132,7 @@ const renderEducationItemHtml = (item) => {
 
 const renderTeachingItemHtml = (item) => {
   const entry = item || {};
-  const datePeriod = normalizeInlineText(entry.period) || normalizeInlineText(entry.year) || "";
+  const datePeriod = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
   let detailHtml = "";
 
   if (entry.courseCode || entry.courseName) {
@@ -160,7 +153,7 @@ const renderTeachingItemHtml = (item) => {
 
 const renderServicesItemHtml = (item) => {
   const entry = item || {};
-  const datePeriod = normalizeInlineText(entry.period) || normalizeInlineText(entry.year) || "";
+  const datePeriod = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
   const eventHtml = entry.event
     ? `<div class="editorial-inst-name">${renderInlineMarkdown(entry.event)}</div>`
     : entry.detail
@@ -184,7 +177,7 @@ const renderListHtml = (items, renderItemHtml) =>
 
 const renderSelectedPublicationsHtml = (items) =>
   renderListHtml(
-    (items || []).filter((item) => parseBooleanLike(item?.selected)),
+    (items || []).filter((item) => item?.selected === true),
     renderPublicationItemHtml
   );
 

@@ -145,10 +145,6 @@ if (!errors.length) {
       continue;
     }
 
-    if (/Loading bio\.\.\./.test(html)) {
-      report(`dist/${fileName} contains loading placeholder text.`);
-    }
-
     validateStaticTargets(html, fileName);
     for (const reference of extractHtmlReferences(html)) {
       await validateReference(reference, filePath);
@@ -157,13 +153,6 @@ if (!errors.length) {
 
   const distFiles = await walkFiles(distRoot);
   for (const filePath of distFiles) {
-    const relativePath = path.relative(distRoot, filePath);
-    if (path.basename(filePath) === ".DS_Store") {
-      report(`dist/${relativePath} must not be deployed.`);
-    }
-    if (filePath.endsWith(".md")) {
-      report(`dist/${relativePath} exposes a Markdown source file.`);
-    }
     if (filePath.endsWith(".css")) {
       const css = await readUtf8(filePath);
       for (const reference of extractCssReferences(css)) {

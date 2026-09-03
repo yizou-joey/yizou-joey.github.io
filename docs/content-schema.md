@@ -22,6 +22,9 @@ Biography content exports an array of paragraph strings. Supported inline
 formatting remains intentionally small: `**bold**`, `*italic*`, and
 `[label](url)`.
 
+News entries may add a plain-text `note`, rendered as a quiet handwritten line
+below the main copy.
+
 ## Dates
 
 Machine-readable dates use the available ISO precision: `YYYY`, `YYYY-MM`, or

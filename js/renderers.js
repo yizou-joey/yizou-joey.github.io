@@ -104,8 +104,11 @@ const renderNewsItemHtml = (item) => {
   const mascotHtml = entry.mascot
     ? `<div class="editorial-media-column news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
     : "";
+  const note = normalizeInlineText(entry.note || "");
+  const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
+  const contentHtml = `<div class="news-copy">${renderNewsInline(entry)}</div>${noteHtml}`;
 
-  return `<li class="editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${renderNewsInline(entry)}</div>${mascotHtml}</li>`;
+  return `<li class="editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${contentHtml}</div>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {

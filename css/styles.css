@@ -41,6 +41,7 @@
   /* === Tokens: typography families === */
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
+  --font-handwritten: "Shantell Sans", cursive;
 
   --type-feature-serif: "kern" 1, "liga" 1, "clig" 1;
   --type-feature-sans: "kern" 1, "liga" 1, "clig" 1;
@@ -1252,6 +1253,17 @@ a {
 .editorial-news-content .news-venue-link:focus-visible {
   color: var(--news-venue-hover-color);
   text-decoration-color: var(--news-venue-hover-color);
+}
+
+/* A quiet handwritten second line for personal context. */
+.news-note {
+  margin-top: var(--space-4);
+  color: var(--color-muted);
+  font-family: var(--font-handwritten);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  opacity: 0.9;
 }
 
 @media (min-width: 768px) {

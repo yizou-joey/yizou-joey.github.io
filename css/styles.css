@@ -1,5 +1,14 @@
+/*
+ * Visual implementation source of truth.
+ * Tokens: shared color, type, spacing, rail, radius, and material values.
+ * Primitives: .type-*, .section-*, and .editorial-* class families.
+ * Components: .site-*, .profile-*, .publication-*, and .news-* families.
+ * Responsive and accessibility rules stay beside their owning components.
+ * Reuse these APIs before adding a new token, primitive, or component rule.
+ */
+
 :root {
-  /* === Colors === */
+  /* === Tokens: colors === */
   /* Surface & ink */
   --color-page-bg: #fdfdfc;
   --color-ink: #15120f;
@@ -29,14 +38,14 @@
   --color-chip-text-muted: #3c3c3c;
   --color-footer-note: #7a7975;
 
-  /* === Typography: families === */
+  /* === Tokens: typography families === */
   --font-inter: "Inter", sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
 
   --type-feature-serif: "kern" 1, "liga" 1, "clig" 1;
   --type-feature-sans: "kern" 1, "liga" 1, "clig" 1;
 
-  /* === Typography: scales === */
+  /* === Tokens: typography scales === */
   /* Brand mark */
   --type-brand-size: 22px;
   --type-brand-line-height: 26px;
@@ -51,25 +60,7 @@
   --type-display-secondary-line-height: 37px;
   --type-display-secondary-tracking: -0.96px;
 
-  /* Subheading (large = page title) */
-  --type-subheading-large-size: 40px;
-  --type-subheading-large-weight: 400;
-  --type-subheading-large-line-height: 60px;
-  --type-subheading-large-tracking: normal;
-
   /* Body */
-  --type-body-title-size: 16px;
-  --type-body-title-weight: 600;
-  --type-body-title-line-height: 18px;
-  --type-body-title-tracking: -0.25px;
-  --type-body-large-size: 20px;
-  --type-body-large-weight: 600;
-  --type-body-large-line-height: 28px;
-  --type-body-large-tracking: -0.125px;
-  --type-body-medium-size: 16px;
-  --type-body-medium-weight: 500;
-  --type-body-medium-line-height: 24px;
-  --type-body-medium-tracking: 0;
   --type-body-size: 16px;
   --type-body-weight: 400;
   --type-body-line-height: 24px;
@@ -93,11 +84,11 @@
   --type-badge-micro-line-height: 15.96px;
   --type-badge-micro-tracking: 0.125px;
 
-  /* === Layout: widths & sizes === */
+  /* === Tokens: layout widths and sizes === */
   --width-rail-level-1: 1050px;
   --width-rail-level-2: 950px;
 
-  /* === Spacing === */
+  /* === Tokens: spacing === */
   /* Primitive scale (consumed by composite tokens below) */
   --space-2: 2px;
   --space-4: 4px;
@@ -126,10 +117,10 @@
   /* Bio paragraph break */
   --space-bio-paragraph-break: 0.6em;
 
-  /* === Radii === */
+  /* === Tokens: radii === */
   --radius-badge: 999px;
 
-  /* === Shadows === */
+  /* === Tokens: material shadows === */
   /* Resting sticker-on-paper shadow: dark warm-gray, compact blur.
      Applied to mascot stickers and bio keyword bubbles. Falls slightly right. */
   --sticker-shadow-base:
@@ -146,6 +137,8 @@
     drop-shadow(2px 3px 4px rgba(36, 32, 28, 0.25))
     drop-shadow(3px 5px 8px rgba(36, 32, 28, 0.15));
 }
+
+/* === Base: document and shared interaction === */
 
 body {
   background-color: var(--color-page-bg);
@@ -217,11 +210,7 @@ a {
   color: var(--color-chip-text-muted);
 }
 
-.bg-line {
-  background-color: var(--color-line);
-}
-
-/* Editorial Grid Layout */
+/* === Primitive: editorial grid and timeline rows === */
 .editorial-grid-row {
   display: grid;
   grid-template-columns: 1fr;
@@ -451,7 +440,7 @@ a {
   opacity: 1;
 }
 
-/* Editorial Publication Item */
+/* === Component: publication item and resource links === */
 .editorial-publication-item {
   padding-bottom: var(--space-24);
   margin-bottom: var(--space-24);
@@ -599,6 +588,8 @@ a {
   transform: scaleX(1);
 }
 
+/* === Primitives: typography === */
+
 .type-brand {
   font-family: var(--font-serif-sc);
   font-size: var(--type-brand-size);
@@ -634,15 +625,6 @@ a {
   letter-spacing: var(--type-display-secondary-tracking);
 }
 
-.type-title-page {
-  font-family: var(--font-inter);
-  font-size: var(--type-subheading-large-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-subheading-large-weight);
-  line-height: var(--type-subheading-large-line-height);
-  letter-spacing: var(--type-subheading-large-tracking);
-}
-
 .type-title-section {
   font-family: var(--font-inter);
   font-size: 14px;
@@ -652,7 +634,6 @@ a {
   text-transform: uppercase;
   color: var(--color-ink);
   margin: 0;
-  /* font-feature-settings: var(--type-feature-sans); */
 }
 
 .type-title-subsection {
@@ -665,42 +646,6 @@ a {
   color: var(--color-muted);
   margin: 0;
   font-feature-settings: "tnum" on, var(--type-feature-sans);
-}
-
-.type-title-body {
-  font-family: var(--font-inter);
-  font-size: var(--type-body-title-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-body-title-weight);
-  line-height: var(--type-body-title-line-height);
-  letter-spacing: var(--type-body-title-tracking);
-}
-
-.type-title-minor {
-  font-family: var(--font-inter);
-  font-size: var(--type-body-medium-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-body-medium-weight);
-  line-height: var(--type-body-medium-line-height);
-  letter-spacing: var(--type-body-medium-tracking);
-}
-
-.type-body-lead {
-  font-family: var(--font-inter);
-  font-size: var(--type-body-large-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-body-large-weight);
-  line-height: var(--type-body-large-line-height);
-  letter-spacing: var(--type-body-large-tracking);
-}
-
-.type-body-large {
-  font-family: var(--font-inter);
-  font-feature-settings: var(--type-feature-sans);
-  font-size: var(--type-body-large-size);
-  font-weight: var(--type-body-large-weight);
-  line-height: var(--type-body-large-line-height);
-  letter-spacing: var(--type-body-large-tracking);
 }
 
 .type-body {
@@ -730,17 +675,7 @@ a {
   margin-top: var(--space-bio-paragraph-break);
 }
 
-/* === RESEARCH INTERESTS BANNER ===============================================
-   Designed to mirror the rest of the site's section-heading vocabulary:
-   - The label uses the existing `.type-title-section` token (same uppercase
-     14px Inter at 0.1em tracking used by every other section title).
-   - A single hairline `border-bottom` under the label echoes the
-     `.section-heading-row` rule used elsewhere, so the banner reads as
-     a miniature, embedded section rather than a foreign component.
-   - Phrases sit in italic Noto Serif SC at the bio size to differentiate
-     from the upright bio prose while keeping the family/scale cohesive.
-   - Asymmetric per-item left/right margins keep the editorial uneven
-     rhythm shown in the reference image. */
+/* === Component: research-interest sticker banner === */
 .bio-stack {
   display: flex;
   width: 100%;
@@ -782,15 +717,7 @@ a {
   letter-spacing: var(--type-badge-micro-tracking);
 }
 
-.type-caption {
-  font-family: var(--font-inter);
-  font-size: var(--type-caption-size);
-  font-feature-settings: var(--type-feature-sans);
-  font-weight: var(--type-caption-weight);
-  line-height: var(--type-caption-line-height);
-  letter-spacing: var(--type-caption-tracking);
-  color: var(--color-muted);
-}
+/* === Primitives: layout rails and section headings === */
 
 .section-rail-l1,
 .section-rail-l2 {
@@ -924,7 +851,7 @@ a {
   color: var(--color-ink);
 }
 
-/* === NEWS MASCOT STICKER === */
+/* === Component: news mascot sticker === */
 
 .news-mascot-column {
   display: flex;
@@ -961,16 +888,14 @@ a {
   filter: var(--sticker-shadow-venue-hover);
 }
 
-/* Reduced-motion: skip animation, keep the sticker visible in color */
+/* Accessibility: skip animation while keeping the sticker state visible. */
 @media (prefers-reduced-motion: reduce) {
   .news-mascot-sticker {
     transition: none !important;
   }
 }
 
-/* === SERVICE MASCOT STICKER ===============================================
-   Mirrors news-mascot-sticker behavior. Sticker silhouette and shadow
-   pre-baked into PNG; CSS adds hover interactions. */
+/* === Component: service mascot sticker === */
 .service-mascot-column {
   display: flex;
   align-items: center;
@@ -1032,6 +957,8 @@ a {
 }
 
 
+/* === Primitives: page rhythm and contact rows === */
+
 .section-stack {
   display: flex;
   flex-direction: column;
@@ -1063,7 +990,6 @@ a {
 
 .contact-link:hover,
 .contact-link:focus-visible {
-  color: var(--color-chip-text-muted);
   text-decoration-color: var(--color-link-decoration-ink);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
@@ -1230,7 +1156,7 @@ a {
   }
 }
 
-/* Base styles for list layout containers */
+/* === Components: section lists and dates === */
 #news-list,
 #education-list,
 #teaching-list,
@@ -1296,7 +1222,6 @@ a {
 .editorial-news-content {
   margin: 0;
   min-width: 0;
-  color: var(--color-ink);
   text-wrap: pretty;
 }
 
@@ -1378,6 +1303,8 @@ a {
   }
 }
 
+/* === Page-specific: publications archive and footer === */
+
 .publications-year-list {
   display: flex;
   width: 100%;
@@ -1451,7 +1378,7 @@ a {
   justify-content: center;
 }
 
-/* 404 page: homepage-aligned editorial hero with subtle surface treatment. */
+/* === Page-specific: 404 page === */
 .error404-main {
   flex: 1 0 auto;
   width: 100%;
@@ -1484,7 +1411,7 @@ a {
   animation: error404-reveal 360ms 30ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* === HALFTONE COLOPHON ===
+/* === Component: halftone colophon ===
    Printed-on-paper halftone mark at page end.
    No shadows, no rotation — flat ink-on-paper via multiply blend. */
 .halftone-colophon {

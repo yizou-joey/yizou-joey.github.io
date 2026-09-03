@@ -1,171 +1,67 @@
 # Technical Notes
 
-This document describes how this GitHub Pages academic homepage is structured and how content is rendered.
+This document describes the stable architecture and build pipeline. Visual
+implementation belongs in `css/styles.css`; design intent belongs in
+`DESIGN.md`; content conventions belong in `docs/content-schema.md`.
 
-## Current Structure
+## Architecture
 
-- `DESIGN.md`: canonical visual design steering for AI agents and maintainers.
-- `docs/content-schema.md`: lightweight content authoring guide.
-- `css/styles.css`: shared design tokens, semantic utility classes, and component styles.
-- `js/renderers.js`: shared HTML renderers used by Vite's HTML transform.
-- `js/utils.js`: escaping, inline formatting, venue, date, and publication rendering utilities.
-- `vite.config.js`: Vite configuration plus the HTML transform that injects content.
+The site is a Vite multi-page application with three root entry pages:
 
-### Shared rendering pipeline
+- `index.html`: homepage and selected research.
+- `publications.html`: full publication archive grouped by year.
+- `404.html`: not-found page.
 
-Each file in `contents/*.js` is a directly imported ES module. There is no
-custom content parser or field whitelist. Shared helpers still provide compact
-inline Markdown rendering and publication markup. The browser-facing pages do
-not fetch content at runtime; HTML remains the content delivery surface.
+Section content is stored in single-purpose ES modules under `contents/*.js`.
+Shared renderers in `js/renderers.js` and formatting helpers in `js/utils.js`
+turn those values into HTML. The content modules have no runtime schema or
+field whitelist; renderers consume the fields they recognize.
 
-### HTML-first rendering pipeline
+`src/styles.css` is the Vite stylesheet entry. It loads Tailwind and then the
+shared visual implementation in `css/styles.css`.
 
-The source HTML files keep lightweight empty containers. Vite injects content
-into those containers during both local development and production builds:
+## Static Content Pipeline
 
-1. `npm run optimize:images` regenerates optimized static assets.
-2. `vite build` imports `contents/*.js`, renders HTML through `js/renderers.js`,
-   and writes complete `dist/index.html` and `dist/publications.html`.
-3. `npm run check:dist` verifies the generated pages, static content markers,
-   and rendered local references.
+The source HTML files contain lightweight target containers. The custom Vite
+HTML transform imports content modules, renders each section, injects the
+result, and marks the target with `data-content-rendered="static"`.
 
-Injected containers receive `data-content-rendered="static"`. The deployed
-HTML itself contains the biography, news, publication, education, service, and
-teaching text, so crawlers and AI assistants do not need to execute JavaScript
-to read the page.
+Content is therefore present in the deployed HTML before browser JavaScript
+runs. Crawlers and readers do not need to fetch or interpret source content.
+The content modules remain outside `public/` and are not deployed separately.
 
-Content sources live outside `public/` and are not deployed as standalone
-files. Inspect `dist/*.html` or the deployed GitHub Pages artifact when you need
-to verify the full static HTML. `npm run check` aliases the complete production
-build, and `npm run preview` builds first through the `prepreview` hook.
+## Build and Verification
 
-## Shared CSS Tokens
+- `npm run dev` optimizes source images and starts Vite.
+- `npm run build` optimizes images, builds all entry pages, and verifies the
+  generated output.
+- `npm run check` aliases the complete production build.
+- `npm run check:dist` verifies expected pages, static injection markers, and
+  rendered local HTML/CSS references.
+- `npm run preview` rebuilds before serving `dist/`.
 
-Shared styling tokens and semantic utility classes are in `css/styles.css`.
-Design rationale, token permissions, and UI guardrails are documented in the
-root `DESIGN.md`.
+Build output is written to ignored `dist/`. The deployment workflow runs the
+same production build used locally.
 
-```css
-:root {
-  --color-page-bg: #fdfdfc;
-  --color-ink: #15120f;
-  --color-muted: #787774;
-  --color-line: #f2f1ee;
-  --color-border-warm: #dfdcd4;
-  --color-venue-ieee-vr: #262189;
-  --color-venue-mmsys: rgb(24, 86, 105);
-  --space-section-py: 32px;
-  --space-gutter-fluid: clamp(16px, 3vw, 32px);
-  --space-col-gap-fluid: clamp(20px, 4vw, 56px);
-}
-```
+## Assets
 
-### Using semantic layout classes
+Deployable files live under `public/files/` and use public-relative references
+such as `files/materials/paper.pdf`. Editable image sources live under
+`assets/original-images/`.
 
-In HTML, use shared semantic layout classes instead of Tailwind layout
-utilities or arbitrary values:
+`scripts/optimize-images.mjs` generates web-ready variants under the ignored
+`public/files/generated/` directory before development and production builds.
+The distribution check catches rendered references whose target files are
+missing from the final output.
 
-```html
-<section class="page-section page-gutter">
-<div class="section-rail-l1 section-stack section-stack--center">
-```
+## Browser Runtime
 
-Page-specific exceptions should also be semantic classes. Avoid inline `style`
-attributes, arbitrary bracket classes, and raw layout utilities in HTML.
+Content rendering has no browser-side runtime. The remaining JavaScript is for
+small presentation behavior:
 
-## Interaction and motion guidelines
+- `js/favicon.js` swaps active/idle favicon assets and follows the browser color
+  scheme.
+- `js/404.js` provides the 404-page interaction.
 
-- Use motion only where it clarifies interactivity or feedback. Static display
-  assets, such as bio keyword stickers, should stay visually stable unless they
-  are part of an explicit interactive control.
-- Hover motion should have a clear ownership model: direct hover on an
-  interactive visual may use a small response; hover on a related link may use a
-  stronger paired response when it helps connect the link and visual object.
-- `prefers-reduced-motion: reduce` should remove transition/animation timing,
-  but should not use `transform: ... !important` to suppress the final hover or
-  focus state. Users who reduce motion should still receive state feedback,
-  just without animated interpolation.
-- Always verify interaction states under reduced-motion settings when adding or
-  refactoring hover effects. Otherwise accessibility overrides can silently
-  flatten the intended design in local previews.
-
-### Dynamic favicon
-
-The site uses a small favicon microinteraction implemented in `js/favicon.js`.
-The active tab uses an open-folder SVG, while a hidden/background tab uses a
-closed-folder SVG. This is a decorative browser-chrome detail that reinforces
-the site's research archive feel without changing page content or navigation.
-
-The favicon also follows browser color-scheme context:
-
-- Light context: `public/files/favicon.svg` and
-  `public/files/favicon-idle.svg` use dark ink lines.
-- Dark context: `public/files/favicon-light.svg` and
-  `public/files/favicon-idle-light.svg` use warm-paper lines.
-
-HTML pages expose the icon paths through `data-active-light-icon`,
-`data-idle-light-icon`, `data-active-dark-icon`, and `data-idle-dark-icon` on
-the single `link[rel="icon"]`. The script listens to `visibilitychange` and
-`prefers-color-scheme: dark`, then updates that same link's `href`; it should
-not append additional favicon links.
-
-When changing this interaction, keep each icon legible at 16px and 32px on both
-light and dark browser chrome. Prefer simple SVG paths, no external fonts, no
-filters, no embedded bitmaps, and no information that depends on the favicon
-state for accessibility.
-
-## Pages
-
-- `index.html`: main homepage
-- `publications.html`: publications grouped by year (newest first)
-
-## Content files
-
-- Biography: `contents/bio.js`
-- Publications: `contents/publications.js`
-- News: `contents/news.js`
-- Teaching: `contents/teaching.js`
-- Education: `contents/education.js`
-- Services: `contents/services.js`
-
-List-driven files export arrays of plain objects:
-
-```js
-export default [
-  {
-    date: "2026-03-25",
-    text: "Natural-language content",
-  },
-];
-```
-
-Authoring conventions are documented in `docs/content-schema.md`. Renderers
-ignore fields they do not use. Venue accents use `venueKey` and the compact
-registry in `js/utils.js`.
-
-If any supplemental URL fields are present, publication cards render compact bracket links below
-the authors. Supplemental links open in a new tab.
-
-## Next steps
-
-- Add per-publication pages and link each entry to its detailed page.
-- Add anchors on the homepage so entries can link to their positions.
-- Explore a more representative favicon mark for HCI/XR/adaptive interface work
-  while preserving the current active/idle and light/dark microinteraction.
-
-## To-do
-
-- Update the publication card design.
-- Separate publication project page design.
-
-## Known Issues
-
-- **Bio education timeline period connector is not fully padding-responsive.**
-  The diagonal connector in the left time-phase column (`bio.html` education rows) can drift when
-  `padding-right`, date label offsets, or column widths are adjusted. It currently relies on runtime
-  geometry from rendered text and still needs a more robust anchoring strategy that is independent
-  from manual spacing tweaks.
-
-Potential actions:
-
-- Add support to embedded video links.
+GoatCounter is loaded asynchronously for visitor analytics. None of these
+scripts is required for reading the page content.

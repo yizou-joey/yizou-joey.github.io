@@ -15,7 +15,7 @@ This repository is a Vite-powered, multi-page academic website. Entry pages live
 
 ## Coding Style & Naming Conventions
 
-Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Keep layout and colors in reusable CSS tokens or semantic classes; do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Follow `DESIGN.md` for visual decisions. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
+Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, which is the source of truth for visual implementation; use `DESIGN.md` only for intent and boundaries. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
 
 ## Testing Guidelines
 

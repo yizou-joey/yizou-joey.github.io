@@ -7,7 +7,7 @@
     <meta name="author" content="Yi Zou (Joey)" />
     <meta
       name="description"
-      content="Academic homepage of Yi Zou (Joey), MPhil student at HKUST (Guangzhou) researching Human-Computer Interaction (HCI), adaptive user interfaces, and extended reality (XR)."
+      content="Academic homepage of Yi Zou (Joey), a first-year PhD student at HKUST (Guangzhou) researching Human-Computer Interaction (HCI), adaptive user interfaces, and extended reality (XR)."
     />
     <meta
       name="keywords"
@@ -28,14 +28,14 @@
     />
     <meta
       property="og:description"
-      content="Research, publications, teaching, and updates from Yi Zou (Joey), an MPhil student at HKUST (Guangzhou) working on HCI, XR, and adaptive user interfaces."
+      content="Research, publications, teaching, and updates from Yi Zou (Joey), a first-year PhD student at HKUST (Guangzhou) working on HCI, XR, and adaptive user interfaces."
     />
     <meta property="og:type" content="website" />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Yi ZOU" />
-    <meta name="twitter:description" content="Academic homepage of Yi Zou (Joey), researching HCI, XR, and adaptive interfaces at HKUST(GZ)." />
+    <meta name="twitter:description" content="Academic homepage of Yi Zou (Joey), a PhD student researching HCI, XR, and adaptive interfaces at HKUST(GZ)." />
     <link
       rel="icon"
       href="files/favicon.svg"
@@ -157,7 +157,25 @@
                 <div class="section-heading-row">
                   <h2 id="news-heading" class="type-title-section">Recent News</h2>
                 </div>
-                <ul id="news-list" class="news-bullet-list"></ul>
+                <div class="news-scroll-shell" data-news-scroll-shell>
+                  <div class="news-scroll-region" data-news-scroll-region>
+                    <ul id="news-list" class="news-bullet-list"></ul>
+                  </div>
+                  <button
+                    class="news-scroll-control"
+                    type="button"
+                    aria-controls="news-list"
+                    aria-label="Show older news"
+                    hidden
+                    data-news-scroll-control
+                  >
+                    <svg class="news-scroll-chevrons" viewBox="0 0 24 24" aria-hidden="true">
+                      <polyline points="7 3 12 8 17 3"></polyline>
+                      <polyline points="7 9 12 14 17 9"></polyline>
+                      <polyline points="7 15 12 20 17 15"></polyline>
+                    </svg>
+                  </button>
+                </div>
               </section>
             </aside>
           </div>
@@ -167,7 +185,7 @@
         <section id="publications" class="page-section">
           <div class="section-stack section-stack--center page-gutter">
             <div class="section-rail-l1 section-heading-row">
-              <h2 class="type-title-section">Research Projects</h2>
+              <h2 class="type-title-section">Selected Projects</h2>
             </div>
             <div class="section-rail-l2">
               <div id="publications-list"></div>
@@ -224,7 +242,7 @@
     </div>
     <footer class="site-footer" data-site-footer="true">
       <div class="site-footer-inner">
-        <p class="site-footer-note">© 2026 Yi ZOU. Last Updated March 2026.</p>
+        <p class="site-footer-note">© 2026 Yi ZOU. Last Updated September 2026.</p>
       </div>
     </footer>
 
@@ -234,5 +252,6 @@
       src="https://gc.zgo.at/count.js"
     ></script>
     <script type="module" src="js/favicon.js"></script>
+    <script type="module" src="js/news-scroll.js"></script>
   </body>
 </html>

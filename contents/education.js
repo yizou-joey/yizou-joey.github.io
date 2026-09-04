@@ -1,10 +1,20 @@
 export default [
   {
+    startDate: "2026-09",
+    institution: "The Hong Kong University of Science and Technology (Guangzhou)",
+    degree: "Doctor of Philosophy",
+    major: "Computational Media and Arts",
+    subAffiliation: "Computational Media and Arts Thrust, Information Hub",
+    location: "Guangzhou, China",
+    logo: "files/logos/HKUSTGZ Logo Only.svg",
+  },
+  {
     startDate: "2024-09",
+    endDate: "2026-08",
     institution: "The Hong Kong University of Science and Technology (Guangzhou)",
     degree: "Master of Philosophy",
     major: "Computational Media and Arts",
-    subAffiliation: "Information Hub, Computational Media and Arts Trust",
+    subAffiliation: "Computational Media and Arts Thrust, Information Hub",
     location: "Guangzhou, China",
     logo: "files/logos/HKUSTGZ Logo Only.svg",
   },

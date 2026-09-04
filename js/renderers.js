@@ -139,16 +139,40 @@ const renderTeachingItemHtml = (item) => {
   let detailHtml = "";
 
   if (entry.courseCode || entry.courseName) {
-    detailHtml = `<div class="editorial-inst-name">${entry.courseCode ? `<strong>${escapeHtml(entry.courseCode)}</strong>` : ""}${entry.courseCode && entry.courseName ? " &mdash; " : ""}${entry.courseName ? escapeHtml(entry.courseName) : ""}</div>`;
+    detailHtml = entry.courseCode && entry.courseName
+      ? `<div class="teaching-course"><span class="teaching-course-code">${escapeHtml(entry.courseCode)}</span><span class="teaching-course-name">${escapeHtml(entry.courseName)}</span></div>`
+      : `<div class="teaching-course"><span class="teaching-course-detail">${escapeHtml(entry.courseCode || entry.courseName)}</span></div>`;
   } else if (entry.detail) {
-    detailHtml = `<div class="editorial-inst-name">${renderInlineMarkdown(entry.detail || "")}</div>`;
+    detailHtml = `<div class="teaching-course"><span class="teaching-course-detail">${renderInlineMarkdown(entry.detail || "")}</span></div>`;
   }
 
+  const instructors = (Array.isArray(entry.instructors) ? entry.instructors : [])
+    .map((instructor) => {
+      const name = normalizeInlineText(instructor?.name || "");
+      if (!name) return "";
+
+      const url = normalizeInlineText(instructor?.url || "");
+      if (!url || /^javascript:/i.test(url)) {
+        return `<span class="teaching-instructor-name">${escapeHtml(name)}</span>`;
+      }
+
+      const targetAttr = /^https?:\/\//i.test(url)
+        ? ` target="_blank" rel="noopener noreferrer"`
+        : "";
+      return `<span class="teaching-instructor-name"><a href="${escapeHtml(url)}" class="inline-link"${targetAttr}>${escapeHtml(name)}</a></span>`;
+    })
+    .filter(Boolean);
+  const instructorHtml = instructors.length
+    ? `<div class="teaching-instructor"><span class="teaching-instructor-label">${instructors.length === 1 ? "Instructor" : "Instructors"}</span><span class="teaching-instructor-names">${instructors.join(", ")}</span></div>`
+    : "";
   const institutionHtml = entry.institution
     ? `<div class="editorial-inst-sub">${renderInlineMarkdown(entry.institution)}</div>`
     : "";
-  const subtitleHtml = detailHtml || institutionHtml
-    ? `<div class="editorial-item-subtitle">${detailHtml}${institutionHtml}</div>`
+  const teachingMetaHtml = detailHtml || instructorHtml
+    ? `<div class="teaching-meta-grid">${detailHtml}${instructorHtml}</div>`
+    : "";
+  const subtitleHtml = detailHtml || instructorHtml || institutionHtml
+    ? `<div class="editorial-item-subtitle">${teachingMetaHtml}${institutionHtml}</div>`
     : "";
 
   return `<div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${subtitleHtml}</div></div>`;

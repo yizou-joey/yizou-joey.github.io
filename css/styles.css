@@ -194,6 +194,10 @@ a {
   border-radius: 2px;
 }
 
+.profile-bio .inline-link--person-name {
+  white-space: nowrap;
+}
+
 ::selection {
   background-color: var(--color-selection-highlight);
   color: var(--color-ink);
@@ -394,6 +398,59 @@ a {
   color: var(--color-muted);
 }
 
+.teaching-meta-grid {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--space-12);
+  row-gap: var(--space-2);
+}
+
+.teaching-course,
+.teaching-instructor {
+  display: contents;
+}
+
+.teaching-course-code,
+.teaching-course-name,
+.teaching-course-detail {
+  color: var(--color-ink);
+  font-style: normal;
+  font-size: 16px;
+}
+
+.teaching-course-code {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.teaching-course-name {
+  min-width: 0;
+}
+
+.teaching-course-detail {
+  grid-column: 1 / -1;
+}
+
+.teaching-instructor-label,
+.teaching-instructor-names {
+  color: var(--color-muted);
+  font-style: normal;
+  font-size: 15px;
+}
+
+.teaching-instructor-label {
+  font-weight: 500;
+}
+
+.teaching-instructor-names {
+  min-width: 0;
+}
+
+.teaching-instructor-name {
+  white-space: nowrap;
+}
+
 .editorial-news-content {
   font-family: var(--font-serif-sc);
   font-size: 16px;
@@ -526,11 +583,6 @@ a {
 .publication-authors-serif strong {
   font-weight: inherit;
   white-space: nowrap;
-  text-decoration-line: underline;
-  text-decoration-style: dashed;
-  text-decoration-color: var(--color-link-decoration-ink);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
 }
 
 .publication-bracket-links {
@@ -1277,6 +1329,150 @@ a {
   gap: var(--space-20);
 }
 
+.news-scroll-shell {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-4);
+}
+
+.news-scroll-region {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.news-scroll-shell.is-scrollable {
+  margin-top: calc(-1 * var(--space-20));
+}
+
+.news-scroll-region.is-scrollable {
+  width: calc(100% + var(--space-48));
+  margin-inline: calc(-1 * var(--space-24));
+  overflow-y: auto;
+  padding: var(--space-20) var(--space-24);
+  scroll-padding-block: var(--space-20);
+  scroll-snap-type: y mandatory;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.news-scroll-region.is-scrollable #news-list > * {
+  min-block-size: var(--news-item-block-size, 0);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.news-scroll-region.is-scrollable::-webkit-scrollbar {
+  width: var(--space-6);
+}
+
+.news-scroll-region.is-scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.news-scroll-region.is-scrollable::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-badge);
+  background: transparent;
+}
+
+.news-scroll-region:focus-visible {
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 2px;
+}
+
+.news-scroll-control {
+  --news-chevron-color: var(--color-border-warm);
+  display: grid;
+  width: 44px;
+  height: 28px;
+  margin: 0 auto;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--color-border-warm);
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.news-scroll-control[hidden] {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .news-scroll-control:hover {
+    --news-chevron-color: var(--color-nav-muted);
+    color: var(--color-muted);
+  }
+}
+
+.news-scroll-control:focus-visible {
+  --news-chevron-color: var(--color-nav-muted);
+  outline: 2px solid var(--color-apple-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+  color: var(--color-muted);
+}
+
+.news-scroll-chevrons {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.35;
+}
+
+.news-scroll-chevrons polyline {
+  stroke: var(--news-chevron-color);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 180ms cubic-bezier(0.77, 0, 0.175, 1),
+    stroke 160ms ease,
+    opacity 160ms ease;
+}
+
+.news-scroll-chevrons polyline:nth-child(1) {
+  opacity: 0.35;
+  transition-delay: 0ms;
+}
+
+.news-scroll-chevrons polyline:nth-child(2) {
+  opacity: 0.58;
+  transition-delay: 40ms;
+}
+
+.news-scroll-chevrons polyline:nth-child(3) {
+  opacity: 0.82;
+  transition-delay: 80ms;
+}
+
+.news-scroll-control.is-up .news-scroll-chevrons polyline {
+  transform: scaleY(-1);
+}
+
+.news-scroll-control.is-up .news-scroll-chevrons polyline:nth-child(1) {
+  opacity: 0.82;
+  transition-delay: 80ms;
+}
+
+.news-scroll-control.is-up .news-scroll-chevrons polyline:nth-child(2) {
+  transition-delay: 40ms;
+}
+
+.news-scroll-control.is-up .news-scroll-chevrons polyline:nth-child(3) {
+  opacity: 0.35;
+  transition-delay: 0ms;
+}
+
 .profile-news-panel .editorial-media-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1441,6 +1637,14 @@ a {
 
   .profile-bio {
     text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-scroll-chevrons polyline {
+    transition-property: stroke, opacity;
+    transition-duration: 120ms;
+    transition-delay: 0ms !important;
   }
 }
 

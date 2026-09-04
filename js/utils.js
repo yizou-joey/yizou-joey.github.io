@@ -28,7 +28,8 @@ const applyInlineLinks = (html) =>
     if (/^javascript:/i.test(url.trim())) return text;
     const isExternal = /^https?:\/\//i.test(url.trim());
     const targetAttr = isExternal ? ` target="_blank" rel="noopener noreferrer"` : "";
-    return `<a href="${url}" class="inline-link"${targetAttr}>${text}</a>`;
+    const personNameClass = /^Prof\.\s+\S/.test(text) ? " inline-link--person-name" : "";
+    return `<a href="${url}" class="inline-link${personNameClass}"${targetAttr}>${text}</a>`;
   });
 
 const applyInlineBold = (html) => html.replace(boldMarkdownPattern, "<strong>$1</strong>");
@@ -265,11 +266,11 @@ const renderPublicationItemHtml = (item) => {
     const workshopHtml = escapeHtml(workshopLabel.toUpperCase());
     if (typeLinkUrl) {
       eyebrowParts.push(
-        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">-</span><a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link">${workshopHtml}</a></span>`
+        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">—</span><a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link">${workshopHtml}</a></span>`
       );
     } else {
       eyebrowParts.push(
-        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">-</span>${workshopHtml}</span>`
+        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">—</span>${workshopHtml}</span>`
       );
     }
   } else {

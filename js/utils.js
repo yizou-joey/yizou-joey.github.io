@@ -109,7 +109,9 @@ const renderNewsInline = (entry) => {
 const renderAuthors = (value) => {
   if (!value) return "";
   const token = "__CORR_STAR__";
-  const escaped = value.replace(/\\\*/g, token).replace(/\*/g, token);
+  const escaped = value
+    .replace(/\\\*/g, token)
+    .replace(/\*+/g, (stars) => (stars === "**" ? stars : token.repeat(stars.length)));
   let html = renderInlineMarkdown(escaped);
   html = html.replace(new RegExp(token, "g"), "<sup>*</sup>");
   return html;

@@ -77,60 +77,7 @@
         <main class="page-content-stack">
         <!-- Intro -->
         <section id="about" class="profile-intro page-gutter">
-            <div class="profile-intro-layout section-rail-l2">
-            <div class="profile-aside">
-              <div class="profile-photo-frame">
-                <picture>
-                  <source srcset="files/generated/about-profile-400.avif" type="image/avif" />
-                  <img
-                    src="files/generated/about-profile-400.jpg"
-                    alt="Profile Picture"
-                    width="400"
-                    height="400"
-                    fetchpriority="high"
-                    decoding="async"
-                    class="profile-photo"
-                  />
-                </picture>
-              </div>
-              <div class="profile-contact-panel">
-                <div class="profile-contact-list type-body-sm">
-                  <div class="contact-row">
-                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
-                    <p class="text-resource-muted">Guangzhou, China</p>
-                  </div>
-                  <a
-                    href="mailto:yzou906@connect.hkust-gz.edu.cn"
-                    class="contact-row contact-link"
-                  >
-                    <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
-                    Email
-                  </a>
-                  <a
-                    href="https://github.com/yizou-joey"
-                    rel="me"
-                    class="contact-row contact-link"
-                  >
-                    <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
-                    GitHub
-                  </a>
-                  <a
-                    href="https://scholar.google.com/citations?user=RYMYBtcAAAAJ"
-                    class="contact-row contact-link"
-                  >
-                    <img src="files/icons/scholar.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
-                    Google Scholar
-                  </a>
-                  <!-- <a
-                    href="files/CV_EN.pdf"
-                    class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
-                  >
-                    <img src="files/icons/cv.svg" alt="" aria-hidden="true" class="contact-icon" />
-                    CV (Updated Oct. 2025)
-                  </a> -->
-                </div>
-              </div>
-            </div>
+          <div class="profile-intro-layout section-rail-l2">
             <div class="profile-main">
               <div class="profile-name-row">
                 <h1 class="type-title-hero text-ink">Yi ZOU</h1>
@@ -154,16 +101,65 @@
                 </aside>
               </div>
             </div>
-          </div>
-        </section>
-
-        <!-- Recent News -->
-        <section id="news" class="page-section page-gutter">
-          <div class="section-rail-l1 section-stack section-stack--center">
-          <div class="section-heading-row">
-            <h2 class="type-title-section">Recent News</h2>
-          </div>
-          <ul id="news-list" class="news-bullet-list"></ul>
+            <aside class="profile-aside" aria-label="Profile and recent news">
+              <div class="profile-photo-frame">
+                <picture>
+                  <source srcset="files/generated/about-profile-400.avif" type="image/avif" />
+                  <img
+                    src="files/generated/about-profile-400.jpg"
+                    alt="Profile Picture"
+                    width="400"
+                    height="400"
+                    fetchpriority="high"
+                    decoding="async"
+                    class="profile-photo"
+                  />
+                </picture>
+              </div>
+              <div class="profile-contact-panel">
+                <div class="profile-contact-list type-body-sm">
+                  <div class="contact-row">
+                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                    <p class="text-resource-muted">Guangzhou, China</p>
+                  </div>
+                  <div class="profile-contact-links">
+                    <span class="profile-contact-link-item">
+                      <a href="mailto:yzou906@connect.hkust-gz.edu.cn" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        Email
+                      </a>
+                    </span>
+                    <span class="profile-contact-link-item">
+                      <span class="profile-contact-link-separator" aria-hidden="true">·</span>
+                      <a href="https://github.com/yizou-joey" rel="me" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        GitHub
+                      </a>
+                    </span>
+                    <span class="profile-contact-link-item">
+                      <span class="profile-contact-link-separator" aria-hidden="true">·</span>
+                      <a href="https://scholar.google.com/citations?user=RYMYBtcAAAAJ" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/scholar.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        Scholar
+                      </a>
+                    </span>
+                  </div>
+                  <!-- <a
+                    href="files/CV_EN.pdf"
+                    class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >
+                    <img src="files/icons/cv.svg" alt="" aria-hidden="true" class="contact-icon" />
+                    CV (Updated Oct. 2025)
+                  </a> -->
+                </div>
+              </div>
+              <section id="news" class="profile-news-panel" aria-labelledby="news-heading">
+                <div class="section-heading-row">
+                  <h2 id="news-heading" class="type-title-section">Recent News</h2>
+                </div>
+                <ul id="news-list" class="news-bullet-list"></ul>
+              </section>
+            </aside>
           </div>
         </section>
 
@@ -171,11 +167,11 @@
         <section id="publications" class="page-section">
           <div class="section-stack section-stack--center page-gutter">
             <div class="section-rail-l1 section-heading-row">
-               <h2 class="type-title-section">Research Projects</h2>
-             </div>
-             <div class="section-rail-l2">
-               <div id="publications-list"></div>
-             </div>
+              <h2 class="type-title-section">Research Projects</h2>
+            </div>
+            <div class="section-rail-l2">
+              <div id="publications-list"></div>
+            </div>
           </div>
         </section>
 

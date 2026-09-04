@@ -86,8 +86,8 @@
   --type-badge-micro-tracking: 0.125px;
 
   /* === Tokens: layout widths and sizes === */
-  --width-rail-level-1: 1050px;
-  --width-rail-level-2: 950px;
+  --width-rail-level-1: 1100px;
+  --width-rail-level-2: 1060px;
 
   /* === Tokens: spacing === */
   /* Primitive scale (consumed by composite tokens below) */
@@ -523,10 +523,20 @@ a {
   line-height: var(--type-body-line-height);
 }
 
+.publication-authors-serif strong {
+  font-weight: inherit;
+  white-space: nowrap;
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--color-link-decoration-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .publication-bracket-links {
   font-family: var(--font-serif-sc);
   font-size: 14px;
-  font-style: italic;
+  font-style: normal;
   display: flex;
   gap: var(--space-12);
   flex-wrap: wrap;
@@ -628,11 +638,11 @@ a {
 
 .type-title-section {
   font-family: var(--font-inter);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-transform: none;
   color: var(--color-ink);
   margin: 0;
 }
@@ -1063,6 +1073,36 @@ a {
   padding-block: var(--space-10);
 }
 
+.profile-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: var(--space-4);
+  color: var(--color-chip-text-muted);
+  line-height: var(--type-caption-line-height);
+  text-align: center;
+}
+
+.profile-contact-link-item {
+  white-space: nowrap;
+}
+
+.profile-contact-compact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.profile-contact-compact-link .contact-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.profile-contact-link-separator {
+  color: var(--color-muted);
+  padding-inline: 0.25em;
+}
+
 .contact-icon {
   display: block;
   width: 16px;
@@ -1099,27 +1139,21 @@ a {
   width: 100%;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 899px) {
   .profile-intro-layout {
+    align-items: center;
+  }
+
+  .profile-aside {
     display: grid;
     grid-template-columns: minmax(120px, 0.9fr) minmax(0, 1.1fr);
     grid-template-areas:
-      "name name"
       "photo contact"
-      "bio bio";
+      "news news";
+    width: min(100%, 420px);
     align-items: start;
     column-gap: var(--space-col-gap-tight);
     row-gap: var(--space-24);
-  }
-
-  .profile-aside,
-  .profile-main {
-    display: contents;
-  }
-
-  .profile-name-row {
-    grid-area: name;
-    width: 100%;
   }
 
   .profile-photo-frame {
@@ -1128,8 +1162,8 @@ a {
   }
 
   .profile-photo {
-    width: clamp(120px, 32vw, 180px);
-    height: clamp(120px, 32vw, 180px);
+    width: clamp(120px, 32vw, 144px);
+    height: clamp(120px, 32vw, 144px);
   }
 
   .profile-contact-panel {
@@ -1141,19 +1175,21 @@ a {
   }
 
   .profile-contact-list {
-    gap: var(--space-12);
+    gap: var(--space-8);
     padding-block: 0;
   }
 
-  .bio-stack {
-    grid-area: bio;
+  .profile-contact-links {
+    justify-content: flex-start;
+    text-align: left;
   }
-}
 
-@media (min-width: 640px) {
-  .profile-photo {
-    width: 180px;
-    height: 180px;
+  .profile-contact-link-item:nth-child(3) .profile-contact-link-separator {
+    display: none;
+  }
+
+  .profile-news-panel {
+    grid-area: news;
   }
 }
 
@@ -1188,6 +1224,12 @@ a {
   white-space: nowrap;
 }
 
+#news-list .editorial-date-start,
+#services-list .editorial-date-start,
+#teaching-list .editorial-date-start {
+  font-style: normal;
+}
+
 .editorial-news-date {
   display: flex;
   flex-direction: column;
@@ -1218,6 +1260,74 @@ a {
   .editorial-news-date-separator {
     display: inline;
   }
+}
+
+/* Compact News timeline used inside the profile rail at every viewport. */
+.profile-news-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+.profile-news-panel #news-list {
+  --news-mascot-size: clamp(48px, 12vw, 52px);
+  width: 100%;
+  margin: 0;
+  gap: var(--space-20);
+}
+
+.profile-news-panel .editorial-media-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  row-gap: var(--space-8);
+  column-gap: var(--space-12);
+  align-items: start;
+}
+
+.profile-news-panel .editorial-media-row > .editorial-date-column {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+}
+
+.profile-news-panel .editorial-media-row > .editorial-detail-column {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.profile-news-panel .editorial-media-row > .editorial-media-column {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+}
+
+.profile-news-panel .editorial-news-date {
+  flex-direction: row;
+  gap: 0.3em;
+}
+
+.profile-news-panel .editorial-news-date-separator {
+  display: inline;
+}
+
+.profile-news-panel #news-list .news-mascot-column {
+  translate: none;
+}
+
+.profile-news-panel .editorial-date-start {
+  font-size: 13.5px;
+  line-height: 1.25;
+}
+
+.profile-news-panel .editorial-news-content {
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.profile-news-panel .news-note {
+  font-size: 12.75px;
 }
 
 .editorial-news-content {
@@ -1270,33 +1380,52 @@ a {
   .site-header-inner {
     gap: var(--space-24);
   }
+}
 
+@media (min-width: 900px) {
   .profile-intro {
-    min-height: 364px;
     padding-top: var(--space-10);
     padding-bottom: var(--space-10);
   }
 
   .profile-intro-layout {
-    flex-direction: row;
-    align-items: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 264px;
+    align-items: start;
+    column-gap: clamp(var(--space-48), 5vw, 56px);
   }
 
   .profile-aside {
-    flex-basis: 240px;
-    flex-shrink: 0;
+    width: 264px;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: var(--space-12);
   }
 
   .profile-photo {
-    width: 200px;
-    height: 200px;
+    width: 152px;
+    height: 152px;
+  }
+
+  .profile-contact-panel {
+    padding-inline: 0;
+  }
+
+  .profile-contact-list {
+    align-items: center;
+    gap: var(--space-8);
+    padding-block: 0;
+  }
+
+  .profile-news-panel {
+    margin-top: var(--space-12);
   }
 
   .profile-main {
     flex: 1 1 0;
     align-items: flex-start;
-    align-self: center;
-    justify-content: center;
+    align-self: start;
+    justify-content: flex-start;
     gap: var(--space-48);
     text-align: left;
   }

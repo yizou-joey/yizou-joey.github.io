@@ -357,7 +357,7 @@ a {
 .editorial-date-start {
   color: var(--color-muted);
   font-size: 15px;
-  font-style: italic;
+  font-style: normal;
   line-height: 1.2;
 }
 
@@ -393,7 +393,7 @@ a {
 }
 
 .editorial-inst-sub {
-  font-style: italic;
+  font-style: normal;
   font-size: 15px;
   color: var(--color-muted);
 }
@@ -665,8 +665,8 @@ a {
   font-size: 13px;
   font-weight: 500;
   line-height: var(--type-nav-label-line-height);
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  text-transform: none;
   font-feature-settings: var(--type-feature-sans);
 }
 
@@ -1129,7 +1129,8 @@ a {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  row-gap: var(--space-4);
+  column-gap: var(--space-12);
+  row-gap: var(--space-6);
   color: var(--color-chip-text-muted);
   line-height: var(--type-caption-line-height);
   text-align: center;
@@ -1148,11 +1149,6 @@ a {
 .profile-contact-compact-link .contact-icon {
   width: 14px;
   height: 14px;
-}
-
-.profile-contact-link-separator {
-  color: var(--color-muted);
-  padding-inline: 0.25em;
 }
 
 .contact-icon {
@@ -1236,10 +1232,6 @@ a {
     text-align: left;
   }
 
-  .profile-contact-link-item:nth-child(3) .profile-contact-link-separator {
-    display: none;
-  }
-
   .profile-news-panel {
     grid-area: news;
   }
@@ -1274,12 +1266,6 @@ a {
 
 #news-list .editorial-date-start {
   white-space: nowrap;
-}
-
-#news-list .editorial-date-start,
-#services-list .editorial-date-start,
-#teaching-list .editorial-date-start {
-  font-style: normal;
 }
 
 .editorial-news-date {

@@ -5,7 +5,7 @@ const root = process.cwd();
 const distRoot = path.join(root, "dist");
 const errors = [];
 
-const EXPECTED_HTML_FILES = ["index.html", "publications.html", "404.html"];
+const EXPECTED_HTML_FILES = ["index.html", "404.html"];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
   "index.html": Object.freeze([
@@ -16,7 +16,6 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "services-list",
     "teaching-list",
   ]),
-  "publications.html": Object.freeze(["publications-by-year"]),
 });
 
 const report = (message) => {

@@ -13,7 +13,6 @@ import {
   renderEducationItemHtml,
   renderListHtml,
   renderNewsItemHtml,
-  renderPublicationsByYearHtml,
   renderSelectedPublicationsHtml,
   renderServicesItemHtml,
   renderTeachingItemHtml,
@@ -74,15 +73,6 @@ const renderIndexHtml = (html, fileName) => {
   return renderedHtml;
 };
 
-const renderPublicationsHtml = (html, fileName) => {
-  const injection = {
-    id: "publications-by-year",
-    content: renderPublicationsByYearHtml([...publications].sort(compareByDateDesc)),
-  };
-
-  return injectStaticContent({ html, fileName, ...injection });
-};
-
 const staticContentHtmlPlugin = () => ({
   name: "static-content-html",
   transformIndexHtml: {
@@ -91,9 +81,6 @@ const staticContentHtmlPlugin = () => ({
       const fileName = path.basename(ctx.filename || "");
       if (fileName === "index.html") {
         return renderIndexHtml(html, fileName);
-      }
-      if (fileName === "publications.html") {
-        return renderPublicationsHtml(html, fileName);
       }
       return html;
     },
@@ -107,7 +94,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        publications: "publications.html",
         notFound: "404.html",
       },
     },

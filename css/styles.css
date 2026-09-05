@@ -123,20 +123,20 @@
 
   /* === Tokens: material shadows === */
   /* Resting sticker-on-paper shadow: dark warm-gray, compact blur.
-     Applied to mascot stickers and bio keyword bubbles. Falls slightly right. */
+     Applied to mascot stickers. Falls slightly right. */
   --sticker-shadow-base:
-    drop-shadow(1px 2px 2px rgba(36, 32, 28, 0.35))
-    drop-shadow(2px 3px 4px rgba(36, 32, 28, 0.08));
+    drop-shadow(0.5px 1px 0.8px rgba(36, 32, 28, 0.28))
+    drop-shadow(1px 2px 2px rgba(36, 32, 28, 0.05));
 
   /* Hover shadow: logo hover state - slightly larger, softer lift, rightward fall */
   --sticker-shadow-hover:
-    drop-shadow(1px 2px 3px rgba(36, 32, 28, 0.30))
-    drop-shadow(2px 4px 6px rgba(36, 32, 28, 0.12));
+    drop-shadow(0.75px 1.5px 1px rgba(36, 32, 28, 0.26))
+    drop-shadow(1.5px 3px 2.5px rgba(36, 32, 28, 0.06));
 
   /* Venue link hover shadow: deepest shadow when IEEE VR text is hovered */
   --sticker-shadow-venue-hover:
-    drop-shadow(2px 3px 4px rgba(36, 32, 28, 0.25))
-    drop-shadow(3px 5px 8px rgba(36, 32, 28, 0.15));
+    drop-shadow(1px 2px 1.2px rgba(36, 32, 28, 0.24))
+    drop-shadow(2px 4px 3px rgba(36, 32, 28, 0.07));
 }
 
 /* === Base: document and shared interaction === */
@@ -759,7 +759,9 @@ a {
 .bio-keyword-img {
   height: 26px;
   width: auto;
-  filter: var(--sticker-shadow-base);
+  filter:
+    drop-shadow(0.5px 0.75px 0.6px rgba(36, 32, 28, 0.22))
+    drop-shadow(0.75px 1.25px 1.2px rgba(36, 32, 28, 0.04));
 }
 
 .type-body-sm {
@@ -936,7 +938,7 @@ a {
   transform-origin: center;
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 300ms cubic-bezier(0.16, 1, 0.3, 1) 20ms;
+    filter 260ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, filter;
 }
 
@@ -978,7 +980,7 @@ a {
   transform-origin: center;
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 300ms cubic-bezier(0.16, 1, 0.3, 1) 20ms;
+    filter 260ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, filter;
 }
 

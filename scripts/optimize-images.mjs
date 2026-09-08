@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import { prepare, finish, recipe } from "../tools/sticker/scripts/core-adapter.mjs";
 
 const root = process.cwd();
 const sourceRoot = path.join(root, "assets/original-images/files");
@@ -18,9 +19,15 @@ const getSize = async (filePath) => {
   return stat.size;
 };
 
-const writeImage = async ({ input, outputPath, width, format, options = {} }) => {
+const writeImage = async ({ input, outputPath, width, format, options = {}, sticker }) => {
   await ensureParentDir(outputPath);
   let image = sharp(input, { animated: false, limitInputPixels: false }).rotate();
+  if (sticker) {
+    const decoded = await image.toColourspace("srgb").ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+    const parameters = recipe(sticker);
+    const result = finish(prepare({ data: decoded.data, ...decoded.info }, parameters), parameters);
+    image = sharp(Buffer.from(result.data), { raw: { width: result.width, height: result.height, channels: 4 } });
+  }
   if (width) {
     image = image.resize({ width, withoutEnlargement: true });
   }
@@ -79,23 +86,26 @@ const tasks = [
   },
   {
     name: "IEEE VR mascot sticker",
-    input: source("logos", "IEEE VR 26 Mascot Sticker.png"),
+    input: path.join(root, "tools/sticker/examples/vr-otter.png"),
+    sticker: {},
     outputs: [
-      { path: output("logos/ieee-vr-26-mascot-sticker.webp"), width: 160, format: "webp" },
+      { path: output("logos/ieee-vr-26-mascot-sticker.webp"), format: "webp", options: { lossless: true } },
     ],
   },
   {
     name: "IEEE VR logo sticker",
-    input: source("logos", "IEEE VR 26 Logo Sticker.png"),
+    input: path.join(root, "tools/sticker/examples/vr-logo-transparent.png"),
+    sticker: {},
     outputs: [
-      { path: output("logos/ieee-vr-26-logo-sticker.webp"), width: 160, format: "webp" },
+      { path: output("logos/ieee-vr-26-logo-sticker.webp"), format: "webp", options: { lossless: true } },
     ],
   },
   {
     name: "MMSys logo sticker",
-    input: source("logos", "MMSys 2026 Logo Drak Sticker.png"),
+    input: path.join(root, "public/files/logos/MMSys 26 Logo.png"),
+    sticker: { recolor: 90 },
     outputs: [
-      { path: output("logos/mmsys-2026-logo-sticker.webp"), width: 160, format: "webp" },
+      { path: output("logos/mmsys-2026-logo-sticker.webp"), format: "webp", options: { lossless: true } },
     ],
   },
   {
@@ -120,6 +130,7 @@ for (const task of tasks) {
       width: target.width,
       format: target.format,
       options: target.options,
+      sticker: task.sticker,
     });
     rows.push({
       source: task.name,

@@ -102,13 +102,13 @@ const renderNewsItemHtml = (item) => {
     ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
     : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
   const mascotHtml = entry.mascot
-    ? `<div class="editorial-media-column news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
     : "";
   const note = normalizeInlineText(entry.note || "");
   const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
   const contentHtml = `<div class="news-copy">${renderNewsInline(entry)}</div>${noteHtml}`;
 
-  return `<li class="editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${contentHtml}</div>${mascotHtml}</li>`;
+  return `<li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-news-content">${contentHtml}</div></article>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {

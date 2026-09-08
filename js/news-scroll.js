@@ -1,3 +1,5 @@
+import { createNewsSticker } from "./news-sticker.js";
+
 const DESKTOP_QUERY = "(min-width: 900px)";
 const MOBILE_VISIBLE_ITEMS = 2;
 const SCROLL_END_TOLERANCE = 2;
@@ -13,6 +15,7 @@ const control = panel?.querySelector("[data-news-scroll-control]");
 if (panel && profileLayout && profileMain && shell && region && list && control) {
   const desktopMedia = window.matchMedia(DESKTOP_QUERY);
   const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const sticker = createNewsSticker({ shell, region, list, reducedMotionMedia });
   let mobileExpanded = false;
   let desktopViewportBudget = 0;
   let desktopControlTarget = null;
@@ -134,7 +137,7 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
     if (!items.length || !region.classList.contains("is-scrollable")) return;
 
     const safeStartIndex = Math.min(Math.max(startIndex, 0), items.length - 1);
-    scrollRegion(getDesktopScrollTop(items, safeStartIndex));
+    scrollRegion(getDesktopScrollTop(items, safeStartIndex), safeStartIndex);
   };
 
   const layoutDesktop = () => {
@@ -246,6 +249,7 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
     } else {
       layoutMobile();
     }
+    sticker.sync();
   };
 
   const queueLayout = () => {
@@ -253,7 +257,8 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
     layoutFrame = window.requestAnimationFrame(layout);
   };
 
-  const scrollRegion = (top) => {
+  const scrollRegion = (top, index) => {
+    sticker.start(index);
     region.scrollTo({
       top,
       behavior: reducedMotionMedia.matches ? "auto" : "smooth",
@@ -275,7 +280,7 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
 
     const maxScroll = Math.max(region.scrollHeight - region.clientHeight, 0);
     const atEnd = region.scrollTop >= maxScroll - SCROLL_END_TOLERANCE;
-    if (atEnd) {
+    if (atEnd || desktopControlTarget === "end") {
       desktopControlTarget = "start";
       setControl({ hidden: false, pointsUp: false, label: "Show older news" });
       showDesktopPage(0);

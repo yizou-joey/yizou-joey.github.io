@@ -82,7 +82,7 @@
   --type-body-size: 16px;
   --type-body-weight: 400;
   --type-body-line-height: 24px;
-  --type-body-tracking: 0;
+  --type-body-tracking: normal;
   --type-body-bio-size: 18px;
   --type-body-bio-weight: 400;
   --type-body-bio-line-height: 29px;
@@ -92,7 +92,7 @@
   --type-nav-label-size: 13px;
   --type-nav-label-weight: 500;
   --type-nav-label-line-height: 19.95px;
-  --type-nav-label-tracking: 0;
+  --type-nav-label-tracking: normal;
   --type-caption-size: 14px;
   --type-caption-weight: 400;
   --type-caption-line-height: 20.02px;
@@ -100,7 +100,11 @@
   --type-badge-micro-size: 12px;
   --type-badge-micro-weight: 600;
   --type-badge-micro-line-height: 15.96px;
-  --type-badge-micro-tracking: 0.125px;
+  --type-badge-micro-tracking: normal;
+
+  /* Natural spacing for small mixed-case text; modest tracking by role. */
+  --type-section-tracking: normal;
+  --type-uppercase-tracking: 0.03em;
 
   /* === Tokens: layout widths and sizes === */
   --width-rail-level-1: 1100px;
@@ -534,7 +538,7 @@ a {
   font-size: 12px;
   line-height: 1.5;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--type-uppercase-tracking);
   color: var(--color-muted);
   margin-bottom: var(--space-8);
   display: flex;
@@ -731,10 +735,10 @@ a {
 .type-title-section {
   font-family: var(--font-sans);
   font-optical-sizing: auto;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 0;
+  line-height: 20px;
+  letter-spacing: var(--type-section-tracking);
   text-transform: none;
   color: var(--color-ink);
   margin: 0;
@@ -847,7 +851,7 @@ a {
   display: block;
   width: 100%;
   border-bottom: 1px solid var(--color-border-warm);
-  padding-bottom: var(--space-10);
+  padding-bottom: var(--space-6);
 }
 
 .site-shell {
@@ -1773,7 +1777,7 @@ a {
   font-family: var(--font-sans);
   font-optical-sizing: auto;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--type-uppercase-tracking);
   animation: error404-reveal 360ms 30ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 

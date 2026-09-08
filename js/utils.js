@@ -286,9 +286,11 @@ const renderPublicationItemHtml = (item) => {
     );
   }
 
-  const eyebrowHtml = eyebrowParts.join(
-    '<span class="publication-eyebrow-separator">|</span>'
-  );
+  const eyebrowHtml = eyebrowParts
+    .map((part, index) => index === 0
+      ? part
+      : `<span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span>${part}</span>`)
+    .join("");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
   const titleHtml = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,

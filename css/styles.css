@@ -532,18 +532,36 @@ a {
   font-family: var(--font-sans);
   font-optical-sizing: auto;
   font-size: 12px;
+  line-height: 1.5;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-muted);
   margin-bottom: var(--space-8);
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   gap: var(--space-6);
+}
+
+.publication-eyebrow-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-6);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.publication-eyebrow-group > :last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .publication-eyebrow-separator {
   color: var(--color-muted);
+  border-left: 1px solid currentColor;
+  height: 0.75em;
+  flex-shrink: 0;
+  align-self: center;
   margin: 0 var(--space-2);
 }
 
@@ -564,7 +582,6 @@ a {
 
 .publication-eyebrow a:hover,
 .publication-eyebrow a:focus-visible {
-  font-weight: 700;
   color: var(--color-ink);
 }
 
@@ -621,6 +638,10 @@ a {
   padding: 0 var(--space-4);
   /* Fix Safari text smearing during width transitions */
   transform: translateZ(0); 
+}
+
+.publication-bracket-links > a:first-child {
+  padding-left: 0;
 }
 
 .bracket-text {

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>贴纸制作台 · Sticker workshop</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script defer src="./js/core.js"></script>
+  <script defer src="./js/input.js"></script>
+  <script defer src="./js/processor.js"></script>
+  <script defer src="./js/examples.js"></script>
+  <script defer src="./js/app.js"></script>
+
+</head>
+<body class="sticker-study">
+<main class="study-shell workshop">
+  <header class="study-header"><a href="./index.html">Yi ZOU / Design tools</a><a href="./notes.html">研究说明 ↗</a></header>
+  <section class="workshop-intro"><p class="study-kicker">STICKER WORKSHOP / 01</p><h1>让图案，轻轻浮起。</h1><p>从透明原图制作贴纸。白边与图案压花一次生成，文件只在本机处理。</p></section>
+  <section class="workshop-upload" id="drop-zone" aria-label="拖放图片区域">
+    <div><h2>把图片拖到这里</h2><p>静态 PNG、WebP、JPEG · 最大 20MB / 1600 万像素</p></div>
+    <label class="workshop-button" for="file-input">选择本地图片</label><input class="workshop-file" id="file-input" type="file" accept="image/png,image/webp,image/jpeg" />
+    <div class="workshop-examples"><span>或试用原图</span><button type="button" data-example="otter">水獭 ↗</button><button type="button" data-example="vr">IEEE VR ↗</button></div>
+  </section>
+  <button type="button" id="compatibility" hidden>使用兼容模式</button>
+  <p id="workshop-status" role="status" aria-live="polite">选择图片后开始。建议使用尚未添加白边的透明原图。</p>
+  <form class="workshop-controls" id="workshop-controls">
+    <label>效果<select id="finish"><option value="ink">原色浮雕</option><option value="flat">平面贴纸</option><option value="blind">同色盲压凸</option><option value="pastel">淡彩压花</option></select></label>
+    <label>白边<select id="border"><option>3</option><option selected>4</option><option>5</option></select></label>
+    <label>图案画布宽度 / px<input id="display-width" type="number" min="40" max="320" step="1" value="80" /></label>
+    <label>导出倍率<select id="export-scale"><option value="1">1×</option><option value="2">2×</option><option value="4" selected>4×</option></select></label>
+    <label>格式<select id="format"><option value="image/png">PNG · 无损</option><option value="image/webp">WebP · 高质量</option></select></label>
+  </form>
+  <div class="workshop-view-controls"><label>检视背景<select id="background"><option value="paper">浅色</option><option value="dark">深色</option><option value="check">棋盘</option></select></label><label>观察倍率<select id="view-scale"><option value="actual">实际尺寸</option><option value="large">2×</option></select></label><label><input type="checkbox" id="contact-shadow" checked /> 页面接触阴影</label><span>仅用于预览，不导出</span></div>
+  <section class="workshop-board" id="workshop-board" data-background="paper" data-scale="actual" data-shadow="on" aria-label="图片对比">
+    <figure><div class="workshop-image"><img id="original-image" width="100" alt="原始图案" hidden /></div><figcaption>01 / 原图 · 保留透明留空</figcaption></figure>
+    <figure><div class="workshop-image"><img id="result-image" width="100" alt="已编码的导出结果" hidden /></div><figcaption>02 / 成品 · 颜色与图案浮雕</figcaption></figure>
+  </section>
+  <div class="workshop-download"><p id="output-details">尚未生成</p><button class="workshop-button" id="download-image" disabled>下载图片</button><button id="download-recipe" disabled>保存参数 JSON</button></div>
+  <p class="study-footnote" id="source-details">白色图案不会被自动删除；已烘焙的白边不会被自动剥除。</p>
+  <section id="relief-study" class="workshop-explanation"><div class="study-section-title"><h2>同一图案，四种表面</h2><span>共享白底轮廓</span></div><div id="sticker-comparison" class="workshop-variants"></div></section>
+  <section class="workshop-explanation"><div class="study-section-title"><h2>从透明图，到一枚贴纸</h2><span>形状与光影分开计算</span></div><div class="workshop-stages" id="workshop-stages"></div></section>
+  <section class="workshop-reading"><div><p class="study-kicker">IN CONTEXT / 实际尺寸</p><h2>留一点形状，记录一段经历。</h2><p>文字负责叙述，贴纸留作旁边的一枚纪念。</p></div><img id="context-image" width="100" alt="实际尺寸贴纸" hidden /></section>
+  <section class="workshop-explanation workshop-notes"><article><h2>4px 是什么？</h2><p>指最终显示尺寸下的目标外扩宽度。原图画布按指定宽度缩放，不裁切透明留空；成品画布额外保留左右各 10px。4× 导出时，80px 图案画布对应 320px，成品宽度为 400px。</p></article><article><h2>哪些效果在图片里？</h2><p>白色底形、图案配色和浮雕明暗已烘焙。页面上的接触阴影与检视背景不会导出。高度由图案的墨色与透明度推断，无法恢复真实三维体积。</p></article><article><h2>为网页准备</h2><p>PNG 是无损基准；WebP 使用高质量编码。搭配参数 JSON 可以从原图重新生成。成品的显示宽度应按画布计算，勿将整张图片压缩到图案宽度。</p></article><article><h2>设计从哪里来？</h2><p>4px 白边与图案压花来自多轮试验。邮票排版、旧方案、素材来源与已停止采用的试样的结论见研究说明，完整图片档案仅在本地保存。</p><a href="./notes.html">浏览研究说明 ↗</a></article></section>
+  <footer class="study-footer"><span>LOCAL PROCESSING / 原始文件不被覆盖</span><a href="./notes.html#stamp-study">邮票研究说明 ↗</a></footer>
+</main>
+</body></html>

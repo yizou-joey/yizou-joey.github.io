@@ -4,13 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "preview:stickers": "node tools/sticker/scripts/export.mjs",
     "dev": "npm run optimize:images && vite",
     "build": "npm run optimize:images && vite build && npm run check:dist",
     "check": "npm run build",
     "check:dist": "node scripts/check-dist.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "prepreview": "npm run build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "archive:stickers": "node scripts/serve-sticker-archive.mjs",
+    "check:stickers": "node tools/sticker/scripts/check.mjs"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",

@@ -1,0 +1,73 @@
+ :root { --color-ink: #15120f; --color-muted: #787774; --color-border-warm: #dfdcd4; --color-page-bg: #fdfdfc; --font-inter: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+body { background: var(--color-page-bg); }
+a { color: inherit; }
+.sticker-study { margin: 0; color: var(--color-ink); font: 14px/1.65 var(--font-inter); }
+.sticker-study * { box-sizing: border-box; }
+.study-shell { width: min(1120px, calc(100% - 48px)); margin: auto; }
+.study-header, .study-footer, .study-section-title { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.study-header { padding: 28px 0; border-bottom: 1px solid var(--color-border-warm); }
+.study-header a, .study-footer a { color: inherit; text-decoration: none; }
+.study-kicker, .study-footer { font-size: 11px; letter-spacing: 0.12em; color: var(--color-muted); }
+.study-section-title { margin-bottom: 20px; }
+.study-section-title h2 { font-size: 13px; font-weight: 500; margin: 0; }
+.study-section-title > span { font-size: 11px; opacity: 0.6; }
+.study-footnote { font-size: 12px; color: var(--color-muted); line-height: 1.8; }
+.study-footer { padding: 28px 0; border-top: 1px solid var(--color-border-warm); margin-top: 32px; }
+@media (max-width: 800px) { .study-shell { width: calc(100% - 32px); } .study-section-title { align-items: start; flex-wrap: wrap; } }
+/* Independent local sticker workshop. Archive keeps its study classes. */
+.workshop-intro { margin: 36px 0 28px; }
+.workshop-intro h1 { font-size: clamp(30px, 5vw, 48px); font-weight: 500; letter-spacing: -0.04em; margin: 12px 0; }
+.workshop-intro p, .workshop-upload p { color: var(--color-muted); font-size: 13px; line-height: 1.8; }
+.workshop-upload { border: 1px dashed var(--color-border-warm); padding: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: #f5f4ee; }
+.workshop-upload.is-dragging { border-color: var(--color-ink); background: #e8e7dc; }
+.workshop-upload h2 { font-size: 20px; font-weight: 500; margin: 0; }
+.workshop button, .workshop-button { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--color-border-warm); background: transparent; color: inherit; padding: 10px 16px; border-radius: 3px; text-decoration: none; }
+.workshop .workshop-button { background: #292c28; color: #fff; border-color: #292c28; }
+.workshop button:disabled { opacity: 0.4; cursor: not-allowed; }
+.workshop :focus-visible { outline: 2px solid #657660; outline-offset: 4px; }
+.workshop-file { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.workshop-upload:focus-within { outline: 2px solid #657660; outline-offset: 3px; }
+.workshop-examples { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 12px; color: var(--color-muted); }
+#workshop-status { min-height: 24px; font-size: 12px; margin: 16px 0; color: var(--color-muted); }
+.workshop-controls { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; padding: 16px 0 24px; }
+.workshop-controls label, .workshop-view-controls label { display: flex; gap: 8px; font-size: 12px; color: var(--color-muted); }
+.workshop-controls label { flex-direction: column; }
+.workshop select, .workshop input[type="number"] { font: inherit; font-size: 12px; min-width: 0; padding: 8px; border: 1px solid var(--color-border-warm); background: transparent; color: var(--color-ink); border-radius: 3px; }
+.workshop-view-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-bottom: 14px; }
+.workshop-view-controls label { align-items: center; }
+.workshop-view-controls > span { font-size: 11px; color: var(--color-muted); }
+.workshop-board { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #eeede8; border: 1px solid var(--color-border-warm); }
+.workshop figure { margin: 0; text-align: center; }
+.workshop-board figure { padding: 20px; min-width: 0; }
+.workshop-image { min-height: 250px; display: grid; place-items: center; overflow: auto; }
+.workshop img { max-width: 100%; height: auto; object-fit: contain; }
+.workshop figcaption { font-size: 11px; color: var(--color-muted); margin: 16px 0 6px; }
+.workshop-board[data-background="dark"] { background: #353936; }
+.workshop-board[data-background="dark"] figcaption { color: #d8d9d3; }
+.workshop-board[data-background="check"] { background-color: #fff; background-image: conic-gradient(#e5e5df 25%, transparent 0 50%, #e5e5df 0 75%, transparent 0); background-size: 20px 20px; }
+.workshop-board[data-scale="large"] .workshop-image { min-height: 360px; }
+.workshop-board[data-scale="large"] img { zoom: 2; }
+.workshop-board[data-shadow="on"] #result-image { filter: drop-shadow(0.4px 0.8px 0.6px rgb(36 32 28 / 16%)) drop-shadow(0.7px 1.8px 1.6px rgb(36 32 28 / 5%)); }
+.workshop-download { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 18px 0 0; }
+.workshop-download p { flex: 1; font-size: 12px; color: var(--color-muted); }
+.workshop-explanation { margin-top: 56px; scroll-margin-top: 24px; }
+.workshop-variants, .workshop-stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.workshop-variants figure, .workshop-stages figure { background: #eeede8; padding: 24px 12px 14px; min-height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+.workshop-reading { margin-top: 40px; padding: 30px; border: 1px solid var(--color-border-warm); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.workshop-reading h2 { font-size: 19px; font-weight: 500; }
+.workshop-reading p { font-size: 12px; color: var(--color-muted); }
+.workshop-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 48px; }
+.workshop-notes h2 { font-size: 16px; font-weight: 500; }
+.workshop-notes p, .workshop-notes a { font-size: 12px; line-height: 1.9; color: var(--color-muted); }
+@media (max-width: 800px) {
+  .workshop-controls { grid-template-columns: 1fr 1fr; }
+  .workshop-board, .workshop-notes { grid-template-columns: 1fr; }
+  .workshop-image { min-height: 200px; }
+  .workshop-variants, .workshop-stages { grid-template-columns: 1fr 1fr; }
+  .workshop-reading { flex-direction: column; align-items: flex-start; }
+  .workshop-upload { padding: 20px; }
+}
+.workshop-image { display: flex; justify-content: safe center; align-items: safe center; height: 250px; }
+.workshop-image img { max-width: none; flex-shrink: 0; }
+.workshop-reading { overflow: auto; }
+#context-image { max-width: none; flex-shrink: 0; }

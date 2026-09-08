@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>贴纸研究说明</title><link rel="stylesheet" href="./styles.css" /></head>
+<body class="sticker-study"><main class="study-shell workshop">
+<header class="study-header"><a href="./index.html">Yi ZOU / Design tools</a><a href="./index.html">贴纸制作台 ↗</a></header>
+<section class="workshop-intro"><p class="study-kicker">DESIGN NOTES / 研究说明</p><h1>把效果留给计算。</h1><p>网站只提供原始图片。白底、图案浮雕和各种对照效果，由制作台在本机即时生成。</p></section>
+<section class="workshop-notes">
+<article id="relief-study"><h2>当前采用：4px 图案浮雕</h2><p>以原始透明图生成平滑白底，起伏作用于图案本身。原色版本保留配色；平面、盲压凸和淡彩作为对照。页面接触阴影不烘焙进图片。</p></article>
+<article id="sticker-comparison"><h2>保留的设计判断</h2><p>不从已有白边再次外扩，不使用纸边倒角代替图案浮雕。两阶段文字底形与整体包络已撤销。3/4/5px 和四种表面效果可在制作台直接比较。</p></article>
+<article id="stamp-study"><h2>邮票：独立的排版研究</h2><p>邮票以统一外框承载会议、年份、地点与图案。横版适合事件说明，竖版偏向收藏纪念；不混入贴纸导出类型。完整试验页面与图像仅在本地档案保存。</p></article>
+<article><h2>素材与历史</h2><p>水獭来自 Figma「IEEE VR 2026 Materials」节点 55:2，字标来自 102:68，均使用透明原图。MMSys 的中性灰版本属于历史试验，未随独立工具分发。历史记录保留来源与各轮结论，不随网站发布派生试样。</p></article>
+</section>
+<section class="workshop-explanation"><h2>完整档案仅在本地</h2><p>冻结页面、历史图像和旧生成代码已独立保存。仓库维护者可在持有档案的机器上运行 <code>npm run archive:stickers</code> 浏览；新克隆无需这些文件即可运行制作台。</p><p>本地保存不等于异地备份，网站不会自动上传档案。</p></section>
+<footer class="study-footer"><span>ORIGINALS ONLY / 效果实时生成</span><a href="./index.html">打开制作台 ↗</a></footer>
+</main></body></html>

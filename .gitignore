@@ -12,3 +12,5 @@ tmp/
 node_modules/
 dist/
 public/files/generated/
+
+.local/

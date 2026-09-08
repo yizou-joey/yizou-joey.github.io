@@ -1,3 +1,5 @@
+> 历史配方：保留用于追溯旧素材。当前制作流程与参数以 [贴纸制作台说明](sticker-preview.md) 为准；下述命令不代表现行默认效果。
+
 # Sticker Logo Recipe
 
 Pre-bake a consistent "peel-and-stick" outline around any irregular logo PNG so

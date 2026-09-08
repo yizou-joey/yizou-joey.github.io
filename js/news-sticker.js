@@ -1,5 +1,5 @@
 // Stationary artwork for desktop scrolling; inline images remain the fallback.
-export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
+export function createNewsSticker({ shell, region, list, reducedMotionMedia, getActiveItemIndex }) {
   const stage = document.createElement("div");
   stage.className = "news-sticker-stage news-mascot-column";
   stage.hidden = true;
@@ -8,44 +8,50 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
   let currentIndex = -1;
   let targetIndex = -1;
   let revision = 0;
-  let animation = null;
+  let primaryAnimation = null;
   let opacityAnimation = null;
   let timer = 0;
-  let instant = false;
+  let keyboardMode = false;
   let lastScrollTop = region.scrollTop;
   let phase = "idle";
   const hoverMedia = window.matchMedia("(hover: hover) and (pointer: fine)");
-  const REST = "rotate(-4deg) scale(1) translateY(0)";
-  const LINK = "rotate(-6deg) scale(1.08) translateY(-2px)";
   // easeOutBack from easings.net / postcss-easings: one continuous overshoot.
   const EASE_REBOUND = "cubic-bezier(0.34, 1.56, 0.64, 1)";
   const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 
   const imageAt = (index) => list.children[index]?.querySelector(".news-mascot-sticker");
-  const landingTransform = () => stage.classList.contains("is-venue-hover") ? LINK : REST;
-  const trackTransform = (image, frames, duration, easing) => {
-    const motion = image.animate(frames, { duration, easing });
-    animation = motion;
+  const landingTransform = (image) => getComputedStyle(image).getPropertyValue(
+    stage.classList.contains("is-venue-hover") ? "--news-sticker-link" : "--news-sticker-rest"
+  ).trim();
+  const trackEntry = (motion) => {
+    primaryAnimation = motion;
     motion.finished.then(() => {
-      if (animation !== motion) return;
-      animation = null;
+      if (primaryAnimation !== motion) return;
+      primaryAnimation = null;
       phase = "idle";
       targetIndex = -1;
     }).catch(() => {});
+  };
+  const trackTransform = (image, frames, duration, easing) => {
+    trackEntry(image.animate(frames, { duration, easing }));
+  };
+  const setKeyboardMode = (value) => {
+    keyboardMode = value;
+    shell.classList.toggle("has-keyboard-motion", value);
   };
   const retarget = () => {
     const image = stage.firstElementChild;
     if (!image) return;
     const from = getComputedStyle(image).transform;
-    animation?.cancel();
-    if (instant) {
+    primaryAnimation?.cancel();
+    if (keyboardMode) {
       opacityAnimation?.cancel();
-      animation = null;
+      primaryAnimation = null;
       phase = "idle";
       targetIndex = -1;
       return;
     }
-    trackTransform(image, [{ transform: from }, { transform: landingTransform() }], 160, EASE_OUT);
+    trackTransform(image, [{ transform: from }, { transform: landingTransform(image) }], 160, EASE_OUT);
   };
   const updateLink = () => {
     const item = list.children[currentIndex];
@@ -58,10 +64,10 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
   const cancel = () => {
     revision++;
     clearTimeout(timer);
-    animation?.cancel();
+    primaryAnimation?.cancel();
     opacityAnimation?.cancel();
     opacityAnimation = null;
-    animation = null;
+    primaryAnimation = null;
     targetIndex = -1;
     phase = "idle";
   };
@@ -76,12 +82,6 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
     currentIndex = index;
     updateLink();
   };
-  const nearestIndex = () => {
-    const top = region.getBoundingClientRect().top;
-    return Array.from(list.children).reduce((best, item, index, items) =>
-      Math.abs(item.getBoundingClientRect().top - top) <
-      Math.abs(items[best].getBoundingClientRect().top - top) ? index : best, 0);
-  };
   const swap = async (index) => {
     if (!enabled || index === targetIndex || (index === currentIndex && targetIndex === -1)) return;
     const oldImage = stage.firstElementChild;
@@ -92,7 +92,7 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
     cancel();
     targetIndex = index;
     const token = revision;
-    if (instant) {
+    if (keyboardMode) {
       replace(index);
       targetIndex = -1;
       return;
@@ -102,16 +102,16 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
     const ready = nextImage ? nextImage.decode().catch(() => {}) : Promise.resolve();
     if (oldImage) {
       phase = "exit";
-      animation = oldImage.animate([from, { ...from, opacity: 0 }], {
+      primaryAnimation = oldImage.animate([from, { ...from, opacity: 0 }], {
         duration: 100, easing: EASE_OUT, fill: "forwards",
       });
-      await Promise.all([animation.finished.catch(() => {}), ready]);
+      await Promise.all([primaryAnimation.finished.catch(() => {}), ready]);
     } else await ready;
     if (token !== revision || !enabled) return;
-    animation?.cancel();
+    primaryAnimation?.cancel();
     replace(index, nextImage);
     if (!nextImage) {
-      animation = null;
+      primaryAnimation = null;
       phase = "idle";
       targetIndex = -1;
       return;
@@ -122,25 +122,18 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
       duration: 125, easing: EASE_OUT,
     });
     if (reducedMotionMedia.matches) {
-      animation = opacityAnimation;
-      const fade = animation;
-      fade.finished.then(() => {
-        if (animation !== fade) return;
-        animation = null;
-        phase = "idle";
-        targetIndex = -1;
-      }).catch(() => {});
+      trackEntry(opacityAnimation);
     } else {
       trackTransform(nextImage, [
         { transform: "rotate(-8deg) scale(0.94) translateY(0)" },
-        { transform: landingTransform() },
+        { transform: landingTransform(nextImage) },
       ], 250, EASE_REBOUND);
     }
   };
   const settle = () => {
     clearTimeout(timer);
     if (!enabled) return;
-    swap(nearestIndex());
+    swap(getActiveItemIndex());
   };
   region.addEventListener("scroll", () => {
     if (!enabled || region.scrollTop === lastScrollTop) return;
@@ -151,33 +144,30 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
   }, { passive: true });
   region.addEventListener("scrollend", settle);
   shell.addEventListener("keydown", () => {
-    instant = true;
-    shell.classList.add("has-keyboard-motion");
+    setKeyboardMode(true);
   });
   shell.addEventListener("pointerdown", () => {
-    instant = false;
-    shell.classList.remove("has-keyboard-motion");
+    setKeyboardMode(false);
   });
   region.addEventListener("wheel", () => {
-    instant = false;
+    setKeyboardMode(false);
   }, { passive: true });
   list.addEventListener("pointerover", () => {
     if (!hoverMedia.matches) return;
-    instant = false;
-    shell.classList.remove("has-keyboard-motion");
+    setKeyboardMode(false);
   });
   for (const event of ["pointerover", "pointerout", "focusin", "focusout", "keyup"]) {
     list.addEventListener(event, () => requestAnimationFrame(updateLink));
   }
   hoverMedia.addEventListener("change", updateLink);
   reducedMotionMedia.addEventListener("change", () => {
-    const index = targetIndex === -1 ? nearestIndex() : targetIndex;
+    const index = targetIndex === -1 ? getActiveItemIndex() : targetIndex;
     cancel();
     if (enabled) replace(index);
   });
   return {
     start(index) {
-      if (!enabled) return;
+      if (!enabled || !Number.isInteger(index) || index < 0 || index >= list.children.length) return;
       swap(index);
     },
     sync() {
@@ -188,7 +178,7 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia }) {
       stage.hidden = !enabled;
       if (enabled) {
         stage.style.blockSize = `${list.children[0]?.getBoundingClientRect().height || 0}px`;
-        replace(nearestIndex());
+        replace(getActiveItemIndex());
       } else {
         stage.replaceChildren();
         currentIndex = -1;

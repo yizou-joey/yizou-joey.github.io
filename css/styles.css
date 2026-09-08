@@ -928,25 +928,27 @@ a {
 }
 
 .news-mascot-sticker {
+  --news-sticker-rest: rotate(-4deg) scale(1) translateY(0);
+  --news-sticker-link: rotate(-6deg) scale(1.08) translateY(-2px);
   width: 80px;
   height: 80px;
   object-fit: contain;
   display: block;
   backface-visibility: hidden;
   filter: var(--sticker-shadow-base);
-  transform: rotate(-4deg) scale(1) translateY(0);
+  transform: var(--news-sticker-rest);
   transform-origin: center;
   transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .news-entry:has(.news-venue-link:focus-visible) .news-mascot-sticker,
 .news-sticker-stage.is-venue-hover .news-mascot-sticker {
-  transform: rotate(-6deg) scale(1.08) translateY(-2px);
+  transform: var(--news-sticker-link);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .news-entry:has(.news-venue-link:hover) .news-mascot-sticker {
-    transform: rotate(-6deg) scale(1.08) translateY(-2px);
+    transform: var(--news-sticker-link);
   }
 }
 
@@ -959,7 +961,7 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .news-mascot-sticker {
     transition: none !important;
-    transform: rotate(-4deg) scale(1) translateY(0) !important;
+    transform: var(--news-sticker-rest) !important;
   }
 }
 
@@ -969,36 +971,31 @@ a {
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  width: 64px;
+  width: 60px;
 }
 
 .service-mascot-sticker {
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   backface-visibility: hidden;
   filter: var(--sticker-shadow-base);
   transform: rotate(-4deg) scale(1) translateY(0);
   transform-origin: center;
-  transition:
-    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    filter 260ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, filter;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.service-mascot-sticker:hover {
+/* Link interaction highlights its associated sticker. */
+.editorial-service-row:has(.editorial-inst-name a:focus-visible) .service-mascot-sticker {
   transform: rotate(-6deg) scale(1.08) translateY(-2px);
-  filter: var(--sticker-shadow-hover);
+  transition: none;
 }
 
-/* Tier 3: venue link in content area hover → sticker floats higher */
-.editorial-media-row:has(.editorial-inst-name a:hover) .service-mascot-sticker,
-.editorial-media-row:has(.editorial-inst-name a:focus-visible) .service-mascot-sticker,
-.editorial-media-row:has(.editorial-item-title a:hover) .service-mascot-sticker,
-.editorial-media-row:has(.editorial-item-title a:focus-visible) .service-mascot-sticker {
-  transform: rotate(-6deg) scale(1.1) translateY(-5px);
-  filter: var(--sticker-shadow-venue-hover);
+@media (hover: hover) and (pointer: fine) {
+  .editorial-service-row:has(.editorial-inst-name a:hover) .service-mascot-sticker {
+    transform: rotate(-6deg) scale(1.08) translateY(-2px);
+  }
 }
 
 #services .editorial-inst-name a:hover,
@@ -1010,17 +1007,18 @@ a {
 @media (prefers-reduced-motion: reduce) {
   .service-mascot-sticker {
     transition: none !important;
+    transform: rotate(-4deg) scale(1) translateY(0) !important;
   }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 900px) {
   .service-mascot-column {
     width: 100px;
     justify-content: center;
   }
   .service-mascot-sticker {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
   }
 }
 

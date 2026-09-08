@@ -15,13 +15,29 @@ const control = panel?.querySelector("[data-news-scroll-control]");
 if (panel && profileLayout && profileMain && shell && region && list && control) {
   const desktopMedia = window.matchMedia(DESKTOP_QUERY);
   const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const sticker = createNewsSticker({ shell, region, list, reducedMotionMedia });
   let mobileExpanded = false;
   let desktopViewportBudget = 0;
   let desktopControlTarget = null;
   let layoutFrame = 0;
 
   const getItems = () => Array.from(list.children);
+
+  // Keep the same nearest-top rule for predicted and settled scroll positions.
+  const getActiveItemIndex = (scrollTop = region.scrollTop) => {
+    const viewportTop = region.getBoundingClientRect().top;
+    const scrollOffset = region.scrollTop - scrollTop;
+    let activeIndex = -1;
+    let nearestDistance = Infinity;
+    getItems().forEach((item, index) => {
+      const distance = Math.abs(item.getBoundingClientRect().top - viewportTop + scrollOffset);
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        activeIndex = index;
+      }
+    });
+    return activeIndex;
+  };
+  const sticker = createNewsSticker({ shell, region, list, reducedMotionMedia, getActiveItemIndex });
 
   const getPixelToken = (name, fallback) => {
     const value = getComputedStyle(document.documentElement).getPropertyValue(name);
@@ -137,7 +153,7 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
     if (!items.length || !region.classList.contains("is-scrollable")) return;
 
     const safeStartIndex = Math.min(Math.max(startIndex, 0), items.length - 1);
-    scrollRegion(getDesktopScrollTop(items, safeStartIndex), safeStartIndex);
+    scrollRegion(getDesktopScrollTop(items, safeStartIndex));
   };
 
   const layoutDesktop = () => {
@@ -257,10 +273,12 @@ if (panel && profileLayout && profileMain && shell && region && list && control)
     layoutFrame = window.requestAnimationFrame(layout);
   };
 
-  const scrollRegion = (top, index) => {
-    sticker.start(index);
+  const scrollRegion = (top) => {
+    const maxScroll = Math.max(region.scrollHeight - region.clientHeight, 0);
+    const targetTop = Math.min(Math.max(top, 0), maxScroll);
+    sticker.start(getActiveItemIndex(targetTop));
     region.scrollTo({
-      top,
+      top: targetTop,
       behavior: reducedMotionMedia.matches ? "auto" : "smooth",
     });
   };

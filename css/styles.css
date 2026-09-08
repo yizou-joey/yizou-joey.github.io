@@ -7,6 +7,14 @@
  * Reuse these APIs before adding a new token, primitive, or component rule.
  */
 
+@font-face {
+  font-family: "Site Inter";
+  src: url("/files/fonts/inter-v4.1/InterVariable.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 :root {
   /* === Tokens: colors === */
   /* Surface & ink */
@@ -39,7 +47,16 @@
   --color-footer-note: #7a7975;
 
   /* === Tokens: typography families === */
-  --font-inter: "Inter", sans-serif;
+  --font-sans:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Site Inter",
+    system-ui,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   --font-serif-sc: "Noto Serif SC", serif;
   --font-handwritten: "Shantell Sans", cursive;
 
@@ -72,8 +89,8 @@
   --type-body-bio-tracking: 0;
 
   /* Nav / caption / micro */
-  --type-nav-label-size: 15px;
-  --type-nav-label-weight: 400;
+  --type-nav-label-size: 13px;
+  --type-nav-label-weight: 500;
   --type-nav-label-line-height: 19.95px;
   --type-nav-label-tracking: 0;
   --type-caption-size: 14px;
@@ -512,10 +529,11 @@ a {
 }
 
 .publication-eyebrow {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.05em;
   color: var(--color-muted);
   margin-bottom: var(--space-8);
   display: flex;
@@ -661,11 +679,12 @@ a {
 }
 
 .type-nav {
-  font-family: var(--font-inter);
-  font-size: 13px;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  font-size: var(--type-nav-label-size);
+  font-weight: var(--type-nav-label-weight);
   line-height: var(--type-nav-label-line-height);
-  letter-spacing: 0.025em;
+  letter-spacing: var(--type-nav-label-tracking);
   text-transform: none;
   font-feature-settings: var(--type-feature-sans);
 }
@@ -689,18 +708,20 @@ a {
 }
 
 .type-title-section {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   font-size: 15px;
   font-weight: 500;
   line-height: 1.4;
-  letter-spacing: 0.025em;
+  letter-spacing: 0;
   text-transform: none;
   color: var(--color-ink);
   margin: 0;
 }
 
 .type-title-subsection {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
@@ -712,7 +733,8 @@ a {
 }
 
 .type-body {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   font-feature-settings: var(--type-feature-sans);
   font-size: var(--type-body-size);
   font-weight: var(--type-body-weight);
@@ -774,7 +796,8 @@ a {
 }
 
 .type-label {
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   font-size: var(--type-badge-micro-size);
   font-feature-settings: var(--type-feature-sans);
   font-weight: var(--type-badge-micro-weight);
@@ -1726,9 +1749,10 @@ a {
 
 .error404-kicker {
   margin: 0;
-  font-family: var(--font-inter);
+  font-family: var(--font-sans);
+  font-optical-sizing: auto;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   animation: error404-reveal 360ms 30ms both cubic-bezier(0.16, 1, 0.3, 1);
 }
 

@@ -1,2 +1,7 @@
 @import "tailwindcss";
 @import "../css/styles.css";
+
+/* Preserve Tailwind's base font independently of the site's --font-sans token. */
+@theme {
+  --default-font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}

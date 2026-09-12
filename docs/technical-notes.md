@@ -100,7 +100,24 @@ Sources: https://github.com/tabler/tabler-icons/tree/main/icons/outline.
 Hover changes only the icon color, without a background fill. Fine pointers
 with hover support get a 0.97-scale press response (160ms in, 100ms out,
 strong ease-out). Keyboard focus and reduced-motion preferences keep instant
-feedback. The page colors and theme icon swap remain immediate.
+feedback. On a pointer click, browsers with the View Transition API crossfade
+the whole page to the new theme over 280ms, without a directional wipe. Matching
+cubic segments derived from the Tabler circle and crescent interpolate over
+240ms, while the sun rays contract/expand over 180ms and fade over 120ms.
+A named button's live snapshot shows this SVG morph independently of the page
+crossfade. Browsers without CSS path interpolation use the original icons with a
+160ms fade/scale fallback. Only the 20px path repaints during interpolation;
+no SVG runtime or animation library is used. Text and
+artwork stay sharp and stationary; neither content nor assets are duplicated in
+the DOM. The temporary `data-theme-transition` attribute scopes this motion.
+
+Initial paint, storage synchronization, keyboard activation, reduced motion,
+and unsupported browsers switch immediately. A second click during capture or
+playback skips the transition and applies the latest preference. Deferred
+capture callbacks read the current preference so they cannot restore stale
+state. While captured elements are excluded from native hit testing, clicks
+within the visible button's bounds route to the same toggle handler. Snapshot
+failures fall back to the normal theme update.
 
 Original venue and award colors remain source tokens. Dark venue text only
 raises lightness while retaining hue and saturation. Award text reuses the

@@ -26,6 +26,9 @@ const createPage = ({
   hasControl = true,
   failStorage = "",
   sharedStorage,
+  motion = false,
+  reduced = false,
+  failTransition = false,
 } = {}) => {
   const values = new Map(saved === null ? [] : [[STORAGE_KEY, saved]]);
   let writes = 0;
@@ -46,17 +49,42 @@ const createPage = ({
     hidden: true,
     setAttribute: (name, value) => attributes.set(name, value),
     getAttribute: (name) => attributes.get(name) ?? null,
+    contains: (target) => target === control,
+    getBoundingClientRect: () => ({ left: 100, right: 136, top: 6, bottom: 42 }),
   };
   const system = { ...eventTarget(), matches: dark };
+  const captures = [];
   const document = {
     ...eventTarget(),
     readyState: ready ? "complete" : "loading",
     documentElement: { dataset: {} },
     querySelectorAll: () => hasControl ? [control] : [],
   };
+  if (motion) {
+    document.startViewTransition = (update) => {
+      if (failTransition) throw new Error("Capture unavailable");
+      let finish;
+      let rejectReady;
+      const capture = {
+        update,
+        skipped: false,
+        ready: new Promise((resolve, reject) => { rejectReady = reject; }),
+        finished: new Promise((resolve) => { finish = resolve; }),
+        finish: () => finish(),
+        skipTransition() {
+          this.skipped = true;
+          rejectReady(new Error("Capture skipped"));
+        },
+      };
+      captures.push(capture);
+      return capture;
+    };
+  }
   const window = {
     ...eventTarget(),
-    matchMedia: () => system,
+    matchMedia: (query) => query.includes("prefers-reduced-motion")
+      ? { matches: reduced }
+      : system,
     get localStorage() {
       if (failStorage === "access") throw new Error("Storage access blocked");
       return storage;
@@ -67,10 +95,11 @@ const createPage = ({
     document,
     control,
     storage,
+    captures,
     get theme() { return document.documentElement.dataset.theme; },
     get writes() { return writes; },
     mount() { document.dispatch("DOMContentLoaded"); },
-    toggle() { control.dispatch("click"); },
+    toggle(detail = 0) { control.dispatch("click", { detail }); },
     setSystem(value) {
       system.matches = value;
       system.dispatch("change");
@@ -171,5 +200,76 @@ noControl.setSystem(false);
 assert.equal(noControl.theme, "dark", "A page without a button also preserves its initial theme");
 noControl.receive(STORAGE_KEY, "light");
 assert.equal(noControl.theme, "light", "Cross-tab synchronization does not depend on a button");
+
+const animated = createPage({ ready: true, motion: true });
+assert.equal(animated.captures.length, 0, "Initial paint never starts a transition");
+animated.toggle(1);
+assert.equal(animated.theme, "light", "Capture the old theme before updating the DOM");
+assert.equal(animated.storage.getItem(STORAGE_KEY), "dark", "Persist intent without waiting for motion");
+assert.equal(animated.captures.length, 1);
+animated.captures[0].update();
+assert.equal(animated.theme, "dark");
+assertButtonLabel(animated);
+animated.captures[0].finish();
+await Promise.resolve();
+assert.equal(animated.document.documentElement.dataset.themeTransition, undefined);
+
+const rapid = createPage({ ready: true, motion: true });
+rapid.toggle(1);
+rapid.toggle(1);
+assert.equal(rapid.captures.length, 1, "Rapid clicks must not queue another animation");
+assert.equal(rapid.captures[0].skipped, true);
+assert.equal(rapid.theme, "light");
+rapid.captures[0].update();
+assert.equal(rapid.theme, "light", "A delayed callback must not restore stale intent");
+rapid.toggle(1);
+rapid.captures[0].finish();
+await Promise.resolve();
+assert.equal(rapid.document.documentElement.dataset.themeTransition, "",
+  "Old completion must not clear a newer transition");
+rapid.captures[1].update();
+assert.equal(rapid.theme, "dark");
+rapid.toggle(1);
+assert.equal(rapid.theme, "light", "A click during playback snaps to the latest preference");
+assert.equal(rapid.captures[1].skipped, true);
+
+const snapshotClick = createPage({ ready: true, motion: true });
+snapshotClick.toggle(1);
+snapshotClick.captures[0].update();
+snapshotClick.document.dispatch("click", { detail: 1, clientX: 20, clientY: 20 });
+assert.equal(snapshotClick.theme, "dark", "Clicks outside the snapshot button are ignored");
+snapshotClick.document.dispatch("click", {
+  detail: 1, clientX: 118, clientY: 24, target: snapshotClick.control,
+});
+assert.equal(snapshotClick.theme, "dark", "A normal button click must not be handled twice");
+snapshotClick.document.dispatch("click", { detail: 1, clientX: 118, clientY: 24 });
+assert.equal(snapshotClick.theme, "light", "The snapshot button remains clickable during playback");
+assert.equal(snapshotClick.captures[0].skipped, true);
+
+const synced = createPage({ ready: true, motion: true });
+synced.toggle(1);
+const syncWrites = synced.writes;
+synced.receive(STORAGE_KEY, "light");
+synced.captures[0].update();
+assert.equal(synced.theme, "light");
+assert.equal(synced.captures[0].skipped, true);
+assert.equal(synced.writes, syncWrites);
+assert.equal(synced.document.documentElement.dataset.themeTransition, undefined);
+synced.receive(null, null);
+assert.equal(synced.captures.length, 1, "Storage clear never animates");
+
+for (const options of [
+  {},
+  { motion: true, reduced: true },
+  { motion: true, failTransition: true },
+  { motion: true, keyboard: true },
+]) {
+  const fallback = createPage({ ready: true, ...options });
+  fallback.toggle(options.keyboard ? 0 : 1);
+  assert.equal(fallback.theme, "dark", "Fallback and keyboard switching must remain immediate");
+  assertButtonLabel(fallback);
+  assert.equal(fallback.captures.length, 0);
+  assert.equal(fallback.document.documentElement.dataset.themeTransition, undefined);
+}
 
 console.log("Theme state checks passed.");

@@ -98,7 +98,7 @@
 
   /* Nav / caption / micro */
   --type-nav-label-size: 13px;
-  --type-nav-label-weight: 500;
+  --type-nav-label-weight: 400;
   --type-nav-label-line-height: 19.95px;
   --type-nav-label-tracking: normal;
   --type-caption-size: 14px;
@@ -136,7 +136,7 @@
   /* Section rhythm */
   --space-page-start: clamp(var(--space-24), 3vw, var(--space-28));
   --space-section-between: var(--space-48);
-  --space-section-heading-content: var(--space-48);
+  --space-section-heading-content: var(--space-32);
   --space-list-item: var(--space-24);
 
   /* Fluid gutters */
@@ -937,18 +937,18 @@ a {
   width: 100%;
   align-items: center;
   justify-content: center;
+  padding-inline: var(--space-gutter-fluid);
 }
 
 .site-header-inner {
   display: flex;
   min-width: 0;
-  width: 1440px;
-  max-width: 100%;
-  height: 40px;
+  width: 100%;
+  max-width: var(--width-rail-level-1);
+  height: 48px;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-16);
-  padding: 0 var(--space-16);
 }
 
 .site-header-brand {
@@ -966,7 +966,7 @@ a {
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  gap: clamp(var(--space-4), 1vw, var(--space-10));
+  gap: var(--space-4);
   color: var(--color-muted);
   white-space: nowrap;
 }
@@ -980,11 +980,11 @@ a {
 .site-header-link {
   display: inline-flex;
   min-width: 0;
-  height: 30px;
+  height: 36px;
   flex: 0 1 auto;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-badge);
+  border-radius: 4px;
   padding: 0 var(--space-10);
   color: var(--color-nav-muted);
   line-height: 1;
@@ -1052,8 +1052,16 @@ a {
 }
 
 .site-theme-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
+}
+
+.site-theme-morph {
+  display: none;
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.5;
 }
 
 .site-theme-icon--sun,
@@ -1063,6 +1071,124 @@ a {
 
 :root[data-theme="dark"] .site-theme-icon--sun {
   display: block;
+}
+
+/* Only a deliberate pointer toggle opts into snapshot motion. The named button
+   changes independently, while the page crossfades intact text and artwork. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme-transition] .site-theme-toggle {
+    view-transition-name: theme-control;
+  }
+
+  :root[data-theme-transition]::view-transition {
+    pointer-events: none;
+  }
+
+  :root[data-theme-transition]::view-transition-group(*) {
+    animation: none;
+  }
+
+  :root[data-theme-transition]::view-transition-old(root),
+  :root[data-theme-transition]::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  :root[data-theme-transition]::view-transition-old(root) {
+    z-index: 1;
+  }
+
+  :root[data-theme-transition]::view-transition-new(root) {
+    z-index: 2;
+    animation: theme-crossfade 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  :root[data-theme-transition]::view-transition-old(theme-control),
+  :root[data-theme-transition]::view-transition-new(theme-control) {
+    mix-blend-mode: normal;
+  }
+
+  :root[data-theme-transition]::view-transition-old(theme-control) {
+    animation: theme-control-out 160ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+
+  :root[data-theme-transition]::view-transition-new(theme-control) {
+    animation: theme-control-in 160ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+}
+
+@keyframes theme-crossfade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes theme-control-out {
+  to { opacity: 0; transform: scale(0.95); }
+}
+
+@keyframes theme-control-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* The original Tabler circle and crescent, normalized to matching cubic
+   segments for interpolation. Only this 20px path repaints during the morph. */
+@supports (d: path("M0 0")) {
+  :root .site-theme-toggle .site-theme-icon {
+    display: none;
+  }
+
+  .site-theme-morph {
+    display: block;
+  }
+
+  .site-theme-disc {
+    d: path("M20.313 15.446 C19.039 18.5115 16.1809 20.6267 12.8769 20.9494 C9.5729 21.272 6.3596 19.7497 4.5166 16.9886 C2.6736 14.2275 2.5001 10.676 4.0654 7.7485 C5.6306 4.821 8.6803 2.9928 12 2.992 C12 3 12.263 3 12.393 3 C10.6664 4.6043 9.7944 6.927 10.0386 9.2712 C10.2828 11.6155 11.6147 13.7085 13.6349 14.9226 C15.655 16.1367 18.1284 16.3306 20.313 15.446 Z");
+  }
+
+  :root[data-theme="dark"] .site-theme-disc {
+    d: path("M15.6955 13.5307 C15.1307 14.8943 13.8609 15.8361 12.3921 15.9807 C10.9232 16.1254 9.4941 15.4495 8.6741 14.2223 C7.8541 12.9951 7.7765 11.4161 8.4723 10.1144 C9.168 8.8127 10.5241 8 12 8 C12 8 12 8 12 8 C12.8805 8 13.7365 8.2906 14.435 8.8266 C15.1336 9.3626 15.6358 10.1142 15.8637 10.9647 C16.0916 11.8152 16.0325 12.7172 15.6955 13.5307 Z");
+  }
+
+  .site-theme-rays {
+    opacity: 0;
+    transform: scale(0.65);
+    transform-origin: center;
+    transform-box: view-box;
+  }
+
+  :root[data-theme="dark"] .site-theme-rays {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :root[data-theme-transition] .site-theme-disc {
+      transition: d 240ms cubic-bezier(0.32, 0.72, 0, 1);
+    }
+
+    :root[data-theme-transition] .site-theme-rays {
+      transition: opacity 120ms ease, transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    /* The new capture is live, so it displays the SVG's continuous morph. */
+    :root[data-theme-transition]::view-transition-old(theme-control) {
+      animation: none;
+      opacity: 0;
+    }
+
+    :root[data-theme-transition]::view-transition-new(theme-control) {
+      animation: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-theme-transition]::view-transition-group(*),
+  :root[data-theme-transition]::view-transition-old(*),
+  :root[data-theme-transition]::view-transition-new(*) {
+    animation: none;
+  }
 }
 
 /* === Component: news mascot sticker === */
@@ -1277,6 +1403,11 @@ a {
   padding-block: var(--space-10);
 }
 
+.profile-contact-list > .contact-row {
+  gap: var(--space-8);
+  line-height: var(--type-caption-line-height);
+}
+
 .profile-contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -1289,18 +1420,14 @@ a {
 }
 
 .profile-contact-link-item {
+  display: flex;
   white-space: nowrap;
 }
 
 .profile-contact-compact-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-4);
-}
-
-.profile-contact-compact-link .contact-icon {
-  width: 14px;
-  height: 14px;
+  gap: var(--space-8);
 }
 
 .contact-icon {
@@ -1332,7 +1459,7 @@ a {
 .profile-bio {
   width: 100%;
   color: var(--color-ink);
-  text-align: center;
+  text-align: left;
 }
 
 .profile-keywords {
@@ -1346,7 +1473,7 @@ a {
 
   .profile-aside {
     display: grid;
-    grid-template-columns: minmax(120px, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: 144px minmax(0, 1fr);
     grid-template-areas:
       "photo contact"
       "news news";
@@ -1380,12 +1507,59 @@ a {
   }
 
   .profile-contact-links {
+    flex-direction: column;
     justify-content: flex-start;
+    row-gap: 0;
     text-align: left;
+  }
+
+  .profile-contact-compact-link {
+    min-height: 36px;
   }
 
   .profile-news-panel {
     grid-area: news;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .profile-contact-list {
+    gap: 0;
+  }
+
+  .profile-contact-list > .contact-row {
+    min-height: 36px;
+  }
+}
+
+@media (max-width: 599px) {
+  .profile-aside {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "photo"
+      "contact"
+      "news";
+    row-gap: var(--space-16);
+  }
+
+  .profile-contact-panel,
+  .profile-contact-list {
+    align-items: center;
+  }
+
+  .profile-contact-links {
+    flex-direction: row;
+    justify-content: center;
+    column-gap: var(--space-16);
+    text-align: center;
+  }
+
+  .profile-contact-compact-link {
+    min-height: 44px;
+  }
+
+  .profile-news-panel {
+    margin-top: var(--space-8);
   }
 }
 
@@ -1694,16 +1868,22 @@ a {
 
   .profile-intro-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 264px;
+    grid-template-columns: minmax(0, 1fr) clamp(304px, 30vw, 364px);
     align-items: start;
     column-gap: clamp(var(--space-48), 5vw, 56px);
   }
 
   .profile-aside {
-    width: 264px;
+    width: 100%;
     align-items: stretch;
     justify-content: flex-start;
     gap: var(--space-12);
+  }
+
+  /* Keep the portrait and contacts centered above the news copy, beside its art. */
+  .profile-photo-frame,
+  .profile-contact-panel {
+    width: calc(100% - 100px);
   }
 
   .profile-photo {
@@ -1722,11 +1902,10 @@ a {
   }
 
   .profile-news-panel {
-    /* Share the header's right boundary; the sticker owns the remaining lane. */
-    --news-rail-extension: calc((min(100vw, 1440px) - min(calc(100vw - 2 * var(--space-gutter-fluid)), var(--width-rail-level-2))) / 2 - var(--space-16));
+    /* Reserve the sticker lane within the content rail instead of overflowing it. */
     --news-copy-width: min(264px, calc(100% - 100px));
     --news-mascot-size: 100px;
-    width: calc(100% + var(--news-rail-extension));
+    width: 100%;
     margin-top: var(--space-12);
   }
 
@@ -2006,8 +2185,16 @@ a {
 }
 
 @media (max-width: 520px) {
+  .site-header-link,
+  .site-theme-toggle {
+    height: 40px;
+  }
+
+  .site-theme-toggle {
+    width: 40px;
+  }
+
   .site-header-link {
-    height: 28px;
     padding: 0 var(--space-8);
   }
 }

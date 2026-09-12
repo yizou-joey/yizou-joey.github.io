@@ -1660,6 +1660,7 @@ a {
 }
 
 .news-scroll-control {
+  --news-chevron-color: var(--color-border-warm);
   display: grid;
   width: 44px;
   height: 28px;
@@ -1668,18 +1669,28 @@ a {
   place-items: center;
   border: 0;
   background: transparent;
-  color: var(--color-ink);
+  color: var(--color-border-warm);
   cursor: pointer;
+  transition: color 180ms ease;
 }
 
 .news-scroll-control[hidden] {
   display: none;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .news-scroll-control:hover {
+    --news-chevron-color: var(--color-nav-muted);
+    color: var(--color-muted);
+  }
+}
+
 .news-scroll-control:focus-visible {
+  --news-chevron-color: var(--color-nav-muted);
   outline: 2px solid var(--color-apple-blue);
   outline-offset: 2px;
   border-radius: 2px;
+  color: var(--color-muted);
 }
 
 .news-scroll-chevrons {
@@ -1693,7 +1704,7 @@ a {
 }
 
 .news-scroll-chevrons polyline {
-  stroke: currentColor;
+  stroke: var(--news-chevron-color);
   transform-box: fill-box;
   transform-origin: center;
   transition:
@@ -1703,17 +1714,17 @@ a {
 }
 
 .news-scroll-chevrons polyline:nth-child(1) {
-  opacity: 0.6;
+  opacity: 0.5;
   transition-delay: 0ms;
 }
 
 .news-scroll-chevrons polyline:nth-child(2) {
-  opacity: 0.8;
+  opacity: 0.73;
   transition-delay: 40ms;
 }
 
 .news-scroll-chevrons polyline:nth-child(3) {
-  opacity: 1;
+  opacity: 0.97;
   transition-delay: 80ms;
 }
 
@@ -1722,7 +1733,7 @@ a {
 }
 
 .news-scroll-control.is-up .news-scroll-chevrons polyline:nth-child(1) {
-  opacity: 1;
+  opacity: 0.97;
   transition-delay: 80ms;
 }
 
@@ -1731,7 +1742,7 @@ a {
 }
 
 .news-scroll-control.is-up .news-scroll-chevrons polyline:nth-child(3) {
-  opacity: 0.6;
+  opacity: 0.5;
   transition-delay: 0ms;
 }
 
@@ -2001,9 +2012,13 @@ a {
 
 .page-colophon {
   width: 100%;
+  padding-top: var(--space-32);
   padding-right: var(--space-gutter-fluid);
-  padding-bottom: var(--space-12);
   padding-left: var(--space-gutter-fluid);
+}
+
+.site-footer--colophon {
+  border-top: 0;
 }
 
 .page-colophon-inner {
@@ -2050,34 +2065,19 @@ a {
 }
 
 /* === Component: halftone colophon ===
-   Preserve the original colored print in both themes. */
+   Keep the print's alpha texture; theme ink supplies its color.
+   The 2000 x 1500 source has ink bounds near (45, 309)–(1938, 1224).
+   Fit that ink into a compact signature without the transparent canvas. */
 .halftone-colophon {
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 48px;
   display: block;
-  object-fit: contain;
-  mix-blend-mode: multiply;
-  opacity: 0;
-  filter: none;
-  transform: translateY(16px);
-  transition: opacity 700ms ease, transform 700ms ease;
-}
-
-:root[data-theme="dark"] .halftone-colophon {
-  mix-blend-mode: normal;
-}
-
-.halftone-colophon.is-visible {
-  opacity: 0.72;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .halftone-colophon {
-    transition: none !important;
-    opacity: 0.72;
-    transform: none;
-  }
+  background-color: var(--color-muted);
+  mask-image: url("/files/generated/halftone-colophon.png");
+  mask-mode: alpha;
+  mask-repeat: no-repeat;
+  mask-size: 100px 75px;
+  mask-position: center -15px;
 }
 
 .error404-display {

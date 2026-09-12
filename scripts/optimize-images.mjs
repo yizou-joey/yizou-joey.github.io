@@ -81,7 +81,7 @@ const tasks = [
     input: source("halftone_transparent.png"),
     outputs: [
       { path: output("halftone-colophon.webp"), width: 160, format: "webp" },
-      { path: output("halftone-colophon.png"), width: 160, format: "png" },
+      { path: output("halftone-colophon.png"), width: 400, format: "png" },
     ],
   },
   {

@@ -12,7 +12,6 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "bio-intro",
     "news-list",
     "publications-list",
-    "education-list",
     "services-list",
     "teaching-list",
   ]),

@@ -12,8 +12,11 @@ The site is a Vite multi-page application with two production entry pages:
 - `404.html`: not-found page.
 
 `publications.html` remains a development-only archive shell; it is not built
-or populated with publication content. Theme support includes this retained
-page. Experimental pages are outside the theme bootstrap whitelist.
+or populated with publication content. `cv.html` is also a development-only
+archive: it renders the Education section moved off the homepage, using
+`contents/education.js`. Neither archive is linked from the production navigation.
+Theme support includes both retained pages. Experimental pages are outside the
+theme bootstrap whitelist.
 
 Section content is stored in single-purpose ES modules under `contents/*.js`.
 Shared renderers in `js/renderers.js` and formatting helpers in `js/utils.js`

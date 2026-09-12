@@ -53,10 +53,6 @@ const renderIndexHtml = (html, fileName) => {
       content: renderSelectedPublicationsHtml(publications),
     },
     {
-      id: "education-list",
-      content: renderListHtml(education, renderEducationItemHtml),
-    },
-    {
       id: "services-list",
       content: renderListHtml(services, renderServicesItemHtml),
     },
@@ -83,7 +79,15 @@ const staticContentHtmlPlugin = () => ({
       if (fileName === "index.html") {
         html = renderIndexHtml(html, fileName);
       }
-      if (["index.html", "404.html", "publications.html"].includes(fileName)) {
+      if (fileName === "cv.html") {
+        html = injectStaticContent({
+          html,
+          fileName,
+          id: "education-list",
+          content: renderListHtml(education, renderEducationItemHtml),
+        });
+      }
+      if (["index.html", "404.html", "publications.html", "cv.html"].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {

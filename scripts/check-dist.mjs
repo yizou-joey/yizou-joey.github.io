@@ -124,6 +124,35 @@ const validateStaticTargets = (html, fileName) => {
   }
 };
 
+const validateTheme = (html, fileName) => {
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter((match) => /\bdata-theme-bootstrap\b/.test(match[1]));
+  if (scripts.length !== 1) {
+    report(`${fileName} must contain exactly one theme bootstrap script.`);
+    return;
+  }
+
+  const [script] = scripts;
+  if (/\b(?:src|type|async|defer)\b/i.test(script[1]) || !script[2].trim()) {
+    report(`${fileName} must inline its theme bootstrap as a synchronous classic script.`);
+  }
+  const charset = html.match(/<meta\b[^>]*\bcharset\s*=\s*["']?utf-8\b[^>]*>/i);
+  if (!charset || charset.index > script.index || Buffer.byteLength(html.slice(0, charset.index + charset[0].length)) > 1024) {
+    report(`${fileName} must declare UTF-8 before its theme script within the first 1024 bytes.`);
+  }
+  const firstStylesheet = html.search(/<link\b[^>]*\brel\s*=\s*["']stylesheet["'][^>]*>/i);
+  const headEnd = html.search(/<\/head\s*>/i);
+  if (firstStylesheet < 0 || script.index > firstStylesheet || headEnd < script.index) {
+    report(`${fileName} must initialize the theme inside head before its first stylesheet.`);
+  }
+  const controls = [...html.matchAll(/<button\b([^>]*\bdata-theme-toggle\b[^>]*)>([\s\S]*?)<\/button>/gi)];
+  if (controls.length !== 1 || !/\btype=["']button["']/i.test(controls[0][1]) || !/\baria-label=["']Switch to dark mode["']/i.test(controls[0][1])) {
+    report(`${fileName} must include one accessible light/dark toggle button.`);
+  } else if (/\baria-pressed\b/i.test(controls[0][1]) || !/\bhidden\b/i.test(controls[0][1]) || !/\btitle=["']Switch to dark mode["']/i.test(controls[0][1])) {
+    report(`${fileName} must hide its theme button until initialized and describe its action without aria-pressed.`);
+  }
+};
+
 try {
   const distStat = await fs.stat(distRoot);
   if (!distStat.isDirectory()) {
@@ -145,6 +174,7 @@ if (!errors.length) {
     }
 
     validateStaticTargets(html, fileName);
+    validateTheme(html, fileName);
     for (const reference of extractHtmlReferences(html)) {
       await validateReference(reference, filePath);
     }

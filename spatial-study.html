@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yi ZOU · Spatial study</title>
+    <meta name="author" content="Yi Zou (Joey)" />
+    <meta
+      name="description"
+      content="Academic homepage of Yi Zou (Joey), a first-year PhD student at HKUST (Guangzhou) researching Human-Computer Interaction (HCI), adaptive user interfaces, and extended reality (XR)."
+    />
+    <meta
+      name="keywords"
+      content="Yi Zou, Joey Zou, Zou Yi, Yizou Joey, HKUST Guangzhou, academic homepage, HCI, human-computer interaction, XR, extended reality, adaptive user interfaces, context-aware systems, computational media and art"
+    />
+    <link rel="canonical" href="https://yizou-joey.github.io/" />
+    <meta
+      name="google-site-verification"
+      content="mXlA4ZfyJgMSfTaaWP-c-G6PWju08kdNWCh7r_-6zgI"
+    />
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:site_name" content="Yi ZOU" />
+    <meta property="og:url" content="https://yizou-joey.github.io/" />
+    <meta
+      property="og:title"
+      content="Yi ZOU"
+    />
+    <meta
+      property="og:description"
+      content="Research, publications, teaching, and updates from Yi Zou (Joey), a first-year PhD student at HKUST (Guangzhou) working on HCI, XR, and adaptive user interfaces."
+    />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Yi ZOU" />
+    <meta name="twitter:description" content="Academic homepage of Yi Zou (Joey), a PhD student researching HCI, XR, and adaptive interfaces at HKUST(GZ)." />
+    <link
+      rel="icon"
+      href="files/favicon.svg"
+      type="image/svg+xml"
+      data-dynamic-favicon
+      data-active-icon="files/favicon.svg"
+      data-idle-icon="files/favicon-idle.svg"
+      data-active-light-icon="files/favicon.svg"
+      data-idle-light-icon="files/favicon-idle.svg"
+      data-active-dark-icon="files/favicon-light.svg"
+      data-idle-dark-icon="files/favicon-idle-light.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="robots" content="noindex, nofollow" />
+    <style>
+      .spatial-study { margin: 0; width: 100%; text-align: left; }
+      .spatial-study-header, .spatial-study-caption { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); font-family: var(--font-sans); font-size: 11px; line-height: 1.5; color: var(--color-muted); }
+      .spatial-study-header { border-top: 1px solid var(--color-border-warm); padding-top: var(--space-12); }
+      .spatial-study-number { letter-spacing: .08em; text-transform: uppercase; }
+      .spatial-study-reset { font: inherit; color: var(--color-ink); background: none; border: 0; border-bottom: 1px solid var(--color-border-warm); padding: 8px 4px; cursor: pointer; min-height: 36px; white-space: nowrap; }
+      .spatial-study-reset:focus-visible, .spatial-study-canvas:focus-visible { outline: 2px solid var(--color-apple-blue); outline-offset: 3px; }
+      .spatial-study-canvas { display: block; width: 100%; height: 380px; cursor: grab; touch-action: pan-y; }
+      .spatial-study-canvas.is-dragging { cursor: grabbing; }
+      .spatial-study-caption { justify-content: flex-start; flex-wrap: wrap; gap: 4px 12px; }
+      .spatial-study-caption strong { font-weight: 400; color: var(--color-ink); }
+      .spatial-study-caption small { font-size: 10px; }
+      @media (max-width: 480px) { .spatial-study-canvas { height: 290px; } .spatial-study-header { font-size: 10px; } }
+      /* Motion is entirely user-driven, with no interpolation or idle loop,
+         including under prefers-reduced-motion. Reset is immediate. */
+    </style>
+  </head>
+    <body class="text-ink">
+      <div class="site-shell">
+        <!-- Header -->
+        <header class="site-header">
+          <div class="site-header-frame">
+            <div class="site-header-inner">
+              <div class="site-header-brand">
+                <span class="type-brand text-ink">Yi</span>
+              </div>
+              <nav class="site-header-nav type-nav">
+                <a href="index.html" class="site-header-link" aria-current="page">About</a>
+              </nav>
+            </div>
+          </div>
+          <div class="site-header-rule"></div>
+        </header>
+
+        <main class="page-content-stack">
+        <!-- Intro -->
+        <section id="about" class="profile-intro page-gutter">
+          <div class="profile-intro-layout section-rail-l2">
+            <div class="profile-main">
+              <div class="profile-name-row">
+                <h1 class="type-title-hero text-ink">Yi ZOU</h1>
+                <span class="type-title-hero-sub text-muted">Joey</span>
+                <span class="type-title-hero-sub text-muted">邹一</span>
+              </div>
+              <div class="bio-stack">
+                <p class="profile-bio type-body-bio">
+                  <span id="bio-intro"><span class="bio-paragraph">Hi there :)</span><span class="bio-paragraph bio-paragraph--spaced">I am a first-year PhD student in the <a href="https://cma.hkust-gz.edu.cn/" class="inline-link" target="_blank" rel="noopener noreferrer">Computational Media and Arts Thrust</a> at <a href="https://www.hkust-gz.edu.cn/" class="inline-link" target="_blank" rel="noopener noreferrer">The Hong Kong University of Science and Technology (Guangzhou)</a>, supervised by <a href="https://scholar.google.com/citations?user=dcDrhzMAAAAJ&amp;hl=en" class="inline-link inline-link--person-name" target="_blank" rel="noopener noreferrer">Prof. Pan HUI</a> and <a href="https://scholar.google.com/citations?user=OLB_xBEAAAAJ" class="inline-link inline-link--person-name" target="_blank" rel="noopener noreferrer">Prof. Zhiming HU</a>.</span><span class="bio-paragraph bio-paragraph--spaced">I previously earned an MPhil in the same program, under the supervision of <a href="https://scholar.google.com/citations?user=dcDrhzMAAAAJ&amp;hl=en" class="inline-link inline-link--person-name" target="_blank" rel="noopener noreferrer">Prof. Pan HUI</a> and <a href="https://scholar.google.com/citations?user=UJPH5ioAAAAJ&amp;hl=en&amp;oi=ao" class="inline-link inline-link--person-name" target="_blank" rel="noopener noreferrer">Prof. Hai-Ning LIANG</a>.</span><span class="bio-paragraph bio-paragraph--spaced">My research focuses on building context-aware adaptive user interfaces in Mixed Reality, understanding human behavior, and investigating interactions between physical and virtual entities.</span></span>
+                </p>
+                <aside
+                  class="profile-keywords bio-keywords-banner"
+                  aria-label="Research interests"
+                >
+                  <h3 class="sr-only">Research Interests</h3>
+                  <div class="bio-keywords-stage">
+                    <img src="files/logos/keywords/keywords-hci-sticker.png" alt="Human-Computer Interaction" class="bio-keyword-img" loading="lazy" decoding="async" />
+                    <img src="files/logos/keywords/keywords-ar-sticker.png" alt="AR/MR/XR" class="bio-keyword-img" loading="lazy" decoding="async" />
+                    <img src="files/logos/keywords/keywords-adaptive-sticker.png" alt="Adaptive User Interfaces" class="bio-keyword-img" loading="lazy" decoding="async" />
+                  </div>
+                </aside>
+
+                <figure class="spatial-study" aria-labelledby="spatial-study-caption">
+                  <div class="spatial-study-header">
+                    <span class="spatial-study-number">Fig. 01 / Spatial relationships</span>
+                    <button class="spatial-study-reset" type="button">↺ Reset view</button>
+                  </div>
+                  <canvas class="spatial-study-canvas" tabindex="0" role="group" aria-label="Interactive spatial illustration. Drag to rotate; use arrow keys to rotate or Home to reset." aria-describedby="spatial-study-caption">A layered spatial window, physical geometry and a sphere along a blue trajectory.</canvas>
+                  <figcaption class="spatial-study-caption" id="spatial-study-caption"><strong>Physical context. Virtual interface.</strong><small>Drag to rotate · Conceptual illustration</small></figcaption>
+                </figure>
+              </div>
+            </div>
+            <aside class="profile-aside" aria-label="Profile and recent news">
+              <div class="profile-photo-frame">
+                <picture>
+                  <source srcset="files/generated/about-profile-400.avif" type="image/avif" />
+                  <img
+                    src="files/generated/about-profile-400.jpg"
+                    alt="Profile Picture"
+                    width="400"
+                    height="400"
+                    fetchpriority="high"
+                    decoding="async"
+                    class="profile-photo"
+                  />
+                </picture>
+              </div>
+              <div class="profile-contact-panel">
+                <div class="profile-contact-list type-body-sm">
+                  <div class="contact-row">
+                    <img src="files/icons/location.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                    <p class="text-resource-muted">Guangzhou, China</p>
+                  </div>
+                  <div class="profile-contact-links">
+                    <span class="profile-contact-link-item">
+                      <a href="mailto:yzou906@connect.hkust-gz.edu.cn" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/email.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        Email
+                      </a>
+                    </span>
+                    <span class="profile-contact-link-item">
+                      <a href="https://github.com/yizou-joey" rel="me" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/github.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        GitHub
+                      </a>
+                    </span>
+                    <span class="profile-contact-link-item">
+                      <a href="https://scholar.google.com/citations?user=RYMYBtcAAAAJ" class="contact-link profile-contact-compact-link">
+                        <img src="files/icons/scholar.svg" alt="" aria-hidden="true" loading="lazy" decoding="async" class="contact-icon" />
+                        Scholar
+                      </a>
+                    </span>
+                  </div>
+                  <!-- <a
+                    href="files/CV_EN.pdf"
+                    class="contact-row text-muted underline underline-offset-2 decoration-muted/40 hover:decoration-ink/60"
+                  >
+                    <img src="files/icons/cv.svg" alt="" aria-hidden="true" class="contact-icon" />
+                    CV (Updated Oct. 2025)
+                  </a> -->
+                </div>
+              </div>
+              <section id="news" class="profile-news-panel" aria-labelledby="news-heading">
+                <div class="section-heading-row">
+                  <h2 id="news-heading" class="type-title-section">Recent News</h2>
+                </div>
+                <div class="news-scroll-shell" data-news-scroll-shell>
+                  <div class="news-scroll-region" data-news-scroll-region>
+                    <ul id="news-list" class="news-bullet-list"><li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column"><div class="editorial-date-start editorial-news-date"><span>Mar. 25<span class="editorial-news-date-separator">,</span></span> <span>2026</span></div></div><div class="editorial-news-content"><div class="news-copy">Our <strong>DodgeUI</strong> poster won the <span class="news-award-token">Best Poster Award</span> at <a href="https://ieeevr.org/2026/" class="inline-link news-venue-link news-venue-token venue-ieee-vr" data-venue="ieee-vr" target="_blank" rel="noopener noreferrer">IEEE VR 2026</a>!</div><div class="news-note">Sincere thanks to all my collaborators! Appreciated everyone who came by and chatted :)</div></div></article><div class="news-mascot-column"><img class="news-mascot-sticker" src="files/generated/logos/ieee-vr-26-mascot-sticker.webp" alt="Sudal-E, the otter mascot of IEEE VR 2026, Daegu, Korea" loading="lazy" decoding="async" width="80" height="80" /></div></li><li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column"><div class="editorial-date-start editorial-news-date"><span>Jan.</span> <span>2026</span></div></div><div class="editorial-news-content"><div class="news-copy">Our NIDIT Workshop Paper and one Poster were accepted to <strong><a href="https://ieeevr.org/2026/" class="inline-link news-venue-link news-venue-token venue-ieee-vr" data-venue="ieee-vr" target="_blank" rel="noopener noreferrer">IEEE VR 2026</a></strong>!</div><div class="news-note">See you at Daegu!</div></div></article><div class="news-mascot-column"><img class="news-mascot-sticker" src="files/generated/logos/ieee-vr-26-logo-sticker.webp" alt="IEEE VR 2026, Daegu, Korea" loading="lazy" decoding="async" width="80" height="80" /></div></li></ul>
+                  </div>
+                  <button
+                    class="news-scroll-control"
+                    type="button"
+                    aria-controls="news-list"
+                    aria-label="Show older news"
+                    hidden
+                    data-news-scroll-control
+                  >
+                    <svg class="news-scroll-chevrons" viewBox="0 0 24 24" aria-hidden="true">
+                      <polyline points="7 3 12 8 17 3"></polyline>
+                      <polyline points="7 9 12 14 17 9"></polyline>
+                      <polyline points="7 15 12 20 17 15"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Selected Papers -->
+        <section id="publications" class="page-section">
+          <div class="section-stack section-stack--center page-gutter">
+            <div class="section-rail-l1 section-heading-row">
+              <h2 class="type-title-section">Selected Projects</h2>
+            </div>
+            <div class="section-rail-l2">
+              <div id="publications-list"><article class="editorial-publication-item"><div class="publication-eyebrow venue-ieee-vr"><span class="publication-eyebrow-venue">IEEE VR 2026</span><span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span><span>POSTER</span></span><span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span><span class="publication-eyebrow-status publication-eyebrow-award">BEST POSTER AWARD</span></span></div><h3 class="publication-title-serif">DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR</h3><p class="publication-authors-serif"><strong>Yi ZOU</strong>, Ao YU, Ziming LI, Hai-Ning LIANG<sup>*</sup>, Pan HUI<sup>*</sup></p><div class="publication-bracket-links"><a href="https://www.youtube.com/watch?v=6GY7u8pQ9s8" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">Presentation Video</span>]</a><a href="files/materials/Poster-1153.pdf" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">Poster</span>]</a><a href="https://doi.org/10.1109/VRW70859.2026.00233" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">DOI</span>]</a></div></article><article class="editorial-publication-item"><div class="publication-eyebrow venue-ieee-vr"><span class="publication-eyebrow-venue">IEEE VR 2026</span><span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span><span>WORKSHOP<span class="publication-eyebrow-dash">—</span><a href="https://sites.google.com/view/nidit/nidit-2026" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link">NIDIT</a></span></span></div><h3 class="publication-title-serif">Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning</h3><p class="publication-authors-serif"><strong>Yi ZOU</strong>, Ziming LI, Hai-Ning LIANG<sup>*</sup>, Zhiming HU<sup>*</sup></p><div class="publication-bracket-links"><a href="https://www.youtube.com/watch?v=ndLDvRxWMRg&amp;t=1s" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">Demo Video</span>]</a><a href="files/materials/2026.03.22 NIDIT Presentation.pdf" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">Slides</span>]</a><a href="https://doi.org/10.1109/VRW70859.2026.00072" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">DOI</span>]</a></div></article></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education -->
+        <section id="education" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
+            <div class="section-heading-row">
+              <h2 class="type-title-section">Education</h2>
+            </div>
+            <div id="education-list" aria-live="polite"><article class="editorial-media-row editorial-education-row"><div class="editorial-date-column"><div class="editorial-date-end editorial-date-present">Present</div><div class="editorial-date-start">Sep. 2026</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Doctor of Philosophy, Computational Media and Arts</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name">The Hong Kong University of Science and Technology (Guangzhou)</div><div class="editorial-inst-sub">Computational Media and Arts Thrust, Information Hub</div></div></div><div class="editorial-media-column editorial-logo-column"><img class="editorial-education-logo-mono" src="files/logos/HKUSTGZ%20Logo%20Only.svg" alt="" loading="lazy" decoding="async" /><img class="editorial-education-logo-color" src="files/logos/HKUSTGZ%20Logo%20Only.svg" alt="The Hong Kong University of Science and Technology (Guangzhou) logo" loading="lazy" decoding="async" /></div></article><article class="editorial-media-row editorial-education-row"><div class="editorial-date-column"><div class="editorial-date-end">Aug. 2026</div><div class="editorial-date-start">Sep. 2024</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Master of Philosophy, Computational Media and Arts</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name">The Hong Kong University of Science and Technology (Guangzhou)</div><div class="editorial-inst-sub">Computational Media and Arts Thrust, Information Hub</div></div></div><div class="editorial-media-column editorial-logo-column"><img class="editorial-education-logo-mono" src="files/logos/HKUSTGZ%20Logo%20Only.svg" alt="" loading="lazy" decoding="async" /><img class="editorial-education-logo-color" src="files/logos/HKUSTGZ%20Logo%20Only.svg" alt="The Hong Kong University of Science and Technology (Guangzhou) logo" loading="lazy" decoding="async" /></div></article><article class="editorial-media-row editorial-education-row"><div class="editorial-date-column"><div class="editorial-date-end">Jul. 2024</div><div class="editorial-date-start">Sep. 2020</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Bachelor of Engineering, Electrical Engineering</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name">South China University of Technology</div><div class="editorial-inst-sub">School of Electric Power Engineering</div></div></div><div class="editorial-media-column editorial-logo-column"><img class="editorial-education-logo-mono" src="files/generated/logos/scut-logo-only.webp" alt="" loading="lazy" decoding="async" /><img class="editorial-education-logo-color" src="files/generated/logos/scut-logo-only.webp" alt="South China University of Technology logo" loading="lazy" decoding="async" /></div></article></div>
+          </div>
+        </section>
+
+        <!-- Services -->
+        <section id="services" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
+            <div class="section-heading-row">
+              <h2 class="type-title-section">Services</h2>
+            </div>
+            <div id="services-list"><div class="editorial-media-row editorial-service-row"><div class="editorial-date-column"><div class="editorial-date-start">Apr. 2026</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Student Volunteer</h3><div class="editorial-item-subtitle"><div class="editorial-inst-name"><strong><a href="https://2026.acmmmsys.org/" class="inline-link" target="_blank" rel="noopener noreferrer">MMSys 2026</a></strong> — ACM Multimedia System Conference</div><div class="editorial-inst-sub">Hong Kong SAR</div></div></div><div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="files/generated/logos/mmsys-2026-logo-sticker.webp" alt="MMSys 2026 logo" loading="lazy" decoding="async" width="80" height="80" /></div></div></div>
+          </div>
+        </section>
+
+        <!-- Teaching -->
+        <section id="teaching" class="page-section page-gutter">
+          <div class="section-rail-l1 section-stack section-stack--center">
+          <div class="section-heading-row">
+            <h2 class="type-title-section">Teaching</h2>
+          </div>
+          <div id="teaching-list"><div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">Fall 2026</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Teaching Assistant</h3><div class="editorial-item-subtitle"><div class="teaching-meta-grid"><div class="teaching-course"><span class="teaching-course-code">CMAA 5036</span><span class="teaching-course-name">E-Textile and Wearable Technology</span></div><div class="teaching-instructor"><span class="teaching-instructor-label">Instructor</span><span class="teaching-instructor-names"><span class="teaching-instructor-name"><a href="https://cma.hkust-gz.edu.cn/faculty-regular/margaret-minsky/" class="inline-link" target="_blank" rel="noopener noreferrer">Prof. Margaret MINSKY</a></span></span></div></div><div class="editorial-inst-sub">The Hong Kong University of Science and Technology (Guangzhou)</div></div></div></div><div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">Fall 2024</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">Teaching Assistant</h3><div class="editorial-item-subtitle"><div class="teaching-meta-grid"><div class="teaching-course"><span class="teaching-course-code">CMAA 5018</span><span class="teaching-course-name">Metaverse Cross-Disciplinary Design Thinking</span></div><div class="teaching-instructor"><span class="teaching-instructor-label">Instructor</span><span class="teaching-instructor-names"><span class="teaching-instructor-name"><a href="https://cma.hkust-gz.edu.cn/faculty-regular/pan-hui-3/" class="inline-link" target="_blank" rel="noopener noreferrer">Prof. Pan HUI</a></span></span></div></div><div class="editorial-inst-sub">The Hong Kong University of Science and Technology (Guangzhou)</div></div></div></div></div>
+          </div>
+        </section>
+
+        <!-- Halftone colophon -->
+        <div class="page-colophon">
+          <div class="page-colophon-inner">
+            <img
+              src="files/generated/halftone-colophon.webp"
+              alt=""
+              aria-hidden="true"
+              width="80"
+              height="80"
+              loading="lazy"
+              decoding="async"
+              class="halftone-colophon is-visible"
+            />
+          </div>
+        </div>
+        </main>
+    </div>
+    <footer class="site-footer" data-site-footer="true">
+      <div class="site-footer-inner">
+        <p class="site-footer-note">© 2026 Yi ZOU. Last Updated September 2026.</p>
+      </div>
+    </footer>
+
+<script type="module" src="js/favicon.js"></script>
+    <script type="module" src="js/news-scroll.js"></script>
+    <script type="importmap">
+      { "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+      } }
+    </script>
+    <script type="module">
+      const canvas = document.querySelector(".spatial-study-canvas");
+      const ctx = canvas.getContext("2d");
+      const reset = document.querySelector(".spatial-study-reset");
+      const INITIAL = { yaw: -0.42, pitch: 0.27 };
+      let yaw = INITIAL.yaw;
+      let pitch = INITIAL.pitch;
+      let width = 1;
+      let height = 1;
+      let scale = 1;
+      let gesture = null;
+      let frame = 0;
+      const nodes = [];
+      const add = (points, paint) => nodes.push({ points, paint });
+      const project = ([x, y, z]) => {
+        const rx = Math.cos(yaw) * x + Math.sin(yaw) * z;
+        const rz = -Math.sin(yaw) * x + Math.cos(yaw) * z;
+        return [width / 2 + rx * scale, height * .57 - (Math.cos(pitch) * y - Math.sin(pitch) * rz) * scale,
+          Math.sin(pitch) * y + Math.cos(pitch) * rz];
+      };
+      const polygon = (points, fill, stroke = null) => add(points, (p) => {
+        ctx.beginPath();
+        p.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+        if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = .7; ctx.stroke(); }
+      });
+      const line = (points, color, weight = 1, dash = []) => add(points, (p) => {
+        ctx.beginPath();
+        p.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+        ctx.strokeStyle = color;
+        ctx.lineWidth = weight * scale;
+        ctx.setLineDash(dash);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      });
+      function box(x, y, z, w, h, d) {
+        const a = [x,y,z], b = [x+w,y,z], c = [x+w,y+h,z], e = [x,y+h,z];
+        const f = [x,y,z-d], g = [x+w,y,z-d], j = [x+w,y+h,z-d], k = [x,y+h,z-d];
+        polygon([a,b,c,e], "#d9dad7", "#e9e9e6");
+        polygon([f,g,j,k], "#d0d2d0");
+        polygon([b,g,j,c], "#bec3c2");
+        polygon([a,f,k,e], "#e0e1de");
+        polygon([e,c,j,k], "#f0f0ed", "#fafaf7");
+        polygon([a,b,g,f], "#c8cbc8");
+        // A restrained ground shadow anchored to each physical object.
+        polygon([[x,-68,z],[x+w,-68,z],[x+w+28,-68,z-d-25],[x+28,-68,z-d-25]], "#737b7b10");
+      }
+      const texture = document.createElement("canvas");
+      texture.width = 600;
+      texture.height = 470;
+      const t = texture.getContext("2d");
+      const glass = t.createLinearGradient(0, 0, 600, 470);
+      glass.addColorStop(0, "rgba(220,231,240,.94)");
+      glass.addColorStop(.6, "rgba(238,243,247,.87)");
+      glass.addColorStop(1, "rgba(222,232,240,.76)");
+      t.fillStyle = glass;
+      t.beginPath(); t.roundRect(2,2,596,466,16); t.fill();
+      t.strokeStyle = "#ffffff"; t.lineWidth = 3; t.stroke();
+      t.fillStyle = "#45515c";
+      t.font = "24px Georgia"; t.fillText("Spatial Window",32,89);
+      t.font = "23px sans-serif"; t.fillText("←",32,44);
+      t.font = "20px sans-serif"; t.fillText("▣  ≡  ⊞",450,76);
+      t.fillStyle = "#c9d2d8"; t.fillRect(32,129,240,248);
+      const mountain = (points, color) => {
+        t.beginPath(); points.forEach(([x,y],i)=>i?t.lineTo(x,y):t.moveTo(x,y));
+        t.closePath(); t.fillStyle=color; t.fill();
+      };
+      mountain([[32,220],[65,205],[102,224],[140,207],[178,239],[224,256],[272,270],[272,377],[32,377]],"#a9b4bc");
+      mountain([[32,253],[80,244],[130,275],[166,268],[220,304],[272,317],[272,377],[32,377]],"#8d9ca6");
+      mountain([[32,302],[77,290],[122,320],[172,328],[223,351],[272,342],[272,377],[32,377]],"#728591");
+      t.strokeStyle="#9aabb95c"; t.lineWidth=1;
+      t.beginPath(); t.moveTo(301,129);t.lineTo(301,377);t.stroke();
+      t.fillStyle="#64727c";t.font="21px sans-serif";
+      ["People","Places","Objects","Contexts"].forEach((label,i)=>t.fillText(label,334,167+i*61));
+      t.strokeStyle="#91a5b880";t.beginPath();t.moveTo(32,414);t.lineTo(568,414);t.stroke();
+      function panel(x, y, z, w, h, textured) {
+        const points = [[x,y+h,z],[x+w,y+h,z],[x,y,z]];
+        if (!textured) {
+          polygon([points[0],points[1],[x+w,y,z],points[2]],"rgba(226,235,242,.25)","#bfcedb");
+          return;
+        }
+        add(points, (p) => {
+          ctx.save();
+          ctx.setTransform((p[1][0]-p[0][0])/600 * pixelRatio, (p[1][1]-p[0][1])/600 * pixelRatio,
+            (p[2][0]-p[0][0])/470 * pixelRatio, (p[2][1]-p[0][1])/470 * pixelRatio,
+            p[0][0] * pixelRatio, p[0][1] * pixelRatio);
+          if (reduceTransparency.matches || increaseContrast.matches) {
+            ctx.fillStyle = "#eef2f4";
+            ctx.beginPath();ctx.roundRect(2,2,596,466,16);ctx.fill();
+          }
+          ctx.drawImage(texture,0,0);
+          ctx.restore();
+        });
+      }
+      let pixelRatio = 1;
+      function render() {
+        frame = 0;
+        ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+        ctx.clearRect(0,0,width,height);
+        if (spatialRenderer && !webglFailed) {
+          try { spatialRenderer(); return; }
+          catch { webglFailed = true; canvas.dataset.renderer = "fallback"; }
+        }
+        nodes.length = 0;
+        // All geometry shares one orthographic camera and a common ground plane.
+        polygon([[-215,-69,145],[215,-69,145],[215,-69,-150],[-215,-69,-150]],"#eff0ec65");
+        for (let i=-200;i<=200;i+=50) line([[i,-68.5,-150],[i,-68.5,145]],"#d9ddda",.5);
+        for (let i=-150;i<=145;i+=50) line([[-215,-68.5,i],[215,-68.5,i]],"#d9ddda",.5);
+        box(-100,-68,-75,115,218,12);
+        box(77,-68,-102,53,185,9);
+        box(115,-68,-25,53,147,15);
+        box(172,-68,77,65,91,12);
+        box(126,-68,97,13,36,16);
+        panel(-178,-32,14,198,153,false);
+        panel(-168,-37,45,198,153,false);
+        panel(-186,-45,80,198,153,true);
+        // Smooth spatial trajectory; segmented so depth sorting works along it.
+        const path = [];
+        for(let i=0;i<=64;i++) {
+          const u=i/64;
+          path.push([-130+335*u,-68+100*(1-Math.exp(-4*u))+14*Math.sin(u*5),145-208*u]);
+        }
+        for(let i=1;i<path.length;i++) line([path[i-1],path[i]],"#5986c9",1.65);
+        const end=path.at(-1);
+        line([[end[0]-9,end[1]+2,end[2]+5],end,[end[0]-7,end[1]-6,end[2]+2]],"#5986c9",1.65);
+        const sphere = [-14,19,75];
+        add([sphere], ([p])=>{
+          const radius=15*scale;
+          const gradient=ctx.createRadialGradient(p[0]-radius*.36,p[1]-radius*.44,radius*.07,p[0],p[1],radius);
+          gradient.addColorStop(0,"#f0f1ed");gradient.addColorStop(.5,"#b7bdbc");gradient.addColorStop(1,"#7b8587");
+          ctx.fillStyle=gradient;ctx.beginPath();ctx.arc(p[0],p[1],radius,0,Math.PI*2);ctx.fill();
+        });
+        nodes.map(n=>({...n, projected:n.points.map(project)}))
+          .sort((a,b)=>a.projected.reduce((v,p)=>v+p[2],0)/a.points.length-b.projected.reduce((v,p)=>v+p[2],0)/b.points.length)
+          .forEach(n=>n.paint(n.projected));
+      }
+      function requestRender() { if (!frame) frame=requestAnimationFrame(render); }
+      function resize() {
+        width=canvas.clientWidth; height=canvas.clientHeight;
+        pixelRatio=Math.min(window.devicePixelRatio || 1,2);
+        canvas.width=Math.round(width*pixelRatio);canvas.height=Math.round(height*pixelRatio);
+        scale=Math.min(width/560,height/335);
+        requestRender();
+      }
+      function stop(event) {
+        if (!gesture || event.pointerId !== gesture.id) return;
+        gesture=null;
+        canvas.classList.remove("is-dragging");
+        if(canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+      }
+      canvas.addEventListener("pointerdown",event=>{
+        if(!event.isPrimary || event.button!==0 || gesture) return;
+        gesture={id:event.pointerId,x:event.clientX,y:event.clientY};
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add("is-dragging");
+      });
+      canvas.addEventListener("pointermove",event=>{
+        if(!gesture || event.pointerId!==gesture.id) return;
+        yaw+=(event.clientX-gesture.x)*.008;
+        pitch=Math.max(-.4,Math.min(1.05,pitch+(event.clientY-gesture.y)*.006));
+        gesture.x=event.clientX;gesture.y=event.clientY;
+        requestRender();
+      });
+      for(const type of ["pointerup","pointercancel","lostpointercapture"]) canvas.addEventListener(type,stop);
+      function resetView() { yaw=INITIAL.yaw;pitch=INITIAL.pitch;requestRender(); }
+      reset.addEventListener("click",resetView);
+      canvas.addEventListener("keydown",event=>{
+        const keys=["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home"];
+        if(!keys.includes(event.key)) return;
+        event.preventDefault();
+        if(event.key==="Home") { resetView();return; }
+        yaw+=event.key==="ArrowLeft"?-.08:event.key==="ArrowRight"?.08:0;
+        pitch=Math.max(-.4,Math.min(1.05,pitch+(event.key==="ArrowUp"?.06:event.key==="ArrowDown"?-.06:0)));
+        requestRender();
+      });
+      // The visible 2D canvas also presents WebGL frames, preserving a single
+      // input surface and allowing an immediate fallback after context loss.
+      let spatialRenderer = null;
+      let webglFailed = false;
+      const reduceTransparency = matchMedia("(prefers-reduced-transparency: reduce)");
+      const increaseContrast = matchMedia("(prefers-contrast: more)");
+      reduceTransparency.addEventListener("change",requestRender);
+      increaseContrast.addEventListener("change",requestRender);
+      canvas.dataset.renderer = "fallback";
+      async function initializeSpatialRenderer() {
+        let renderer;
+        try {
+          const loadModule = (specifier) => import(/* @vite-ignore */ specifier);
+          const THREE = await loadModule("three");
+          const { RoomEnvironment } = await loadModule("three/addons/environments/RoomEnvironment.js");
+          const { RoundedBoxGeometry } = await loadModule("three/addons/geometries/RoundedBoxGeometry.js");
+          renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, preserveDrawingBuffer: true });
+          renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+          renderer.outputColorSpace = THREE.SRGBColorSpace;
+          renderer.toneMapping = THREE.ACESFilmicToneMapping;
+          renderer.toneMappingExposure = 1.12;
+          const scene = new THREE.Scene();
+          scene.background = new THREE.Color("#fdfdfc");
+          const environment = new RoomEnvironment();
+          const pmrem = new THREE.PMREMGenerator(renderer);
+          const environmentTarget = pmrem.fromScene(environment, .06);
+          scene.environment = environmentTarget.texture;
+          scene.environmentIntensity = .65;
+          environment.dispose();
+          pmrem.dispose();
+          const camera = new THREE.OrthographicCamera(-280,280,170,-170,1,1800);
+          const target = new THREE.Vector3(0,30,0);
+          const key = new THREE.DirectionalLight(0xffedcf, 2.6);
+          key.position.set(-240,420,260);
+          key.castShadow = false;
+          scene.add(key, new THREE.HemisphereLight(0xf3f5f7,0xd6c7ad,1.1));
+          const fill = new THREE.DirectionalLight(0xdfeaff,.45);
+          fill.position.set(250,150,-250);
+          scene.add(fill);
+          const matte = new THREE.MeshStandardMaterial({ color:0xd0ccc3, roughness:.72, metalness:0 });
+          const addBox = (x,y,z,w,h,d) => {
+            const mesh = new THREE.Mesh(new RoundedBoxGeometry(w,h,d,3,Math.min(1.6,d/4)),matte);
+            mesh.position.set(x+w/2,y+h/2,z-d/2);
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            scene.add(mesh);
+          };
+          addBox(-100,-68,-75,115,190,12);
+          addBox(77,-68,-102,53,185,9);
+          addBox(115,-68,-25,53,147,15);
+          addBox(172,-68,77,65,91,12);
+          addBox(126,-68,97,13,36,16);
+          const floor = new THREE.Mesh(new THREE.PlaneGeometry(2000,2000),new THREE.MeshBasicMaterial({ color:0xfdfdfc,toneMapped:false }));
+          floor.rotation.x = -Math.PI/2;
+          floor.position.y = -69;
+          floor.receiveShadow = true;
+          scene.add(floor);
+          // Soft contact occlusion anchors objects without long graphic shadows.
+          const contactCanvas = document.createElement("canvas");
+          contactCanvas.width=128;contactCanvas.height=128;
+          const contactContext=contactCanvas.getContext("2d");
+          const contactGradient=contactContext.createRadialGradient(64,64,4,64,64,64);
+          contactGradient.addColorStop(0,"rgba(67,74,76,.24)");
+          contactGradient.addColorStop(.4,"rgba(67,74,76,.10)");
+          contactGradient.addColorStop(1,"rgba(67,74,76,0)");
+          contactContext.fillStyle=contactGradient;contactContext.fillRect(0,0,128,128);
+          const contactTexture=new THREE.CanvasTexture(contactCanvas);
+          const contactMaterial=new THREE.MeshBasicMaterial({map:contactTexture,transparent:true,depthWrite:false,toneMapped:false});
+          for(const [x,z,w,d] of [[-42.5,-81,155,48],[103.5,-106.5,82,40],[141.5,-32.5,85,48],[204.5,71,95,42],[132.5,89,38,38]]) {
+            const contact=new THREE.Mesh(new THREE.PlaneGeometry(w,d),contactMaterial);
+            contact.rotation.x=-Math.PI/2;contact.position.set(x,-68.9,z);scene.add(contact);
+          }
+          const grid = new THREE.GridHelper(440,8,0xe7e7e2,0xe7e7e2);
+          grid.position.y = -68.9;
+          grid.material.transparent = true;
+          grid.material.opacity = .22;
+          grid.material.depthWrite = false;
+          scene.add(grid);
+          // A rounded planar outline is an explanatory depth cue, not another glass pane.
+          function windowShape(w,h,r) {
+            const shape = new THREE.Shape();
+            shape.moveTo(-w/2+r,-h/2);
+            shape.lineTo(w/2-r,-h/2); shape.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r);
+            shape.lineTo(w/2,h/2-r); shape.quadraticCurveTo(w/2,h/2,w/2-r,h/2);
+            shape.lineTo(-w/2+r,h/2); shape.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r);
+            shape.lineTo(-w/2,-h/2+r); shape.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2);
+            return shape;
+          }
+          const outlinePoints = windowShape(218,170,16).getPoints(64).map(p=>new THREE.Vector3(p.x-79,p.y+37,38));
+          scene.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(outlinePoints),new THREE.LineBasicMaterial({color:0xbac9d1,transparent:true,opacity:.42})));
+          const glassMaterial = new THREE.MeshPhysicalMaterial({ color:0xebece6,metalness:0,roughness:.26,transmission:.55,ior:1.35,opacity:1,thickness:3,envMapIntensity:1.3,clearcoat:.3,clearcoatRoughness:.2 });
+          const glassGeometry = new THREE.ExtrudeGeometry(windowShape(218,164,12),{depth:2,steps:1,bevelEnabled:true,bevelSegments:3,bevelSize:.5,bevelThickness:.5,curveSegments:16});
+          glassGeometry.translate(0,0,-1);
+          const glassMesh = new THREE.Mesh(glassGeometry,glassMaterial);
+          glassMesh.position.set(-84,34,80);
+          glassMesh.castShadow = false;
+          scene.add(glassMesh);
+          // Widget-style concentric bezel: real rounded depth around a recessed face.
+          const bezelShape = windowShape(232,178,20);
+          const innerContour = windowShape(218.5,164.5,13).getPoints(96).reverse();
+          bezelShape.holes.push(new THREE.Path(innerContour));
+          const bezelGeometry = new THREE.ExtrudeGeometry(bezelShape, {
+            depth:4,steps:1,bevelEnabled:true,bevelSegments:5,
+            bevelSize:1.25,bevelThickness:1.25,curveSegments:24
+          });
+          bezelGeometry.translate(0,0,-2);
+          const bezel = new THREE.Mesh(bezelGeometry,new THREE.MeshPhysicalMaterial({
+            color:0xc4c5bf,metalness:.16,roughness:.3,clearcoat:.45,
+            clearcoatRoughness:.2,envMapIntensity:.8
+          }));
+          bezel.position.set(-84,34,81);
+          scene.add(bezel);
+          // Inset seam catches light only where the shared illumination reaches it.
+          const seamShape = windowShape(219,165,13);
+          seamShape.holes.push(new THREE.Path(windowShape(217,163,12).getPoints(96).reverse()));
+          const seam = new THREE.Mesh(new THREE.ShapeGeometry(seamShape,24),new THREE.MeshStandardMaterial({color:0xe4e5e1,roughness:.46,metalness:.05}));
+          seam.position.set(-84,34,82.1);
+          scene.add(seam);
+          const handle = new THREE.Mesh(new RoundedBoxGeometry(39,3,2,4,1),new THREE.MeshStandardMaterial({color:0xe9e7df,roughness:.32}));
+          handle.position.set(-84,-65,81);
+          scene.add(handle);
+          // Independent crisp content: never baked into the refractive surface.
+          const artwork = document.createElement("canvas");
+          artwork.width = 1090; artwork.height = 820;
+          const a = artwork.getContext("2d");
+          const faceGradient = a.createLinearGradient(0,0,0,820);
+          faceGradient.addColorStop(0,"rgba(251,251,249,.97)");
+          faceGradient.addColorStop(1,"rgba(238,240,236,.91)");
+          a.fillStyle=faceGradient;
+          a.beginPath();a.roundRect(0,0,1090,820,60);a.fill();
+          a.fillStyle = "#35434b";
+          a.font = "500 47px system-ui, sans-serif";
+          a.fillText("Spatial Window",72,147);
+          a.strokeStyle = "#516574"; a.lineWidth = 3; a.lineCap = "round"; a.lineJoin = "round";
+          const stroke = (points) => { a.beginPath();points.forEach(([x,y],i)=>i?a.lineTo(x,y):a.moveTo(x,y));a.stroke(); };
+          stroke([[89,58],[76,70],[89,82]]); stroke([[77,70],[106,70]]);
+          for(let i=0;i<3;i++) stroke([[919,115+i*10],[946,115+i*10]]);
+          a.strokeRect(981,114,23,23);
+          a.fillStyle="#c5d1d7";
+          a.beginPath();a.roundRect(72,208,399,427,12);a.fill();
+          const mountain=(points,color)=>{a.beginPath();points.forEach(([x,y],i)=>i?a.lineTo(x,y):a.moveTo(x,y));a.closePath();a.fillStyle=color;a.fill();};
+          a.save(); a.beginPath();a.roundRect(72,208,399,427,12);a.clip();
+          mountain([[72,393],[140,342],[211,366],[285,326],[381,421],[471,451],[471,635],[72,635]],"#a7bac3");
+          mountain([[72,469],[178,416],[279,466],[368,450],[471,539],[471,635],[72,635]],"#889fae");
+          mountain([[72,557],[160,514],[280,573],[365,546],[471,602],[471,635],[72,635]],"#6f899a");
+          a.restore();
+          a.strokeStyle="#8a9ba63d";a.lineWidth=2;
+          stroke([[523,216],[523,625]]);
+          a.fillStyle="#4b606e";a.font="400 37px system-ui, sans-serif";
+          ["People","Places","Objects","Contexts"].forEach((text,i)=>a.fillText(text,570,270+i*106));
+          stroke([[72,704],[1018,704]]);
+          a.fillStyle="#647785";a.font="400 22px system-ui, sans-serif";a.fillText("CONTEXT-AWARE INTERFACES",72,751);
+          const artworkTexture = new THREE.CanvasTexture(artwork);
+          artworkTexture.colorSpace = THREE.SRGBColorSpace;
+          artworkTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          const content = new THREE.Mesh(new THREE.PlaneGeometry(218,164), new THREE.MeshBasicMaterial({map:artworkTexture,transparent:true,alphaTest:.015,side:THREE.FrontSide,toneMapped:false}));
+          content.position.set(-84,34,81.65);
+          scene.add(content);
+          const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-131,-57,141),new THREE.Vector3(-66,-4,137),new THREE.Vector3(12,29,125),new THREE.Vector3(77,42,85),new THREE.Vector3(113,54,25),new THREE.Vector3(155,66,12)
+          ]);
+          const blue = new THREE.MeshStandardMaterial({color:0x527eb6,roughness:.5,metalness:0});
+          scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,100,.65,8,false),blue));
+          const arrow = new THREE.Mesh(new THREE.ConeGeometry(2.6,8,16),blue);
+          arrow.position.copy(curve.getPoint(1));
+          arrow.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),curve.getTangent(1));
+          scene.add(arrow);
+          const sphere = new THREE.Mesh(new THREE.SphereGeometry(14,48,32), new THREE.MeshStandardMaterial({color:0xb4bdbc,roughness:.36,metalness:.12}));
+          sphere.position.copy(curve.getPoint(.48));
+          sphere.castShadow = true; sphere.receiveShadow = true;
+          scene.add(sphere);
+          function updateMaterial() {
+            glassMaterial.transmission = reduceTransparency.matches || increaseContrast.matches ? 0 : .55;
+            glassMaterial.roughness = reduceTransparency.matches ? .65 : .26;
+            glassMaterial.needsUpdate = true;
+            requestRender();
+          }
+          reduceTransparency.addEventListener("change",updateMaterial);
+          increaseContrast.addEventListener("change",updateMaterial);
+          updateMaterial();
+          renderer.domElement.addEventListener("webglcontextlost",event=>{
+            event.preventDefault(); webglFailed=true; canvas.dataset.renderer="fallback";requestRender();
+          });
+          let lastWidth=0,lastHeight=0,lastRatio=0;
+          spatialRenderer = () => {
+            if(lastWidth!==width || lastHeight!==height || lastRatio!==pixelRatio) {
+              renderer.setPixelRatio(pixelRatio);renderer.setSize(width,height,false);
+              lastWidth=width;lastHeight=height;lastRatio=pixelRatio;
+            }
+            camera.left=-width/(2*scale);camera.right=width/(2*scale);
+            camera.top=height/(2*scale);camera.bottom=-height/(2*scale);
+            camera.updateProjectionMatrix();
+            camera.position.set(-Math.sin(yaw)*Math.cos(pitch)*700,Math.sin(pitch)*700,Math.cos(yaw)*Math.cos(pitch)*700).add(target);
+            camera.lookAt(target);
+            renderer.render(scene,camera);
+            ctx.drawImage(renderer.domElement,0,0,width,height);
+          };
+          canvas.dataset.renderer="webgl";
+          requestRender();
+        } catch {
+          renderer?.dispose();
+          webglFailed=true;
+          canvas.dataset.renderer="fallback";
+          requestRender();
+        }
+      }
+      // A preview-only URL switch exercises the same fallback without a GPU.
+      if(new URLSearchParams(location.search).get("renderer")!=="2d") initializeSpatialRenderer();
+
+      new ResizeObserver(resize).observe(canvas);
+    </script>
+  </body>
+</html>

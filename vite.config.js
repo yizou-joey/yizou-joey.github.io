@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
+import { readFile } from "node:fs/promises";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
 import news from "./contents/news.js";
@@ -80,7 +81,16 @@ const staticContentHtmlPlugin = () => ({
     async handler(html, ctx) {
       const fileName = path.basename(ctx.filename || "");
       if (fileName === "index.html") {
-        return renderIndexHtml(html, fileName);
+        html = renderIndexHtml(html, fileName);
+      }
+      if (["index.html", "404.html", "publications.html"].includes(fileName)) {
+        const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
+        const matches = [...html.matchAll(placeholder)];
+        if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
+          fail(`${fileName} must contain exactly one empty <script data-theme-bootstrap></script>.`);
+        }
+        const source = await readFile(new URL("./js/theme.js", import.meta.url), "utf8");
+        html = html.replace(placeholder, () => `<script data-theme-bootstrap>${source}</script>`);
       }
       return html;
     },

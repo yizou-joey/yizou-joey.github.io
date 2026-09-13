@@ -1,5 +1,6 @@
 // Inspired by Sanyam's Lab (see README.md), adapted to a quiet reading list.
-// A shared safe lane and title feedback keep the preview connected to its paper.
+// Neighboring placements protect the active paper; other content is a soft preference.
+import { canShowPublicationPreview, placePublicationPreview } from "./publication-preview-layout.js";
 const entries = [...document.querySelectorAll(".editorial-publication-item")];
 const sources = entries.map((entry) => entry.querySelector(".publication-preview-source"));
 
@@ -23,6 +24,9 @@ if (sources.some(Boolean)) {
   let leaveTimer;
   let keyboard = false;
   let requestKeyboard = false;
+  let layout;
+  let layoutKey = "";
+  let enabled = false;
 
   const imageFor = (index) => {
     if (!images.has(index)) {
@@ -49,44 +53,25 @@ if (sources.some(Boolean)) {
     return decoded.get(index);
   };
   const warmImages = () => {
+    if (!enabled) return;
     sources.forEach((source, index) => {
       if (source) decodeImage(index).catch(() => {});
     });
   };
 
   const findLocation = (index) => {
-    const width = preview.offsetWidth;
-    const height = preview.offsetHeight;
-    const headerBottom = document.querySelector(".site-header")?.getBoundingClientRect().bottom || 0;
-    const topEdge = Math.max(12, headerBottom + 12);
-    const rects = entries.map((entry) => entry.getBoundingClientRect())
-      .filter((rect) => rect.bottom > topEdge && rect.top < innerHeight);
-    if (!rects.length) return null;
-    const safe = (point) => point && point.x >= 12 && point.y >= topEdge
-      && point.x + width <= innerWidth - 12 && point.y + height <= innerHeight - 12
-      && rects.every((rect) => point.x >= rect.right + 12 || point.x + width <= rect.left - 12
-        || point.y >= rect.bottom + 12 || point.y + height <= rect.top - 12);
-    const left = Math.min(...rects.map((rect) => rect.left));
-    const right = Math.max(...rects.map((rect) => rect.right));
-    const top = Math.min(...rects.map((rect) => rect.top));
-    const bottom = Math.max(...rects.map((rect) => rect.bottom));
-    const source = entries[index].getBoundingClientRect();
-    const y = Math.max(topEdge, Math.min((source.top + source.bottom - height) / 2, innerHeight - height - 12));
-    if (location) {
-      // The entire vertical travel corridor stays outside every paper, not just
-      // its endpoints. Never switch sides or cross reading text while visible.
-      const inSideLane = location.x >= right + 12 || location.x + width <= left - 12;
-      const next = { x: location.x, y };
-      if (!reducedMotion.matches && inSideLane && safe(next)) return next;
-      return safe(location) ? location : null;
-    }
-    const x = Math.max(12, Math.min(right - width, innerWidth - width - 12));
-    return [
-      { x: right + 12, y },
-      { x: left - width - 12, y },
-      { x, y: bottom + 12 },
-      { x, y: top - height - 12 },
-    ].find(safe) || null;
+    const protectedElements = [...document.querySelectorAll(".section-heading-row")];
+    entries.forEach((entry, key) => {
+      if (key !== index) protectedElements.push(...entry.querySelectorAll(
+        ".publication-title-serif, .publication-bracket-links a",
+      ));
+    });
+    return placePublicationPreview({
+      ...layout,
+      source: entries[index].getBoundingClientRect(),
+      previousSide: location?.side,
+      protectedRects: protectedElements.map((element) => element.getBoundingClientRect()),
+    });
   };
 
   const setSource = (index, instant) => {
@@ -116,6 +101,7 @@ if (sources.some(Boolean)) {
     leaveTimer = setTimeout(() => hide(), 150);
   };
   const show = (index, fromKeyboard = false) => {
+    if (!enabled) return;
     clearTimeout(leaveTimer);
     leaveTimer = undefined;
     if ((index === requested && fromKeyboard === requestKeyboard) || index === dismissed) return;
@@ -128,9 +114,9 @@ if (sources.some(Boolean)) {
         if (ticket === generation) hide();
         return;
       }
-      if (ticket !== generation) return;
+      if (ticket !== generation || !enabled) return;
       const next = findLocation(index);
-      if (!next) { hide(fromKeyboard); return; }
+      if (!next) { reset(); updateLayout(); return; } // Only possible after a stale layout.
       keyboard = fromKeyboard;
       const instant = keyboard || reducedMotion.matches;
       preview.classList.toggle("is-instant", instant);
@@ -207,8 +193,36 @@ if (sources.some(Boolean)) {
     }
   });
   const reset = () => { hide(true); location = null; keyboard = false; dismissed = -1; };
+  const header = document.querySelector(".site-header");
+  const updateLayout = () => {
+    const size = preview.getBoundingClientRect();
+    const entrySizes = entries.filter((entry, index) => sources[index])
+      .map((entry) => {
+        const rect = entry.getBoundingClientRect();
+        return [rect.width, rect.height];
+      });
+    const next = {
+      viewportWidth: document.documentElement.clientWidth,
+      top: Math.max(12, (header?.getBoundingClientRect().bottom || 0) + 12),
+      bottom: innerHeight - 12,
+      width: size.width,
+      height: size.height,
+      maxEntryHeight: Math.max(...entrySizes.map((size) => size[1])),
+    };
+    const key = JSON.stringify([next, entrySizes]);
+    if (key === layoutKey) return;
+    reset();
+    layout = next;
+    layoutKey = key;
+    enabled = canShowPublicationPreview(layout);
+  };
+  updateLayout();
+  const observer = new ResizeObserver(updateLayout);
+  [preview, header, ...groups, ...entries].filter(Boolean).forEach((element) => observer.observe(element));
+  document.fonts.ready.then(updateLayout);
+  document.fonts.addEventListener("loadingdone", updateLayout);
   window.addEventListener("scroll", reset, { passive: true, capture: true });
-  window.addEventListener("resize", reset);
+  window.addEventListener("resize", updateLayout);
   window.addEventListener("blur", reset);
   document.addEventListener("visibilitychange", reset);
   finePointer.addEventListener("change", reset);

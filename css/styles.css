@@ -160,9 +160,6 @@
   --sticker-shadow-base:
     drop-shadow(0.5px 1px 0.8px rgba(36, 32, 28, 0.28))
     drop-shadow(1px 2px 2px rgba(36, 32, 28, 0.05));
-  --sticker-shadow-keyword:
-    drop-shadow(0.5px 0.75px 0.6px rgba(36, 32, 28, 0.22))
-    drop-shadow(0.75px 1.25px 1.2px rgba(36, 32, 28, 0.04));
 
   /* Hover shadow: logo hover state - slightly larger, softer lift, rightward fall */
   --sticker-shadow-hover:
@@ -198,9 +195,6 @@
   --sticker-shadow-base:
     drop-shadow(0.5px 1px 0.8px rgba(0, 0, 0, 0.4))
     drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.12));
-  --sticker-shadow-keyword:
-    drop-shadow(0.5px 0.75px 0.6px rgba(0, 0, 0, 0.3))
-    drop-shadow(0.75px 1.25px 1.2px rgba(0, 0, 0, 0.08));
 }
 
 /* === Base: document and shared interaction === */
@@ -941,28 +935,12 @@ a {
   margin-top: var(--space-bio-paragraph-break);
 }
 
-/* === Component: research-interest sticker banner === */
+/* === Component: biography content stack === */
 .bio-stack {
   display: flex;
   width: 100%;
   flex-direction: column;
   gap: var(--space-28);
-}
-
-
-/* Pre-baked sticker images stage */
-.bio-keywords-stage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: var(--space-10) var(--space-20);
-}
-
-.bio-keyword-img {
-  height: 26px;
-  width: auto;
-  filter: var(--sticker-shadow-keyword);
 }
 
 .type-body-sm {
@@ -1571,10 +1549,6 @@ a {
   text-align: left;
 }
 
-.profile-keywords {
-  width: 100%;
-}
-
 @media (max-width: 899px) {
   .profile-intro-layout {
     align-items: center;
@@ -2042,12 +2016,8 @@ a {
     justify-content: flex-start;
   }
 
-  .profile-bio,
-  .profile-keywords {
-    padding-left: var(--space-6);
-  }
-
   .profile-bio {
+    padding-left: var(--space-6);
     text-align: left;
   }
 }

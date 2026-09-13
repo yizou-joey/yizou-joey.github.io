@@ -1,0 +1,38 @@
+/* Historical reference: first shadow token is light theme, second is dark theme. */
+  --sticker-shadow-keyword:
+    drop-shadow(0.5px 0.75px 0.6px rgba(36, 32, 28, 0.22))
+    drop-shadow(0.75px 1.25px 1.2px rgba(36, 32, 28, 0.04));
+
+  --sticker-shadow-keyword:
+    drop-shadow(0.5px 0.75px 0.6px rgba(0, 0, 0, 0.3))
+    drop-shadow(0.75px 1.25px 1.2px rgba(0, 0, 0, 0.08));
+
+/* === Component: research-interest sticker banner === */
+.bio-stack {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--space-28);
+}
+
+
+/* Pre-baked sticker images stage */
+.bio-keywords-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-10) var(--space-20);
+}
+
+.bio-keyword-img {
+  height: 26px;
+  width: auto;
+  filter: var(--sticker-shadow-keyword);
+}
+
+
+.profile-keywords { width: 100%; }
+@media (min-width: 900px) {
+  .profile-keywords { padding-left: var(--space-6); }
+}

@@ -56,6 +56,13 @@ const writeImage = async ({ input, outputPath, width, format, options = {}, stic
 };
 
 const tasks = [
+  ...["dodgeui", "contextual-recovery"].map((name) => ({
+    name: `${name} project preview`,
+    input: source("projects", `${name}.png`),
+    outputs: [
+      { path: output("projects", `${name}.webp`), width: 960, format: "webp" },
+    ],
+  })),
   {
     name: "publications visual",
     input: source("visual.svg"),

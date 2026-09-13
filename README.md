@@ -4,4 +4,5 @@ Hi, I'm Yi ZOU, a first-year PhD student in the Computational Media and Arts Thr
 
 ## Special thanks
 
+- Publication previews are inspired by [Sanyam's Lab](https://sanyam.sh/lab), particularly its quiet text list and shared, on-demand preview window.
 - Visitor analytics powered by [GoatCounter](https://www.goatcounter.com/).

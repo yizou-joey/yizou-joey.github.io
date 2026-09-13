@@ -2,6 +2,10 @@ export default [
   {
     date: "2026-03-20",
     selected: true,
+    preview: {
+      src: "files/generated/projects/dodgeui.webp",
+      alt: "DodgeUI moves a virtual window away from a physical obstacle.",
+    },
     type: "P",
     venueKey: "ieee-vr",
     venue: "IEEE VR 2026",
@@ -16,6 +20,11 @@ export default [
   {
     date: "2026-03-20",
     selected: true,
+    preview: {
+      src: "files/generated/projects/contextual-recovery.webp",
+      alt: "Three first-person views of the mixed reality ball-sorting task and hand-tracking failure.",
+      fit: "contain",
+    },
     type: "W",
     workshopLabel: "NIDIT",
     typeLink: "https://sites.google.com/view/nidit/nidit-2026",

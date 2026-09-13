@@ -307,7 +307,11 @@ const renderPublicationItemHtml = (item) => {
     ? `<div class="publication-bracket-links">${supplementsHtml}</div>`
     : "";
 
-  return `<article class="editorial-publication-item"><div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div><h3 class="publication-title-serif">${titleHtml}</h3><p class="publication-authors-serif">${authorsHtml}</p>${linksHtml}</article>`;
+  const previewHtml = entry.preview?.src
+    ? `<template class="publication-preview-source"><img${entry.preview.fit === "contain" ? ' class="publication-preview-image--contain"' : ""} src="${escapeHtml(entry.preview.src)}" alt="${escapeHtml(entry.preview.alt || normalizedTitle)}" decoding="async" /></template>`
+    : "";
+
+  return `<article class="editorial-publication-item"><div class="publication-summary"><div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div><h3 class="publication-title-serif"><span class="publication-title-highlight">${titleHtml}</span></h3><p class="publication-authors-serif">${authorsHtml}</p></div>${linksHtml}${previewHtml}</article>`;
 };
 
 export {

@@ -122,10 +122,11 @@ state. While captured elements are excluded from native hit testing, clicks
 within the visible button's bounds route to the same toggle handler. Snapshot
 failures fall back to the normal theme update.
 
-Original venue and award colors remain source tokens. Dark venue text only
-raises lightness while retaining hue and saturation. Award text reuses the
-existing deep gold on light backgrounds and original gold on dark backgrounds;
-resource-link text has a separate color role.
+Original venue colors remain source tokens. Dark venue text only raises
+lightness while retaining hue and saturation. Award text uses yellow gold:
+warm `#f4b542` on light paper, and bright `#f2cb00` on dark
+backgrounds. Its hue stays close to yellow instead of the red-brown used by
+resource links, which retain a separate color role.
 
 Education logos keep their original colors on hover. Only the resting
 grayscale layer becomes pale in dark mode; no light backing or alternate

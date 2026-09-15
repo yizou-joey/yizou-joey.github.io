@@ -32,7 +32,7 @@ multiple entries as `Instructors`:
 ```js
 instructors: [
   {
-    name: "Prof. Margaret MINSKY",
+    name: "Prof. Margaret Minsky",
     url: "https://example.com/faculty/margaret-minsky/",
   },
 ],

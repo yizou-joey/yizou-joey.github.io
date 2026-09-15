@@ -7,7 +7,7 @@ export default [
     courseName: "E-Textile and Wearable Technology",
     instructors: [
       {
-        name: "Prof. Margaret MINSKY",
+        name: "Prof. Margaret Minsky",
         url: "https://cma.hkust-gz.edu.cn/faculty-regular/margaret-minsky/",
       },
     ],
@@ -21,7 +21,7 @@ export default [
     courseName: "Metaverse Cross-Disciplinary Design Thinking",
     instructors: [
       {
-        name: "Prof. Pan HUI",
+        name: "Prof. Pan Hui",
         url: "https://cma.hkust-gz.edu.cn/faculty-regular/pan-hui-3/",
       },
     ],

@@ -2091,8 +2091,9 @@ a {
 
 .page-colophon {
   width: 100%;
-  padding-top: var(--space-32);
+  padding-top: var(--space-48);
   padding-right: var(--space-gutter-fluid);
+  padding-bottom: var(--space-32);
   padding-left: var(--space-gutter-fluid);
 }
 
@@ -2101,12 +2102,39 @@ a {
 }
 
 .page-colophon-inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
   width: 100%;
   max-width: var(--width-rail-level-1);
   margin-right: auto;
   margin-left: auto;
-  justify-content: center;
+  gap: var(--space-12);
+}
+
+.page-colophon-copyright {
+  text-align: left;
+}
+
+.page-colophon-updated {
+  text-align: right;
+}
+
+.page-colophon-updated time {
+  white-space: nowrap;
+}
+
+.site-footer--colophon .site-footer-note {
+  font-family: var(--font-serif-sc);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.site-footer--colophon .halftone-colophon {
+  width: 64px;
+  height: 32px;
+  mask-size: calc(200px / 3) 50px;
+  mask-position: center -10px;
 }
 
 /* === Page-specific: 404 page === */
@@ -2191,6 +2219,12 @@ a {
   font-style: italic;
   line-height: var(--type-body-line-height);
   animation: error404-reveal 420ms 220ms both cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.error404-separator {
+  flex: 0 0 auto;
+  color: var(--color-muted);
+  font-style: normal;
 }
 
 .error404-link {

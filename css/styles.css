@@ -233,7 +233,7 @@ a {
   text-decoration-line: underline;
   text-decoration-color: var(--color-link-decoration-muted);
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: 0.15em;
   transition:
     text-decoration-color 180ms ease,
     text-decoration-thickness 180ms ease,
@@ -244,7 +244,7 @@ a {
 .inline-link:focus-visible {
   text-decoration-color: var(--color-link-decoration-ink);
   text-decoration-thickness: 1.5px;
-  text-underline-offset: 4px;
+  text-underline-offset: 0.2em;
 }
 
 .inline-link:focus-visible {

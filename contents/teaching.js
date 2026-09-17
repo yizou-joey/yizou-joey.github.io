@@ -8,7 +8,7 @@ export default [
     instructors: [
       {
         name: "Prof. Margaret Minsky",
-        url: "https://cma.hkust-gz.edu.cn/faculty-regular/margaret-minsky/",
+        url: "https://mminsky.com/",
       },
     ],
     institution: "The Hong Kong University of Science and Technology (Guangzhou)",
@@ -22,7 +22,7 @@ export default [
     instructors: [
       {
         name: "Prof. Pan Hui",
-        url: "https://cma.hkust-gz.edu.cn/faculty-regular/pan-hui-3/",
+        url: "https://panhui.people.ust.hk/",
       },
     ],
     institution: "The Hong Kong University of Science and Technology (Guangzhou)",

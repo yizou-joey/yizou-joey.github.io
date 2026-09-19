@@ -3,12 +3,15 @@ const GAP = 12;
 const intersects = (a, b) => a.left < b.right && a.right > b.left
   && a.top < b.bottom && a.bottom > b.top;
 
-export const canShowPublicationPreview = ({ viewportWidth, top, bottom, width, height, maxEntryHeight }) =>
+// Basic eligibility only; each entry still needs a safe neighboring position.
+export const canShowPublicationPreview = ({ viewportWidth, top, bottom, width, height }) =>
   viewportWidth >= 480 && width <= viewportWidth - GAP * 2
-  && bottom - top >= maxEntryHeight + 2 * (height + GAP);
+  && bottom - top >= height;
 
 export const placePublicationPreview = ({ source, viewportWidth, top, bottom, width, height,
   previousSide, protectedRects = [] }) => {
+  if (!canShowPublicationPreview({ viewportWidth, top, bottom, width, height })
+    || !intersects(source, { left: GAP, right: viewportWidth - GAP, top, bottom })) return null;
   const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
   const x = clamp(source.right - width, GAP, viewportWidth - width - GAP);
   const y = clamp((source.top + source.bottom - height) / 2, top, bottom - height);

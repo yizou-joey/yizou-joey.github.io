@@ -26,7 +26,7 @@ if (sources.some(Boolean)) {
   let requestKeyboard = false;
   let layout;
   let layoutKey = "";
-  let enabled = false;
+  let eligible = false;
 
   const imageFor = (index) => {
     if (!images.has(index)) {
@@ -53,7 +53,7 @@ if (sources.some(Boolean)) {
     return decoded.get(index);
   };
   const warmImages = () => {
-    if (!enabled) return;
+    if (!eligible) return;
     sources.forEach((source, index) => {
       if (source) decodeImage(index).catch(() => {});
     });
@@ -101,7 +101,7 @@ if (sources.some(Boolean)) {
     leaveTimer = setTimeout(() => hide(), 150);
   };
   const show = (index, fromKeyboard = false) => {
-    if (!enabled) return;
+    if (!eligible) return;
     clearTimeout(leaveTimer);
     leaveTimer = undefined;
     if ((index === requested && fromKeyboard === requestKeyboard) || index === dismissed) return;
@@ -109,14 +109,22 @@ if (sources.some(Boolean)) {
     requested = index;
     requestKeyboard = fromKeyboard;
     const ticket = ++generation;
+    const unavailable = () => {
+      hide(true);
+      // Remember this attempt, including its input mode, until leave/reset or
+      // another entry is requested. Pointer moves must not retry every frame.
+      requested = index;
+      requestKeyboard = fromKeyboard;
+    };
     const reveal = async () => {
+      if (!findLocation(index)) { unavailable(); return; }
       try { await decodeImage(index); } catch {
         if (ticket === generation) hide();
         return;
       }
-      if (ticket !== generation || !enabled) return;
+      if (ticket !== generation || !eligible) return;
       const next = findLocation(index);
-      if (!next) { reset(); updateLayout(); return; } // Only possible after a stale layout.
+      if (!next) { unavailable(); return; }
       keyboard = fromKeyboard;
       const instant = keyboard || reducedMotion.matches;
       preview.classList.toggle("is-instant", instant);
@@ -207,14 +215,13 @@ if (sources.some(Boolean)) {
       bottom: innerHeight - 12,
       width: size.width,
       height: size.height,
-      maxEntryHeight: Math.max(...entrySizes.map((size) => size[1])),
     };
     const key = JSON.stringify([next, entrySizes]);
     if (key === layoutKey) return;
     reset();
     layout = next;
     layoutKey = key;
-    enabled = canShowPublicationPreview(layout);
+    eligible = canShowPublicationPreview(layout);
   };
   updateLayout();
   const observer = new ResizeObserver(updateLayout);

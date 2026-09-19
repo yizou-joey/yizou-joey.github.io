@@ -71,12 +71,16 @@ interactions update position immediately, retaining source emphasis without lift
 The window uses `clamp(200px, 25vw, 320px)` width and an 8:5 aspect ratio, with no
 size animation. Both figures share these dimensions. Below 480 px viewport width,
 floating previews and their title emphasis are disabled for the entire list.
-Otherwise previews require usable height below the navigation to be at least the
-maximum illustrated entry height plus twice the preview height and 12 px gap:
-`U >= R + 2 * (P + 12px)`. Initialization, font loading, viewport resizing, and
-observed layout size changes recompute this common mode. Short windows may thus
-also use compact mode. Original resource links and focus styles remain available;
-there is no additional touch interaction. Entries without a preview remain plain text.
+Otherwise the window must fit below the navigation and inside the viewport with
+12 px horizontal margins. Each hovered or focused entry then needs a valid adjacent
+position, separated from the complete entry by at least 12 px. If none fits, both
+the preview and its title emphasis are hidden, including any previous entry's image.
+Availability can differ between entries and scroll positions; a tall unrelated entry
+does not disable other previews. Initialization, font loading, viewport resizing, and
+observed layout size changes refresh the layout. Scrolling hides the preview; the
+next pointer movement or new focus event checks placement again. Original resource
+links and focus styles remain available; there is no additional touch interaction.
+Entries without a preview remain plain text.
 
 Keep source images in `assets/original-images/files/projects/` and add their
 optimized outputs to `scripts/optimize-images.mjs`. Images use bottom-centered

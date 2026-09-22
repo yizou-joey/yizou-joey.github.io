@@ -70,10 +70,14 @@ small presentation behavior:
 - `js/theme.js` is a classic script inlined by the Vite HTML transform after
   charset/viewport and before stylesheets. It sets `html[data-theme]` before
   the first paint, then binds a native icon button at DOM ready.
-  `localStorage["site-theme"]` stores the user's explicit `light` or `dark`
-  choice. Missing, invalid, or legacy `system` values read the browser's
-  preference on entry. There is no live system-theme listener or third mode
-  in the UI. Other tabs synchronize through storage events; blocked storage
+  `localStorage["site-theme"]` stores `{ theme, expiresAt }` for the user's
+  explicit `light` or `dark` choice, valid for two hours after the last manual
+  toggle. Navigation and reloads do not extend the expiry. Missing, expired,
+  invalid, or legacy plain-string values read the browser's preference on entry.
+  Expiry is checked on page initialization and incoming storage events; an open
+  page does not change merely because two hours pass. There is no live
+  system-theme listener or third mode in the UI. Other tabs synchronize through
+  storage events; blocked storage
   does not prevent local changes. Without JavaScript the page stays light
   and the button stays hidden.
 - `js/favicon.js` swaps active/idle favicon assets and follows the browser color

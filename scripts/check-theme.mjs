@@ -4,6 +4,9 @@ import { runInNewContext } from "node:vm";
 
 const source = await readFile(new URL("../js/theme.js", import.meta.url), "utf8");
 const STORAGE_KEY = "site-theme";
+const NOW = 1_800_000_000_000;
+const THEME_TTL = 2 * 60 * 60 * 1000;
+const record = (theme, expiresAt = NOW + THEME_TTL) => JSON.stringify({ theme, expiresAt });
 
 const eventTarget = () => {
   const listeners = new Map();
@@ -21,6 +24,7 @@ const eventTarget = () => {
 
 const createPage = ({
   saved = null,
+  now = NOW,
   dark = false,
   ready = false,
   hasControl = true,
@@ -90,7 +94,7 @@ const createPage = ({
       return storage;
     },
   };
-  runInNewContext(source, { document, window });
+  runInNewContext(source, { document, window, Date: { now: () => now } });
   return {
     document,
     control,
@@ -117,10 +121,10 @@ const assertButtonLabel = (page) => {
   assert.equal(page.control.getAttribute("aria-pressed"), null);
 };
 
-for (const saved of [null, "system", "invalid", "light", "dark"]) {
+for (const saved of [null, "system", "invalid", "light", "dark", record("light"), record("dark")]) {
   for (const dark of [false, true]) {
     const page = createPage({ saved, dark });
-    const expectedTheme = ["light", "dark"].includes(saved) ? saved : (dark ? "dark" : "light");
+    const expectedTheme = [record("light"), record("dark")].includes(saved) ? JSON.parse(saved).theme : (dark ? "dark" : "light");
     assert.equal(page.theme, expectedTheme);
     assert.equal(page.control.hidden, true, "The button stays hidden until bound");
     page.mount();
@@ -130,13 +134,39 @@ for (const saved of [null, "system", "invalid", "light", "dark"]) {
     assert.equal(page.theme, expectedTheme, "System changes after entry must not update the page");
     page.toggle();
     assert.equal(page.theme, expectedTheme === "dark" ? "light" : "dark");
-    assert.equal(page.storage.getItem(STORAGE_KEY), page.theme);
+    assert.equal(page.storage.getItem(STORAGE_KEY), record(page.theme));
     assertButtonLabel(page);
     page.toggle();
     assert.equal(page.theme, expectedTheme);
     assertButtonLabel(page);
   }
 }
+
+// Only explicit clicks renew the expiry; entry and cross-tab reads do not.
+for (const dark of [false, true]) {
+  const override = dark ? "light" : "dark";
+  for (const saved of [
+    record(override, NOW), record(override, NOW - 1),
+    JSON.stringify({ theme: override }), record(override, "tomorrow"),
+    record(override, null), record("invalid"), "null", "[]", "{",
+  ]) {
+    assert.equal(createPage({ saved, dark }).theme, dark ? "dark" : "light");
+  }
+  assert.equal(createPage({ saved: record(override, NOW + 1), dark }).theme, override);
+}
+const timedPage = createPage({ ready: true });
+timedPage.toggle();
+const originalRecord = timedPage.storage.getItem(STORAGE_KEY);
+assert.equal(originalRecord, record("dark"));
+assert.equal(createPage({ sharedStorage: timedPage.storage, now: NOW + THEME_TTL - 1 }).theme, "dark");
+assert.equal(createPage({ sharedStorage: timedPage.storage, now: NOW + THEME_TTL }).theme, "light");
+assert.equal(timedPage.storage.getItem(STORAGE_KEY), originalRecord, "Navigation never extends expiry");
+const laterPage = createPage({ sharedStorage: timedPage.storage, now: NOW + THEME_TTL, ready: true });
+laterPage.toggle();
+assert.equal(timedPage.storage.getItem(STORAGE_KEY), record("dark", NOW + 2 * THEME_TTL));
+const expiredSync = createPage();
+expiredSync.receive(STORAGE_KEY, record("dark", NOW));
+assert.equal(expiredSync.theme, "light", "Expired cross-tab records fall back to the entry preference");
 
 const page = createPage({ ready: true });
 page.setSystem(true);
@@ -146,18 +176,18 @@ assert.equal(page.theme, "dark");
 page.setSystem(false);
 assert.equal(page.theme, "dark", "Explicit preference survives subsequent system changes");
 page.toggle();
-assert.equal(page.storage.getItem(STORAGE_KEY), "light");
+assert.equal(page.storage.getItem(STORAGE_KEY), record("light"));
 const nextPage = createPage({ sharedStorage: page.storage, dark: true });
 assert.equal(nextPage.theme, "light", "A new page applies the persisted preference before DOM ready");
 nextPage.mount();
 assertButtonLabel(nextPage);
 
 const writesBeforeSync = page.writes;
-page.receive(STORAGE_KEY, "dark");
+page.receive(STORAGE_KEY, record("dark"));
 assert.equal(page.theme, "dark");
 assertButtonLabel(page);
 page.receive("unrelated", "light");
-page.receive(STORAGE_KEY, "light", {});
+page.receive(STORAGE_KEY, record("light"), {});
 assert.equal(page.theme, "dark", "Unrelated keys and session storage must not change preference");
 assert.equal(page.writes, writesBeforeSync, "Receiving a storage event must not write it back");
 page.receive(null, null);
@@ -165,19 +195,19 @@ assert.equal(page.theme, "light", "Clearing storage restores the browser prefere
 assertButtonLabel(page);
 page.setSystem(true);
 assert.equal(page.theme, "light");
-page.receive(STORAGE_KEY, "dark");
+page.receive(STORAGE_KEY, record("dark"));
 page.receive(STORAGE_KEY, "invalid");
 assert.equal(page.theme, "light", "Invalid storage uses the initial browser preference, not the live value");
-page.receive(STORAGE_KEY, "dark");
+page.receive(STORAGE_KEY, record("dark"));
 page.receive(STORAGE_KEY, "system");
 assert.equal(page.theme, "light", "Legacy system values are treated as an absent manual preference");
-page.receive(STORAGE_KEY, "dark");
+page.receive(STORAGE_KEY, record("dark"));
 page.receive(STORAGE_KEY, null);
 assert.equal(page.theme, "light");
 assertButtonLabel(page);
 
 const pendingPage = createPage();
-pendingPage.receive(STORAGE_KEY, "dark");
+pendingPage.receive(STORAGE_KEY, record("dark"));
 pendingPage.mount();
 assert.equal(pendingPage.theme, "dark", "A storage event before DOM ready updates the eventual button state");
 assertButtonLabel(pendingPage);
@@ -198,14 +228,14 @@ noControl.mount();
 assert.equal(noControl.theme, "dark");
 noControl.setSystem(false);
 assert.equal(noControl.theme, "dark", "A page without a button also preserves its initial theme");
-noControl.receive(STORAGE_KEY, "light");
+noControl.receive(STORAGE_KEY, record("light"));
 assert.equal(noControl.theme, "light", "Cross-tab synchronization does not depend on a button");
 
 const animated = createPage({ ready: true, motion: true });
 assert.equal(animated.captures.length, 0, "Initial paint never starts a transition");
 animated.toggle(1);
 assert.equal(animated.theme, "light", "Capture the old theme before updating the DOM");
-assert.equal(animated.storage.getItem(STORAGE_KEY), "dark", "Persist intent without waiting for motion");
+assert.equal(animated.storage.getItem(STORAGE_KEY), record("dark"), "Persist intent without waiting for motion");
 assert.equal(animated.captures.length, 1);
 animated.captures[0].update();
 assert.equal(animated.theme, "dark");
@@ -249,7 +279,7 @@ assert.equal(snapshotClick.captures[0].skipped, true);
 const synced = createPage({ ready: true, motion: true });
 synced.toggle(1);
 const syncWrites = synced.writes;
-synced.receive(STORAGE_KEY, "light");
+synced.receive(STORAGE_KEY, record("light"));
 synced.captures[0].update();
 assert.equal(synced.theme, "light");
 assert.equal(synced.captures[0].skipped, true);

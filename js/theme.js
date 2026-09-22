@@ -1,13 +1,24 @@
 // Inlined as a classic script before stylesheets so the first paint uses the theme.
 (() => {
   const STORAGE_KEY = "site-theme";
+  const THEME_TTL = 2 * 60 * 60 * 1000;
   const root = document.documentElement;
   // Keep the entry-time browser preference as the fallback; do not track changes.
   const initialTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
-  const resolveTheme = (value) =>
-    value === "light" || value === "dark" ? value : initialTheme;
+  const resolveTheme = (value) => {
+    try {
+      const saved = JSON.parse(value);
+      if ((saved?.theme === "light" || saved?.theme === "dark") &&
+          Number.isFinite(saved.expiresAt) && saved.expiresAt > Date.now()) {
+        return saved.theme;
+      }
+    } catch {
+      // Legacy strings and malformed records have no valid expiry.
+    }
+    return initialTheme;
+  };
 
   let storage = null;
   let theme = initialTheme;
@@ -84,7 +95,10 @@
       theme = theme === "dark" ? "light" : "dark";
       showTheme(event);
       try {
-        storage?.setItem(STORAGE_KEY, theme);
+        storage?.setItem(STORAGE_KEY, JSON.stringify({
+          theme,
+          expiresAt: Date.now() + THEME_TTL,
+        }));
       } catch {
         // Keep the in-memory preference when persistence is unavailable.
       }

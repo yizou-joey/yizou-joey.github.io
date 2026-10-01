@@ -1,6 +1,7 @@
 import {
   escapeHtml,
   getDateSortValue,
+  getVenueConfig,
   normalizeInlineText,
   renderInlineMarkdown,
   renderNewsInline,
@@ -180,6 +181,8 @@ const renderTeachingItemHtml = (item) => {
 
 const renderServicesItemHtml = (item) => {
   const entry = item || {};
+  const venueConfig = getVenueConfig(entry.venueKey);
+  const venueClass = venueConfig ? ` ${venueConfig.className}` : "";
   const datePeriod = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
   const eventHtml = entry.event
     ? `<div class="editorial-inst-name">${renderInlineMarkdown(entry.event)}</div>`
@@ -196,7 +199,7 @@ const renderServicesItemHtml = (item) => {
     ? `<div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
     : "";
 
-  return `<div class="editorial-media-row editorial-service-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;
+  return `<div class="editorial-media-row editorial-service-row${venueClass}"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;
 };
 
 const renderListHtml = (items, renderItemHtml) =>

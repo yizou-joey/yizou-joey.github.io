@@ -5,6 +5,9 @@ const VENUE_REGISTRY = Object.freeze({
   mmsys: Object.freeze({
     className: "venue-mmsys",
   }),
+  ismar: Object.freeze({
+    className: "venue-ismar",
+  }),
 });
 
 const getVenueConfig = (venueKey) => {
@@ -316,6 +319,7 @@ const renderPublicationItemHtml = (item) => {
 
 export {
   escapeHtml,
+  getVenueConfig,
   getDateSortValue,
   normalizeInlineText,
   renderInlineMarkdown,

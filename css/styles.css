@@ -38,6 +38,9 @@
   --color-news-venue-accent: var(--color-venue-ieee-vr-text);
   --color-venue-mmsys: rgb(24, 86, 105);
   --color-venue-mmsys-text: var(--color-venue-mmsys);
+  /* Blue sampled from the official ISMAR 2026 rooster; darker for light-paper text. */
+  --color-venue-ismar: #008efc;
+  --color-venue-ismar-text: #006bbd;
   --color-award: #f2cb00;
   --color-gold-dark: #92400e;
   /* Warm trophy gold for award labels on light paper. */
@@ -185,6 +188,7 @@
   /* Lift text lightness without redefining the source brand colors. */
   --color-venue-ieee-vr-text: #7c77de;
   --color-venue-mmsys-text: #2c9cbf;
+  --color-venue-ismar-text: var(--color-venue-ismar);
   --color-award-text: var(--color-award);
   --color-resource-link: #bd8c6e;
   --color-link-decoration-muted: rgba(166, 163, 158, 0.4);
@@ -1328,6 +1332,11 @@ a {
 }
 
 /* === Component: service mascot sticker === */
+.editorial-service-row.venue-ismar {
+  --service-sticker-scale: 0.8;
+  --service-venue-hover-color: var(--color-venue-ismar-text);
+}
+
 .service-mascot-column {
   display: flex;
   align-items: center;
@@ -1338,8 +1347,8 @@ a {
 
 .service-mascot-sticker {
   display: block;
-  width: 60px;
-  height: 60px;
+  width: calc(60px * var(--service-sticker-scale, 1));
+  height: calc(60px * var(--service-sticker-scale, 1));
   object-fit: contain;
   backface-visibility: hidden;
   filter: var(--sticker-shadow-base);
@@ -1362,8 +1371,8 @@ a {
 
 #services .editorial-inst-name a:hover,
 #services .editorial-inst-name a:focus-visible {
-  color: var(--color-venue-mmsys-text);
-  text-decoration-color: var(--color-venue-mmsys-text);
+  color: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+  text-decoration-color: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1379,8 +1388,8 @@ a {
     justify-content: center;
   }
   .service-mascot-sticker {
-    width: 100px;
-    height: 100px;
+    width: calc(100px * var(--service-sticker-scale, 1));
+    height: calc(100px * var(--service-sticker-scale, 1));
   }
 }
 

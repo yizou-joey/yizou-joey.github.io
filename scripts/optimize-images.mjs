@@ -108,6 +108,15 @@ const tasks = [
     ],
   },
   {
+    name: "ISMAR logo sticker",
+    // Official source: https://www.ieeeismar.net/assets/2026/img/static.png
+    input: source("logos", "ismar-2026-rooster.png"),
+    sticker: {},
+    outputs: [
+      { path: output("logos/ismar-2026-logo-sticker.webp"), format: "webp", options: { lossless: true } },
+    ],
+  },
+  {
     name: "MMSys logo sticker",
     input: path.join(root, "public/files/logos/MMSys 26 Logo.png"),
     sticker: { recolor: 90 },

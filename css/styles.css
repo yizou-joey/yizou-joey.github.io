@@ -2149,10 +2149,12 @@ a {
 
   .profile-name-row {
     justify-content: flex-start;
+    /* Let the display Y hang slightly outside the shared body-content rail.
+       At 48px, 1/8 em provides the requested 6px optical correction. */
+    translate: calc(var(--type-display-hero-size) * -0.125) 0;
   }
 
   .profile-bio {
-    padding-left: var(--space-6);
     text-align: left;
   }
 }

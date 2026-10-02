@@ -570,6 +570,12 @@ a {
 
 /* === Component: publication item and resource links === */
 .publication-preview {
+  border: 1px solid var(--color-border-warm);
+  border-radius: 8px;
+  background: var(--color-page-bg);
+}
+
+.publication-preview {
   position: fixed;
   top: 0;
   left: 0;
@@ -577,9 +583,6 @@ a {
   width: clamp(200px, 25vw, 320px);
   aspect-ratio: 8 / 5;
   overflow: hidden;
-  border: 1px solid var(--color-border-warm);
-  border-radius: 8px;
-  background: var(--color-page-bg);
   pointer-events: none;
   user-select: none;
   opacity: 0;
@@ -1328,6 +1331,129 @@ a {
   .news-mascot-sticker {
     transition: none !important;
     transform: var(--news-sticker-rest) !important;
+  }
+}
+
+/* === Component: service event description === */
+.service-event {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: var(--space-32);
+}
+
+/* Draw both segments on one line-box edge, preserving inline-link's motion. */
+.service-event a[aria-describedby] {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  isolation: isolate;
+  /* Paper-colored glyph clearance recreates skip-ink for the custom line. */
+  text-shadow:
+    -1px 0 var(--color-page-bg),
+    1px 0 var(--color-page-bg),
+    0 -1px var(--color-page-bg),
+    0 1px var(--color-page-bg);
+}
+
+.service-event a[aria-describedby]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-link-decoration-muted);
+  transform: translateY(-0.05em) scaleY(1);
+  transform-origin: left top;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.service-event a[aria-describedby]:focus-visible::after,
+.service-event:has(.service-event-tooltip.is-open) a[aria-describedby]::after {
+  background: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+  transform: translateY(0) scaleY(1.5);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service-event a[aria-describedby]:hover::after {
+    background: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+    transform: translateY(0) scaleY(1.5);
+  }
+}
+
+.service-event-tooltip {
+  position: absolute;
+  grid-column: 2 / 3;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: 50;
+  width: max-content;
+  max-width: min(640px, 100%);
+  color: var(--color-muted);
+  font-family: var(--font-serif-sc);
+  font-size: 15px;
+  font-weight: var(--type-body-weight);
+  line-height: inherit;
+  text-align: left;
+  overflow-wrap: anywhere;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 180ms;
+}
+
+.service-event-note {
+  display: block;
+  opacity: 0;
+  transition: opacity 80ms ease-out;
+}
+
+.service-event-tooltip::before {
+  content: "";
+  position: absolute;
+  top: calc(-1px - var(--space-2));
+  font-size: var(--type-body-size);
+  left: calc(-1 * var(--space-32));
+  width: calc(100% + var(--space-32));
+  height: 1px;
+  background: var(--color-link-decoration-muted);
+  transform: translateY(-0.05em) scale(0, 1);
+  transform-origin: left top;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .service-event-tooltip.is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: none;
+  }
+
+  .service-event-tooltip.is-open .service-event-note {
+    opacity: 1;
+    transition: opacity 100ms ease-out;
+  }
+
+  .service-event-tooltip.is-open::before {
+    background: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+    transform: translateY(0) scale(1, 1.5);
+  }
+}
+
+.service-event:has(.service-event-tooltip.is-instant) a[aria-describedby]::after,
+.service-event-tooltip.is-instant,
+.service-event-tooltip.is-instant .service-event-note,
+.service-event-tooltip.is-instant::before {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-event a[aria-describedby]::after,
+  .service-event-tooltip,
+  .service-event-note,
+  .service-event-tooltip::before {
+    transition: none !important;
   }
 }
 

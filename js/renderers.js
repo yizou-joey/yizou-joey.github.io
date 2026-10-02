@@ -179,13 +179,21 @@ const renderTeachingItemHtml = (item) => {
   return `<div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${subtitleHtml}</div></div>`;
 };
 
-const renderServicesItemHtml = (item) => {
+const renderServicesItemHtml = (item, index = 0) => {
   const entry = item || {};
   const venueConfig = getVenueConfig(entry.venueKey);
   const venueClass = venueConfig ? ` ${venueConfig.className}` : "";
   const datePeriod = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
+  let eventContent = renderInlineMarkdown(entry.event);
+  const fullName = normalizeInlineText(entry.eventFullName);
+  if (fullName && eventContent.includes("<a ")) {
+    const descriptionId = `service-event-description-${index}`;
+    const description = [normalizeInlineText(entry.eventEdition), fullName].filter(Boolean).join(" ");
+    eventContent = eventContent.replace("<a ", `<a aria-describedby="${descriptionId}" `);
+    eventContent += `<span class="service-event-tooltip" id="${descriptionId}" role="tooltip"><span class="service-event-note">${escapeHtml(description)}</span></span>`;
+  }
   const eventHtml = entry.event
-    ? `<div class="editorial-inst-name">${renderInlineMarkdown(entry.event)}</div>`
+    ? `<div class="editorial-inst-name service-event">${eventContent}</div>`
     : entry.detail
       ? `<div class="editorial-inst-name">${renderInlineMarkdown(entry.detail || "")}</div>`
       : "";
@@ -203,7 +211,7 @@ const renderServicesItemHtml = (item) => {
 };
 
 const renderListHtml = (items, renderItemHtml) =>
-  (items || []).map((item) => renderItemHtml(item || {})).join("");
+  (items || []).map((item, index) => renderItemHtml(item || {}, index)).join("");
 
 const renderSelectedPublicationsHtml = (items) =>
   renderListHtml(

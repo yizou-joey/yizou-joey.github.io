@@ -55,6 +55,17 @@ with a boolean value.
 
 ## Assets and venues
 
+Services keep `event` as the short conference link, for example
+`**[ISMAR 2026](https://www.ieeeismar.net/2026/)**`. Optional plain-text
+`eventFullName` and `eventEdition` (for example `25th`) provide the complete
+conference identity in a right-hand note below an extended underline on link
+hover or keyboard focus. The note does not reserve layout space. The edition
+precedes the full name; omit it when unknown. Descriptions remain in static HTML
+and are associated with the link for assistive technology. Touch devices and
+viewports below 1024px hide the visual description, without adding a button or
+changing the conference link. Without JavaScript, the short link and location
+remain available and no visual note opens.
+
 Publications can optionally include `preview: { src, alt }`. Use a public-relative
 image path and a short description of the research scene. Previews appear on
 paper hover or keyboard focus on an existing resource link, without adding images

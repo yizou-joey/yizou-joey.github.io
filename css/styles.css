@@ -1088,7 +1088,7 @@ a {
   position: relative;
 }
 
-.site-header-link:hover {
+a.site-header-link:hover {
   color: var(--color-nav-muted-hover);
 }
 
@@ -1101,6 +1101,11 @@ a {
 .site-header-link[aria-current="page"],
 .site-header-link[aria-current="location"] {
   color: var(--color-ink);
+}
+
+span.site-header-link {
+  cursor: default;
+  transition: none;
 }
 
 .site-theme-toggle {

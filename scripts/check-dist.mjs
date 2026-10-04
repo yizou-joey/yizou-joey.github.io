@@ -42,6 +42,7 @@ const resolveReference = (value, sourcePath) => {
   if (!normalized || isExternalReference(normalized)) return null;
 
   const decoded = decodeReference(normalized, sourcePath);
+  if (decoded === "/") return path.join(distRoot, "index.html");
   const resolved = decoded.startsWith("/")
     ? path.resolve(distRoot, `.${decoded}`)
     : path.resolve(path.dirname(sourcePath), decoded);

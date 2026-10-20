@@ -93,8 +93,13 @@ next pointer movement or new focus event checks placement again. Original resour
 links and focus styles remain available; there is no additional touch interaction.
 Entries without a preview remain plain text.
 
-The DodgeUI prototype adds `projectUrl: "dodgeui.html"` to make its title a
-normal same-tab link. On supported desktop browsers, clicking a ready preview
+Project entries add `projectUrl` (`"dodgeui.html"` or `"contextual-recovery.html"`)
+to make their titles normal same-tab links. Both pages share the same layout,
+heading renderer, theme controls, and navigation transitions. Abstracts are
+verified against each paper's DOI; the source and verification date are recorded
+in the page HTML. Figures with `preview.fit: "contain"` use `project-image--contain`
+on the project page and retain that fit during the fallback transition.
+On supported desktop browsers, clicking a ready preview
 uses a native cross-document view transition to the same-size project figure.
 Browsers without native navigation events, or whose native transition fails or
 is cancelled, use a 300 ms arrival animation from the saved preview position.

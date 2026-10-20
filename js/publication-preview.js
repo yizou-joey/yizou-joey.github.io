@@ -224,6 +224,7 @@ if (sources.some(Boolean)) {
       sessionStorage.setItem("dodgeui-transition", JSON.stringify({
         time: Date.now(), from: window.location.href, to: link.href,
         image: image.currentSrc || image.src,
+        contain: image.classList.contains("publication-preview-image--contain"),
         x: rect.x, y: rect.y, width: rect.width, height: rect.height,
         native: "onpageswap" in window && "onpagereveal" in window,
       }));

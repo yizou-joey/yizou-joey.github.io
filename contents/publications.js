@@ -21,6 +21,7 @@ export default [
   {
     date: "2026-03-20",
     selected: true,
+    projectUrl: "contextual-recovery.html",
     preview: {
       src: "files/generated/projects/contextual-recovery.webp",
       alt: "Three first-person views of the mixed reality ball-sorting task and hand-tracking failure.",

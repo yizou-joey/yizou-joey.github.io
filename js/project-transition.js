@@ -221,6 +221,7 @@
     overlay = document.createElement("img");
     overlay.src = transfer.image;
     overlay.className = "project-transition-image";
+    if (transfer.contain) overlay.classList.add("project-image--contain");
     overlay.alt = "";
     overlay.setAttribute("aria-hidden", "true");
     root.append(overlay);

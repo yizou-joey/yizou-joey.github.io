@@ -2547,6 +2547,10 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
   background: #fdfdfc;
   pointer-events: none;
 }
+.project-transition-image.project-image--contain {
+  object-fit: contain;
+  object-position: center;
+}
 /* Project transition bootstrap end */
 .publication-project-link { color: inherit; text-decoration: none; }
 .publication-project-link:hover { text-decoration: none; }
@@ -2645,6 +2649,7 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 .project-figure { width: clamp(200px, 25vw, 320px); max-width: 100%; margin: 0; }
 .project-image-frame { width: 100%; aspect-ratio: 8 / 5; overflow: hidden; border: 1px solid var(--color-border-warm); border-radius: 8px; background: #fdfdfc; }
 .project-image-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+.project-image-frame .project-image--contain { object-fit: contain; object-position: center; }
 .project-figure figcaption { margin-top: var(--space-12); font-family: var(--font-serif-sc); font-size: 13px; line-height: 1.6; color: var(--color-muted); }
 @media (min-width: 1280px) {
   .project-opening { max-width: var(--width-rail-level-2); }

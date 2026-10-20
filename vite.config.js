@@ -80,7 +80,7 @@ const staticContentHtmlPlugin = () => ({
       if (fileName === "index.html") {
         html = renderIndexHtml(html, fileName);
       }
-      if (fileName === "dodgeui.html") {
+      if (["dodgeui.html", "contextual-recovery.html"].includes(fileName)) {
         const entries = publications.filter((entry) => entry.projectUrl === fileName);
         if (entries.length !== 1) fail(`${fileName} requires exactly one matching publication.`);
         html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entries[0]) });
@@ -93,7 +93,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "publications.html", "cv.html", "dodgeui.html"].includes(fileName)) {
+      if (["index.html", "404.html", "publications.html", "cv.html", "dodgeui.html", "contextual-recovery.html"].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -123,6 +123,7 @@ export default defineConfig({
         main: "index.html",
         notFound: "404.html",
         dodgeui: "dodgeui.html",
+        contextualRecovery: "contextual-recovery.html",
       },
     },
   },

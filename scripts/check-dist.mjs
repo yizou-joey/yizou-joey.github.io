@@ -5,9 +5,11 @@ const root = process.cwd();
 const distRoot = path.join(root, "dist");
 const errors = [];
 
-const EXPECTED_HTML_FILES = ["index.html", "404.html", "dodgeui.html"];
+const EXPECTED_HTML_FILES = ["index.html", "404.html", "dodgeui.html", "contextual-recovery.html"];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
+  "dodgeui.html": Object.freeze(["project-heading"]),
+  "contextual-recovery.html": Object.freeze(["project-heading"]),
   "index.html": Object.freeze([
     "bio-intro",
     "news-list",

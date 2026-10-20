@@ -249,8 +249,7 @@ const getPublicationSupplementLinks = (entry) =>
     return acc;
   }, []);
 
-const renderPublicationItemHtml = (item) => {
-  const entry = item || {};
+const renderPublicationEyebrowHtml = (entry) => {
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
@@ -294,30 +293,42 @@ const renderPublicationItemHtml = (item) => {
       ? part
       : `<span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span>${part}</span>`)
     .join("");
+  return `<div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div>`;
+};
+
+const renderPublicationTitleHtml = (entry) => renderInlineMarkdown(
+  String(entry.title || "").replace(/\s+/g, " ").trim(),
+  { preserveLineBreaks: false },
+);
+
+const renderPublicationAuthorsHtml = (entry) =>
+  `<p class="publication-authors-serif">${renderAuthors(entry.authors || "")}</p>`;
+
+const renderPublicationLinksHtml = (entry) => {
+  const links = getPublicationSupplementLinks(entry).map((supplement) =>
+    `<a href="${escapeHtml(supplement.href)}" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">${escapeHtml(supplement.label)}</span>]</a>`
+  ).join("");
+  return links ? `<div class="publication-bracket-links">${links}</div>` : "";
+};
+
+const renderProjectHeadingHtml = (entry) =>
+  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}</div><nav class="project-resources" aria-label="Project resources">${renderPublicationLinksHtml(entry)}</nav>`;
+
+const renderPublicationItemHtml = (item) => {
+  const entry = item || {};
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  const renderedTitle = renderInlineMarkdown(normalizedTitle, {
-    preserveLineBreaks: false,
-  });
+  const renderedTitle = renderPublicationTitleHtml(entry);
   const titleHtml = entry.projectUrl
     ? `<a class="publication-project-link" href="${escapeHtml(entry.projectUrl)}">${renderedTitle}</a>`
     : renderedTitle;
-  const authorsHtml = renderAuthors(entry.authors || "");
-
-  const supplementsHtml = getPublicationSupplementLinks(entry)
-    .map(
-      (supplement) =>
-        `<a href="${escapeHtml(supplement.href)}" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">${escapeHtml(supplement.label)}</span>]</a>`
-    )
-    .join("");
-  const linksHtml = supplementsHtml
-    ? `<div class="publication-bracket-links">${supplementsHtml}</div>`
-    : "";
+  const authorsHtml = renderPublicationAuthorsHtml(entry);
+  const linksHtml = renderPublicationLinksHtml(entry);
 
   const previewHtml = entry.preview?.src
     ? `<template class="publication-preview-source"><img${entry.preview.fit === "contain" ? ' class="publication-preview-image--contain"' : ""} src="${escapeHtml(entry.preview.src)}" alt="${escapeHtml(entry.preview.alt || normalizedTitle)}" decoding="async" /></template>`
     : "";
 
-  return `<article class="editorial-publication-item"><div class="publication-summary"><div class="publication-eyebrow${venueClass}">${eyebrowHtml}</div><h3 class="publication-title-serif"><span class="publication-title-highlight">${titleHtml}</span></h3><p class="publication-authors-serif">${authorsHtml}</p></div>${linksHtml}${previewHtml}</article>`;
+  return `<article class="editorial-publication-item"><div class="publication-summary">${renderPublicationEyebrowHtml(entry)}<h3 class="publication-title-serif"><span class="publication-title-highlight">${titleHtml}</span></h3>${authorsHtml}</div>${linksHtml}${previewHtml}</article>`;
 };
 
 export {
@@ -328,4 +339,5 @@ export {
   renderInlineMarkdown,
   renderNewsInline,
   renderPublicationItemHtml,
+  renderProjectHeadingHtml,
 };

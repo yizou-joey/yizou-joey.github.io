@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { renderProjectHeadingHtml } from "./js/utils.js";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
@@ -78,6 +79,11 @@ const staticContentHtmlPlugin = () => ({
       const fileName = path.basename(ctx.filename || "");
       if (fileName === "index.html") {
         html = renderIndexHtml(html, fileName);
+      }
+      if (fileName === "dodgeui.html") {
+        const entries = publications.filter((entry) => entry.projectUrl === fileName);
+        if (entries.length !== 1) fail(`${fileName} requires exactly one matching publication.`);
+        html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entries[0]) });
       }
       if (fileName === "cv.html") {
         html = injectStaticContent({

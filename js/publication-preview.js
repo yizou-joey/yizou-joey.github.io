@@ -27,6 +27,7 @@ if (sources.some(Boolean)) {
   let layout;
   let layoutKey = "";
   let eligible = false;
+  let navigating = false;
 
   const imageFor = (index) => {
     if (!images.has(index)) {
@@ -82,6 +83,7 @@ if (sources.some(Boolean)) {
     displayed = index;
   };
   const hide = (instant = false) => {
+    if (navigating) return;
     clearTimeout(intentTimer);
     clearTimeout(leaveTimer);
     leaveTimer = undefined;
@@ -94,6 +96,7 @@ if (sources.some(Boolean)) {
     setSource(-1, instant);
   };
   const leave = () => {
+    if (navigating) return;
     if (keyboard || leaveTimer) return;
     clearTimeout(intentTimer);
     generation += 1;
@@ -101,7 +104,7 @@ if (sources.some(Boolean)) {
     leaveTimer = setTimeout(() => hide(), 150);
   };
   const show = (index, fromKeyboard = false) => {
-    if (!eligible) return;
+    if (!eligible || navigating) return;
     clearTimeout(leaveTimer);
     leaveTimer = undefined;
     if ((index === requested && fromKeyboard === requestKeyboard) || index === dismissed) return;
@@ -177,6 +180,57 @@ if (sources.some(Boolean)) {
       show(index);
     }, { passive: true });
     group.addEventListener("pointerleave", () => { dismissed = -1; leave(); });
+  });
+  document.addEventListener("click", async (event) => {
+    const link = event.target.closest(".publication-project-link");
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey
+      || event.ctrlKey || event.shiftKey || event.altKey || link.target) return;
+    if (navigating) { event.preventDefault(); return; }
+    if (!event.detail || !finePointer.matches || reducedMotion.matches || !eligible) return;
+    const index = entries.indexOf(link.closest(".editorial-publication-item"));
+    if (index < 0 || !sources[index] || !findLocation(index)) return;
+    const image = imageFor(index);
+    // Never hold navigation for a cold or broken image.
+    if (!image.complete || !image.naturalWidth) return;
+    event.preventDefault();
+    const alreadyVisible = displayed === index && Number(getComputedStyle(preview).opacity) > 0.95;
+    clearTimeout(intentTimer);
+    clearTimeout(leaveTimer);
+    generation += 1;
+    const point = findLocation(index);
+    if (!point) { locationAssign(); return; }
+    const currentTransform = getComputedStyle(preview).transform;
+    placement?.cancel();
+    placement = preview.animate([
+      { transform: alreadyVisible ? currentTransform : `translate(${point.x}px, ${point.y}px)` },
+    ], { duration: 0, fill: "forwards" });
+    frames.forEach((frame, key) => frame.classList.toggle("is-current", key === index));
+    setSource(index, false);
+    preview.classList.remove("is-instant", "is-preparing");
+    preview.classList.add("is-launching");
+    preview.getBoundingClientRect();
+    preview.classList.add("is-visible");
+    navigating = true;
+    entries[index].classList.add("is-project-pressed");
+    if (!alreadyVisible) await new Promise((resolve) => setTimeout(resolve, 110));
+    const rect = preview.getBoundingClientRect();
+    try {
+      sessionStorage.setItem("dodgeui-transition", JSON.stringify({
+        time: Date.now(), from: window.location.href, to: link.href,
+        image: image.currentSrc || image.src,
+        x: rect.x, y: rect.y, width: rect.width, height: rect.height,
+        native: "onpageswap" in window && "onpagereveal" in window,
+      }));
+      document.documentElement.classList.add("project-departing");
+    } catch { /* Navigation still works when storage is unavailable. */ }
+    locationAssign();
+    function locationAssign() { window.location.assign(link.href); }
+  });
+  window.addEventListener("pageshow", () => {
+    navigating = false;
+    preview.classList.remove("is-launching");
+    entries.forEach((entry) => entry.classList.remove("is-project-pressed"));
+    hide(true);
   });
   const focusedIndex = (target) => {
     const link = target?.closest(".publication-bracket-links a");

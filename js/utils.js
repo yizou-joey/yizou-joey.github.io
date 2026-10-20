@@ -295,9 +295,12 @@ const renderPublicationItemHtml = (item) => {
       : `<span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span>${part}</span>`)
     .join("");
   const normalizedTitle = String(entry.title || "").replace(/\s+/g, " ").trim();
-  const titleHtml = renderInlineMarkdown(normalizedTitle, {
+  const renderedTitle = renderInlineMarkdown(normalizedTitle, {
     preserveLineBreaks: false,
   });
+  const titleHtml = entry.projectUrl
+    ? `<a class="publication-project-link" href="${escapeHtml(entry.projectUrl)}">${renderedTitle}</a>`
+    : renderedTitle;
   const authorsHtml = renderAuthors(entry.authors || "");
 
   const supplementsHtml = getPublicationSupplementLinks(entry)

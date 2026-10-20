@@ -2453,3 +2453,79 @@ span.site-header-link {
     padding: 0 var(--space-8);
   }
 }
+
+/* DodgeUI shared-element prototype: same image dimensions at both endpoints. */
+/* Project transition bootstrap start */
+/* Keep the viewport identical when navigating from the long index to a short project. */
+html { overflow-y: scroll; scrollbar-gutter: stable; }
+@view-transition { navigation: auto; }
+.project-departing .publication-preview,
+.project-arriving .project-image-frame { view-transition-name: dodgeui-image; }
+.project-fallback-arriving .site-shell { opacity: 0; }
+.project-fallback-arriving .project-image-frame { visibility: hidden; }
+.project-transition-image {
+  position: fixed;
+  inset: 0 auto auto 0;
+  z-index: 100;
+  width: clamp(200px, 25vw, 320px);
+  aspect-ratio: 8 / 5;
+  border: 1px solid var(--color-border-warm);
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: center bottom;
+  background: #fdfdfc;
+  pointer-events: none;
+}
+/* Project transition bootstrap end */
+.publication-project-link { color: inherit; text-decoration: none; }
+.publication-project-link:hover { text-decoration: none; }
+.publication-title-highlight:has(.publication-project-link:hover),
+.publication-title-highlight:has(.publication-project-link:focus-visible) {
+  background-color: color-mix(in srgb, var(--color-ink) 6%, transparent);
+}
+.editorial-publication-item:has(.publication-project-link:active) .publication-title-highlight,
+.is-project-pressed .publication-title-highlight {
+  background-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .editorial-publication-item:has(.publication-project-link) .publication-title-serif {
+    transform-origin: left center;
+    transition: transform 140ms var(--publication-motion-ease);
+  }
+  .editorial-publication-item:has(.publication-project-link:active) .publication-title-serif,
+  .editorial-publication-item.is-project-pressed .publication-title-serif {
+    transform: translate(1px, 1px) scale(0.985);
+  }
+}
+
+.publication-preview.is-launching { --publication-fade-duration: 100ms; }
+::view-transition-group(dodgeui-image) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--publication-motion-ease);
+}
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 200ms; }
+.project-page { padding-top: var(--space-48); padding-bottom: var(--space-48); }
+.project-back { color: var(--color-muted); }
+.project-heading { margin-top: var(--space-48); max-width: 760px; }
+.project-title {
+  font-family: var(--font-serif-sc);
+  font-size: var(--type-display-hero-size);
+  line-height: 1.15;
+  margin: var(--space-16) 0;
+}
+.project-subtitle { font-family: var(--font-serif-sc); font-size: 24px; line-height: 1.5; margin-bottom: var(--space-24); }
+.project-heading .publication-bracket-links { margin-top: var(--space-16); }
+.project-intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-48); margin-top: var(--space-48); align-items: start; }
+.project-copy p { margin-top: var(--space-16); }
+.project-figure { width: clamp(200px, 25vw, 320px); margin: 0; }
+.project-image-frame { width: 100%; aspect-ratio: 8 / 5; overflow: hidden; border: 1px solid var(--color-border-warm); border-radius: 8px; background: #fdfdfc; }
+.project-image-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
+.project-figure figcaption { margin-top: var(--space-12); font-family: var(--font-serif-sc); font-size: 13px; line-height: 1.6; color: var(--color-muted); }
+@media (max-width: 767px) {
+  .project-intro { grid-template-columns: 1fr; gap: var(--space-24); }
+  .project-figure { grid-row: 1; max-width: 100%; }
+  .project-subtitle { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

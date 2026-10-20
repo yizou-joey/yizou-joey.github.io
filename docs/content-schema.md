@@ -93,6 +93,21 @@ next pointer movement or new focus event checks placement again. Original resour
 links and focus styles remain available; there is no additional touch interaction.
 Entries without a preview remain plain text.
 
+The DodgeUI prototype adds `projectUrl: "dodgeui.html"` to make its title a
+normal same-tab link. On supported desktop browsers, clicking a ready preview
+uses a native cross-document view transition to the same-size project figure.
+Browsers without native navigation events, or whose native transition fails or
+is cancelled, use a 300 ms arrival animation from the saved preview position.
+The retained image appears before destination layout is ready; page content
+fades in over 200 ms. Critical opt-in and image styles load in the head before
+the transition bootstrap. Transfer data is saved before navigation and
+consumed in the destination head.
+A fast click reveals a ready image for 110 ms before navigation; cold images,
+unavailable placements, keyboard, touch and reduced motion use direct navigation.
+The title keeps its gray highlight without an underline; pointer presses add
+a slight downward compression and a darker highlight. The prototype returns
+to the homepage without a reverse image transition.
+
 Keep source images in `assets/original-images/files/projects/` and add their
 optimized outputs to `scripts/optimize-images.mjs`. Images use bottom-centered
 cover framing without stretching. Keep the subject in that crop. Set

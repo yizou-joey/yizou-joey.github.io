@@ -87,7 +87,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "publications.html", "cv.html"].includes(fileName)) {
+      if (["index.html", "404.html", "publications.html", "cv.html", "dodgeui.html"].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -95,6 +95,13 @@ const staticContentHtmlPlugin = () => ({
         }
         const source = await readFile(new URL("./js/theme.js", import.meta.url), "utf8");
         html = html.replace(placeholder, () => `<script data-theme-bootstrap>${source}</script>`);
+      }
+      if (html.includes("<script data-project-transition></script>")) {
+        const source = await readFile(new URL("./js/project-transition.js", import.meta.url), "utf8");
+        const styles = await readFile(new URL("./css/styles.css", import.meta.url), "utf8");
+        const critical = styles.match(/\/\* Project transition bootstrap start \*\/([\s\S]*?)\/\* Project transition bootstrap end \*\//)?.[1];
+        if (!critical) fail("Missing project transition bootstrap styles.");
+        html = html.replace("<script data-project-transition></script>", () => `<style>${critical}</style><script>${source}</script>`);
       }
       return html;
     },
@@ -109,6 +116,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         notFound: "404.html",
+        dodgeui: "dodgeui.html",
       },
     },
   },

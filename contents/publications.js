@@ -2,6 +2,7 @@ export default [
   {
     date: "2026-03-20",
     selected: true,
+    projectUrl: "dodgeui.html",
     preview: {
       src: "files/generated/projects/dodgeui.webp",
       alt: "DodgeUI moves a virtual window away from a physical obstacle.",

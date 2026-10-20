@@ -104,6 +104,7 @@ if (sources.some(Boolean)) {
     leaveTimer = setTimeout(() => hide(), 150);
   };
   const show = (index, fromKeyboard = false) => {
+    if (document.documentElement.classList.contains("project-returned")) return;
     if (!eligible || navigating) return;
     clearTimeout(leaveTimer);
     leaveTimer = undefined;
@@ -173,6 +174,10 @@ if (sources.some(Boolean)) {
     }, { passive: true });
     group.addEventListener("focusin", warmImages);
     group.addEventListener("pointermove", (event) => {
+      if (document.documentElement.classList.contains("project-returned")) {
+        if (!event.movementX && !event.movementY) return;
+        document.documentElement.classList.remove("project-returned");
+      }
       if (!finePointer.matches || !["mouse", "pen"].includes(event.pointerType)) return;
       const index = entries.indexOf(event.target.closest(".editorial-publication-item"));
       if (index < 0 || !sources[index]) { leave(); return; }
@@ -211,8 +216,9 @@ if (sources.some(Boolean)) {
     preview.getBoundingClientRect();
     preview.classList.add("is-visible");
     navigating = true;
-    entries[index].classList.add("is-project-pressed");
-    if (!alreadyVisible) await new Promise((resolve) => setTimeout(resolve, 110));
+    // Let :active release back to hover before navigation captures the page.
+    // The preview's 100ms entrance runs concurrently with the 140ms release.
+    await new Promise((resolve) => setTimeout(resolve, 140));
     const rect = preview.getBoundingClientRect();
     try {
       sessionStorage.setItem("dodgeui-transition", JSON.stringify({
@@ -229,7 +235,6 @@ if (sources.some(Boolean)) {
   window.addEventListener("pageshow", () => {
     navigating = false;
     preview.classList.remove("is-launching");
-    entries.forEach((entry) => entry.classList.remove("is-project-pressed"));
     hide(true);
   });
   const focusedIndex = (target) => {
@@ -248,6 +253,7 @@ if (sources.some(Boolean)) {
     if ((keyboard || requestKeyboard) && focusedIndex(event.relatedTarget) < 0) hide(true);
   });
   document.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") document.documentElement.classList.remove("project-returned");
     if (event.key === "Escape") {
       dismissed = requested >= 0 ? requested : displayed;
       hide(true);

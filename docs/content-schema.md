@@ -105,8 +105,28 @@ consumed in the destination head.
 A fast click reveals a ready image for 110 ms before navigation; cold images,
 unavailable placements, keyboard, touch and reduced motion use direct navigation.
 The title keeps its gray highlight without an underline; pointer presses add
-a slight downward compression and a darker highlight. The prototype returns
-to the homepage without a reverse image transition.
+a slight downward compression and a darker highlight. The Home link returns
+using the full paper title as the shared element (250 ms), with other content
+fading. It restores the scroll position saved when the project link was clicked;
+a direct visit without saved context positions the title below the site header.
+A return without native event support uses a 200 ms page fade prepared before paint.
+If a native return fails or is cancelled, the destination stays visible: it is
+never hidden again to replay a fade. Later returns in that tab session select
+the compatibility title animation before navigation and skip the outgoing native
+capture. Two title layers retain the source and destination line wrapping and
+move on the same 250 ms timeline with uniform scaling. The old title fades out
+in the first 100 ms, and the new title fades in over the next 100 ms. Homepage
+content appears only after movement ends, over a final 100 ms (350 ms total).
+The real title stays hidden until the matching destination layer is removed.
+The native path uses the same fade sequence.
+Scroll restoration runs once before movement, after fonts and homepage layout
+settle on the compatibility path. Return navigation omits the fragment to avoid
+the browser's competing anchor scroll, then restores it with `replaceState`.
+Title snapshots retain their proportions and align top-left.
+Reduced motion skips the
+movement. Returned previews and hover highlights stay hidden until deliberate
+pointer movement or keyboard navigation. Return navigation does not depend on
+browser history; storage-unavailable visits retain the ordinary Home link.
 
 Keep source images in `assets/original-images/files/projects/` and add their
 optimized outputs to `scripts/optimize-images.mjs`. Images use bottom-centered

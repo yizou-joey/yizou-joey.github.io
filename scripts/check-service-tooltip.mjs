@@ -176,4 +176,33 @@ page.document.dispatch("keydown", { key: "Escape" });
 page.frame();
 assert.ok(!first.open());
 
-console.log("Service tooltip checks passed: rendering, timing, keyboard focus scrolling, dismissal, touch and reduced motion.");
+// A mouse-focused link must not keep the tooltip open after the pointer leaves.
+page = createPage();
+[first] = page.entries;
+first.link.matches = () => false;
+first.link.dispatch("pointerenter", mouse);
+first.link.dispatch("pointerdown", mouse);
+first.link.dispatch("focus");
+first.link.dispatch("pointerleave");
+page.advance(150);
+assert.ok(!first.open(), "Mouse focus does not pin the extended underline.");
+
+// Chrome hands the pointer stream to native dragging before the eventual drop.
+page = createPage();
+[first] = page.entries;
+first.link.matches = () => false;
+first.link.dispatch("pointerenter", mouse);
+first.link.dispatch("pointerdown", mouse);
+first.link.dispatch("focus");
+first.link.dispatch("dragstart");
+first.link.dispatch("pointercancel");
+first.link.dispatch("pointerleave");
+page.advance(200);
+assert.ok(first.open(), "Keep the connector expanded throughout native dragging.");
+first.link.dispatch("dragend");
+page.advance(200);
+assert.ok(!first.open(), "Release retracts the connector despite retained mouse focus.");
+first.link.dispatch("pointerenter", mouse);
+assert.ok(first.open(), "Fresh hover works after dragging.");
+
+console.log("Service tooltip checks passed: rendering, timing, keyboard focus scrolling, dismissal, drag cancellation, touch and reduced motion.");

@@ -16,6 +16,15 @@
 }
 
 :root {
+  --link-underline-rest-offset: 0.15em;
+  --link-underline-hover-offset: 0.2em;
+  --link-underline-press-offset: 0.175em;
+  --link-underline-rest-width: 1px;
+  --link-underline-hover-width: 1.5px;
+  --link-underline-press-width: 1.25px;
+  --link-feedback-duration: 140ms;
+  --link-press-duration: 100ms;
+  --link-feedback-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --publication-motion-ease: cubic-bezier(0.32, 0.72, 0, 1);
   --publication-motion-duration: 250ms;
   --publication-fade-duration: 200ms;
@@ -233,19 +242,45 @@ a {
   text-decoration: inherit;
 }
 
-.inline-link {
-  color: inherit;
+.inline-link,
+.contact-link-label {
   text-decoration-line: underline;
   text-decoration-color: var(--color-link-decoration-muted);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+  text-decoration-thickness: var(--link-underline-rest-width);
+  text-underline-offset: var(--link-underline-rest-offset);
   transition:
-    text-decoration-color 180ms ease,
-    text-decoration-thickness 180ms ease,
-    text-underline-offset 180ms ease;
+    text-decoration-color var(--link-feedback-duration) var(--link-feedback-ease),
+    text-decoration-thickness var(--link-feedback-duration) var(--link-feedback-ease),
+    text-underline-offset var(--link-feedback-duration) var(--link-feedback-ease);
 }
 
-.inline-link:hover,
+.inline-link { color: inherit; }
+
+@media (hover: hover) and (pointer: fine) {
+  .inline-link:hover,
+  .contact-link:hover .contact-link-label {
+    text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
+    text-decoration-thickness: var(--link-underline-hover-width);
+    text-underline-offset: var(--link-underline-hover-offset);
+  }
+}
+
+.inline-link:focus-visible,
+.contact-link:focus-visible .contact-link-label {
+  text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
+  text-decoration-thickness: var(--link-underline-hover-width);
+  text-underline-offset: var(--link-underline-hover-offset);
+  transition: none;
+}
+
+.inline-link:active,
+.contact-link:active .contact-link-label {
+  text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
+  text-decoration-thickness: var(--link-underline-press-width);
+  text-underline-offset: var(--link-underline-press-offset);
+  transition-duration: var(--link-press-duration);
+}
+
 .inline-link:focus-visible {
   text-decoration-color: var(--color-link-decoration-ink);
   text-decoration-thickness: 1.5px;
@@ -1342,6 +1377,9 @@ span.site-header-link {
 
 /* === Component: service event description === */
 .service-event {
+  --service-venue-press-color: color-mix(in srgb,
+    var(--service-venue-hover-color, var(--color-venue-mmsys-text)) 75%,
+    var(--color-page-bg));
   position: relative;
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);
@@ -1373,7 +1411,8 @@ span.site-header-link {
   background: var(--color-link-decoration-muted);
   transform: translateY(-0.05em) scaleY(1);
   transform-origin: left top;
-  transition: transform 180ms ease, background-color 180ms ease;
+  transition: transform var(--link-feedback-duration) var(--link-feedback-ease),
+    background-color var(--link-feedback-duration) var(--link-feedback-ease);
 }
 
 .service-event a[aria-describedby]:focus-visible::after,
@@ -1426,7 +1465,8 @@ span.site-header-link {
   background: var(--color-link-decoration-muted);
   transform: translateY(-0.05em) scale(0, 1);
   transform-origin: left top;
-  transition: transform 180ms ease, background-color 180ms ease;
+  transition: transform var(--link-feedback-duration) var(--link-feedback-ease),
+    background-color var(--link-feedback-duration) var(--link-feedback-ease);
 }
 
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
@@ -1501,13 +1541,28 @@ span.site-header-link {
   }
 }
 
-#services .editorial-inst-name a:hover,
+#services .editorial-inst-name a {
+  --link-underline-accent: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+  transition: color var(--link-feedback-duration) var(--link-feedback-ease);
+}
+
 #services .editorial-inst-name a:focus-visible {
   color: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
-  text-decoration-color: var(--service-venue-hover-color, var(--color-venue-mmsys-text));
+  transition: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #services .editorial-inst-name a:hover { color: var(--service-venue-hover-color, var(--color-venue-mmsys-text)); }
+}
+
+#services .editorial-inst-name a:active {
+  color: var(--service-venue-press-color);
+  transition-duration: var(--link-press-duration);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #services .editorial-inst-name a { transition: none; }
+
   .service-mascot-sticker {
     transition: none !important;
     transform: rotate(-4deg) scale(1) translateY(0) !important;
@@ -1546,18 +1601,9 @@ span.site-header-link {
 
 .contact-link {
   color: var(--color-chip-text-muted);
-  text-decoration-line: underline;
-  text-decoration-color: var(--color-link-decoration-muted);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition:
-    color 180ms ease,
-    text-decoration-color 180ms ease,
-    text-decoration-thickness 180ms ease,
-    text-underline-offset 180ms ease;
+  text-decoration: none;
 }
 
-.contact-link:hover,
 .contact-link:focus-visible {
   text-decoration-color: var(--color-link-decoration-ink);
   text-decoration-thickness: 1.5px;
@@ -2073,10 +2119,13 @@ span.site-header-link {
   --news-venue-hover-color: var(--color-venue-ieee-vr-text);
 }
 
-.editorial-news-content .news-venue-link:hover,
-.editorial-news-content .news-venue-link:focus-visible {
-  color: var(--news-venue-hover-color);
-  text-decoration-color: var(--news-venue-hover-color);
+.editorial-news-content .news-venue-link { --link-underline-accent: var(--news-venue-hover-color); }
+
+.editorial-news-content .news-venue-link:focus-visible,
+.editorial-news-content .news-venue-link:active { color: var(--news-venue-hover-color); }
+
+@media (hover: hover) and (pointer: fine) {
+  .editorial-news-content .news-venue-link:hover { color: var(--news-venue-hover-color); }
 }
 
 /* A quiet handwritten second line for personal context. */
@@ -2613,4 +2662,42 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Press changes only color; opening still owns both segments' geometry.
+   Match the open-state specificity so the short line changes with the connector. */
+.service-event:has(a[aria-describedby]:active) a[aria-describedby]::after,
+.service-event:has(a[aria-describedby]:active) .service-event-tooltip.is-open::before {
+  background: var(--service-venue-press-color);
+  transition-duration: var(--link-feedback-duration), var(--link-press-duration);
+}
+
+.service-event a[aria-describedby]:focus-visible::after {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inline-link,
+  .contact-link-label {
+    --link-underline-hover-offset: var(--link-underline-rest-offset);
+    --link-underline-press-offset: var(--link-underline-rest-offset);
+    --link-underline-hover-width: var(--link-underline-rest-width);
+    --link-underline-press-width: var(--link-underline-rest-width);
+    transition: none;
+  }
+
+  .inline-link:active,
+  .contact-link:active .contact-link-label {
+    text-decoration-color: color-mix(in srgb,
+      var(--link-underline-accent, var(--color-link-decoration-ink)) 50%,
+      var(--color-link-decoration-muted));
+  }
+
+  .service-event a[aria-describedby]::after {
+    transform: translateY(-0.05em) scaleY(1) !important;
+  }
+
+  .service-event-tooltip.is-open::before {
+    transform: translateY(-0.05em) scale(1, 1) !important;
+  }
 }

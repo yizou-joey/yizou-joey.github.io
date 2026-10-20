@@ -2,7 +2,7 @@ const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
 const entries = [...document.querySelectorAll(".service-event")].flatMap((event) => {
   const link = event.querySelector("a[aria-describedby]");
   const tooltip = event.querySelector(".service-event-tooltip");
-  return link && tooltip ? [{ link, tooltip, pointer: false, focus: false, overTooltip: false, dismissed: false }] : [];
+  return link && tooltip ? [{ link, tooltip, pointer: false, focus: false, overTooltip: false, dismissed: false, dragging: false }] : [];
 });
 let active = null;
 let hideTimer;
@@ -14,7 +14,7 @@ const cancelFocus = () => {
 };
 
 const eligible = () => finePointer.matches && innerWidth >= 1024;
-const occupied = (entry) => entry.pointer || entry.focus || entry.overTooltip;
+const occupied = (entry) => entry.dragging || entry.pointer || entry.focus || entry.overTooltip;
 const clearTimers = () => {
   clearTimeout(hideTimer);
 };
@@ -27,8 +27,9 @@ const hide = (instant = false) => {
   active = null;
 };
 const show = (entry, keyboard = false) => {
+  if (active?.dragging) return;
   clearTimers();
-  if (!eligible() || entry.dismissed || !occupied(entry)) return;
+  if (!eligible() || entry.dragging || entry.dismissed || !occupied(entry)) return;
   if (active && active !== entry) hide(true);
   entry.tooltip.classList.toggle("is-instant", keyboard);
   entry.tooltip.classList.add("is-open");
@@ -44,8 +45,35 @@ const leave = (entry, keyboard = false) => {
 };
 
 entries.forEach((entry) => {
+  const cancelPointerInteraction = () => {
+    cancelFocus();
+    entry.pointer = false;
+    entry.focus = false;
+    entry.overTooltip = false;
+    entry.dismissed = true;
+    if (active === entry) hide();
+  };
+  entry.link.addEventListener("pointerdown", () => {
+    cancelFocus();
+    entry.focus = false;
+  });
+  entry.link.addEventListener("dragstart", () => {
+    cancelFocus();
+    clearTimers();
+    entry.dragging = true;
+    entry.focus = false;
+  });
+  entry.link.addEventListener("dragend", () => {
+    entry.dragging = false;
+    cancelPointerInteraction();
+  });
+  entry.link.addEventListener("pointercancel", () => {
+    // Chrome cancels the pointer stream when native dragging takes over.
+    // Keep the expanded connector until dragend (drop or cancellation).
+    if (!entry.dragging) cancelPointerInteraction();
+  });
   entry.link.addEventListener("pointerenter", (event) => {
-    if (event.pointerType === "touch" || !eligible()) return;
+    if (entry.dragging || event.pointerType === "touch" || !eligible()) return;
     if (!occupied(entry)) entry.dismissed = false;
     entry.pointer = true;
     clearTimers();
@@ -57,6 +85,7 @@ entries.forEach((entry) => {
     leave(entry);
   });
   entry.tooltip.addEventListener("pointerenter", () => {
+    if (entry.dragging) return;
     entry.overTooltip = true;
     clearTimeout(hideTimer);
   });
@@ -66,9 +95,9 @@ entries.forEach((entry) => {
   });
   entry.link.addEventListener("focus", () => {
     if (!occupied(entry)) entry.dismissed = false;
-    entry.focus = true;
+    entry.focus = entry.link.matches(":focus-visible");
     cancelFocus();
-    if (entry.link.matches(":focus-visible")) {
+    if (entry.focus) {
       // Focus may scroll its link into view. Show after that scroll, without
       // treating the browser's focus scroll as a request to dismiss the tooltip.
       focusFrame = requestAnimationFrame(() => {
@@ -95,6 +124,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") dismiss();
 });
 window.addEventListener("scroll", () => {
+  if (active?.dragging) return;
   if (focusFrame !== null) hide(true);
   else dismiss();
 }, { capture: true, passive: true });

@@ -28,6 +28,7 @@ function page({ scrollY, reduced = false, matching = true, fallback = false, fon
       querySelector: (selector) => selector === ".site-header" ? { getBoundingClientRect: () => ({ height: 48 }) } : {
         animate: () => { const animation = { finished: Promise.resolve(), cancel() {} }; animations.push(animation); return animation; },
       }, getAnimations: () => animations },
+    getComputedStyle: () => ({ getPropertyValue: () => "cubic-bezier(0.32, 0.72, 0, 1)" }),
     matchMedia: () => ({ matches: reduced }), setTimeout, clearTimeout,
     requestAnimationFrame: (fn) => setTimeout(fn, 0),
   };
@@ -82,9 +83,9 @@ for (const cancelledAfterReady of [false, true]) {
   p.events.pageshow({ persisted: false });
   p.events.pagereveal({});
   await settle();
-  assert.equal(p.scrolls.length, 0, "Do not restore against unsettled layout");
-  fonts.resolve(); await settle();
   assert.equal(p.root.dataset.projectTransition, "fallback-finished");
+  assert.deepEqual(p.scrolls, [188], "Unrelated web fonts must not delay the return");
+  fonts.resolve(); await settle();
   assert.deepEqual(p.scrolls, [188]);
 }
 {

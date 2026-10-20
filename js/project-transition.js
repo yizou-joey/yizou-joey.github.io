@@ -65,10 +65,10 @@
         scrollY: context?.scrollY,
         fallback: returningWithFallback,
         title: title && {
-          text: title.textContent, x: rect.x, y: rect.y, width: rect.width,
+          text: title.textContent, x: rect.x, y: rect.y, width: rect.width, height: rect.height,
           fontSize: style.fontSize, lineHeight: style.lineHeight,
           fontWeight: style.fontWeight, fontFamily: style.fontFamily,
-          color: style.color,
+          color: style.color, letterSpacing: style.letterSpacing,
         },
       }));
       root.classList.add("project-return-departing");
@@ -106,6 +106,23 @@
   });
 
   domReady.then(() => { if (!returnCompatibility) prepareReturn(); });
+  domReady.then(() => {
+    const back = document.querySelector(".project-back");
+    if (!back?.href) return;
+    const destination = new URL(back.href);
+    destination.hash = "";
+    const prefetch = document.createElement("link");
+    prefetch.rel = "prefetch";
+    prefetch.href = destination.href;
+    document.head.append(prefetch);
+  });
+
+  // Both navigation directions reveal the page alongside the shared element.
+  const revealPage = (shell) => shell.animate([{ opacity: 0 }, { opacity: 1 }], {
+    duration: 200,
+    easing: getComputedStyle(root).getPropertyValue("--publication-motion-ease").trim(),
+    fill: "both",
+  });
 
   const fallback = async (reason = "unsupported") => {
     if (!arriving || state.startsWith("fallback") || state === "native-finished") return;
@@ -136,17 +153,15 @@
         animations.push(overlay.animate([{
           width: `${source.width}px`, fontSize: source.fontSize,
           lineHeight: source.lineHeight, fontWeight: source.fontWeight,
-          fontFamily: source.fontFamily, color: source.color,
+          fontFamily: source.fontFamily, color: source.color, letterSpacing: source.letterSpacing,
           transform: `translate(${source.x}px, ${source.y}px)`,
         }], { duration: 0, fill: "both" }));
       }
       watchdog = setTimeout(() => { setState("fallback-timeout"); cleanup(); }, 1500);
       try {
         await domReady;
-        if (document.readyState !== "complete") {
-          await new Promise((resolve) => window.addEventListener("load", resolve, { once: true }));
-        }
-        await document.fonts?.ready;
+        // Both pages share the title font stack. Use the current layout instead
+        // of waiting for unrelated images or the document-wide font readiness.
         // Let homepage layout observers settle before restoring and measuring.
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
         if (state !== "fallback-preparing") return;
@@ -155,13 +170,20 @@
         const target = returnTarget?.getBoundingClientRect();
         if (overlay && target) {
           const targetStyle = getComputedStyle(returnTarget);
+          // Match the native snapshots: uniform text scaling inside changing bounds.
+          const sourceHeight = source.height || overlay.getBoundingClientRect().height;
           const scale = parseFloat(targetStyle.fontSize) / parseFloat(source.fontSize);
+          const clipMargin = parseFloat(getComputedStyle(root).getPropertyValue("--space-4")) || 0;
+          const clip = (width, height, boxWidth, boxHeight, zoom) => {
+            const margin = clipMargin / zoom;
+            return `inset(${-margin}px ${width - boxWidth / zoom - margin}px ${height - boxHeight / zoom - margin}px ${-margin}px)`;
+          };
           targetOverlay = document.createElement("div");
           targetOverlay.className = "project-transition-title";
           targetOverlay.textContent = returnTarget.textContent;
           targetOverlay.setAttribute("aria-hidden", "true");
           root.append(targetOverlay);
-          // Each layer keeps its own line wrapping; only uniform scale and position move.
+          // Each layer keeps its own wrapping and aspect ratio inside the changing box.
           animations.push(targetOverlay.animate([{
             width: `${target.width}px`, fontSize: targetStyle.fontSize,
             lineHeight: targetStyle.lineHeight, fontWeight: targetStyle.fontWeight,
@@ -170,25 +192,22 @@
           }], { duration: 0, fill: "both" }));
           const timing = { duration: 250, easing: "cubic-bezier(0.77, 0, 0.175, 1)", fill: "both" };
           animations.push(overlay.animate([
-            { transform: `translate(${source.x}px, ${source.y}px) scale(1)` },
-            { transform: `translate(${target.x}px, ${target.y}px) scale(${scale})` },
+            { transform: `translate(${source.x}px, ${source.y}px) scale(1)`,
+              clipPath: clip(source.width, sourceHeight, source.width, sourceHeight, 1) },
+            { transform: `translate(${target.x}px, ${target.y}px) scale(${scale})`,
+              clipPath: clip(source.width, sourceHeight, target.width, target.height, scale) },
           ], timing), targetOverlay.animate([
-            { transform: `translate(${source.x}px, ${source.y}px) scale(${1 / scale})` },
-            { transform: `translate(${target.x}px, ${target.y}px) scale(1)` },
+            { transform: `translate(${source.x}px, ${source.y}px) scale(${1 / scale})`,
+              clipPath: clip(target.width, target.height, source.width, sourceHeight, 1 / scale) },
+            { transform: `translate(${target.x}px, ${target.y}px) scale(1)`,
+              clipPath: clip(target.width, target.height, target.width, target.height, 1) },
           ], timing));
-          animations.push(overlay.animate([{ opacity: 1 }, { opacity: 0 }], {
-            duration: 100, easing: "linear", fill: "both",
-          }), targetOverlay.animate([{ opacity: 0 }, { opacity: 1 }], {
-            delay: 100, duration: 100, easing: "linear", fill: "both",
-          }));
+          animations.push(overlay.animate([{ opacity: 1 }, { opacity: 0 }], timing),
+            targetOverlay.animate([{ opacity: 0 }, { opacity: 1 }], timing));
           // The real title appears only when the exact destination layer is removed.
           animations.push(returnTarget.animate([{ opacity: 0 }], { duration: 0, fill: "both" }));
         }
-        const fade = shell.animate([{ opacity: 0 }, { opacity: 1 }], {
-          delay: overlay && target ? 250 : 0,
-          duration: 100, easing: "cubic-bezier(0.23, 1, 0.32, 1)", fill: "both",
-        });
-        animations.push(fade);
+        animations.push(revealPage(shell));
         setState("fallback-running");
         await Promise.all(animations.map((animation) => animation.finished));
         setState("fallback-finished");
@@ -229,9 +248,7 @@
         { transform: `translate(${target.x}px, ${target.y}px)` },
       ], { duration: 300, easing, fill: "both" });
       hold.cancel();
-      animations.push(movement, shell.animate([{ opacity: 0 }, { opacity: 1 }], {
-        duration: 200, easing, fill: "both",
-      }));
+      animations.push(movement, revealPage(shell));
       setState("fallback-running");
       await movement.finished;
       setState("fallback-finished");
@@ -259,10 +276,31 @@
     setState("native-pending");
     event.viewTransition.ready.then(() => {
       setState("native-ready");
+      if (returning && transfer.title && returnTarget) {
+        const source = transfer.title;
+        const target = returnTarget.getBoundingClientRect();
+        const scale = parseFloat(getComputedStyle(returnTarget).fontSize) / parseFloat(source.fontSize);
+        // Whole-block height includes line count. Scale each snapshot uniformly
+        // by font size so a three-line heading cannot magnify a one-line title.
+        // The group still interpolates its bounds and clips the overflowing text.
+        for (const [name, height, from, to] of [
+          ["old", source.height, 1, scale],
+          ["new", target.height, 1 / scale, 1],
+        ]) {
+          if (!(height > 0)) continue;
+          animations.push(root.animate([
+            { height: `${height}px`, transformOrigin: "left top", transform: `scale(${from})` },
+            { height: `${height}px`, transformOrigin: "left top", transform: `scale(${to})` },
+          ], {
+            pseudoElement: `::view-transition-${name}(project-title)`,
+            duration: 250, easing: "cubic-bezier(0.77, 0, 0.175, 1)", fill: "both",
+          }));
+        }
+      }
       // finished also resolves when Chrome skips an already-started transition.
       // The captured animations distinguish completion from cancellation.
       nativeAnimations = Promise.allSettled(document.getAnimations()
-        .filter((animation) => animation.animationName?.includes("view-transition"))
+        .filter((animation) => animation.animationName?.includes("view-transition") || animations.includes(animation))
         .map((animation) => animation.finished));
     }).catch((error) => { fallback(`native-rejected: ${error.message}`); });
     event.viewTransition.finished.then(async () => {

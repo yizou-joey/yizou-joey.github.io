@@ -107,7 +107,7 @@ The retained image appears before destination layout is ready; page content
 fades in over 200 ms. Critical opt-in and image styles load in the head before
 the transition bootstrap. Transfer data is saved before navigation and
 consumed in the destination head.
-A fast click reveals a ready image for 110 ms before navigation; cold images,
+A click reveals a ready image immediately and starts navigation without waiting for animation; cold images,
 unavailable placements, keyboard, touch and reduced motion use direct navigation.
 The title keeps its gray highlight without an underline; pointer presses add
 a slight downward compression and a darker highlight. The Home link returns

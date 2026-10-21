@@ -282,12 +282,6 @@ a {
 }
 
 .inline-link:focus-visible {
-  text-decoration-color: var(--color-link-decoration-ink);
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 0.2em;
-}
-
-.inline-link:focus-visible {
   outline: 2px solid var(--color-apple-blue);
   outline-offset: 2px;
   border-radius: 2px;
@@ -2571,7 +2565,6 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
   }
 }
 
-.publication-preview.is-launching { --publication-fade-duration: 100ms; }
 ::view-transition-group(dodgeui-image) {
   animation-duration: 300ms;
   animation-timing-function: var(--publication-motion-ease);

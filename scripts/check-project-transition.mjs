@@ -9,7 +9,7 @@ const pending = () => {
   const promise = new Promise((yes, no) => { resolve = yes; reject = no; });
   return { promise, resolve, reject };
 };
-function page({ scrollY, reduced = false, matching = true, fallback = false, fontsReady = Promise.resolve() } = {}) {
+function page({ scrollY, reduced = false, native = true, matching = true, fallback = false, fontsReady = Promise.resolve() } = {}) {
   const events = {}, classes = new Set(), attributes = new Set();
   const root = {
     dataset: {},
@@ -19,10 +19,14 @@ function page({ scrollY, reduced = false, matching = true, fallback = false, fon
   const animations = [], scrolls = [];
   const browser = { scrollY: 0, onpageswap: null, onpagereveal: null,
     scrollTo: ({ top }) => { browser.scrollY = top; scrolls.push(top); }, addEventListener: (name, fn) => { events[name] = fn; } };
-  const history = { scrollRestoration: "auto" };
+  if (!native) {
+    delete browser.onpageswap;
+    delete browser.onpagereveal;
+  }
+  const history = { scrollRestoration: "auto", replaceState: (_state, _title, url) => { history.url = url; } };
   const context = {
     window: browser, history, location: { href: "https://test/#selected-projects" },
-    sessionStorage: { getItem: () => JSON.stringify({ direction: "return", time: Date.now(), to: "https://test/#selected-projects", project: "https://test/dodgeui.html", scrollY, fallback }), removeItem() {} },
+    sessionStorage: { getItem: () => JSON.stringify({ direction: "return", time: Date.now(), to: "https://test/#selected-projects", returnUrl: "https://test/#selected-projects", project: "https://test/dodgeui.html", scrollY, fallback }), removeItem() {} },
     document: { documentElement: root, readyState: "complete", fonts: { ready: fontsReady }, addEventListener() {},
       querySelectorAll: () => matching ? [{ href: "https://test/dodgeui.html", closest: () => title }] : [],
       querySelector: (selector) => selector === ".site-header" ? { getBoundingClientRect: () => ({ height: 48 }) } : {
@@ -96,4 +100,14 @@ for (const cancelledAfterReady of [false, true]) {
   assert.deepEqual(p.scrolls, [88], "Reduced motion still restores the saved position");
   assert.equal(p.animations.length, 0);
 }
-console.log("Project return checks passed: event order, scroll restoration, direct arrival, reduced motion, failure and cancellation.");
+for (const scrollY of [undefined, 0, 88]) {
+  const p = page({ native: false, reduced: true, scrollY });
+  p.events.pageshow({ persisted: false });
+  await settle();
+  assert.deepEqual(p.scrolls, [scrollY ?? 520]);
+  assert.equal(p.history.scrollRestoration, "auto");
+  assert.equal(p.history.url, "https://test/#selected-projects");
+  assert(!p.attributes.has("data-project-return-target"));
+  assert.equal(p.animations.length, 0);
+}
+console.log("Project return checks passed: event order, scroll restoration, direct arrival, reduced motion with and without native events, failure and cancellation.");

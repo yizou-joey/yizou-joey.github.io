@@ -186,24 +186,24 @@ if (sources.some(Boolean)) {
     }, { passive: true });
     group.addEventListener("pointerleave", () => { dismissed = -1; leave(); });
   });
-  document.addEventListener("click", async (event) => {
+  document.addEventListener("click", (event) => {
     const link = event.target.closest(".publication-project-link");
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey
       || event.ctrlKey || event.shiftKey || event.altKey || link.target) return;
     if (navigating) { event.preventDefault(); return; }
     if (!event.detail || !finePointer.matches || reducedMotion.matches || !eligible) return;
     const index = entries.indexOf(link.closest(".editorial-publication-item"));
-    if (index < 0 || !sources[index] || !findLocation(index)) return;
+    if (index < 0 || !sources[index]) return;
     const image = imageFor(index);
     // Never hold navigation for a cold or broken image.
     if (!image.complete || !image.naturalWidth) return;
+    const point = findLocation(index);
+    if (!point) return;
     event.preventDefault();
     const alreadyVisible = displayed === index && Number(getComputedStyle(preview).opacity) > 0.95;
     clearTimeout(intentTimer);
     clearTimeout(leaveTimer);
     generation += 1;
-    const point = findLocation(index);
-    if (!point) { locationAssign(); return; }
     const currentTransform = getComputedStyle(preview).transform;
     placement?.cancel();
     placement = preview.animate([
@@ -211,14 +211,9 @@ if (sources.some(Boolean)) {
     ], { duration: 0, fill: "forwards" });
     frames.forEach((frame, key) => frame.classList.toggle("is-current", key === index));
     setSource(index, false);
-    preview.classList.remove("is-instant", "is-preparing");
-    preview.classList.add("is-launching");
-    preview.getBoundingClientRect();
-    preview.classList.add("is-visible");
+    preview.classList.remove("is-preparing");
+    preview.classList.add("is-instant", "is-visible");
     navigating = true;
-    // Let :active release back to hover before navigation captures the page.
-    // The preview's 100ms entrance runs concurrently with the 140ms release.
-    await new Promise((resolve) => setTimeout(resolve, 140));
     const rect = preview.getBoundingClientRect();
     try {
       sessionStorage.setItem("dodgeui-transition", JSON.stringify({
@@ -230,12 +225,10 @@ if (sources.some(Boolean)) {
       }));
       document.documentElement.classList.add("project-departing");
     } catch { /* Navigation still works when storage is unavailable. */ }
-    locationAssign();
-    function locationAssign() { window.location.assign(link.href); }
+    window.location.assign(link.href);
   });
   window.addEventListener("pageshow", () => {
     navigating = false;
-    preview.classList.remove("is-launching");
     hide(true);
   });
   const focusedIndex = (target) => {

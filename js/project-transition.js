@@ -318,7 +318,7 @@
   window.addEventListener("pageshow", (event) => {
     root.classList.remove("project-departing", "project-return-departing");
     if (!returnCompatibility) prepareReturn();
-    if (event.persisted) cleanup();
+    if (event.persisted || (returning && !arriving)) cleanup();
     else if (arriving && state === "idle") {
       // pagereveal follows pageshow in Chromium. Do not preempt its native snapshot.
       requestAnimationFrame(() => { if (state === "idle") fallback("no-reveal-event"); });

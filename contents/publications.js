@@ -3,6 +3,12 @@ export default [
     date: "2026-03-20",
     selected: true,
     projectUrl: "dodgeui.html",
+    project: {
+      name: "DodgeUI",
+      description: "DodgeUI: adaptive interface motion cues in mobile AR. IEEE VR 2026.",
+      abstract: "Interacting with Mobile Augmented Reality (AR) during locomotion creates a fundamental attentional conflict with physical obstacles. We introduce DodgeUI, a context-aware interface driven by Artificial Potential Fields (APF) that adaptively dodges physical hazards. Our system leverages the window's movement as an implicit environmental cue without adding visual elements. A user study (N = 24) shows that although objective performance remains stable, participants significantly prefer this adaptive behavior in high-risk scenarios. This work demonstrates how intrinsic attributes of motion can serve as intuitive cues to reconcile competing attentional demands in mobile AR.",
+      abstractVerifiedOn: "2026-10-20",
+    },
     preview: {
       src: "files/generated/projects/dodgeui.webp",
       alt: "DodgeUI moves a virtual window away from a physical obstacle.",
@@ -22,6 +28,12 @@ export default [
     date: "2026-03-20",
     selected: true,
     projectUrl: "contextual-recovery.html",
+    project: {
+      name: "Contextual Recovery",
+      description: "Contextual Recovery: VLM-guided recovery from hand tracking failures in mixed reality. IEEE VR 2026.",
+      abstract: "Robust hand tracking is essential to natural interaction in Mixed Reality (MR), yet it remains highly susceptible due to the limitations of tracking systems in Head-Mounted Displays (HMDs). Typical inside-out tracking systems fail in various context conditions, including occlusion from interaction and low light condition. Traditional methods for handling failure are often hard-coded for specific failure types using deterministic algorithms, limiting their ability to handle complex real-world settings. While recent research has introduced “early warning” systems to visualize tracking confidence and alert users to potential failures, these approaches are fundamentally passive and do not explain why or how to rectify the issue. In this paper, we introduce a context-aware recovery framework that leverages the semantic reasoning capabilities of Vision-Language Models (VLMs) to interpret various types of tracking failure and generate actionable guidance for recovery. The pipeline monitors tracking confidence to trigger VLM-based diagnosis, analyzing the user's egocentric view to identify the cause and generate actionable guidance. Crucially, this system generalizes across frequent failure modes through structured contextual prompting that grounds the VLM's reasoning with visual features of physical environment. Results from user study show high perceived utility and a strong subjective preference for the guidance compared to baseline method, indicating the system's potential to improve task proficiency.",
+      abstractVerifiedOn: "2026-10-21",
+    },
     preview: {
       src: "files/generated/projects/contextual-recovery.webp",
       alt: "Three first-person views of the mixed reality ball-sorting task and hand-tracking failure.",

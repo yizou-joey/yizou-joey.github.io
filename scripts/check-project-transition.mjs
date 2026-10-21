@@ -32,7 +32,13 @@ function page({ scrollY, reduced = false, native = true, matching = true, fallba
       querySelector: (selector) => selector === ".site-header" ? { getBoundingClientRect: () => ({ height: 48 }) } : {
         animate: () => { const animation = { finished: Promise.resolve(), cancel() {} }; animations.push(animation); return animation; },
       }, getAnimations: () => animations },
-    getComputedStyle: () => ({ getPropertyValue: () => "cubic-bezier(0.32, 0.72, 0, 1)" }),
+    getComputedStyle: () => ({ getPropertyValue: (name) => ({
+      "--publication-fade-duration": "200ms",
+      "--project-title-duration": "250ms",
+      "--project-image-duration": "300ms",
+      "--project-title-ease": "cubic-bezier(0.77, 0, 0.175, 1)",
+      "--publication-motion-ease": "cubic-bezier(0.32, 0.72, 0, 1)",
+    })[name] || "" }),
     matchMedia: () => ({ matches: reduced }), setTimeout, clearTimeout,
     requestAnimationFrame: (fn) => setTimeout(fn, 0),
   };

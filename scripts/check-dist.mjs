@@ -1,15 +1,17 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import publications from "../contents/publications.js";
+import { escapeHtml } from "../js/utils.js";
 
 const root = process.cwd();
 const distRoot = path.join(root, "dist");
 const errors = [];
 
-const EXPECTED_HTML_FILES = ["index.html", "404.html", "dodgeui.html", "contextual-recovery.html"];
+const projectEntries = publications.filter((entry) => entry.projectUrl);
+const EXPECTED_HTML_FILES = ["index.html", "404.html", ...projectEntries.map((entry) => entry.projectUrl)];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
-  "dodgeui.html": Object.freeze(["project-heading"]),
-  "contextual-recovery.html": Object.freeze(["project-heading"]),
+  ...Object.fromEntries(projectEntries.map((entry) => [entry.projectUrl, ["project-heading"]])),
   "index.html": Object.freeze([
     "bio-intro",
     "news-list",
@@ -177,6 +179,20 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
+    const projectEntry = projectEntries.find((entry) => entry.projectUrl === fileName);
+    if (projectEntry) {
+      const { project, preview } = projectEntry;
+      for (const content of [project.abstract, `${project.name} — Yi Zou`, project.description, preview.src, preview.alt]) {
+        if (!html.includes(escapeHtml(content))) report(`${fileName} is missing project content: ${content}`);
+      }
+      if (/\{\{\w+\}\}/.test(html)) report(`${fileName} contains unresolved template fields.`);
+      if (!html.includes(`Abstract verified against ${escapeHtml(projectEntry.doi)} on ${escapeHtml(project.abstractVerifiedOn)}.`)) {
+        report(`${fileName} is missing abstract provenance.`);
+      }
+      if ((preview.fit === "contain") !== /<img class="project-image--contain"/.test(html)) {
+        report(`${fileName} does not preserve its preview image fit.`);
+      }
+    }
     for (const reference of extractHtmlReferences(html)) {
       await validateReference(reference, filePath);
     }

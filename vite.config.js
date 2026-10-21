@@ -1,8 +1,9 @@
 import { defineConfig } from "vite";
-import { renderProjectHeadingHtml } from "./js/utils.js";
+import { escapeHtml, renderProjectHeadingHtml } from "./js/utils.js";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
 import news from "./contents/news.js";
@@ -23,6 +24,14 @@ import {
 const fail = (message) => {
   throw new Error(message);
 };
+
+const projectEntries = publications.filter((entry) => entry.projectUrl);
+const projectTemplateUrl = new URL("./templates/project.html", import.meta.url);
+const projectPages = projectEntries.map((entry) => entry.projectUrl);
+if (projectPages.some((fileName) => !/^[a-z0-9-]+\.html$/.test(fileName))
+  || new Set(projectPages).size !== projectPages.length) {
+  fail("Project URLs must be unique root-level .html filenames.");
+}
 
 const injectStaticContent = ({ html, fileName, id, content }) => {
   const pattern = new RegExp(
@@ -73,6 +82,11 @@ const renderIndexHtml = (html, fileName) => {
 
 const staticContentHtmlPlugin = () => ({
   name: "static-content-html",
+  handleHotUpdate({ file, server }) {
+    if (file !== fileURLToPath(projectTemplateUrl)) return;
+    server.ws.send({ type: "full-reload", path: "*" });
+    return [];
+  },
   transformIndexHtml: {
     order: "pre",
     async handler(html, ctx) {
@@ -80,10 +94,36 @@ const staticContentHtmlPlugin = () => ({
       if (fileName === "index.html") {
         html = renderIndexHtml(html, fileName);
       }
-      if (["dodgeui.html", "contextual-recovery.html"].includes(fileName)) {
-        const entries = publications.filter((entry) => entry.projectUrl === fileName);
-        if (entries.length !== 1) fail(`${fileName} requires exactly one matching publication.`);
-        html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entries[0]) });
+      if (projectPages.includes(fileName)) {
+        const entry = projectEntries.find((entry) => entry.projectUrl === fileName);
+        const { project, preview } = entry;
+        if (!project?.name || !project.description || !project.abstract
+          || !project.abstractVerifiedOn || !entry.doi || !preview?.src || !preview.alt) {
+          fail(`${fileName} requires project metadata, an abstract with verification date, DOI, and preview image.`);
+        }
+        if (project.detailsHtml !== undefined && typeof project.detailsHtml !== "string") {
+          fail(`${fileName}: project.detailsHtml must be an authored HTML string.`);
+        }
+        const values = {
+          pageTitle: `${project.name} — Yi Zou`,
+          description: project.description,
+          canonicalUrl: `https://yizou-joey.github.io/${entry.projectUrl}`,
+          doi: entry.doi,
+          abstractVerifiedOn: project.abstractVerifiedOn,
+          abstract: project.abstract,
+          imageSrc: preview.src,
+          imageAlt: preview.alt,
+        };
+        html = await readFile(projectTemplateUrl, "utf8");
+        html = html.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
+          // Only repository-authored details may contain markup; metadata stays escaped.
+          if (key === "detailsHtml") return project.detailsHtml?.trim()
+            ? `<div class="project-details type-body-bio">${project.detailsHtml}</div>` : "";
+          if (key === "imageClass") return preview.fit === "contain" ? ' class="project-image--contain"' : "";
+          if (!(key in values)) fail(`Unknown project template field: ${key}`);
+          return escapeHtml(values[key]);
+        });
+        html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entry) });
       }
       if (fileName === "cv.html") {
         html = injectStaticContent({
@@ -93,7 +133,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "publications.html", "cv.html", "dodgeui.html", "contextual-recovery.html"].includes(fileName)) {
+      if (["index.html", "404.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -122,8 +162,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         notFound: "404.html",
-        dodgeui: "dodgeui.html",
-        contextualRecovery: "contextual-recovery.html",
+        ...Object.fromEntries(projectPages.map((fileName) => [fileName.replace(/\.html$/, ""), fileName])),
       },
     },
   },

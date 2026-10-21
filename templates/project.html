@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script data-theme-bootstrap></script>
+    <script data-project-transition></script>
+    <link rel="expect" href="#project-image" blocking="render" />
+    <title>{{pageTitle}}</title>
+    <meta name="author" content="Yi Zou (Joey)" />
+    <meta
+      name="description"
+      content="{{description}}"
+    />
+    <meta
+      name="keywords"
+      content="Yi Zou, Joey Zou, Zou Yi, Yizou Joey, HKUST Guangzhou, academic homepage, HCI, human-computer interaction, XR, extended reality, adaptive user interfaces, context-aware systems, computational media and art"
+    />
+    <link rel="canonical" href="{{canonicalUrl}}" />
+    <meta
+      name="google-site-verification"
+      content="mXlA4ZfyJgMSfTaaWP-c-G6PWju08kdNWCh7r_-6zgI"
+    />
+    
+    <!-- Open Graph for Social Media -->
+    <meta property="og:site_name" content="Yi Zou" />
+    <meta property="og:url" content="{{canonicalUrl}}" />
+    <meta
+      property="og:title"
+      content="{{pageTitle}}"
+    />
+    <meta
+      property="og:description"
+      content="{{description}}"
+    />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{pageTitle}}" />
+    <meta name="twitter:description" content="{{description}}" />
+    <link
+      rel="icon"
+      href="files/favicon.svg"
+      type="image/svg+xml"
+      data-dynamic-favicon
+      data-active-icon="files/favicon.svg"
+      data-idle-icon="files/favicon-idle.svg"
+      data-active-light-icon="files/favicon.svg"
+      data-idle-light-icon="files/favicon-idle.svg"
+      data-active-dark-icon="files/favicon-light.svg"
+      data-idle-dark-icon="files/favicon-idle-light.svg"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body class="text-ink">
+    <div class="site-shell">
+        <header class="site-header">
+          <div class="site-header-frame">
+            <div class="site-header-inner">
+              <div class="site-header-brand">
+                <span class="type-brand text-ink">Yi</span>
+              </div>
+              <nav class="site-header-nav type-nav">
+                <a class="site-header-link" href="/">About</a>
+                <!-- Tabler Outline icons; license: files/icons/tabler-LICENSE.txt -->
+                <button class="site-theme-toggle" type="button" data-theme-toggle hidden aria-label="Switch to dark mode" title="Switch to dark mode">
+                  <svg class="site-theme-icon site-theme-icon--moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454l0 .008" />
+                  </svg>
+                  <svg class="site-theme-icon site-theme-icon--sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                    <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+                  </svg>
+                  <svg class="site-theme-morph" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path class="site-theme-disc" />
+                    <path class="site-theme-rays" d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+                  </svg>
+                </button>
+              </nav>
+            </div>
+          </div>
+          <div class="site-header-rule"></div>
+        </header>
+      <main class="project-page page-gutter section-rail-l2">
+        <div class="project-opening">
+          <a class="project-back" href="/#selected-projects"><span class="project-back-arrow" aria-hidden="true">↖</span> <span class="project-back-label">Home</span></a>
+          <header id="project-heading" class="project-heading"></header>
+        </div>
+        <section class="project-intro" aria-labelledby="project-overview">
+          <div class="project-copy">
+            <h2 id="project-overview" class="type-title-section">Abstract</h2>
+            <!-- Abstract verified against {{doi}} on {{abstractVerifiedOn}}. -->
+            <p class="type-body-bio">{{abstract}}</p>
+          </div>
+          <figure class="project-figure">
+            <div id="project-image" class="project-image-frame"><img{{imageClass}} src="{{imageSrc}}" width="320" height="200" alt="{{imageAlt}}" decoding="sync" fetchpriority="high" /></div>
+          </figure>
+        </section>
+        {{detailsHtml}}
+      </main>
+    </div>
+    <script type="module" src="/js/favicon.js"></script>
+  </body>
+</html>

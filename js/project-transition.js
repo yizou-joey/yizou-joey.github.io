@@ -117,12 +117,19 @@
     document.head.append(prefetch);
   });
 
+  // CSS owns timing for native snapshots and compatibility animations (in ms).
+  const motionTiming = (duration, easing = "--publication-motion-ease") => {
+    const style = getComputedStyle(root);
+    return {
+      duration: parseFloat(style.getPropertyValue(duration)),
+      easing: style.getPropertyValue(easing).trim(),
+      fill: "both",
+    };
+  };
   // Both navigation directions reveal the page alongside the shared element.
-  const revealPage = (shell) => shell.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: 200,
-    easing: getComputedStyle(root).getPropertyValue("--publication-motion-ease").trim(),
-    fill: "both",
-  });
+  const revealPage = (shell) => shell.animate(
+    [{ opacity: 0 }, { opacity: 1 }], motionTiming("--publication-fade-duration"),
+  );
 
   const fallback = async (reason = "unsupported") => {
     if (!arriving || state.startsWith("fallback") || state === "native-finished") return;
@@ -190,7 +197,7 @@
             fontFamily: targetStyle.fontFamily, color: targetStyle.color,
             letterSpacing: targetStyle.letterSpacing,
           }], { duration: 0, fill: "both" }));
-          const timing = { duration: 250, easing: "cubic-bezier(0.77, 0, 0.175, 1)", fill: "both" };
+          const timing = motionTiming("--project-title-duration", "--project-title-ease");
           animations.push(overlay.animate([
             { transform: `translate(${source.x}px, ${source.y}px) scale(1)`,
               clipPath: clip(source.width, sourceHeight, source.width, sourceHeight, 1) },
@@ -240,14 +247,13 @@
       await Promise.race([image.decode(), new Promise((resolve) => setTimeout(resolve, 150))]);
       if (state !== "fallback-preparing") return;
       const target = frame.getBoundingClientRect();
-      const easing = getComputedStyle(root).getPropertyValue("--publication-motion-ease").trim();
       // Give the retained source position one painted frame before moving it.
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       if (state !== "fallback-preparing") return;
       const movement = overlay.animate([
         { transform: sourceTransform },
         { transform: `translate(${target.x}px, ${target.y}px)` },
-      ], { duration: 300, easing, fill: "both" });
+      ], motionTiming("--project-image-duration"));
       hold.cancel();
       animations.push(movement, revealPage(shell));
       setState("fallback-running");
@@ -294,7 +300,7 @@
             { height: `${height}px`, transformOrigin: "left top", transform: `scale(${to})` },
           ], {
             pseudoElement: `::view-transition-${name}(project-title)`,
-            duration: 250, easing: "cubic-bezier(0.77, 0, 0.175, 1)", fill: "both",
+            ...motionTiming("--project-title-duration", "--project-title-ease"),
           }));
         }
       }

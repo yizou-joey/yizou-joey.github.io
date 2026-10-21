@@ -93,45 +93,101 @@ next pointer movement or new focus event checks placement again. Original resour
 links and focus styles remain available; there is no additional touch interaction.
 Entries without a preview remain plain text.
 
-Project entries add `projectUrl` (`"dodgeui.html"` or `"contextual-recovery.html"`)
-to make their titles normal same-tab links. Both pages share the same layout,
-heading renderer, theme controls, and navigation transitions. Abstracts are
-verified against each paper's DOI; the source and verification date are recorded
-in the page HTML. Figures with `preview.fit: "contain"` use `project-image--contain`
-on the project page and retain that fit during the fallback transition.
-On supported desktop browsers, clicking a ready preview
-uses a native cross-document view transition to the same-size project figure.
-Browsers without native navigation events, or whose native transition fails or
-is cancelled, use a 300 ms arrival animation from the saved preview position.
-The retained image appears before destination layout is ready; page content
-fades in over 200 ms. Critical opt-in and image styles load in the head before
-the transition bootstrap. Transfer data is saved before navigation and
-consumed in the destination head.
-A click reveals a ready image immediately and starts navigation without waiting for animation; cold images,
-unavailable placements, keyboard, touch and reduced motion use direct navigation.
-The title keeps its gray highlight without an underline; pointer presses add
-a slight downward compression and a darker highlight. The Home link returns
-using the full paper title as the shared element (250 ms), with other content
-fading. It restores the scroll position saved when the project link was clicked;
-a direct visit without saved context positions the title below the site header.
-A return without native event support uses a 200 ms page fade prepared before paint.
-If a native return fails or is cancelled, the destination stays visible: it is
-never hidden again to replay a fade. Later returns in that tab session select
-the compatibility title animation before navigation and skip the outgoing native
-capture. Two title layers retain the source and destination line wrapping and
-move on the same 250 ms timeline with uniform scaling. The old title fades out
-in the first 100 ms, and the new title fades in over the next 100 ms. Homepage
-content appears only after movement ends, over a final 100 ms (350 ms total).
-The real title stays hidden until the matching destination layer is removed.
-The native path uses the same fade sequence.
-Scroll restoration runs once before movement, after fonts and homepage layout
-settle on the compatibility path. Return navigation omits the fragment to avoid
-the browser's competing anchor scroll, then restores it with `replaceState`.
-Title snapshots retain their proportions and align top-left.
-Reduced motion skips the
-movement. Returned previews and hover highlights stay hidden until deliberate
-pointer movement or keyboard navigation. Return navigation does not depend on
-browser history; storage-unavailable visits retain the ordinary Home link.
+## Project pages
+
+A publication with `projectUrl` has a same-tab title link and a project page.
+Keep its page content in the same `contents/publications.js` entry:
+
+```js
+projectUrl: "dodgeui.html",
+project: {
+  name: "DodgeUI", // Short name for the browser title and social metadata.
+  description: "A short plain-text page description.",
+  abstract: "The verified paper abstract, as plain text.",
+  abstractVerifiedOn: "2026-10-20",
+},
+```
+
+The page reuses the entry's title, authors, venue, resource links, DOI, and
+`preview: { src, alt, fit }`. Do not copy these values into page HTML.
+`abstractVerifiedOn` records the original verification date; moving content does
+not constitute a new verification. The generated HTML preserves the DOI and
+verification date in a comment beside the abstract.
+
+`templates/project.html` owns the shared page structure, metadata tags, theme
+controls, and figure markup. The existing root HTML files are entry markers;
+Vite replaces them with the populated template before processing assets. To add
+a project, add its publication fields and a root HTML entry file named by
+`projectUrl`. Build inputs and output checks derive project pages from that field.
+Project URLs are root-level `.html` filenames. Project content, DOI, and preview
+image are required; the build rejects missing values or duplicate page entries.
+
+### Project-specific details
+
+The shared template is the page shell, not a fixed outline for every project.
+Keep the opening title, resources, abstract, and preview figure shared. Add optional
+`project.detailsHtml` for the project's own sections after that opening. Omit it
+for a short page; no empty details container is rendered.
+
+For a longer project, put the authored HTML in its own content module, such as
+`contents/dodgeui-details.js`, exporting a string. Import that string in
+`contents/publications.js` and assign it to `project.detailsHtml`. Each project
+can have a different number and order of sections, figures, lists, or videos.
+For example, the details module could contain:
+
+```js
+export default `
+  <section aria-labelledby="project-method">
+    <h2 id="project-method" class="type-title-section">Method</h2>
+    <p>Describe this project's method here.</p>
+  </section>
+  <section aria-labelledby="project-results">
+    <h2 id="project-results" class="type-title-section">Results</h2>
+    <p>Report the evidence and its limitations here.</p>
+  </section>
+`;
+```
+
+The shared `.project-details` container provides reading width, body typography,
+section spacing, and responsive images/video. Use existing semantic classes for
+headings and links. Use unique heading IDs, descriptive image alt text, and
+public-relative asset paths. Details HTML is trusted repository-authored markup;
+do not insert untrusted HTML. Metadata and abstract text remain escaped.
+
+A project-specific diagram or interaction can use its own semantic class and
+module inside this slot. Add such behavior only when the actual content needs it.
+Keep styles in `css/styles.css` and reuse its tokens. Do not copy the whole page
+template or add a layout registry for hypothetical future variants. Keep
+`.project-title` and `#project-image` in the shared opening so navigation retains
+its stable targets. If a real project later needs a different opening, make that
+specific change then instead of forcing every page into a new abstraction.
+
+During development, editing the shared template reloads open pages. Imported
+content modules remain dependencies of the Vite configuration and trigger its
+normal restart/reload behavior.
+
+### Navigation behavior
+
+A ready preview can become the shared image during navigation. Clicking starts
+navigation immediately. Cold images, unavailable placements, keyboard, touch,
+and reduced motion use ordinary navigation. Native cross-document transitions
+have a compatibility animation when unavailable or unsuccessful.
+
+Home returns to the saved homepage scroll position. Direct visits without saved
+context return to the matching paper title. The return transition connects the
+project heading to that title. Compatibility title layers crossfade while moving,
+and page content fades in concurrently. This path allows homepage layout to
+settle for two animation frames; it does not wait for document-wide font loading.
+A failed native return keeps the destination visible instead of replaying its fade.
+Later returns in that tab use the compatibility path. Reduced motion skips the
+animation while preserving scroll restoration and cleanup. Without storage,
+the ordinary Home link remains available.
+
+Returned previews and title hover emphasis remain suppressed until pointer
+movement or keyboard navigation. CSS owns animation durations and curves;
+`js/project-transition.js` reads the same values for compatibility animations.
+Keep duration tokens in milliseconds. The implementation is the source of truth
+for exact timing; this guide does not duplicate a frame-by-frame timeline.
 
 Keep source images in `assets/original-images/files/projects/` and add their
 optimized outputs to `scripts/optimize-images.mjs`. Images use bottom-centered

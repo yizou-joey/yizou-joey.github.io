@@ -821,18 +821,20 @@ a {
 }
 
 .publication-bracket-links a {
+  --resource-link-padding-start: var(--space-4);
+  --resource-link-padding-end: var(--space-4);
   position: relative;
   display: inline-flex;
   align-items: baseline;
   color: var(--color-resource-link);
   text-decoration: none;
-  padding: 0 var(--space-4);
+  padding: 0 var(--resource-link-padding-end) 0 var(--resource-link-padding-start);
   /* Fix Safari text smearing during width transitions */
   transform: translateZ(0); 
 }
 
 .publication-bracket-links > a:first-child {
-  padding-left: 0;
+  --resource-link-padding-start: 0px;
 }
 
 .bracket-text {
@@ -861,9 +863,10 @@ a {
 .publication-bracket-links a::after {
   content: "";
   position: absolute;
-  left: 0;
+  left: var(--resource-link-padding-start);
+  right: var(--resource-link-padding-end);
   bottom: -1px;
-  width: 100%;
+  width: auto;
   height: 1px;
   background: currentColor;
   opacity: 0;
@@ -879,6 +882,26 @@ a {
 .publication-bracket-links a:focus-visible::after {
   opacity: 1; /* Match the arrow's opacity: 1, was 0.9 before */
   transform: scaleX(1);
+}
+
+/* Press feedback preserves the existing reveal geometry and timing. */
+.publication-bracket-links a:is(:active, .is-touch-pressed) {
+  color: color-mix(in srgb, var(--color-resource-link) 65%, var(--color-ink));
+}
+
+/* Match bio's small hover-to-press offset without changing scaleX reveal. */
+@media (prefers-reduced-motion: no-preference) {
+  .publication-bracket-links a::after {
+    transition:
+      opacity 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      translate var(--link-feedback-duration) var(--link-feedback-ease);
+  }
+
+  .publication-bracket-links a:is(:active, .is-touch-pressed):not(:focus-visible)::after {
+    translate: 0 var(--link-underline-press-lift, calc(var(--link-underline-press-offset) - var(--link-underline-hover-offset)));
+    transition-duration: 260ms, 260ms, var(--link-press-duration);
+  }
 }
 
 /* === Primitives: typography === */
@@ -2599,30 +2622,18 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 @keyframes project-return-in { from { opacity: 0; } }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--publication-fade-duration); }
 .project-page { padding-top: var(--space-48); padding-bottom: var(--space-48); }
-.project-back {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--space-6);
-  font-family: var(--font-serif-sc);
-  font-size: 14px;
+.publication-bracket-links .project-back {
+  --resource-link-padding-start: 0px;
+  --resource-link-padding-end: 0px;
+  --link-underline-press-lift: -0.1em;
+  color: var(--color-nav-muted);
+  padding: 0;
   font-weight: 400;
   line-height: var(--type-body-line-height);
-  color: var(--color-muted);
-  text-decoration: none;
-  transition: color 180ms ease;
 }
-.project-back-label {
-  text-decoration-line: underline;
-  text-decoration-color: var(--color-link-decoration-muted);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: text-decoration-color 180ms ease;
-}
-.project-back:hover,
-.project-back:focus-visible { color: var(--color-ink); }
-.project-back:hover .project-back-label,
-.project-back:focus-visible .project-back-label {
-  text-decoration-color: var(--color-link-decoration-ink);
+.project-back .bracket-text::before { content: "↖ "; }
+.publication-bracket-links .project-back:is(:active, .is-touch-pressed) {
+  color: color-mix(in srgb, var(--color-nav-muted) 65%, var(--color-ink));
 }
 .project-back:focus-visible {
   outline: 2px solid var(--color-apple-blue);
@@ -2663,7 +2674,7 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
   .project-labels .publication-eyebrow { flex-direction: column; align-items: flex-start; gap: var(--space-12); margin: 0; }
   .project-labels .publication-eyebrow-separator { display: none; }
   .project-resources .publication-bracket-links { flex-direction: column; align-items: flex-start; gap: var(--space-12); }
-  .project-resources .publication-bracket-links a { padding-left: 0; }
+  .project-resources .publication-bracket-links a { --resource-link-padding-start: 0px; }
   .project-intro { max-width: var(--width-rail-level-2); grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-48); }
   .project-copy { grid-column: 1; grid-row: 1; }
   .project-figure { grid-column: 2; grid-row: 1; }

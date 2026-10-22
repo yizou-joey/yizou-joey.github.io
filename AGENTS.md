@@ -23,4 +23,6 @@ There is no unit-test framework or coverage threshold. Treat `npm run check` and
 
 ## Commit & Pull Request Guidelines
 
+Use one short-lived `<feature>` branch per feature or independently reviewable stage. Small text or link fixes may go directly to `main`. Before merging, run the required checks and optionally consolidate trial-and-error commits while preserving meaningful development steps. Merge with `git merge --no-ff <branch>` and name the feature or stage in the merge message. Delete completed branches after merging; do not rewrite existing `main` history for visual consistency. Use `git log --first-parent --oneline main` to review feature milestones. A long-lived `develop` branch and a PR for every change are not required.
+
 Recent history uses short, imperative summaries such as `Add Sharp image optimization pipeline` and `fix animation in reduce motion settings`. Keep each commit focused and describe the observable change; avoid vague messages such as `refine`. Pull requests should explain the intent and affected pages, link any issue, report `npm run build` results, and include before/after screenshots for visual changes. Do not commit `node_modules/`, `dist/`, temporary files, or generated images outside the designated generated directory.

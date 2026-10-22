@@ -331,3 +331,39 @@
     }
   });
 })();
+
+// Shared press feedback for project navigation and resource links.
+(() => {
+  // Touch browsers can defer :active until release. Show feedback on contact,
+  // without capturing the pointer or changing scrolling and link navigation.
+  const actionSelector = ".publication-bracket-links a, .project-back";
+  let pressed = null;
+
+  const clearPress = () => {
+    pressed?.link.classList.remove("is-touch-pressed");
+    pressed = null;
+  };
+
+  document.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "touch") return;
+    clearPress();
+    const link = event.target.closest(actionSelector);
+    if (!event.isPrimary || !link) return;
+    pressed = { link, id: event.pointerId, x: event.clientX, y: event.clientY };
+    link.classList.add("is-touch-pressed");
+  }, { passive: true });
+
+  document.addEventListener("pointermove", (event) => {
+    if (pressed?.id !== event.pointerId) return;
+    if (Math.hypot(event.clientX - pressed.x, event.clientY - pressed.y) > 8) clearPress();
+  }, { passive: true });
+
+  for (const type of ["pointerup", "pointercancel"]) {
+    document.addEventListener(type, (event) => {
+      if (pressed?.id === event.pointerId) clearPress();
+    }, { passive: true });
+  }
+  window.addEventListener("blur", clearPress);
+  window.addEventListener("pagehide", clearPress);
+  document.addEventListener("scroll", clearPress, { capture: true, passive: true });
+})();

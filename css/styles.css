@@ -2320,6 +2320,10 @@ span.site-header-link {
   gap: var(--space-12);
 }
 
+.page-colophon-inner--text-only {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
 .page-colophon-copyright {
   text-align: left;
 }
@@ -2533,14 +2537,6 @@ html { overflow-y: scroll; scrollbar-gutter: stable; }
 @view-transition { navigation: auto; }
 .project-return-departing .project-title,
 .project-return-arriving [data-project-return-target] { view-transition-name: project-title; }
-.project-return-fallback .site-shell { opacity: 0; }
-.project-transition-title {
-  position: fixed;
-  inset: 0 auto auto 0;
-  z-index: 100;
-  transform-origin: left top;
-  pointer-events: none;
-}
 /* Capture the text, without unused block width or fixed padding in its snapshot. */
 .project-title,
 .publication-title-serif:has(.publication-project-link) {
@@ -2554,25 +2550,6 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 .project-returned .editorial-publication-item .publication-title-serif { transform: none; }
 .project-departing .publication-preview,
 .project-arriving .project-image-frame { view-transition-name: dodgeui-image; }
-.project-fallback-arriving .site-shell { opacity: 0; }
-.project-fallback-arriving .project-image-frame { visibility: hidden; }
-.project-transition-image {
-  position: fixed;
-  inset: 0 auto auto 0;
-  z-index: 100;
-  width: clamp(200px, 25vw, 320px);
-  aspect-ratio: 8 / 5;
-  border: 1px solid var(--color-border-warm);
-  border-radius: 8px;
-  object-fit: cover;
-  object-position: center bottom;
-  background: #fdfdfc;
-  pointer-events: none;
-}
-.project-transition-image.project-image--contain {
-  object-fit: contain;
-  object-position: center;
-}
 /* Project transition bootstrap end */
 .publication-project-link { color: inherit; text-decoration: none; }
 .publication-project-link:hover { text-decoration: none; }
@@ -2621,24 +2598,6 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 @keyframes project-return-in { from { opacity: 0; } }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--publication-fade-duration); }
 .project-page { padding-top: var(--space-24); padding-bottom: var(--space-48); }
-.publication-bracket-links .project-back {
-  --resource-link-padding-start: 0px;
-  --resource-link-padding-end: 0px;
-  --link-underline-press-lift: -0.1em;
-  color: var(--color-nav-muted);
-  padding: 0;
-  font-weight: 400;
-  line-height: var(--type-body-line-height);
-}
-.project-back .bracket-text::before { content: "↖ "; }
-.publication-bracket-links .project-back:is(:active, .is-touch-pressed) {
-  color: color-mix(in srgb, var(--color-nav-muted) 65%, var(--color-ink));
-}
-.project-back:focus-visible {
-  outline: 2px solid var(--color-apple-blue);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
 .project-opening { max-width: var(--width-rail-level-2); margin-inline: auto; }
 .project-heading { display: grid; grid-template-areas: "labels" "title"; gap: var(--space-12); margin-top: var(--space-16); padding-bottom: var(--space-24); border-bottom: 1px solid var(--color-border-warm); }
 .project-labels { grid-area: labels; }
@@ -2651,11 +2610,13 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 .project-heading .publication-authors-serif { margin-bottom: 0; }
 .project-intro { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-24); max-width: var(--width-rail-level-2); margin: var(--space-24) auto 0; align-items: start; }
 .project-copy p { margin-top: var(--space-16); }
-.project-copy { min-width: 0; }
-.project-resources { margin-top: var(--space-20); }
+.project-copy { min-width: 0; grid-row: 1; }
+.project-resources { margin-bottom: var(--space-16); line-height: 20px; }
 .project-section { max-width: var(--width-rail-level-2); margin: var(--space-32) auto 0; }
 .project-section-content { margin-top: var(--space-16); }
 .project-video-section { margin-top: var(--space-48); }
+/* Match the abstract's visible text inset below its section heading. */
+.project-video { max-width: 880px; margin-inline: auto; margin-top: calc(var(--space-16) + var(--space-12)); }
 .project-video iframe { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 0; }
 .project-details { max-width: var(--width-rail-level-2); margin: var(--space-48) auto 0; }
 .project-details > section + section { margin-top: var(--space-48); }
@@ -2664,7 +2625,7 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 .project-details ul { list-style: disc; }
 .project-details ol { list-style: decimal; }
 .project-details :is(img, video) { display: block; max-width: 100%; height: auto; }
-.project-media { width: clamp(200px, 25vw, 320px); max-width: 100%; justify-self: end; }
+.project-media { grid-row: 2; width: 320px; max-width: 100%; justify-self: center; }
 .project-figure { width: 100%; margin: 0; }
 .project-image-frame { width: 100%; aspect-ratio: 8 / 5; overflow: hidden; border: 1px solid var(--color-border-warm); border-radius: 8px; background: #fdfdfc; }
 .project-image-frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
@@ -2673,7 +2634,13 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 @media (min-width: 960px) {
   .project-intro { grid-template-columns: minmax(0, 1fr) clamp(200px, 25vw, 320px); gap: var(--space-32); }
   .project-copy { grid-column: 1; grid-row: 1; }
-  .project-media { grid-column: 2; grid-row: 1; }
+  .project-media { grid-column: 2; grid-row: 1; width: clamp(200px, 25vw, 320px); justify-self: end; }
+  /* Match the lowercase ink tops across the serif links and sans-serif heading.
+     Keep this optical correction out of the media column's document flow. */
+  .project-resources { position: relative; top: calc(-1 * var(--space-2)); }
+  /* The 18px / 29px abstract has about 12px above its lowercase ink.
+     Align the image with that ink, rather than the paragraph's line box. */
+  .project-figure { padding-top: var(--space-12); }
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }

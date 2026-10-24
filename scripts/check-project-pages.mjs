@@ -38,8 +38,8 @@ for (const project of projects) {
   const resourcesStart = html.indexOf('aria-label="Project resources"');
   const videoStart = html.indexOf('aria-labelledby="project-video-title"');
   const resources = html.slice(resourcesStart, videoStart);
-  assert(html.indexOf('id="project-image"') < html.indexOf('class="project-copy"'), "Narrow screens encounter the figure before the abstract");
-  assert(html.indexOf('</figure>') < resourcesStart && resourcesStart < html.indexOf('class="project-copy"'), "Resources follow the figure in the media column, before the abstract on narrow screens");
+  assert(html.indexOf('class="project-copy"') < html.indexOf('class="project-media"'), "Reading order matches the narrow layout: abstract before resources and figure");
+  assert(html.indexOf('class="project-media"') < resourcesStart && resourcesStart < html.indexOf('id="project-image"'), "Resources precede the figure in the media column");
   assert(resourcesStart < videoStart, "Resources precede the video");
   assert(resources.includes(project.posterUrl || project.slidesUrl));
   assert(resources.includes(project.doi));

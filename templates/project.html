@@ -68,7 +68,7 @@
                 <span class="type-brand text-ink">Yi</span>
               </div>
               <nav class="site-header-nav type-nav">
-                <a class="site-header-link" href="/">About</a>
+                <a class="site-header-link" href="/">Home</a>
                 <!-- Tabler Outline icons; license: files/icons/tabler-LICENSE.txt -->
                 <button class="site-theme-toggle" type="button" data-theme-toggle hidden aria-label="Switch to dark mode" title="Switch to dark mode">
                   <svg class="site-theme-icon site-theme-icon--moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -90,28 +90,33 @@
         </header>
       <main class="project-page page-gutter">
         <div class="project-opening">
-          <div class="publication-bracket-links">
-            <a class="project-back" href="/#selected-projects"><span class="bracket-text">Home</span></a>
-          </div>
           <header id="project-heading" class="project-heading"></header>
         </div>
         <section class="project-intro" aria-labelledby="project-overview">
-          <div class="project-media">
-            <figure class="project-figure">
-              <div id="project-image" class="project-image-frame"><img{{imageClass}} src="{{imageSrc}}" width="320" height="200" alt="{{imageAlt}}" decoding="sync" fetchpriority="high" /></div>
-            </figure>
-            {{resourcesHtml}}
-          </div>
           <div class="project-copy">
             <h2 id="project-overview" class="type-title-section">Abstract</h2>
             <!-- Abstract verified against {{doi}} on {{abstractVerifiedOn}}. -->
             <p class="type-body-bio">{{abstract}}</p>
+          </div>
+          <div class="project-media">
+            {{resourcesHtml}}
+            <figure class="project-figure">
+              <div id="project-image" class="project-image-frame"><img{{imageClass}} src="{{imageSrc}}" width="320" height="200" alt="{{imageAlt}}" decoding="sync" fetchpriority="high" /></div>
+            </figure>
           </div>
         </section>
         {{detailsHtml}}
         {{videoHtml}}
       </main>
     </div>
+    <footer class="site-footer site-footer--colophon" data-site-footer="true">
+      <div class="page-colophon">
+        <div class="page-colophon-inner page-colophon-inner--text-only">
+          <p class="site-footer-note page-colophon-copyright">© 2026 Yi Zou</p>
+          <p class="site-footer-note page-colophon-updated">Updated <time datetime="2026-09">Sep 2026</time></p>
+        </div>
+      </div>
+    </footer>
     <script type="module" src="/js/favicon.js"></script>
   </body>
 </html>

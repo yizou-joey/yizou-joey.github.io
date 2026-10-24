@@ -34,12 +34,12 @@ try {
 for (const project of projects) {
   const html = await render(project);
   const heading = html.slice(html.indexOf('id="project-heading"'), html.indexOf('<section class="project-intro"'));
-  assert(!heading.includes('<nav'), "Project heading no longer contains resources");
+  assert(heading.includes('aria-label="Project resources"'), "Paper resources belong to the project heading");
   const resourcesStart = html.indexOf('aria-label="Project resources"');
   const videoStart = html.indexOf('aria-labelledby="project-video-title"');
-  const resources = html.slice(resourcesStart, videoStart);
-  assert(html.indexOf('class="project-copy"') < html.indexOf('class="project-media"'), "Reading order matches the narrow layout: abstract before resources and figure");
-  assert(html.indexOf('class="project-media"') < resourcesStart && resourcesStart < html.indexOf('id="project-image"'), "Resources precede the figure in the media column");
+  const resources = html.slice(resourcesStart, html.indexOf('</nav>', resourcesStart));
+  assert(html.indexOf('class="project-copy"') < html.indexOf('class="project-media"'), "Reading order matches the narrow layout: abstract before figure");
+  assert(html.indexOf('class="publication-authors-serif"') < resourcesStart && resourcesStart < html.indexOf('<section class="project-intro"'), "Resources follow the authors before the abstract");
   assert(resourcesStart < videoStart, "Resources precede the video");
   assert(resources.includes(project.posterUrl || project.slidesUrl));
   assert(resources.includes(project.doi));

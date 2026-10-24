@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { escapeHtml, renderProjectHeadingHtml, renderProjectResourcesHtml, renderProjectVideoHtml } from "./js/utils.js";
+import { escapeHtml, renderProjectHeadingHtml, renderProjectVideoHtml } from "./js/utils.js";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
@@ -117,7 +117,6 @@ const staticContentHtmlPlugin = () => ({
         html = await readFile(projectTemplateUrl, "utf8");
         html = html.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
           // Only repository-authored details may contain markup; metadata stays escaped.
-          if (key === "resourcesHtml") return renderProjectResourcesHtml(entry);
           if (key === "videoHtml") return renderProjectVideoHtml(entry);
           if (key === "detailsHtml") return project.detailsHtml?.trim()
             ? `<div class="project-details type-body-bio">${project.detailsHtml}</div>` : "";

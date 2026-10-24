@@ -314,7 +314,7 @@ const renderPublicationLinksHtml = (entry, { excludeYoutube = false } = {}) => {
 };
 
 const renderProjectHeadingHtml = (entry) =>
-  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}</div>`;
+  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}${renderProjectResourcesHtml(entry)}</div>`;
 
 const renderProjectResourcesHtml = (entry) => {
   const links = renderPublicationLinksHtml(entry, { excludeYoutube: true });

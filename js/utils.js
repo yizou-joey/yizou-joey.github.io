@@ -249,7 +249,7 @@ const getPublicationSupplementLinks = (entry) =>
     return acc;
   }, []);
 
-const renderPublicationEyebrowHtml = (entry) => {
+const renderPublicationEyebrowHtml = (entry, { linkMetadata = false } = {}) => {
   const type = normalizePublicationType(entry.type);
   const typeLabel = PUBLICATION_TYPE_LABEL[type] || "Workshop";
   const workshopLabel = String(entry.workshopLabel || "").trim();
@@ -261,22 +261,22 @@ const renderPublicationEyebrowHtml = (entry) => {
   const statusLabel = awardLabel || fallbackStatusLabel;
   const typeLinkUrl = String(entry.typeLink || "").trim();
   const eyebrowParts = [
-    `<span class="publication-eyebrow-venue">${escapeHtml(entry.venue || "")}</span>`,
+    `<span class="publication-eyebrow-venue">${linkMetadata && entry.venueUrl ? renderNewsInline({ ...entry, text: entry.venue, award: "", awardText: "" }) : escapeHtml(entry.venue || "")}</span>`,
   ];
 
   if (type === "W" && workshopLabel) {
     const workshopHtml = escapeHtml(workshopLabel.toUpperCase());
-    if (typeLinkUrl) {
+    if (linkMetadata && typeLinkUrl) {
       eyebrowParts.push(
-        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">—</span><a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="publication-eyebrow-workshop-link">${workshopHtml}</a></span>`
+        `<a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="project-workshop-link news-venue-link${venueClass}">${escapeHtml(typeLabel)}<span class="publication-eyebrow-dash">·</span><span class="inline-link">${workshopHtml}</span></a>`
       );
     } else {
       eyebrowParts.push(
-        `<span>${escapeHtml(typeLabel.toUpperCase())}<span class="publication-eyebrow-dash">—</span>${workshopHtml}</span>`
+        `<span>${escapeHtml(typeLabel)}<span class="publication-eyebrow-dash">·</span>${workshopHtml}</span>`
       );
     }
   } else {
-    eyebrowParts.push(`<span>${escapeHtml(typeLabel.toUpperCase())}</span>`);
+    eyebrowParts.push(`<span>${escapeHtml(typeLabel)}</span>`);
   }
 
   if (statusLabel) {
@@ -314,7 +314,7 @@ const renderPublicationLinksHtml = (entry, { excludeYoutube = false } = {}) => {
 };
 
 const renderProjectHeadingHtml = (entry) =>
-  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}${renderProjectResourcesHtml(entry)}</div>`;
+  `<div class="project-heading-copy"><div class="project-labels">${renderPublicationEyebrowHtml(entry, { linkMetadata: true })}</div><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}</div>${renderProjectResourcesHtml(entry)}`;
 
 const renderProjectResourcesHtml = (entry) => {
   const links = renderPublicationLinksHtml(entry, { excludeYoutube: true });

@@ -39,7 +39,7 @@ for (const project of projects) {
   const videoStart = html.indexOf('aria-labelledby="project-video-title"');
   const resources = html.slice(resourcesStart, html.indexOf('</nav>', resourcesStart));
   assert(html.indexOf('class="project-copy"') < html.indexOf('class="project-media"'), "Reading order matches the narrow layout: abstract before figure");
-  assert(html.indexOf('class="publication-authors-serif"') < resourcesStart && resourcesStart < html.indexOf('<section class="project-intro"'), "Resources follow the authors before the abstract");
+  assert(resourcesStart < heading.length + html.indexOf('id="project-heading"'), "Resources remain within the project heading");
   assert(resourcesStart < videoStart, "Resources precede the video");
   assert(resources.includes(project.posterUrl || project.slidesUrl));
   assert(resources.includes(project.doi));

@@ -88,7 +88,7 @@
           </div>
           <div class="site-header-rule"></div>
         </header>
-      <main class="project-page page-gutter section-rail-l2">
+      <main class="project-page page-gutter">
         <div class="project-opening">
           <div class="publication-bracket-links">
             <a class="project-back" href="/#selected-projects"><span class="bracket-text">Home</span></a>
@@ -96,16 +96,20 @@
           <header id="project-heading" class="project-heading"></header>
         </div>
         <section class="project-intro" aria-labelledby="project-overview">
+          <div class="project-media">
+            <figure class="project-figure">
+              <div id="project-image" class="project-image-frame"><img{{imageClass}} src="{{imageSrc}}" width="320" height="200" alt="{{imageAlt}}" decoding="sync" fetchpriority="high" /></div>
+            </figure>
+            {{resourcesHtml}}
+          </div>
           <div class="project-copy">
             <h2 id="project-overview" class="type-title-section">Abstract</h2>
             <!-- Abstract verified against {{doi}} on {{abstractVerifiedOn}}. -->
             <p class="type-body-bio">{{abstract}}</p>
           </div>
-          <figure class="project-figure">
-            <div id="project-image" class="project-image-frame"><img{{imageClass}} src="{{imageSrc}}" width="320" height="200" alt="{{imageAlt}}" decoding="sync" fetchpriority="high" /></div>
-          </figure>
         </section>
         {{detailsHtml}}
+        {{videoHtml}}
       </main>
     </div>
     <script type="module" src="/js/favicon.js"></script>

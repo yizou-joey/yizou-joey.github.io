@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import config from "../vite.config.js";
 import publications from "../contents/publications.js";
+import { renderPublicationItemHtml, renderProjectVideoHtml } from "../js/utils.js";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
@@ -29,6 +30,30 @@ try {
 } finally {
   entry.project = original;
 }
+
+for (const project of projects) {
+  const html = await render(project);
+  const heading = html.slice(html.indexOf('id="project-heading"'), html.indexOf('<section class="project-intro"'));
+  assert(!heading.includes('<nav'), "Project heading no longer contains resources");
+  const resourcesStart = html.indexOf('aria-label="Project resources"');
+  const videoStart = html.indexOf('aria-labelledby="project-video-title"');
+  const resources = html.slice(resourcesStart, videoStart);
+  assert(html.indexOf('id="project-image"') < html.indexOf('class="project-copy"'), "Narrow screens encounter the figure before the abstract");
+  assert(html.indexOf('</figure>') < resourcesStart && resourcesStart < html.indexOf('class="project-copy"'), "Resources follow the figure in the media column, before the abstract on narrow screens");
+  assert(resourcesStart < videoStart, "Resources precede the video");
+  assert(resources.includes(project.posterUrl || project.slidesUrl));
+  assert(resources.includes(project.doi));
+  assert(!resources.includes(project.youtubeUrl), "Video link belongs to its own section");
+  assert(html.includes(`>${project.youtubeLabel}</h2>`));
+  assert(html.includes('loading="lazy"') && html.includes('allowfullscreen'));
+  assert(html.includes('referrerpolicy="strict-origin-when-cross-origin"'));
+  assert(html.includes('youtube-nocookie.com/embed/') && !html.includes('autoplay=1'));
+  assert(!html.includes('Watch on YouTube'), "No standalone link below the player");
+  assert(renderPublicationItemHtml(project).includes(project.youtubeUrl.replaceAll('&', '&amp;')), "Homepage retains its original video link");
+}
+assert((await render(projects[1])).includes('start=1'), "Existing video timestamp survives embedding");
+assert.equal(renderProjectVideoHtml({}), "", "Missing video produces no empty section");
+assert.throws(() => renderProjectVideoHtml({ youtubeUrl: "https://example.com/watch?v=6GY7u8pQ9s8" }), /YouTube video/);
 
 const messages = [];
 const server = { ws: { send: (message) => messages.push(message) } };

@@ -304,15 +304,46 @@ const renderPublicationTitleHtml = (entry) => renderInlineMarkdown(
 const renderPublicationAuthorsHtml = (entry) =>
   `<p class="publication-authors-serif">${renderAuthors(entry.authors || "")}</p>`;
 
-const renderPublicationLinksHtml = (entry) => {
-  const links = getPublicationSupplementLinks(entry).map((supplement) =>
+const renderPublicationLinksHtml = (entry, { excludeYoutube = false } = {}) => {
+  const links = getPublicationSupplementLinks(entry)
+    .filter((link) => !excludeYoutube || link.href !== entry.youtubeUrl?.trim())
+    .map((supplement) =>
     `<a href="${escapeHtml(supplement.href)}" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">${escapeHtml(supplement.label)}</span>]</a>`
   ).join("");
   return links ? `<div class="publication-bracket-links">${links}</div>` : "";
 };
 
 const renderProjectHeadingHtml = (entry) =>
-  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}</div><nav class="project-resources" aria-label="Project resources">${renderPublicationLinksHtml(entry)}</nav>`;
+  `<div class="project-labels">${renderPublicationEyebrowHtml(entry)}</div><div class="project-heading-copy"><h1 class="project-title">${renderPublicationTitleHtml(entry)}</h1>${renderPublicationAuthorsHtml(entry)}</div>`;
+
+const renderProjectResourcesHtml = (entry) => {
+  const links = renderPublicationLinksHtml(entry, { excludeYoutube: true });
+  return links ? `<nav class="project-resources" aria-label="Project resources">${links}</nav>` : "";
+};
+
+const renderProjectVideoHtml = (entry) => {
+  if (!entry.youtubeUrl?.trim()) return "";
+  const url = new URL(entry.youtubeUrl);
+  const host = url.hostname.replace(/^www\./, "");
+  const videoId = host === "youtu.be" ? url.pathname.slice(1)
+    : host === "youtube.com" ? (url.pathname === "/watch" ? url.searchParams.get("v") : url.pathname.match(/^\/embed\/([^/]+)$/)?.[1]) : "";
+  if (url.protocol !== "https:" || !/^[A-Za-z0-9_-]{11}$/.test(videoId || "")) {
+    throw new Error("Project youtubeUrl must identify an HTTPS YouTube video.");
+  }
+  const embed = new URL(`https://www.youtube-nocookie.com/embed/${videoId}`);
+  embed.searchParams.set("playsinline", "1");
+  embed.searchParams.set("rel", "0");
+  const timestamp = url.searchParams.get("start") || url.searchParams.get("t");
+  if (timestamp) {
+    const parts = timestamp.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+    const seconds = /^\d+$/.test(timestamp) ? Number(timestamp)
+      : parts ? Number(parts[1] || 0) * 3600 + Number(parts[2] || 0) * 60 + Number(parts[3] || 0) : 0;
+    if (Number.isSafeInteger(seconds) && seconds > 0) embed.searchParams.set("start", String(seconds));
+  }
+  const label = entry.youtubeLabel?.trim() || "Video";
+  const title = `${entry.project.name} — ${label}`;
+  return `<section class="project-section project-video-section" aria-labelledby="project-video-title"><h2 id="project-video-title" class="type-title-section">${escapeHtml(label)}</h2><div class="project-video project-section-content"><iframe src="${escapeHtml(embed.href)}" title="${escapeHtml(title)}" width="770" height="433" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div></section>`;
+};
 
 const renderPublicationItemHtml = (item) => {
   const entry = item || {};
@@ -340,4 +371,6 @@ export {
   renderNewsInline,
   renderPublicationItemHtml,
   renderProjectHeadingHtml,
+  renderProjectResourcesHtml,
+  renderProjectVideoHtml,
 };

@@ -45,7 +45,8 @@ for (const project of projects) {
   assert(resources.includes(project.doi));
   assert(!resources.includes(project.youtubeUrl), "Video link belongs to its own section");
   assert(html.includes(`>${project.youtubeLabel}</h2>`));
-  assert(html.includes('loading="lazy"') && html.includes('allowfullscreen'));
+  assert(html.includes('loading="eager"') && html.includes('allowfullscreen'));
+  assert(html.includes('<link rel="preconnect" href="https://www.youtube-nocookie.com" />'));
   assert(html.includes('referrerpolicy="strict-origin-when-cross-origin"'));
   assert(html.includes('youtube-nocookie.com/embed/') && !html.includes('autoplay=1'));
   assert(!html.includes('Watch on YouTube'), "No standalone link below the player");

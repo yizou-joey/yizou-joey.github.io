@@ -342,7 +342,7 @@ const renderProjectVideoHtml = (entry) => {
   }
   const label = entry.youtubeLabel?.trim() || "Video";
   const title = `${entry.project.name} — ${label}`;
-  return `<section class="project-section project-video-section" aria-labelledby="project-video-title"><h2 id="project-video-title" class="type-title-section">${escapeHtml(label)}</h2><div class="project-video project-section-content"><iframe src="${escapeHtml(embed.href)}" title="${escapeHtml(title)}" width="770" height="433" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div></section>`;
+  return `<section class="project-section project-video-section" aria-labelledby="project-video-title"><h2 id="project-video-title" class="type-title-section">${escapeHtml(label)}</h2><div class="project-video project-section-content"><iframe src="${escapeHtml(embed.href)}" title="${escapeHtml(title)}" width="770" height="433" loading="eager" referrerpolicy="strict-origin-when-cross-origin" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div></section>`;
 };
 
 const renderPublicationItemHtml = (item) => {

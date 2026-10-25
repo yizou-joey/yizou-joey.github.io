@@ -134,6 +134,7 @@
   /* === Tokens: layout widths and sizes === */
   --width-rail-level-1: 1100px;
   --width-rail-level-2: 1060px;
+  --width-header: 1280px;
   --width-project-resources: 96px;
 
   /* === Tokens: spacing === */
@@ -363,6 +364,7 @@ a {
 }
 
 .editorial-service-row {
+  grid-template-columns: minmax(0, 1fr) auto;
   row-gap: var(--space-6);
 }
 
@@ -383,13 +385,13 @@ a {
 }
 
 .editorial-service-row .editorial-item-subtitle {
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 3;
 }
 
 .editorial-service-row > .service-mascot-column {
-  grid-row: 1 / 3;
-  align-self: end;
+  grid-row: 1 / 4;
+  align-self: center;
 }
 
 @media (min-width: 640px) {
@@ -1095,6 +1097,7 @@ a {
   display: flex;
   min-width: 0;
   width: 100%;
+  max-width: var(--width-header);
   height: 48px;
   align-items: center;
   justify-content: space-between;
@@ -1534,13 +1537,13 @@ span.site-header-link {
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  width: 60px;
+  width: 100px;
 }
 
 .service-mascot-sticker {
   display: block;
-  width: calc(60px * var(--service-sticker-scale, 1));
-  height: calc(60px * var(--service-sticker-scale, 1));
+  width: calc(100px * var(--service-sticker-scale, 1));
+  height: calc(100px * var(--service-sticker-scale, 1));
   object-fit: contain;
   backface-visibility: hidden;
   filter: var(--sticker-shadow-base);
@@ -1591,12 +1594,7 @@ span.site-header-link {
 
 @media (min-width: 900px) {
   .service-mascot-column {
-    width: 100px;
     justify-content: center;
-  }
-  .service-mascot-sticker {
-    width: calc(100px * var(--service-sticker-scale, 1));
-    height: calc(100px * var(--service-sticker-scale, 1));
   }
 }
 
@@ -1878,9 +1876,9 @@ span.site-header-link {
 
 /* Compact News timeline used inside the profile rail at every viewport. */
 .profile-news-panel {
-  --news-sticker-lane: 80px;
+  --news-sticker-lane: 100px;
   --news-copy-width: calc(100% - var(--news-sticker-lane));
-  --news-mascot-size: 72px;
+  --news-mascot-size: 80px;
   width: 100%;
   display: flex;
   flex-direction: column;

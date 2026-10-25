@@ -103,7 +103,7 @@ const renderNewsItemHtml = (item) => {
     ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
     : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
   const mascotHtml = entry.mascot
-    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
     : "";
   const note = normalizeInlineText(entry.note || "");
   const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
@@ -204,7 +204,7 @@ const renderServicesItemHtml = (item, index = 0) => {
     ? `<div class="editorial-item-subtitle">${eventHtml}${locationHtml}</div>`
     : "";
   const logoHtml = entry.logo
-    ? `<div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="lazy" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
     : "";
 
   return `<div class="editorial-media-row editorial-service-row${venueClass}"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;

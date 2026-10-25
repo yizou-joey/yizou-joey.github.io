@@ -71,42 +71,54 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia, get
     targetIndex = -1;
     phase = "idle";
   };
+  const images = new Map();
   const copy = (index) => {
-    const image = imageAt(index)?.cloneNode();
-    if (image) image.loading = "eager";
-    return image;
+    if (!images.has(index)) {
+      const image = imageAt(index)?.cloneNode();
+      if (image) image.loading = "eager";
+      images.set(index, image);
+    }
+    return images.get(index);
   };
-  const replace = (index, image = copy(index)) => {
+  const replace = (index, image) => {
     stage.replaceChildren();
     if (image) stage.append(image);
     currentIndex = index;
+    stage.hidden = false;
+    shell.classList.add("has-stationary-sticker");
     updateLink();
   };
-  const swap = async (index) => {
+  const swap = async (index, animate = true) => {
     if (!enabled || index === targetIndex || (index === currentIndex && targetIndex === -1)) return;
+    cancel();
+    targetIndex = index;
+    const token = revision;
+    const nextImage = copy(index);
+    // Keep the inline fallback or current sticker visible until the replacement is ready.
+    try {
+      if (nextImage) await nextImage.decode();
+    } catch {
+      if (token === revision) targetIndex = -1;
+      return;
+    }
+    if (token !== revision || !enabled) return;
+    if (keyboardMode || !animate) {
+      replace(index, nextImage);
+      targetIndex = -1;
+      return;
+    }
     const oldImage = stage.firstElementChild;
     const styles = oldImage && getComputedStyle(oldImage);
     const from = styles && (reducedMotionMedia.matches
       ? { opacity: styles.opacity }
       : { opacity: styles.opacity, transform: styles.transform });
-    cancel();
-    targetIndex = index;
-    const token = revision;
-    if (keyboardMode) {
-      replace(index);
-      targetIndex = -1;
-      return;
-    }
-    const nextImage = copy(index);
-    // Decode during the exit, not after a scroll-settle delay.
-    const ready = nextImage ? nextImage.decode().catch(() => {}) : Promise.resolve();
     if (oldImage) {
       phase = "exit";
       primaryAnimation = oldImage.animate([from, { ...from, opacity: 0 }], {
         duration: 100, easing: EASE_OUT, fill: "forwards",
       });
-      await Promise.all([primaryAnimation.finished.catch(() => {}), ready]);
-    } else await ready;
+      await primaryAnimation.finished.catch(() => {});
+    }
     if (token !== revision || !enabled) return;
     primaryAnimation?.cancel();
     replace(index, nextImage);
@@ -163,7 +175,10 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia, get
   reducedMotionMedia.addEventListener("change", () => {
     const index = targetIndex === -1 ? getActiveItemIndex() : targetIndex;
     cancel();
-    if (enabled) replace(index);
+    if (enabled) {
+      currentIndex = -1;
+      swap(index, false);
+    }
   });
   return {
     start(index) {
@@ -171,15 +186,21 @@ export function createNewsSticker({ shell, region, list, reducedMotionMedia, get
       swap(index);
     },
     sync() {
-      cancel();
       lastScrollTop = region.scrollTop;
       enabled = region.classList.contains("is-scrollable");
-      shell.classList.toggle("has-stationary-sticker", enabled);
-      stage.hidden = !enabled;
       if (enabled) {
         stage.style.blockSize = `${list.children[0]?.getBoundingClientRect().height || 0}px`;
-        replace(getActiveItemIndex());
+        const index = getActiveItemIndex();
+        if (index === currentIndex) {
+          if (targetIndex !== -1 && targetIndex !== index) cancel();
+          updateLink();
+        } else {
+          swap(index, false);
+        }
       } else {
+        cancel();
+        shell.classList.remove("has-stationary-sticker");
+        stage.hidden = true;
         stage.replaceChildren();
         currentIndex = -1;
       }

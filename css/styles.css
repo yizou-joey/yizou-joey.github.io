@@ -260,7 +260,6 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
   .inline-link:hover,
-  .project-workshop-link:hover .inline-link,
   .contact-link:hover .contact-link-label {
     text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
     text-decoration-thickness: var(--link-underline-hover-width);
@@ -269,7 +268,6 @@ a {
 }
 
 .inline-link:focus-visible,
-.project-workshop-link:focus-visible .inline-link,
 .contact-link:focus-visible .contact-link-label {
   text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
   text-decoration-thickness: var(--link-underline-hover-width);
@@ -278,7 +276,6 @@ a {
 }
 
 .inline-link:active,
-.project-workshop-link:active .inline-link,
 .contact-link:active .contact-link-label {
   text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
   text-decoration-thickness: var(--link-underline-press-width);
@@ -2686,7 +2683,6 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
   }
 
   .inline-link:active,
-  .project-workshop-link:active .inline-link,
   .contact-link:active .contact-link-label {
     text-decoration-color: color-mix(in srgb,
       var(--link-underline-accent, var(--color-link-decoration-ink)) 50%,

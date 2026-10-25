@@ -268,7 +268,7 @@ const renderPublicationEyebrowHtml = (entry, { linkMetadata = false } = {}) => {
     const workshopHtml = escapeHtml(workshopLabel.toUpperCase());
     if (linkMetadata && typeLinkUrl) {
       eyebrowParts.push(
-        `<a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="project-workshop-link news-venue-link${venueClass}">${escapeHtml(typeLabel)}<span class="publication-eyebrow-dash">·</span><span class="inline-link">${workshopHtml}</span></a>`
+        `<span>${escapeHtml(typeLabel)}<span class="publication-eyebrow-dash">·</span><a href="${escapeHtml(typeLinkUrl)}" target="_blank" rel="noopener noreferrer" class="inline-link news-venue-link${venueClass}">${workshopHtml}</a></span>`
       );
     } else {
       eyebrowParts.push(

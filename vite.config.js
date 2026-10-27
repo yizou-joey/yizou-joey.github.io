@@ -1,10 +1,10 @@
 import { defineConfig } from "vite";
-import { escapeHtml, renderProjectHeadingHtml, renderProjectVideoHtml } from "./js/utils.js";
 import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
 import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
+import { getProjectEntries, projectTemplateFile, renderProjectPage } from "./build/project-pages.js";
+import { injectStaticContent } from "./build/static-content.js";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
 import news from "./contents/news.js";
@@ -26,28 +26,8 @@ const fail = (message) => {
   throw new Error(message);
 };
 
-const projectEntries = publications.filter((entry) => entry.projectUrl);
-const projectTemplateUrl = new URL("./templates/project.html", import.meta.url);
+const projectEntries = getProjectEntries(publications);
 const projectPages = projectEntries.map((entry) => entry.projectUrl);
-if (projectPages.some((fileName) => !/^[a-z0-9-]+\.html$/.test(fileName))
-  || new Set(projectPages).size !== projectPages.length) {
-  fail("Project URLs must be unique root-level .html filenames.");
-}
-
-const injectStaticContent = ({ html, fileName, id, content }) => {
-  const pattern = new RegExp(
-    `(<([a-z0-9]+)\\b(?=[^>]*\\bid="${id}"(?:\\s|>|\\/))[^>]*)(>)([\\s\\S]*?)(<\\/\\2>)`,
-    "i"
-  );
-  const match = html.match(pattern);
-  if (!match) fail(`${fileName} is missing target container #${id}.`);
-
-  const openTag = match[1].includes("data-content-rendered=")
-    ? match[1]
-    : `${match[1]} data-content-rendered="static"`;
-
-  return html.replace(pattern, `${openTag}>${content}${match[5]}`);
-};
 
 const renderIndexHtml = (html, fileName) => {
   const injections = [
@@ -84,7 +64,7 @@ const renderIndexHtml = (html, fileName) => {
 const staticContentHtmlPlugin = () => ({
   name: "static-content-html",
   handleHotUpdate({ file, server }) {
-    if (file !== fileURLToPath(projectTemplateUrl) && !siteShellTemplateFiles.includes(file)) return;
+    if (file !== projectTemplateFile && !siteShellTemplateFiles.includes(file)) return;
     server.ws.send({ type: "full-reload", path: "*" });
     return [];
   },
@@ -97,35 +77,7 @@ const staticContentHtmlPlugin = () => ({
       }
       if (projectPages.includes(fileName)) {
         const entry = projectEntries.find((entry) => entry.projectUrl === fileName);
-        const { project, preview } = entry;
-        if (!project?.name || !project.description || !project.abstract
-          || !project.abstractVerifiedOn || !entry.doi || !preview?.src || !preview.alt) {
-          fail(`${fileName} requires project metadata, an abstract with verification date, DOI, and preview image.`);
-        }
-        if (project.detailsHtml !== undefined && typeof project.detailsHtml !== "string") {
-          fail(`${fileName}: project.detailsHtml must be an authored HTML string.`);
-        }
-        const values = {
-          pageTitle: `${project.name} — Yi Zou`,
-          description: project.description,
-          canonicalUrl: `https://yizou-joey.github.io/${entry.projectUrl}`,
-          doi: entry.doi,
-          abstractVerifiedOn: project.abstractVerifiedOn,
-          abstract: project.abstract,
-          imageSrc: preview.src,
-          imageAlt: preview.alt,
-        };
-        html = await readFile(projectTemplateUrl, "utf8");
-        html = html.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
-          // Only repository-authored details may contain markup; metadata stays escaped.
-          if (key === "videoHtml") return renderProjectVideoHtml(entry);
-          if (key === "detailsHtml") return project.detailsHtml?.trim()
-            ? `<div class="project-details type-body-bio">${project.detailsHtml}</div>` : "";
-          if (key === "imageClass") return preview.fit === "contain" ? ' class="project-image--contain"' : "";
-          if (!(key in values)) fail(`Unknown project template field: ${key}`);
-          return escapeHtml(values[key]);
-        });
-        html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entry) });
+        html = await renderProjectPage(entry);
       }
       const pageType = fileName === "index.html" ? "home"
         : fileName === "404.html" ? "notFound"

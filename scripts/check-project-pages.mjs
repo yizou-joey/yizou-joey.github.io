@@ -2,12 +2,27 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 import config from "../vite.config.js";
 import publications from "../contents/publications.js";
+import { getProjectEntries, renderProjectPage } from "../build/project-pages.js";
 import { renderPublicationItemHtml, renderProjectVideoHtml } from "../js/utils.js";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
 const render = (entry) => plugin.transformIndexHtml.handler("", { filename: entry.projectUrl });
 const entry = projects[0];
+assert.deepEqual(getProjectEntries([...projects, { title: "No project page" }]), projects);
+assert.throws(() => getProjectEntries([entry, { ...entry }]), /unique root-level/);
+assert.throws(() => getProjectEntries([{ ...entry, projectUrl: "nested/project.html" }]), /unique root-level/);
+for (const field of ["name", "description", "abstract", "abstractVerifiedOn"]) {
+  await assert.rejects(renderProjectPage({ ...entry, project: { ...entry.project, [field]: "" } }),
+    /requires project metadata/, `Missing project.${field} must still fail`);
+}
+for (const incomplete of [
+  { ...entry, doi: "" },
+  { ...entry, preview: { ...entry.preview, src: "" } },
+  { ...entry, preview: { ...entry.preview, alt: "" } },
+]) {
+  await assert.rejects(renderProjectPage(incomplete), /requires project metadata/);
+}
 const original = { ...entry.project };
 const baseline = await render(entry);
 assert(!baseline.includes('class="project-details'));

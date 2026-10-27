@@ -34,6 +34,13 @@ The source HTML files contain lightweight target containers. The custom Vite
 HTML transform imports content modules, renders each section, injects the
 result, and marks the target with `data-content-rendered="static"`.
 
+`build/project-pages.js` selects project entries, validates their unique root-level
+URLs and required metadata, and fills `templates/project.html`, including the
+optional details and video slots. `build/static-content.js` provides the container
+injection helper shared by homepage, project, and retained CV rendering. The Vite
+configuration coordinates these renderers, the shared shell, and script injection;
+it also uses the exported project template path for development reloads.
+
 Content is therefore present in the deployed HTML before browser JavaScript
 runs. Crawlers and readers do not need to fetch or interpret source content.
 The content modules remain outside `public/` and are not deployed separately.

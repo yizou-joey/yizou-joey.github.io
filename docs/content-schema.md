@@ -114,8 +114,10 @@ The page reuses the entry's title, authors, venue, resource links, DOI, and
 not constitute a new verification. The generated HTML preserves the DOI and
 verification date in a comment beside the abstract.
 
-`templates/project.html` owns the shared page structure, metadata tags, theme
-controls, and figure markup. The existing root HTML files are entry markers;
+`templates/project.html` owns the shared project structure, metadata tags, figure
+markup, and site-shell slots. `build/project-pages.js` validates project data and
+fills this template; the shared site shell supplies navigation, theme controls,
+and the footer afterward. The existing root HTML files are entry markers;
 Vite replaces them with the populated template before processing assets. To add
 a project, add its publication fields and a root HTML entry file named by
 `projectUrl`. Build inputs and output checks derive project pages from that field.

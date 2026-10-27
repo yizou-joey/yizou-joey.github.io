@@ -6,10 +6,12 @@ implementation belongs in `css/styles.css`; design intent belongs in
 
 ## Architecture
 
-The site is a Vite multi-page application with two production entry pages:
+The site is a Vite multi-page application with these production entry pages:
 
 - `index.html`: homepage and selected research.
 - `404.html`: not-found page.
+- Project URLs declared in `contents/publications.js`: currently `dodgeui.html`
+  and `contextual-recovery.html`, rendered from `templates/project.html`.
 
 `publications.html` remains a development-only archive shell; it is not built
 or populated with publication content. `cv.html` is also a development-only
@@ -36,13 +38,39 @@ Content is therefore present in the deployed HTML before browser JavaScript
 runs. Crawlers and readers do not need to fetch or interpret source content.
 The content modules remain outside `public/` and are not deployed separately.
 
+## Shared Site Shell
+
+Production pages use `<!-- site:bootstrap -->`, `<!-- site:head -->`,
+`<!-- site:header -->`, and `<!-- site:footer -->` slots. The Vite transform
+expands project content first, then calls `build/site-shell.js` to fill each
+slot, and finally inlines the theme and transition scripts. Missing or duplicate
+slots fail the build. The retained Publications and CV archives keep their
+existing markup and are outside this shared shell.
+
+Edit `templates/site-header.html` for navigation and the theme button,
+`templates/site-footer.html` for the footer, and `templates/site-head.html`
+for favicon and shared resource links. Site labels, copyright, the explicit
+content update date, and page-type options live in `build/site-shell.js`.
+Template data is escaped; only markup authored by that module is inserted raw.
+Shared template edits trigger a full page reload during development.
+
+The homepage marks Home as current. Project and error pages link to Home.
+Home and error footers include the illustration; project footers use the
+text-only class. Slots stay in their original layout parents, including the
+404 screen-height stack. The error page retains its smaller font request;
+only project pages preconnect to YouTube. Page metadata, analytics, transition
+hints, and page-specific scripts remain in their original page templates.
+The bootstrap stays before stylesheets to preserve initial theme selection.
+
 ## Build and Verification
 
 - `npm run dev` optimizes source images and starts Vite.
 - `npm run build` optimizes images, builds all entry pages, and verifies the
   generated output.
-- `npm run check` runs the lightweight theme state checks and then the complete
-  production build. `npm run check:theme` runs those state checks separately.
+- `npm run check` runs theme, interaction, project-page, and shared-shell checks,
+  then the complete production build. `npm run check:theme` runs theme state
+  checks separately. `scripts/check-site-shell.mjs` checks shared structure,
+  page variants, resource scope, footer ancestry, and required slots.
 - `npm run check:dist` verifies expected pages, static injection markers,
   rendered local HTML/CSS references, and the synchronous theme bootstrap and
   toggle in each production page.

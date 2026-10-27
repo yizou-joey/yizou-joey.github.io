@@ -179,13 +179,19 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
+    if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {
+      report(`${fileName} contains unresolved site or template fields.`);
+    }
+    if ((html.match(/<header\b[^>]*\bclass="site-header"/g) || []).length !== 1
+      || (html.match(/<footer\b[^>]*\bdata-site-footer="true"/g) || []).length !== 1) {
+      report(`${fileName} must contain exactly one site header and footer.`);
+    }
     const projectEntry = projectEntries.find((entry) => entry.projectUrl === fileName);
     if (projectEntry) {
       const { project, preview } = projectEntry;
       for (const content of [project.abstract, `${project.name} — Yi Zou`, project.description, preview.src, preview.alt]) {
         if (!html.includes(escapeHtml(content))) report(`${fileName} is missing project content: ${content}`);
       }
-      if (/\{\{\w+\}\}/.test(html)) report(`${fileName} contains unresolved template fields.`);
       if (!html.includes(`Abstract verified against ${escapeHtml(projectEntry.doi)} on ${escapeHtml(project.abstractVerifiedOn)}.`)) {
         report(`${fileName} is missing abstract provenance.`);
       }

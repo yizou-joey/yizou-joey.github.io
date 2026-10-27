@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "node:path";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
 import news from "./contents/news.js";
@@ -83,7 +84,7 @@ const renderIndexHtml = (html, fileName) => {
 const staticContentHtmlPlugin = () => ({
   name: "static-content-html",
   handleHotUpdate({ file, server }) {
-    if (file !== fileURLToPath(projectTemplateUrl)) return;
+    if (file !== fileURLToPath(projectTemplateUrl) && !siteShellTemplateFiles.includes(file)) return;
     server.ws.send({ type: "full-reload", path: "*" });
     return [];
   },
@@ -126,6 +127,10 @@ const staticContentHtmlPlugin = () => ({
         });
         html = injectStaticContent({ html, fileName, id: "project-heading", content: renderProjectHeadingHtml(entry) });
       }
+      const pageType = fileName === "index.html" ? "home"
+        : fileName === "404.html" ? "notFound"
+          : projectPages.includes(fileName) ? "project" : null;
+      if (pageType) html = await renderSiteShell(html, { fileName, pageType });
       if (fileName === "cv.html") {
         html = injectStaticContent({
           html,

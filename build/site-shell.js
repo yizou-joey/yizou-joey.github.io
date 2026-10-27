@@ -19,9 +19,9 @@ const site = {
 
 // Only published page types use this shell. Legacy pages keep their own markup.
 const profiles = {
-  home: { currentHome: true, decoratedFooter: true, fullFonts: true, video: false },
-  project: { currentHome: false, decoratedFooter: false, fullFonts: true, video: true },
-  notFound: { currentHome: false, decoratedFooter: true, fullFonts: false, video: false },
+  home: { currentHome: true, decoratedFooter: true, serifWeights: "400;500;600", handwrittenFont: true, video: false },
+  project: { currentHome: false, decoratedFooter: false, serifWeights: "400;500;600", handwrittenFont: false, video: true },
+  notFound: { currentHome: false, decoratedFooter: true, serifWeights: "400", handwrittenFont: false, video: false },
 };
 
 const bootstrap = `<meta charset="UTF-8" />
@@ -41,9 +41,8 @@ const renderTemplate = async (name, values, markup = {}) => {
 export const renderSiteShell = async (html, { fileName, pageType }) => {
   const profile = profiles[pageType];
   if (!profile) throw new Error(`Unknown site page type: ${pageType}`);
-  const fontFamilies = profile.fullFonts
-    ? "JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400"
-    : "Noto+Serif+SC:wght@400";
+  const fontFamilies = `Noto+Serif+SC:wght@${profile.serifWeights}`
+    + (profile.handwrittenFont ? "&family=Shantell+Sans:wght@400" : "");
   const homeLink = profile.currentHome
     ? `<span class="site-header-link" aria-current="page">${escapeHtml(site.homeLabel)}</span>`
     : `<a class="site-header-link" href="${escapeHtml(site.homeUrl)}">${escapeHtml(site.homeLabel)}</a>`;

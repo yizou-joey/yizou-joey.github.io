@@ -67,8 +67,10 @@ for (const fileName of pages) {
   const fontHref = fontStyles[0].match(/href="([^"]*)"/)[1].replaceAll("&amp;", "&");
   assert.equal(fontHref, isError
     ? "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap"
-    : "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400&display=swap",
-  `${fileName}: font selection remains unchanged`);
+    : isHome
+      ? "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400&display=swap"
+      : "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap",
+  `${fileName}: only required font families are requested, with existing weights preserved`);
   assert.equal(head.includes('href="https://www.youtube-nocookie.com"'), isProject,
     `${fileName}: YouTube preconnection is project-only`);
   assert.equal((head.match(/href="\/src\/styles\.css"/g) || []).length, 1);

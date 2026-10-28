@@ -1751,9 +1751,8 @@ span.site-header-link {
   text-align: left;
 }
 
-/* Mobile identity: names occupy the same two rows as portrait and links.
-   Only neutral wrappers are flattened; the heading, biography and news keep
-   their semantics. Desktop retains its existing two-column structure. */
+/* Names set the mobile intro height. Contact details may extend beside the
+   short greeting, while the biography keeps its original paragraph rhythm. */
 @media (max-width: 899px) {
   .profile-intro {
     --profile-portrait-size: 104px;
@@ -1764,27 +1763,34 @@ span.site-header-link {
   .profile-intro-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--profile-identity-width);
-    grid-template-rows: var(--profile-portrait-size) auto auto auto auto;
     align-items: start;
     column-gap: var(--space-20);
-    row-gap: var(--space-8);
+    row-gap: var(--space-24);
   }
 
   .profile-main,
-  .profile-aside,
-  .profile-contact-panel,
-  .profile-contact-list {
+  .profile-aside {
     display: contents;
   }
 
   .profile-name-row {
     grid-column: 1;
-    grid-row: 1 / 3;
-    align-self: center;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-16);
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: repeat(3, var(--type-display-hero-line-height));
+    align-items: center;
+    justify-content: start;
+    gap: var(--space-20);
     text-align: left;
+  }
+
+  /* Optical hanging follows the display glyph rather than its text box. */
+  .profile-name-row > .type-title-hero {
+    translate: calc(-1 * var(--space-2)) 0;
+  }
+
+  .profile-name-row > .type-title-hero-sub {
+    translate: -0.025em 0;
   }
 
   .profile-photo-frame {
@@ -1798,43 +1804,55 @@ span.site-header-link {
     height: var(--profile-portrait-size);
   }
 
-  .profile-contact-links {
+  .profile-contact-panel {
     grid-column: 2;
-    grid-row: 2;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-row: 1 / 3;
+    align-self: start;
+    margin-top: calc(var(--profile-portrait-size) + var(--space-8));
+    padding-inline: 0;
+  }
+
+  .profile-contact-list {
+    width: 100%;
+    align-items: center;
     gap: var(--space-4);
-    font-family: var(--font-serif-sc);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-line-height);
+    padding-block: 0;
+  }
+
+  .profile-location {
+    white-space: nowrap;
+  }
+
+  .profile-contact-links {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-8);
+    row-gap: 0;
+  }
+
+  .profile-contact-link-item:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
   }
 
   .profile-contact-compact-link {
     width: 100%;
     min-height: 44px;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
-    gap: var(--space-4);
-  }
-
-  .profile-location {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    margin-top: var(--space-8);
-    font-family: var(--font-serif-sc);
-    font-size: var(--type-caption-size);
+    gap: var(--space-8);
   }
 
   .profile-bio {
     grid-column: 1 / -1;
-    grid-row: 4;
-    margin-top: var(--space-16);
+    grid-row: 2;
   }
 
   .profile-news-panel {
     grid-column: 1 / -1;
-    grid-row: 5;
-    margin-top: var(--space-24);
+    grid-row: 3;
+    margin-top: var(--space-8);
   }
 }
 
@@ -1846,6 +1864,10 @@ span.site-header-link {
   .profile-intro-layout {
     max-width: 680px;
     margin-inline: auto;
+  }
+
+  .profile-name-row {
+    gap: var(--space-32);
   }
 }
 

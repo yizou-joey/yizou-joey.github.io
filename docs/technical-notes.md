@@ -71,6 +71,9 @@ The bootstrap stays before stylesheets to preserve initial theme selection.
 
 ## Build and Verification
 
+Responsive design frames, device references, and viewport verification rules
+are defined in [Responsive layout baselines](responsive-baselines.md).
+
 - `npm run dev` optimizes source images and starts Vite.
 - `npm run build` optimizes images, builds all entry pages, and verifies the
   generated output.

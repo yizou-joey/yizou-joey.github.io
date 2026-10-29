@@ -1751,100 +1751,128 @@ span.site-header-link {
   text-align: left;
 }
 
+/* Names, portrait and four contact rows share one responsive identity row. */
 @media (max-width: 899px) {
-  .profile-intro-layout {
-    align-items: center;
+  .profile-intro {
+    --profile-portrait-size: 80px;
+    --type-display-hero-size: 36px;
+    --type-display-hero-line-height: 37px;
+    --type-display-secondary-size: 28px;
+    --profile-contact-row-size: 28px;
+    --profile-photo-contact-gap: var(--space-8);
+    --space-gutter-fluid: var(--space-20);
   }
 
-  .profile-aside {
+  .profile-intro-layout {
     display: grid;
-    grid-template-columns: 144px minmax(0, 1fr);
-    grid-template-areas:
-      "photo contact"
-      "news news";
-    width: min(100%, 420px);
-    align-items: start;
-    column-gap: var(--space-col-gap-tight);
+    grid-template-columns: minmax(0, 1fr) var(--profile-portrait-size) max-content;
+    align-items: center;
+    column-gap: var(--profile-photo-contact-gap);
     row-gap: var(--space-24);
   }
 
+  .profile-main,
+  .profile-aside {
+    display: contents;
+  }
+
+  .profile-name-row {
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-rows: repeat(3, var(--type-display-hero-line-height));
+    align-items: center;
+    justify-content: start;
+    gap: var(--space-12);
+    text-align: left;
+  }
+
+  /* Optical hanging follows the display glyph rather than its text box. */
+  .profile-name-row > .type-title-hero {
+    translate: calc(-1 * var(--space-2)) 0;
+  }
+
+  .profile-name-row > .type-title-hero-sub {
+    translate: -0.025em 0;
+  }
+
   .profile-photo-frame {
-    grid-area: photo;
-    width: 100%;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
   }
 
   .profile-photo {
-    width: clamp(120px, 32vw, 144px);
-    height: clamp(120px, 32vw, 144px);
+    width: var(--profile-portrait-size);
+    height: var(--profile-portrait-size);
   }
 
   .profile-contact-panel {
-    grid-area: contact;
+    grid-column: 3;
+    grid-row: 1;
     align-self: center;
-    align-items: flex-start;
-    justify-content: center;
     padding-inline: 0;
   }
 
   .profile-contact-list {
-    gap: var(--space-8);
+    display: grid;
+    grid-auto-rows: minmax(var(--profile-contact-row-size), auto);
+    width: 100%;
+    justify-items: start;
+    align-items: center;
+    gap: 0;
     padding-block: 0;
   }
 
+  .profile-location {
+    min-height: var(--profile-contact-row-size);
+    white-space: nowrap;
+  }
+
+  .profile-location-country {
+    display: none;
+  }
+
   .profile-contact-links {
-    flex-direction: column;
-    justify-content: flex-start;
-    row-gap: 0;
-    text-align: left;
+    display: contents;
   }
 
   .profile-contact-compact-link {
-    min-height: 36px;
+    width: 100%;
+    min-height: var(--profile-contact-row-size);
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: var(--space-8);
+  }
+
+  .profile-bio {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
   .profile-news-panel {
-    grid-area: news;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: var(--space-8);
   }
 }
 
 @media (min-width: 600px) and (max-width: 899px) {
-  .profile-contact-list {
-    gap: 0;
+  .profile-intro {
+    --profile-portrait-size: 144px;
+    --profile-photo-contact-gap: var(--space-20);
+    --type-display-hero-size: 48px;
+    --type-display-hero-line-height: 49px;
+    --type-display-secondary-size: 36px;
   }
 
-  .profile-contact-list > .contact-row {
-    min-height: 36px;
-  }
-}
-
-@media (max-width: 599px) {
-  .profile-aside {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "photo"
-      "contact"
-      "news";
-    row-gap: var(--space-16);
+  .profile-intro-layout {
+    max-width: 680px;
+    margin-inline: auto;
   }
 
-  .profile-contact-panel,
-  .profile-contact-list {
-    align-items: center;
-  }
-
-  .profile-contact-links {
-    flex-direction: row;
-    justify-content: center;
-    column-gap: var(--space-16);
-    text-align: center;
-  }
-
-  .profile-contact-compact-link {
-    min-height: 44px;
-  }
-
-  .profile-news-panel {
-    margin-top: var(--space-8);
+  .profile-name-row {
+    gap: var(--space-12);
   }
 }
 

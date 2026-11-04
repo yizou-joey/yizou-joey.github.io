@@ -1754,7 +1754,6 @@ span.site-header-link {
 /* Names, portrait and four contact rows share one responsive identity row. */
 @media (max-width: 899px) {
   .profile-intro {
-    --profile-portrait-size: 80px;
     --type-display-hero-size: 36px;
     --type-display-hero-line-height: 37px;
     --type-display-secondary-size: 28px;
@@ -1765,7 +1764,7 @@ span.site-header-link {
 
   .profile-intro-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--profile-portrait-size) max-content;
+    grid-template-columns: minmax(min-content, 1fr) minmax(0, 144px) max-content;
     align-items: center;
     column-gap: var(--profile-photo-contact-gap);
     row-gap: var(--space-24);
@@ -1785,6 +1784,7 @@ span.site-header-link {
     justify-content: start;
     gap: var(--space-12);
     text-align: left;
+    white-space: nowrap;
   }
 
   /* Optical hanging follows the display glyph rather than its text box. */
@@ -1799,12 +1799,17 @@ span.site-header-link {
   .profile-photo-frame {
     grid-column: 2;
     grid-row: 1;
-    justify-self: center;
+    width: 100%;
+  }
+
+  .profile-photo-frame picture {
+    width: 100%;
   }
 
   .profile-photo {
-    width: var(--profile-portrait-size);
-    height: var(--profile-portrait-size);
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .profile-contact-panel {
@@ -1859,7 +1864,6 @@ span.site-header-link {
 
 @media (min-width: 600px) and (max-width: 899px) {
   .profile-intro {
-    --profile-portrait-size: 144px;
     --profile-photo-contact-gap: var(--space-20);
     --type-display-hero-size: 48px;
     --type-display-hero-line-height: 49px;
@@ -1873,6 +1877,35 @@ span.site-header-link {
 
   .profile-name-row {
     gap: var(--space-12);
+  }
+}
+
+@media (max-width: 340px) {
+  .profile-intro-layout {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+
+  .profile-name-row {
+    grid-column: 1 / -1;
+  }
+
+  .profile-photo-frame {
+    grid-column: 1;
+    grid-row: 2;
+    width: min(80px, 100%);
+  }
+
+  .profile-contact-panel {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .profile-bio {
+    grid-row: 3;
+  }
+
+  .profile-news-panel {
+    grid-row: 4;
   }
 }
 

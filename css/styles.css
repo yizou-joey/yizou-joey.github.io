@@ -1745,6 +1745,12 @@ span.site-header-link {
   font-family: var(--font-serif-sc);
 }
 
+/* Hang the Y's sloping shoulder so its visual weight aligns with the bio. */
+.profile-name-row > .type-title-hero {
+  position: relative;
+  inset-inline-start: -0.12em;
+}
+
 .profile-bio {
   width: 100%;
   color: var(--color-ink);
@@ -1785,11 +1791,6 @@ span.site-header-link {
     gap: var(--space-12);
     text-align: left;
     white-space: nowrap;
-  }
-
-  /* Optical hanging follows the display glyph rather than its text box. */
-  .profile-name-row > .type-title-hero {
-    translate: calc(-1 * var(--space-2)) 0;
   }
 
   .profile-name-row > .type-title-hero-sub {
@@ -2280,9 +2281,6 @@ span.site-header-link {
 
   .profile-name-row {
     justify-content: flex-start;
-    /* Let the display Y hang slightly outside the shared body-content rail.
-       At 48px, 1/8 em provides the requested 6px optical correction. */
-    translate: calc(var(--type-display-hero-size) * -0.125) 0;
   }
 
   .profile-bio {

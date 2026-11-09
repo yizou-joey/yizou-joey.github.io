@@ -143,9 +143,14 @@
                   </a> -->
                 </div>
               </div>
+            </div>
               <section id="recent-news" class="profile-news-panel" aria-labelledby="news-heading">
                 <div id="news" class="section-heading-row">
                   <h2 id="news-heading" class="type-title-section">Recent News</h2>
+                  <div class="news-navigation" aria-label="Browse news" hidden>
+                    <button class="news-navigation-button" type="button" data-news-previous aria-label="Previous news" aria-controls="news-list">←</button>
+                    <button class="news-navigation-button" type="button" data-news-next aria-label="Older news" aria-controls="news-list">→</button>
+                  </div>
                 </div>
                 <div class="news-scroll-shell" data-news-scroll-shell>
                   <div class="news-scroll-region" data-news-scroll-region>
@@ -167,7 +172,6 @@
                   </button>
                 </div>
               </section>
-            </div>
           </div>
         </section>
 

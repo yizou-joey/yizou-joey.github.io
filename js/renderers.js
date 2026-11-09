@@ -109,7 +109,7 @@ const renderNewsItemHtml = (item) => {
   const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
   const contentHtml = `<div class="news-copy">${renderNewsInline(entry)}</div>${noteHtml}`;
 
-  return `<li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-news-content">${contentHtml}</div></article>${mascotHtml}</li>`;
+  return `<li class="news-entry${entry.award ? " news-entry--milestone" : ""}"><article class="editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-news-content">${contentHtml}</div></article>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {

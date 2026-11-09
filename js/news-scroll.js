@@ -1,353 +1,83 @@
-import { createNewsSticker } from "./news-sticker.js";
-
-const DESKTOP_QUERY = "(min-width: 900px)";
-const MOBILE_VISIBLE_ITEMS = 2;
-const SCROLL_END_TOLERANCE = 2;
-
 const panel = document.querySelector(".profile-news-panel");
-const profileLayout = document.querySelector(".profile-intro-layout");
-const profileMain = document.querySelector(".profile-main");
-const shell = panel?.querySelector("[data-news-scroll-shell]");
-const region = panel?.querySelector("[data-news-scroll-region]");
-const list = panel?.querySelector("#news-list");
-const control = panel?.querySelector("[data-news-scroll-control]");
 
-if (panel && profileLayout && profileMain && shell && region && list && control) {
-  const desktopMedia = window.matchMedia(DESKTOP_QUERY);
-  const reducedMotionMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let mobileExpanded = false;
-  let desktopViewportBudget = 0;
-  let desktopControlTarget = null;
-  let layoutFrame = 0;
+if (panel) {
+  const region = panel.querySelector("[data-news-scroll-region]");
+  const list = panel.querySelector("#news-list");
+  const control = panel.querySelector("[data-news-scroll-control]");
+  const navigation = panel.querySelector(".news-navigation");
+  const previous = panel.querySelector("[data-news-previous]");
+  const next = panel.querySelector("[data-news-next]");
+  const desktop = window.matchMedia("(min-width: 900px)");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let expanded = false;
 
-  const getItems = () => Array.from(list.children);
-
-  // Keep the same nearest-top rule for predicted and settled scroll positions.
-  const getActiveItemIndex = (scrollTop = region.scrollTop) => {
-    const viewportTop = region.getBoundingClientRect().top;
-    const scrollOffset = region.scrollTop - scrollTop;
-    let activeIndex = -1;
-    let nearestDistance = Infinity;
-    getItems().forEach((item, index) => {
-      const distance = Math.abs(item.getBoundingClientRect().top - viewportTop + scrollOffset);
-      if (distance < nearestDistance) {
-        nearestDistance = distance;
-        activeIndex = index;
-      }
-    });
-    return activeIndex;
-  };
-  const sticker = createNewsSticker({ shell, region, list, reducedMotionMedia, getActiveItemIndex });
-
-  const getPixelToken = (name, fallback) => {
-    const value = getComputedStyle(document.documentElement).getPropertyValue(name);
-    const parsed = Number.parseFloat(value);
-    return Number.isFinite(parsed) ? parsed : fallback;
-  };
-
-  const getRegionPadding = () => {
-    const styles = getComputedStyle(region);
-    return {
-      top: Number.parseFloat(styles.paddingTop) || 0,
-      bottom: Number.parseFloat(styles.paddingBottom) || 0,
-    };
-  };
-
-  const clearManagedItemVisibility = () => {
-    for (const item of getItems()) {
-      if (item.dataset.newsMobileHidden === "true") {
-        item.hidden = false;
-        delete item.dataset.newsMobileHidden;
-      }
-    }
-  };
-
-  const resetDesktopScroll = () => {
-    desktopViewportBudget = 0;
-    desktopControlTarget = null;
-    profileLayout.style.minBlockSize = "";
-    region.style.blockSize = "";
-    list.style.removeProperty("--news-item-block-size");
-    region.scrollTop = 0;
-    region.classList.remove("is-scrollable");
-    shell.classList.remove("is-scrollable");
-    region.removeAttribute("tabindex");
-    region.removeAttribute("role");
-    region.removeAttribute("aria-labelledby");
-  };
-
-  const setControl = ({ hidden, pointsUp, label, expanded }) => {
-    control.hidden = hidden;
-    control.classList.toggle("is-up", pointsUp);
-    control.setAttribute("aria-label", label);
-    if (typeof expanded === "boolean") {
-      control.setAttribute("aria-expanded", String(expanded));
+  const updateNavigation = () => {
+    const maximum = region.scrollWidth - region.clientWidth;
+    navigation.hidden = !desktop.matches || maximum <= 2;
+    previous.setAttribute("aria-disabled", String(region.scrollLeft <= 2));
+    next.setAttribute("aria-disabled", String(region.scrollLeft >= maximum - 2));
+    if (desktop.matches && maximum > 2) {
+      region.setAttribute("tabindex", "0");
+      region.setAttribute("role", "region");
+      region.setAttribute("aria-labelledby", "news-heading");
     } else {
-      control.removeAttribute("aria-expanded");
+      region.removeAttribute("tabindex");
+      region.removeAttribute("role");
+      region.removeAttribute("aria-labelledby");
     }
-  };
-
-  const getLeadingItemIndex = () => {
-    const items = getItems();
-    if (!items.length || !region.classList.contains("is-scrollable")) return 0;
-
-    const padding = getRegionPadding();
-    const viewportTop = region.getBoundingClientRect().top + padding.top;
-    const index = items.findIndex(
-      (item) => item.getBoundingClientRect().bottom > viewportTop + SCROLL_END_TOLERANCE
-    );
-    return index === -1 ? Math.max(items.length - 1, 0) : index;
-  };
-
-  const updateDesktopControl = () => {
-    if (!region.classList.contains("is-scrollable")) return;
-    const maxScroll = Math.max(region.scrollHeight - region.clientHeight, 0);
-    const atEnd = region.scrollTop >= maxScroll - SCROLL_END_TOLERANCE;
-    const atStart = region.scrollTop <= SCROLL_END_TOLERANCE;
-
-    if (desktopControlTarget === "end") {
-      if (atEnd) desktopControlTarget = null;
-      setControl({ hidden: false, pointsUp: true, label: "Back to latest news" });
-      return;
-    }
-
-    if (desktopControlTarget === "start") {
-      if (atStart) desktopControlTarget = null;
-      setControl({ hidden: false, pointsUp: false, label: "Show older news" });
-      return;
-    }
-
-    setControl({
-      hidden: false,
-      pointsUp: atEnd,
-      label: atEnd ? "Back to latest news" : "Show older news",
-    });
-  };
-
-  const measureControlSpace = () => {
-    const wasHidden = control.hidden;
-    const previousVisibility = control.style.visibility;
-    control.hidden = false;
-    control.style.visibility = "hidden";
-
-    const shellStyles = getComputedStyle(shell);
-    const gap = Number.parseFloat(shellStyles.rowGap) || 0;
-    const height = control.getBoundingClientRect().height;
-
-    control.hidden = wasHidden;
-    control.style.visibility = previousVisibility;
-    return height + gap;
-  };
-
-  const getDesktopScrollTop = (items, startIndex) => {
-    const padding = getRegionPadding();
-    const regionRect = region.getBoundingClientRect();
-    const startItem = items[startIndex];
-    const startRect = startItem.getBoundingClientRect();
-    const startTop = startRect.top - regionRect.top + region.scrollTop;
-    return startTop - padding.top;
-  };
-
-  const showDesktopPage = (startIndex) => {
-    const items = getItems();
-    if (!items.length || !region.classList.contains("is-scrollable")) return;
-
-    const safeStartIndex = Math.min(Math.max(startIndex, 0), items.length - 1);
-    scrollRegion(getDesktopScrollTop(items, safeStartIndex));
-  };
-
-  const layoutDesktop = () => {
-    const items = getItems();
-    const leadingItemIndex = getLeadingItemIndex();
-
-    clearManagedItemVisibility();
-    resetDesktopScroll();
-    setControl({ hidden: true, pointsUp: false, label: "Show older news" });
-
-    if (!items.length) return;
-
-    shell.classList.add("is-scrollable");
-    region.classList.add("is-scrollable");
-
-    const regionRect = region.getBoundingClientRect();
-    const padding = getRegionPadding();
-    const allowance = getPixelToken("--space-48", 48);
-    const availableHeight = Math.max(
-      profileMain.getBoundingClientRect().bottom + allowance - regionRect.top,
-      0
-    );
-    const itemBottoms = items.map(
-      (item) => item.getBoundingClientRect().bottom - regionRect.top + padding.bottom
-    );
-    const maximumItemContentHeight = Math.ceil(
-      Math.max(...items.map((item) => item.getBoundingClientRect().height))
-    );
-    const maximumItemHeight = padding.top + maximumItemContentHeight + padding.bottom;
-    const fullContentHeight = itemBottoms[itemBottoms.length - 1];
-
-    if (items.length === 1 || fullContentHeight <= availableHeight + SCROLL_END_TOLERANCE) {
-      resetDesktopScroll();
-      return;
-    }
-
-    const controlSpace = measureControlSpace();
-    const maximumViewportBudget = Math.max(availableHeight - controlSpace, maximumItemHeight);
-    const listGap = Number.parseFloat(getComputedStyle(list).rowGap) || 0;
-    const availableContentHeight = maximumViewportBudget - padding.top - padding.bottom;
-    const visibleItemCount = Math.min(
-      items.length,
-      Math.max(
-        1,
-        Math.floor(
-          (availableContentHeight + listGap + SCROLL_END_TOLERANCE) /
-            (maximumItemContentHeight + listGap)
-        )
-      )
-    );
-    desktopViewportBudget =
-      padding.top +
-      visibleItemCount * maximumItemContentHeight +
-      Math.max(visibleItemCount - 1, 0) * listGap +
-      padding.bottom;
-    list.style.setProperty("--news-item-block-size", `${maximumItemContentHeight}px`);
-    const reservedBottom = regionRect.top + desktopViewportBudget + controlSpace;
-    const layoutRect = profileLayout.getBoundingClientRect();
-    profileLayout.style.minBlockSize = `${Math.ceil(reservedBottom - layoutRect.top)}px`;
-
-    region.style.blockSize = `${Math.ceil(desktopViewportBudget)}px`;
-    region.setAttribute("tabindex", "0");
-    region.setAttribute("role", "region");
-    region.setAttribute("aria-labelledby", "news-heading");
-    setControl({ hidden: false, pointsUp: false, label: "Show older news" });
-
-    region.scrollTop = getDesktopScrollTop(
-      items,
-      Math.min(leadingItemIndex, items.length - 1)
-    );
-    updateDesktopControl();
-  };
-
-  const layoutMobile = () => {
-    const items = getItems();
-    resetDesktopScroll();
-    clearManagedItemVisibility();
-
-    const hasOlderItems = items.length > MOBILE_VISIBLE_ITEMS;
-    if (!hasOlderItems) {
-      mobileExpanded = false;
-      setControl({
-        hidden: true,
-        pointsUp: false,
-        label: "Show older news",
-        expanded: false,
-      });
-      return;
-    }
-
-    if (!mobileExpanded) {
-      items.slice(MOBILE_VISIBLE_ITEMS).forEach((item) => {
-        item.hidden = true;
-        item.dataset.newsMobileHidden = "true";
-      });
-    }
-
-    setControl({
-      hidden: false,
-      pointsUp: mobileExpanded,
-      label: mobileExpanded ? "Show fewer news" : "Show older news",
-      expanded: mobileExpanded,
-    });
   };
 
   const layout = () => {
-    if (desktopMedia.matches) {
-      layoutDesktop();
-    } else {
-      layoutMobile();
-    }
-    sticker.sync();
-  };
-
-  const queueLayout = () => {
-    window.cancelAnimationFrame(layoutFrame);
-    layoutFrame = window.requestAnimationFrame(layout);
-  };
-
-  const scrollRegion = (top) => {
-    const maxScroll = Math.max(region.scrollHeight - region.clientHeight, 0);
-    const targetTop = Math.min(Math.max(top, 0), maxScroll);
-    sticker.start(getActiveItemIndex(targetTop));
-    region.scrollTo({
-      top: targetTop,
-      behavior: reducedMotionMedia.matches ? "auto" : "smooth",
+    const items = Array.from(list.children);
+    items.forEach((item, index) => {
+      item.hidden = !desktop.matches && !expanded && index >= 2;
     });
+    control.hidden = desktop.matches || items.length <= 2;
+    control.classList.toggle("is-up", expanded);
+    control.setAttribute("aria-expanded", String(expanded));
+    control.setAttribute("aria-label", expanded ? "Show fewer news" : "Show older news");
+    updateNavigation();
   };
 
-  control.addEventListener("click", () => {
-    if (!desktopMedia.matches) {
-      mobileExpanded = !mobileExpanded;
-      layoutMobile();
-      if (!mobileExpanded) {
-        panel.scrollIntoView({
-          behavior: reducedMotionMedia.matches ? "auto" : "smooth",
-          block: "start",
-        });
-      }
-      return;
-    }
-
-    const maxScroll = Math.max(region.scrollHeight - region.clientHeight, 0);
-    const atEnd = region.scrollTop >= maxScroll - SCROLL_END_TOLERANCE;
-    if (atEnd || desktopControlTarget === "end") {
-      desktopControlTarget = "start";
-      setControl({ hidden: false, pointsUp: false, label: "Show older news" });
-      showDesktopPage(0);
-      return;
-    }
-
-    const padding = getRegionPadding();
-    const viewportBottom = region.getBoundingClientRect().bottom - padding.bottom;
-    const items = getItems();
-    const nextItem = items.find(
-      (item) => item.getBoundingClientRect().bottom > viewportBottom + SCROLL_END_TOLERANCE
+  const move = (direction) => {
+    const button = direction > 0 ? next : previous;
+    if (button.getAttribute("aria-disabled") === "true") return;
+    const items = Array.from(list.children);
+    const positions = items.map((item) =>
+      item.getBoundingClientRect().left - region.getBoundingClientRect().left + region.scrollLeft
     );
-    if (nextItem) {
-      const nextItemIndex = items.indexOf(nextItem);
-      const targetScroll = Math.min(getDesktopScrollTop(items, nextItemIndex), maxScroll);
-      if (targetScroll >= maxScroll - SCROLL_END_TOLERANCE) {
-        desktopControlTarget = "end";
-        setControl({ hidden: false, pointsUp: true, label: "Back to latest news" });
-      }
-      showDesktopPage(nextItemIndex);
-    } else {
-      desktopControlTarget = "end";
-      setControl({ hidden: false, pointsUp: true, label: "Back to latest news" });
-      scrollRegion(maxScroll);
-    }
+    const target = direction > 0
+      ? positions.find((position) => position > region.scrollLeft + 2)
+      : positions.findLast((position) => position < region.scrollLeft - 2);
+    region.scrollTo({
+      left: target ?? (direction > 0 ? region.scrollWidth : 0),
+      behavior: reducedMotion.matches ? "instant" : "smooth",
+    });
+    updateNavigation();
+  };
+
+  previous.addEventListener("click", () => move(-1));
+  next.addEventListener("click", () => move(1));
+  control.addEventListener("click", () => {
+    expanded = !expanded;
+    layout();
+    if (!expanded) panel.scrollIntoView({
+      behavior: reducedMotion.matches ? "auto" : "smooth",
+      block: "start",
+    });
   });
-
-  region.addEventListener("scroll", () => {
-    if (!desktopMedia.matches || !region.classList.contains("is-scrollable")) return;
-    updateDesktopControl();
-  }, { passive: true });
-
-  desktopMedia.addEventListener("change", () => {
-    mobileExpanded = false;
-    queueLayout();
+  region.addEventListener("scroll", updateNavigation, { passive: true });
+  desktop.addEventListener("change", () => {
+    expanded = false;
+    region.scrollLeft = 0;
+    layout();
   });
-
   if ("ResizeObserver" in window) {
-    const resizeObserver = new ResizeObserver(queueLayout);
-    resizeObserver.observe(profileMain);
-    resizeObserver.observe(list);
+    new ResizeObserver(updateNavigation).observe(region);
   } else {
-    window.addEventListener("resize", queueLayout, { passive: true });
+    window.addEventListener("resize", updateNavigation, { passive: true });
   }
-
-  for (const image of list.querySelectorAll("img")) {
-    if (!image.complete) image.addEventListener("load", queueLayout, { once: true });
-  }
-
-  document.fonts?.ready.then(queueLayout);
-  queueLayout();
+  new MutationObserver(layout).observe(list, { childList: true });
+  document.fonts?.ready.then(updateNavigation);
+  layout();
 }

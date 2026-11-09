@@ -120,8 +120,12 @@ small presentation behavior:
   and the button stays hidden.
 - `js/favicon.js` swaps active/idle favicon assets and follows the browser color
   scheme independently of the website appearance preference.
-- `js/news-scroll.js` and `js/news-sticker.js` progressively enhance the news
-  list. Theme changes do not replace images or reset the current news position.
+- `js/news-scroll.js` progressively enhances the news list: desktop shows three
+  open columns with native horizontal scrolling and previous/next controls when needed;
+  mobile keeps two visible entries with an expand/collapse control. Desktop
+  stickers sit beside each update's personal note and lift subtly through CSS hover
+  feedback, with instant keyboard feedback and a static reduced-motion state.
+  Theme changes do not replace images or reset the current news position.
 - `js/404.js` provides the 404-page interaction.
 
 GoatCounter is loaded asynchronously for visitor analytics. None of these

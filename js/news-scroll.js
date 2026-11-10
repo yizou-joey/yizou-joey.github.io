@@ -1,90 +1,100 @@
-const panel = document.querySelector(".profile-news-panel");
+const section = document.querySelector("#recent-news[data-news-disclosure]");
+const list = section?.querySelector("#news-list");
+const toggle = section?.querySelector("[data-news-toggle]");
 
-if (panel) {
-  const region = panel.querySelector("[data-news-scroll-region]");
-  const list = panel.querySelector("#news-list");
-  const control = panel.querySelector("[data-news-scroll-control]");
-  const navigation = panel.querySelector(".news-navigation");
-  const previous = panel.querySelector("[data-news-previous]");
-  const next = panel.querySelector("[data-news-next]");
-  const desktop = window.matchMedia("(min-width: 900px)");
+if (list && toggle) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let expanded = false;
+  let animations = [];
+  let collapsing = false;
 
-  const updateNavigation = () => {
-    const maximum = region.scrollWidth - region.clientWidth;
-    navigation.hidden = !desktop.matches || maximum <= 2;
-    previous.setAttribute("aria-disabled", String(region.scrollLeft <= 2));
-    next.setAttribute("aria-disabled", String(region.scrollLeft >= maximum - 2));
-    // Fade only the clipped edges; clamp elastic overscroll at either endpoint.
-    const fadeWidth = 20;
-    region.style.setProperty("--news-fade-start", `${Math.min(fadeWidth, Math.max(0, region.scrollLeft))}px`);
-    region.style.setProperty("--news-fade-end", `${Math.min(fadeWidth, Math.max(0, maximum - region.scrollLeft))}px`);
-    if (desktop.matches && maximum > 2) {
-      region.setAttribute("tabindex", "0");
-      region.setAttribute("role", "region");
-      region.setAttribute("aria-labelledby", "news-heading");
-    } else {
-      region.removeAttribute("tabindex");
-      region.removeAttribute("role");
-      region.removeAttribute("aria-labelledby");
+  const entries = () => Array.from(list.children).filter((item) => item.matches("li.news-entry"));
+  const keepToggleVisible = () => {
+    if (!expanded && !toggle.hidden && toggle.getBoundingClientRect().top < 0) {
+      toggle.scrollIntoView({ block: "nearest", behavior: "instant" });
     }
   };
-
-  const layout = () => {
-    const items = Array.from(list.children).filter((item) => !item.classList.contains("news-entry--placeholder"));
-    for (const item of list.querySelectorAll(".news-entry--placeholder")) {
-      item.hidden = !desktop.matches;
+  const cancelAnimations = () => {
+    for (const animation of animations) {
+      animation.onfinish = null;
+      animation.cancel();
     }
-    items.forEach((item, index) => {
-      item.hidden = !desktop.matches && !expanded && index >= 2;
-    });
-    control.hidden = desktop.matches || items.length <= 2;
-    control.classList.toggle("is-up", expanded);
-    control.setAttribute("aria-expanded", String(expanded));
-    control.setAttribute("aria-label", expanded ? "Show fewer news" : "Show older news");
-    updateNavigation();
+    animations = [];
+  };
+  const focusList = () => {
+    const tabIndex = list.getAttribute("tabindex");
+    list.setAttribute("tabindex", "-1");
+    list.focus({ preventScroll: true });
+    if (tabIndex === null) list.removeAttribute("tabindex");
+    else list.setAttribute("tabindex", tabIndex);
+  };
+  const render = () => {
+    const items = entries();
+    const hasOlder = items.length > 3;
+    if (!hasOlder) expanded = false;
+    // Move focus before hiding either an entry or the now-unnecessary control.
+    if (!expanded && items.slice(3).some((item) => item.contains(document.activeElement))) {
+      toggle.focus({ preventScroll: true });
+    }
+    if (!hasOlder && document.activeElement === toggle) focusList();
+    items.forEach((item, index) => { item.hidden = !expanded && index >= 3; });
+    toggle.hidden = !hasOlder;
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.textContent = expanded ? "SHOW LESS" : "SHOW OLDER NEWS";
+  };
+  const settle = () => {
+    cancelAnimations();
+    if (collapsing) keepToggleVisible();
+    collapsing = false;
   };
 
-  const move = (direction) => {
-    const button = direction > 0 ? next : previous;
-    if (button.getAttribute("aria-disabled") === "true") return;
-    const items = Array.from(list.children);
-    const positions = items.map((item) =>
-      item.getBoundingClientRect().left - region.getBoundingClientRect().left + region.scrollLeft
-    );
-    const target = direction > 0
-      ? positions.find((position) => position > region.scrollLeft + 2)
-      : positions.findLast((position) => position < region.scrollLeft - 2);
-    region.scrollTo({
-      left: target ?? (direction > 0 ? region.scrollWidth : 0),
-      behavior: reducedMotion.matches ? "instant" : "smooth",
-    });
-    updateNavigation();
-  };
-
-  previous.addEventListener("click", () => move(-1));
-  next.addEventListener("click", () => move(1));
-  control.addEventListener("click", () => {
+  toggle.addEventListener("click", (event) => {
+    // Capture the current interpolated height before cancelling a reversal.
+    const fromHeight = getComputedStyle(list).height;
+    cancelAnimations();
+    collapsing = false;
     expanded = !expanded;
-    layout();
-    if (!expanded) panel.scrollIntoView({
-      behavior: reducedMotion.matches ? "auto" : "smooth",
-      block: "start",
-    });
+    render();
+    const toHeight = getComputedStyle(list).height;
+    if (event.detail === 0 || reducedMotion.matches || !list.animate || fromHeight === toHeight) {
+      keepToggleVisible();
+      return;
+    }
+    const easing = getComputedStyle(section).getPropertyValue("--news-disclosure-ease").trim()
+      || "cubic-bezier(0.23, 1, 0.32, 1)";
+    const options = { duration: 200, easing };
+    collapsing = !expanded;
+    const height = list.animate([
+      { height: fromHeight, overflow: "clip" },
+      { height: toHeight, overflow: "clip" },
+    ], options);
+    animations.push(height);
+    // Only the extra entries fade: the first three never move within the list.
+    if (expanded) {
+      for (const item of entries().slice(3)) {
+        animations.push(item.animate([{ opacity: 0 }, { opacity: 1 }], options));
+      }
+    }
+    height.onfinish = settle;
   });
-  region.addEventListener("scroll", updateNavigation, { passive: true });
-  desktop.addEventListener("change", () => {
-    expanded = false;
-    region.scrollLeft = 0;
-    layout();
-  });
+
+  reducedMotion.addEventListener("change", settle);
+  window.addEventListener("resize", settle, { passive: true });
   if ("ResizeObserver" in window) {
-    new ResizeObserver(updateNavigation).observe(region);
-  } else {
-    window.addEventListener("resize", updateNavigation, { passive: true });
+    let width = list.getBoundingClientRect().width;
+    new ResizeObserver(() => {
+      const nextWidth = list.getBoundingClientRect().width;
+      if (nextWidth !== width) {
+        width = nextWidth;
+        settle();
+      }
+    }).observe(list);
   }
-  new MutationObserver(layout).observe(list, { childList: true });
-  document.fonts?.ready.then(updateNavigation);
-  layout();
+  new MutationObserver(() => {
+    cancelAnimations();
+    render();
+    if (collapsing) keepToggleVisible();
+    collapsing = false;
+  }).observe(list, { childList: true });
+  render();
 }

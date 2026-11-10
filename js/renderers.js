@@ -42,7 +42,7 @@ const compareByDateDesc = (a, b) => {
   return bTime - aTime;
 };
 
-const formatIsoDateLabel = (value) => {
+const formatIsoDateLabel = (value, { includeDay = true } = {}) => {
   const text = normalizeInlineText(value || "");
   if (!text) return "";
   const match = text.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
@@ -67,7 +67,7 @@ const formatIsoDateLabel = (value) => {
   ];
   const month = MONTH_SHORT_LABEL[monthKeys[Number(monthValue) - 1]];
   if (!month) return text;
-  if (!dayValue) return `${month} ${year}`;
+  if (!includeDay || !dayValue) return `${month} ${year}`;
   return `${month} ${Number(dayValue)}, ${year}`;
 };
 
@@ -97,22 +97,19 @@ const renderBioHtml = (paragraphs) => {
 
 const renderNewsItemHtml = (item) => {
   const entry = item || {};
-  if (entry.placeholder) {
-    return `<li class="news-entry news-entry--placeholder"><p class="news-copy">${escapeHtml(entry.text || "More to come")}</p></li>`;
-  }
-  const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
+  const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date, { includeDay: false });
   const dateLabel = splitNewsDateLabel(displayDate);
   const dateHtml = dateLabel.year
     ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
     : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
   const mascotHtml = entry.mascot
-    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="editorial-media-column news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
     : "";
   const note = normalizeInlineText(entry.note || "");
   const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
   const contentHtml = `<div class="news-copy">${renderNewsInline(entry)}</div>${noteHtml}`;
 
-  return `<li class="news-entry${entry.award ? " news-entry--milestone" : ""}"><article class="editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-news-content">${contentHtml}</div></article>${mascotHtml}</li>`;
+  return `<li class="news-entry editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${contentHtml}</div>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {

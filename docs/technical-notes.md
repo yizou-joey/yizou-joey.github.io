@@ -120,18 +120,13 @@ small presentation behavior:
   and the button stays hidden.
 - `js/favicon.js` swaps active/idle favicon assets and follows the browser color
   scheme independently of the website appearance preference.
-- `js/news-scroll.js` progressively enhances the news list: desktop shows three
-  open columns with native horizontal scrolling and previous/next controls when needed;
-  mobile keeps two visible entries with an expand/collapse control. Desktop
-  fine vertical rules separate desktop columns, with dates and stickers sharing
-  a compact header above full-width copy and personal notes. Conference-link
-  hover lifts, tilts and slightly enlarges its sticker, with instant keyboard
-  feedback and a static reduced-motion state.
-  Native scrolling preserves touch/trackpad momentum; buttons scroll smoothly
-  (instantly with reduced motion). A 20px alpha mask fades only edges with
-  offscreen content and is removed around keyboard-focused links. An undated
-  desktop-only placeholder provides an extra scrollable item.
-  Theme changes do not replace images or reset the current news position.
+- `js/news-scroll.js` progressively enhances the standalone, full-width news
+  list. Three updates are visible at every width; a bottom-right `SHOW OLDER NEWS`
+  / `SHOW LESS` control appears only when additional entries exist. Disclosure
+  motion is brief, interruptible, and instant for keyboard or reduced motion.
+  Main copy and handwritten notes occupy separate lines, with stickers on the
+  right. Sticker and conference-link hover provide the original lift and tilt.
+  Without JavaScript all news stays readable.
 - `js/404.js` provides the 404-page interaction.
 
 GoatCounter is loaded asynchronously for visitor analytics. None of these

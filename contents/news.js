@@ -1,8 +1,8 @@
 export default [
   {
     date: "2026-09",
-    text: "Onto the PhD!",
-    note: "New chapter ~",
+    text: "Started my PhD!",
+    note: "New chapter",
   },
   {
     date: "2026-03-25",
@@ -24,9 +24,5 @@ export default [
     note: "See you at Daegu!",
     mascot: "files/generated/logos/ieee-vr-26-logo-sticker.webp",
     mascotAlt: "IEEE VR 2026, Daegu, Korea",
-  },
-  {
-    placeholder: true,
-    text: "More to come",
   },
 ];

@@ -1696,6 +1696,10 @@ span.site-header-link {
   line-height: var(--type-caption-line-height);
 }
 
+.profile-location {
+  color: var(--color-chip-text-muted);
+}
+
 .profile-contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -1834,10 +1838,6 @@ span.site-header-link {
     white-space: nowrap;
   }
 
-  .profile-location-country {
-    display: none;
-  }
-
   .profile-contact-links {
     display: contents;
   }
@@ -1930,7 +1930,7 @@ span.site-header-link {
 }
 
 #news-list {
-  gap: var(--space-4);
+  gap: var(--space-20);
 }
 
 #news-list > .news-entry {
@@ -1968,11 +1968,17 @@ span.site-header-link {
   height: 80px;
 }
 
-@media (min-width: 640px) {
-  #news-list {
-    gap: var(--space-20);
+@media (max-width: 639px) {
+  .editorial-news-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  .news-entry .news-mascot-column {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
   .editorial-news-row {
     grid-template-columns: 140px minmax(0, 1fr) 100px;
   }
@@ -2092,31 +2098,46 @@ span.site-header-link {
 
   .profile-intro-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(304px, 30vw, 364px);
+    --profile-identity-width: clamp(280px, 24vw, 304px);
+    --profile-contact-width: 112px;
+    --profile-name-line-height: 43.2px;
+    grid-template-columns: var(--profile-identity-width) minmax(0, 1fr);
     grid-template-rows: max-content minmax(0, 1fr);
     align-items: start;
     column-gap: clamp(var(--space-48), 5vw, 56px);
-    row-gap: var(--space-24);
+    row-gap: var(--space-16);
   }
 
   .profile-aside {
-    grid-column: 2;
-    grid-row: 2;
-    width: 100%;
-    align-items: stretch;
-    justify-content: flex-start;
-    gap: var(--space-12);
+    display: contents;
   }
 
-  /* The desktop identity column groups names, portrait, and contact details. */
-  .profile-photo-frame,
-  .profile-contact-panel {
+  /* Names and contacts share the first row; the portrait spans both below. */
+  .profile-photo-frame {
+    grid-column: 1;
+    grid-row: 2;
     width: 100%;
+    align-self: start;
+  }
+
+  .profile-photo-frame picture {
+    width: 100%;
+  }
+
+  .profile-contact-panel {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    align-self: stretch;
+    width: var(--profile-contact-width);
+    align-items: flex-start;
+    padding-top: calc(var(--profile-name-line-height) - var(--type-caption-line-height));
   }
 
   .profile-photo {
-    width: 152px;
-    height: 152px;
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .profile-contact-panel {
@@ -2124,9 +2145,16 @@ span.site-header-link {
   }
 
   .profile-contact-list {
-    align-items: center;
-    gap: var(--space-8);
+    flex: 1;
+    width: 100%;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0;
     padding-block: 0;
+  }
+
+  .profile-contact-links {
+    display: contents;
   }
 
   .profile-main {
@@ -2134,33 +2162,34 @@ span.site-header-link {
   }
 
   .profile-name-row {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
+    width: calc(100% - var(--profile-contact-width) - var(--space-24));
     display: grid;
     grid-template-columns: max-content;
-    justify-content: center;
-    justify-items: center;
-    column-gap: var(--space-20);
-    row-gap: var(--space-8);
-    text-align: center;
+    justify-content: start;
+    justify-items: start;
+    row-gap: var(--space-4);
+    text-align: left;
   }
 
   .profile-name-row > .type-title-hero {
     grid-column: 1 / -1;
     inset-inline-start: 0;
+    font-size: 36px;
+    line-height: var(--profile-name-line-height);
   }
 
-  .profile-name-row > .type-title-hero-sub:last-child {
-    grid-row: 2;
-  }
-
-  .profile-name-row > .type-title-hero-sub:nth-child(2) {
-    grid-row: 3;
+  .profile-name-row > .type-title-hero-sub {
+    font-size: 26px;
+    line-height: 1.2;
   }
 
   .profile-bio {
-    grid-column: 1;
+    grid-column: 2;
     grid-row: 1 / 3;
+    /* Match the first text line's bottom to the larger name line. */
+    padding-top: calc(var(--profile-name-line-height) - var(--type-body-bio-line-height));
     text-align: left;
   }
 }

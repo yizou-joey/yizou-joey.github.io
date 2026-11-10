@@ -22,6 +22,10 @@ Biography content exports an array of paragraph strings. Supported inline
 formatting remains intentionally small: `**bold**`, `*italic*`, and
 `[label](url)`.
 
+News may include an undated `{ placeholder: true, text: "More to come" }` entry.
+It sorts after dated updates and appears only in the desktop horizontal list;
+it is not counted in the mobile expand/collapse control.
+
 News entries may add a plain-text `note`, rendered as a quiet handwritten line
 below the main copy.
 

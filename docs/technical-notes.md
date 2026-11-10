@@ -123,8 +123,14 @@ small presentation behavior:
 - `js/news-scroll.js` progressively enhances the news list: desktop shows three
   open columns with native horizontal scrolling and previous/next controls when needed;
   mobile keeps two visible entries with an expand/collapse control. Desktop
-  stickers sit beside each update's personal note and lift subtly through CSS hover
-  feedback, with instant keyboard feedback and a static reduced-motion state.
+  fine vertical rules separate desktop columns, with dates and stickers sharing
+  a compact header above full-width copy and personal notes. Conference-link
+  hover lifts, tilts and slightly enlarges its sticker, with instant keyboard
+  feedback and a static reduced-motion state.
+  Native scrolling preserves touch/trackpad momentum; buttons scroll smoothly
+  (instantly with reduced motion). A 20px alpha mask fades only edges with
+  offscreen content and is removed around keyboard-focused links. An undated
+  desktop-only placeholder provides an extra scrollable item.
   Theme changes do not replace images or reset the current news position.
 - `js/404.js` provides the 404-page interaction.
 

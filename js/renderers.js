@@ -97,6 +97,9 @@ const renderBioHtml = (paragraphs) => {
 
 const renderNewsItemHtml = (item) => {
   const entry = item || {};
+  if (entry.placeholder) {
+    return `<li class="news-entry news-entry--placeholder"><p class="news-copy">${escapeHtml(entry.text || "More to come")}</p></li>`;
+  }
   const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
   const dateLabel = splitNewsDateLabel(displayDate);
   const dateHtml = dateLabel.year

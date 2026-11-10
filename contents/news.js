@@ -25,4 +25,8 @@ export default [
     mascot: "files/generated/logos/ieee-vr-26-logo-sticker.webp",
     mascotAlt: "IEEE VR 2026, Daegu, Korea",
   },
+  {
+    placeholder: true,
+    text: "More to come",
+  },
 ];

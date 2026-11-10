@@ -16,6 +16,10 @@ if (panel) {
     navigation.hidden = !desktop.matches || maximum <= 2;
     previous.setAttribute("aria-disabled", String(region.scrollLeft <= 2));
     next.setAttribute("aria-disabled", String(region.scrollLeft >= maximum - 2));
+    // Fade only the clipped edges; clamp elastic overscroll at either endpoint.
+    const fadeWidth = 20;
+    region.style.setProperty("--news-fade-start", `${Math.min(fadeWidth, Math.max(0, region.scrollLeft))}px`);
+    region.style.setProperty("--news-fade-end", `${Math.min(fadeWidth, Math.max(0, maximum - region.scrollLeft))}px`);
     if (desktop.matches && maximum > 2) {
       region.setAttribute("tabindex", "0");
       region.setAttribute("role", "region");
@@ -28,7 +32,10 @@ if (panel) {
   };
 
   const layout = () => {
-    const items = Array.from(list.children);
+    const items = Array.from(list.children).filter((item) => !item.classList.contains("news-entry--placeholder"));
+    for (const item of list.querySelectorAll(".news-entry--placeholder")) {
+      item.hidden = !desktop.matches;
+    }
     items.forEach((item, index) => {
       item.hidden = !desktop.matches && !expanded && index >= 2;
     });

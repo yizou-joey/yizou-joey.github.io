@@ -1788,7 +1788,7 @@ span.site-header-link {
     grid-column: 1;
     grid-row: 1;
     display: grid;
-    grid-template-rows: repeat(3, var(--type-display-hero-line-height));
+    grid-template-rows: repeat(3, max-content);
     align-items: center;
     justify-content: start;
     gap: var(--space-12);
@@ -2118,6 +2118,8 @@ span.site-header-link {
     grid-row: 2;
     width: 100%;
     align-self: start;
+    padding: calc(var(--space-20) + var(--space-10));
+    border: 1px solid var(--color-border-warm);
   }
 
   .profile-photo-frame picture {

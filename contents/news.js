@@ -1,9 +1,9 @@
 export default [
-//   {
-//     date: "2026-09",
-//     text: "Onto the PhD!",
-//     note: "New chapter ~",
-//   },
+  {
+    date: "2026-09",
+    text: "Started my PhD!",
+    note: "New chapter",
+  },
   {
     date: "2026-03-25",
     venueKey: "ieee-vr",

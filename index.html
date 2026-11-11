@@ -75,8 +75,8 @@
             <div class="profile-main">
               <div class="profile-name-row">
                 <h1 class="type-title-hero text-ink">Yi Zou</h1>
-                <span class="type-title-hero-sub text-muted">Joey</span>
                 <span class="type-title-hero-sub text-muted">邹一</span>
+                <span class="type-title-hero-sub text-muted">Joey</span>
               </div>
               <p class="profile-bio type-body-bio">
                 <span id="bio-intro"></span>
@@ -104,7 +104,7 @@
                       <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>
                       <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0"/>
                     </svg>
-                    <p class="text-resource-muted">Guangzhou<span class="profile-location-country">, China</span></p>
+                    <p class="text-resource-muted">Guangzhou</p>
                   </div>
                   <div class="profile-contact-links">
                     <span class="profile-contact-link-item">
@@ -143,30 +143,19 @@
                   </a> -->
                 </div>
               </div>
-              <section id="recent-news" class="profile-news-panel" aria-labelledby="news-heading">
-                <div id="news" class="section-heading-row">
-                  <h2 id="news-heading" class="type-title-section">Recent News</h2>
-                </div>
-                <div class="news-scroll-shell" data-news-scroll-shell>
-                  <div class="news-scroll-region" data-news-scroll-region>
-                    <ul id="news-list" class="news-bullet-list"></ul>
-                  </div>
-                  <button
-                    class="news-scroll-control"
-                    type="button"
-                    aria-controls="news-list"
-                    aria-label="Show older news"
-                    hidden
-                    data-news-scroll-control
-                  >
-                    <svg class="news-scroll-chevrons" viewBox="0 0 24 24" aria-hidden="true">
-                      <polyline points="7 3 12 8 17 3"></polyline>
-                      <polyline points="7 9 12 14 17 9"></polyline>
-                      <polyline points="7 15 12 20 17 15"></polyline>
-                    </svg>
-                  </button>
-                </div>
-              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent News -->
+        <section id="recent-news" class="page-section page-gutter news-section" aria-labelledby="news-heading" data-news-disclosure>
+          <div class="section-rail-l1 section-stack">
+            <div id="news" class="section-heading-row">
+              <h2 id="news-heading" class="type-title-section">Recent News</h2>
+            </div>
+            <div class="section-rail-l2 news-content">
+              <ul id="news-list"></ul>
+              <button class="news-disclosure-button" type="button" aria-controls="news-list" aria-expanded="false" data-news-toggle hidden>SHOW OLDER NEWS</button>
             </div>
           </div>
         </section>

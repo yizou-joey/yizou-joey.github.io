@@ -17,13 +17,6 @@ This repository is a Vite-powered, multi-page academic website. Entry pages live
 
 Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, which is the source of truth for visual implementation; use `DESIGN.md` only for intent and boundaries. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
 
-## UI Changes & Visual Verification
-
-- Before adjusting spacing, inspect computed styles and element bounds to identify the controlling constraints: gaps, fixed/minimum heights, padding, alignment, and image occupancy. Do not repeatedly tune `gap` without checking these causes.
-- Compare equivalent visible-content boundaries, such as heading rule to first text and last annotation to the next heading. Matching container gaps or shared tokens alone does not establish visual consistency.
-- Preserve intended artwork dimensions; distinguish image size from layout occupancy. Check overflow, shadows, and hover states when changing either.
-- Verify the requested result with before/after measurements and visual inspection at desktop, narrow desktop, and mobile widths. Build and regression checks do not replace this targeted verification; report only what was actually verified.
-
 ## Testing Guidelines
 
 There is no unit-test framework or coverage threshold. Run `npm run check` before merging; it includes `npm run build`, so a separate build is unnecessary unless subsequent changes require another validation. For visual or interaction changes, inspect all three pages at desktop and mobile widths, test light/dark favicon behavior when relevant, and verify `prefers-reduced-motion: reduce` states. Confirm generated `dist/*.html` contains the expected static content.

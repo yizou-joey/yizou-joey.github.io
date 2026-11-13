@@ -23,8 +23,7 @@ formatting remains intentionally small: `**bold**`, `*italic*`, and
 `[label](url)`.
 
 News entries may add a plain-text `note`, rendered as a quiet handwritten line
-below the main copy. The homepage shows the three most recent updates; additional
-entries are available through the inline `SHOW OLDER NEWS` disclosure.
+below the main copy.
 
 Teaching entries may add an `instructors` array. Each instructor has a required
 `name` and an optional `url`; the renderer labels one entry as `Instructor` and

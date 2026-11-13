@@ -42,7 +42,7 @@ const compareByDateDesc = (a, b) => {
   return bTime - aTime;
 };
 
-const formatIsoDateLabel = (value, { includeDay = true } = {}) => {
+const formatIsoDateLabel = (value) => {
   const text = normalizeInlineText(value || "");
   if (!text) return "";
   const match = text.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
@@ -67,7 +67,7 @@ const formatIsoDateLabel = (value, { includeDay = true } = {}) => {
   ];
   const month = MONTH_SHORT_LABEL[monthKeys[Number(monthValue) - 1]];
   if (!month) return text;
-  if (!includeDay || !dayValue) return `${month} ${year}`;
+  if (!dayValue) return `${month} ${year}`;
   return `${month} ${Number(dayValue)}, ${year}`;
 };
 
@@ -97,19 +97,19 @@ const renderBioHtml = (paragraphs) => {
 
 const renderNewsItemHtml = (item) => {
   const entry = item || {};
-  const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date, { includeDay: false });
+  const displayDate = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
   const dateLabel = splitNewsDateLabel(displayDate);
   const dateHtml = dateLabel.year
     ? `<div class="editorial-date-start editorial-news-date"><span>${escapeHtml(dateLabel.lead)}${dateLabel.separator ? `<span class="editorial-news-date-separator">${escapeHtml(dateLabel.separator)}</span>` : ""}</span> <span>${escapeHtml(dateLabel.year)}</span></div>`
     : `<div class="editorial-date-start">${escapeHtml(dateLabel.lead)}</div>`;
   const mascotHtml = entry.mascot
-    ? `<div class="editorial-media-column news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
+    ? `<div class="news-mascot-column"><img class="news-mascot-sticker" src="${escapeHtml(entry.mascot)}" alt="${escapeHtml(entry.mascotAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
     : "";
   const note = normalizeInlineText(entry.note || "");
   const noteHtml = note ? `<div class="news-note">${escapeHtml(note)}</div>` : "";
   const contentHtml = `<div class="news-copy">${renderNewsInline(entry)}</div>${noteHtml}`;
 
-  return `<li class="news-entry editorial-media-row editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-detail-column editorial-news-content">${contentHtml}</div>${mascotHtml}</li>`;
+  return `<li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column">${dateHtml}</div><div class="editorial-news-content">${contentHtml}</div></article>${mascotHtml}</li>`;
 };
 
 const renderEducationItemHtml = (item) => {

@@ -120,13 +120,8 @@ small presentation behavior:
   and the button stays hidden.
 - `js/favicon.js` swaps active/idle favicon assets and follows the browser color
   scheme independently of the website appearance preference.
-- `js/news-scroll.js` progressively enhances the standalone, full-width news
-  list. Three updates are visible at every width; a bottom-right `SHOW OLDER NEWS`
-  / `SHOW LESS` control appears only when additional entries exist. Disclosure
-  motion is brief, interruptible, and instant for keyboard or reduced motion.
-  Main copy and handwritten notes occupy separate lines, with stickers on the
-  right. Sticker and conference-link hover provide the original lift and tilt.
-  Without JavaScript all news stays readable.
+- `js/news-scroll.js` and `js/news-sticker.js` progressively enhance the news
+  list. Theme changes do not replace images or reset the current news position.
 - `js/404.js` provides the 404-page interaction.
 
 GoatCounter is loaded asynchronously for visitor analytics. None of these

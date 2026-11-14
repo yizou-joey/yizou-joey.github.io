@@ -52,8 +52,8 @@
   --color-venue-ismar-text: #006bbd;
   --color-award: #f2cb00;
   --color-gold-dark: #92400e;
-  /* Warm trophy gold for award labels on light paper. */
-  --color-award-text: #f4b542;
+  /* Readable orange-gold for award labels on light paper. */
+  --color-award-text: #b85a00;
   --color-resource-link: var(--color-gold-dark);
 
   /* Navigation */

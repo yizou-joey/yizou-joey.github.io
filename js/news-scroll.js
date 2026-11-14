@@ -1,6 +1,7 @@
 import { createNewsSticker } from "./news-sticker.js";
 
-const DESKTOP_QUERY = "(min-width: 900px)";
+// Keep in sync with the profile layout's font-relative breakpoint.
+const DESKTOP_QUERY = "(min-width: 56.25em)";
 const MOBILE_VISIBLE_ITEMS = 2;
 const SCROLL_END_TOLERANCE = 2;
 

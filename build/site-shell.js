@@ -26,6 +26,7 @@ const profiles = {
 
 const bootstrap = `<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="text-scale" content="scale" />
 <script data-theme-bootstrap></script>`;
 
 const renderTemplate = async (name, values, markup = {}) => {

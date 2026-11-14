@@ -36,6 +36,7 @@ const createPage = () => {
     return { link, tooltip, open: () => classes.has("is-open") };
   });
   const fine = { ...eventTarget(), matches: true };
+  const wide = { ...eventTarget(), matches: true };
   const reduced = { ...eventTarget(), matches: false };
   const document = {
     ...eventTarget(),
@@ -50,7 +51,7 @@ const createPage = () => {
   let nextId = 0;
   const context = {
     document, window, innerWidth: 1280, innerHeight: 720,
-    matchMedia: (query) => query.includes("reduced") ? reduced : fine,
+    matchMedia: (query) => query.includes("reduced") ? reduced : query.includes("min-width") ? wide : fine,
     setTimeout(callback, delay) {
       timers.set(++nextId, { callback, at: time + delay });
       return nextId;
@@ -74,7 +75,7 @@ const createPage = () => {
     }
   };
   runInNewContext(source, context);
-  return { entries, document, window, context, fine, reduced, frame, advance };
+  return { entries, document, window, context, fine, wide, reduced, frame, advance };
 };
 const mouse = { pointerType: "mouse" };
 
@@ -137,6 +138,7 @@ assert.ok(!second.open());
 for (const width of [390, 768, 900, 1023, 1024, 1280]) {
   const boundaryPage = createPage();
   boundaryPage.context.innerWidth = width;
+  boundaryPage.wide.matches = width >= 1024;
   const target = boundaryPage.entries[0];
   target.link.dispatch("pointerenter", mouse);
   assert.equal(target.open(), width >= 1024);
@@ -147,11 +149,25 @@ for (const width of [390, 768, 900, 1023, 1024, 1280]) {
   assert.equal(target.open(), width >= 1024);
 }
 
+// A larger browser default can cross the em breakpoint without changing px width.
+page = createPage();
+[first] = page.entries;
+first.link.dispatch("focus");
+page.frame();
+assert.ok(first.open());
+page.wide.matches = false;
+page.wide.dispatch("change");
+assert.ok(!first.open(), "A text-size breakpoint change dismisses the old placement.");
+first.link.dispatch("blur");
+first.link.dispatch("focus");
+page.frame();
+assert.ok(!first.open(), "Keyboard placement follows the same media query as CSS.");
+
 for (const touchOnly of [false, true]) {
   page = createPage();
   [first] = page.entries;
   if (touchOnly) page.fine.matches = false;
-  else page.context.innerWidth = 390;
+  else page.wide.matches = false;
   first.link.dispatch("focus");
   page.frame();
   first.link.dispatch("pointerenter", { pointerType: "touch" });

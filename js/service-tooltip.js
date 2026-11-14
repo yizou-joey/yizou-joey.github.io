@@ -1,4 +1,5 @@
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
+const wideLayout = matchMedia("(min-width: 64em)");
 const entries = [...document.querySelectorAll(".service-event")].flatMap((event) => {
   const link = event.querySelector("a[aria-describedby]");
   const tooltip = event.querySelector(".service-event-tooltip");
@@ -13,7 +14,7 @@ const cancelFocus = () => {
   focusFrame = null;
 };
 
-const eligible = () => finePointer.matches && innerWidth >= 1024;
+const eligible = () => finePointer.matches && wideLayout.matches;
 const occupied = (entry) => entry.dragging || entry.pointer || entry.focus || entry.overTooltip;
 const clearTimers = () => {
   clearTimeout(hideTimer);
@@ -134,3 +135,4 @@ window.addEventListener("blur", () => {
   entries.forEach((entry) => { entry.pointer = false; entry.overTooltip = false; });
 });
 finePointer.addEventListener("change", dismiss);
+wideLayout.addEventListener("change", dismiss);

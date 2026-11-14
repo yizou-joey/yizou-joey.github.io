@@ -124,6 +124,25 @@ a project, add its publication fields and a root HTML entry file named by
 Project URLs are root-level `.html` filenames. Project content, DOI, and preview
 image are required; the build rejects missing values or duplicate page entries.
 
+Each project publication also requires `citation: { bibtex, source, confirmedOn }`.
+`bibtex` is canonical plain text, rendered as escaped static text and copied exactly;
+its DOI must match the publication DOI. `source` identifies the provenance and
+`confirmedOn` records the ISO confirmation date. The current entries were supplied
+and confirmed by the user on 2026-11-14, associated with their publication DOI.
+IEEE Xplore exports were inaccessible (HTTP 418) and were not independently verified.
+Crossref DOI content negotiation corroborated bibliographic details, but is not the
+source of the displayed text. The current `edited-user-confirmed-export` source
+denotes a cleaned version of that supplied export: empty `volume` and `number`
+fields and the optional mixed-quality `keywords` field are omitted, and page
+ranges use BibTeX double hyphens. Entry types, citation keys, authors, titles,
+proceedings names, years, and DOIs are preserved. The closing brace is placed on
+its own line for readability. Formatting cleanup does not change `confirmedOn`.
+The copy button is progressively enhanced. It uses the Clipboard API in secure
+contexts and a selection-based fallback where needed, including remote HTTP; if
+copying fails, the text remains selectable for manual copying. Citation text wraps
+within the frame; the copy control stays visible and success is announced without
+adding a visible label beside the checkmark.
+
 ### Project-specific details
 
 The shared template is the page shell, not a fixed outline for every project.

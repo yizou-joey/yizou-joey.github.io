@@ -8,6 +8,22 @@
  */
 
 @font-face {
+  font-family: "Local Noto Serif SC";
+  src: url("/files/fonts/site/noto-serif-sc.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Local Shantell Sans";
+  src: url("/files/fonts/site/shantell-sans.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Site Inter";
   src: url("/files/fonts/inter-v4.1/InterVariable.woff2") format("woff2");
   font-style: normal;
@@ -20,8 +36,6 @@
   --link-underline-hover-offset: 0.2em;
   --link-underline-press-offset: 0.175em;
   --link-underline-rest-width: 1px;
-  --link-underline-hover-width: 1.5px;
-  --link-underline-press-width: 1.25px;
   --link-feedback-duration: 140ms;
   --link-press-duration: 100ms;
   --link-feedback-ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -81,8 +95,8 @@
     "Helvetica Neue",
     Arial,
     sans-serif;
-  --font-serif-sc: "Noto Serif SC", serif;
-  --font-handwritten: "Shantell Sans", cursive;
+  --font-serif-sc: "Local Noto Serif SC", "Noto Serif SC", serif;
+  --font-handwritten: "Local Shantell Sans", "Shantell Sans", cursive;
 
   --type-feature-serif: "kern" 1, "liga" 1, "clig" 1;
   --type-feature-sans: "kern" 1, "liga" 1, "clig" 1;
@@ -247,43 +261,45 @@ a {
   text-decoration: inherit;
 }
 
-.inline-link,
-.contact-link-label {
+/* Ordinary underlines share all states; Services owns a two-segment connector.
+   Keep the exclusion specificity-neutral so context tokens remain sufficient. */
+.inline-link:not(:where(.service-event a[aria-describedby])),
+.contact-link-label,
+.error404-link {
   text-decoration-line: underline;
   text-decoration-color: var(--color-link-decoration-muted);
   text-decoration-thickness: var(--link-underline-rest-width);
   text-underline-offset: var(--link-underline-rest-offset);
   transition:
     text-decoration-color var(--link-feedback-duration) var(--link-feedback-ease),
-    text-decoration-thickness var(--link-feedback-duration) var(--link-feedback-ease),
     text-underline-offset var(--link-feedback-duration) var(--link-feedback-ease);
 }
 
 .inline-link { color: inherit; }
 
 @media (hover: hover) and (pointer: fine) {
-  .inline-link:hover,
-  .contact-link:hover .contact-link-label {
+  .inline-link:not(:where(.service-event a[aria-describedby])):hover,
+  .contact-link:hover .contact-link-label,
+  .error404-link:hover {
     text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
-    text-decoration-thickness: var(--link-underline-hover-width);
     text-underline-offset: var(--link-underline-hover-offset);
   }
 }
 
-.inline-link:focus-visible,
-.contact-link:focus-visible .contact-link-label {
+.inline-link:not(:where(.service-event a[aria-describedby])):focus-visible,
+.contact-link:focus-visible .contact-link-label,
+.error404-link:focus-visible {
   text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
-  text-decoration-thickness: var(--link-underline-hover-width);
   text-underline-offset: var(--link-underline-hover-offset);
   transition: none;
 }
 
-.inline-link:active,
-.contact-link:active .contact-link-label {
-  text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
-  text-decoration-thickness: var(--link-underline-press-width);
+.inline-link:not(:where(.service-event a[aria-describedby])):active,
+.contact-link:active .contact-link-label,
+.error404-link:active {
+  text-decoration-color: var(--color-ink);
   text-underline-offset: var(--link-underline-press-offset);
-  transition-duration: var(--link-press-duration);
+  transition-duration: 0s, var(--link-press-duration);
 }
 
 .inline-link:focus-visible {
@@ -853,7 +869,9 @@ a {
   --resource-link-padding-end: var(--space-4);
   position: relative;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
+  min-width: 24px;
+  min-height: 24px;
   color: var(--color-resource-link);
   text-decoration: none;
   padding: 0 var(--resource-link-padding-end) 0 var(--resource-link-padding-start);
@@ -893,7 +911,7 @@ a {
   position: absolute;
   left: var(--resource-link-padding-start);
   right: var(--resource-link-padding-end);
-  bottom: -1px;
+  bottom: calc(50% - 0.75em - 1px);
   width: auto;
   height: 1px;
   background: currentColor;
@@ -1641,14 +1659,12 @@ span.site-header-link {
 }
 
 .contact-link {
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
   color: var(--color-chip-text-muted);
   text-decoration: none;
-}
-
-.contact-link:focus-visible {
-  text-decoration-color: var(--color-link-decoration-ink);
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 4px;
 }
 
 .contact-link:focus-visible {
@@ -1914,6 +1930,12 @@ span.site-header-link {
 
   .profile-name-row {
     gap: var(--space-12);
+  }
+}
+
+@media (pointer: coarse) and (width < 56.25em) {
+  .profile-intro {
+    --profile-contact-row-size: 44px;
   }
 }
 
@@ -2537,22 +2559,16 @@ span.site-header-link {
 }
 
 .error404-link {
+  display: inline-flex;
+  align-items: center;
+  min-width: 24px;
+  min-height: 24px;
   color: var(--color-muted);
-  text-decoration-line: underline;
-  text-decoration-color: var(--color-link-decoration-muted);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  transition:
-    color 180ms ease,
-    text-decoration-color 180ms ease,
-    text-underline-offset 180ms ease;
 }
 
 .error404-link:hover,
 .error404-link:focus-visible {
   color: var(--color-ink);
-  text-decoration-color: var(--color-link-decoration-ink);
-  text-underline-offset: 5px;
 }
 
 .error404-link:focus-visible {
@@ -2600,10 +2616,6 @@ span.site-header-link {
   .error404-actions {
     animation: none;
   }
-
-  .error404-link {
-    transition: none;
-  }
 }
 
 @media (max-width: 32.5em) {
@@ -2618,6 +2630,22 @@ span.site-header-link {
 
   .site-header-link {
     padding: 0 var(--space-8);
+  }
+}
+
+@media (pointer: coarse) {
+  .site-theme-toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  a.site-header-link,
+  .contact-link,
+  .profile-contact-compact-link,
+  .publication-bracket-links a,
+  .error404-link {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -2772,20 +2800,12 @@ html.project-returned .editorial-publication-item .publication-title-highlight {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .inline-link,
-  .contact-link-label {
+  .inline-link:not(:where(.service-event a[aria-describedby])),
+  .contact-link-label,
+  .error404-link {
     --link-underline-hover-offset: var(--link-underline-rest-offset);
     --link-underline-press-offset: var(--link-underline-rest-offset);
-    --link-underline-hover-width: var(--link-underline-rest-width);
-    --link-underline-press-width: var(--link-underline-rest-width);
     transition: none;
-  }
-
-  .inline-link:active,
-  .contact-link:active .contact-link-label {
-    text-decoration-color: color-mix(in srgb,
-      var(--link-underline-accent, var(--color-link-decoration-ink)) 50%,
-      var(--color-link-decoration-muted));
   }
 
   .service-event a[aria-describedby]::after {

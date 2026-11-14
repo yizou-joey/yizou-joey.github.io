@@ -13,6 +13,14 @@ This repository is a Vite-powered, multi-page academic website. Entry pages live
 - `npm run preview` rebuilds and serves the production output locally.
 - `npm run optimize:images` regenerates optimized assets under `public/files/generated/`.
 
+## Remote Preview and UI Verification
+
+- Follow `docs/remote-preview.md`. Default to direct HTTP via the server's Tailscale IP and explicit port; label loopback URLs as development-machine-only. Serve HTTPS was rolled back after Mac-side access/resource issues; do not reintroduce it without a request.
+- Run Vite with `--host 0.0.0.0` in a named tmux session and a fixed `--strictPort` port. Use separate ports for concurrent worktrees; page resources and WebSocket hot updates share that origin.
+- Before reusing a port, inspect its process and working directory. Keep the requested preview running; do not stop other sessions' servers. Record current machine/port assignments in `/home/joey/dev/website/README.md`.
+- Confirm page routes, assets and hot updates through the shared remote URL. Distinguish server-side verification from actual Mac browser verification; a localhost HTTP 200 is not sufficient.
+- Before tuning UI spacing, inspect computed styles and element bounds. Check baselines, image occupancy and the entire surrounding row at desktop/mobile widths, rather than judging an icon or label in isolation.
+
 ## Coding Style & Naming Conventions
 
 Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, which is the source of truth for visual implementation; use `DESIGN.md` only for intent and boundaries. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.

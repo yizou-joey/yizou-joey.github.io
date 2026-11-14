@@ -62,15 +62,9 @@ for (const fileName of pages) {
   assert.equal(favicon.length, 1, `${fileName}: exactly one dynamic favicon`);
   sharedFavicon ??= normalize(favicon[0]);
   assert.equal(normalize(favicon[0]), sharedFavicon, `${fileName}: shared favicon configuration`);
-  const fontStyles = head.match(/<link\b[^>]*href="https:\/\/fonts\.googleapis\.com\/css2\?[^>]*>/g) || [];
-  assert.equal(fontStyles.length, 1, `${fileName}: one font request`);
-  const fontHref = fontStyles[0].match(/href="([^"]*)"/)[1].replaceAll("&amp;", "&");
-  assert.equal(fontHref, isError
-    ? "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap"
-    : isHome
-      ? "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&family=Shantell+Sans:wght@400&display=swap"
-      : "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap",
-  `${fileName}: only required font families are requested, with existing weights preserved`);
+  assert(!/fonts\.(googleapis|gstatic)\.com/.test(head), `${fileName}: no external font chain`);
+  assert.match(head, /<link rel="preload" href="\/files\/fonts\/site\/noto-serif-sc\.woff2" as="font" type="font\/woff2" crossorigin\s*\/>/,
+    `${fileName}: preload the above-the-fold serif font`);
   assert.equal(head.includes('href="https://www.youtube-nocookie.com"'), isProject,
     `${fileName}: YouTube preconnection is project-only`);
   assert.equal((head.match(/href="\/src\/styles\.css"/g) || []).length, 1);

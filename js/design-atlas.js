@@ -43,7 +43,7 @@ const updateTypography = () => {
       ["Size", style.fontSize],
       ["Weight", style.fontWeight],
       ["Line", style.lineHeight],
-      ["Font", style.fontFamily.split(",")[0].trim().replace(/^"|"$/g, "")],
+      ["Preferred font", style.fontFamily.split(",")[0].trim().replace(/^"|"$/g, "")],
     ];
     metrics.replaceChildren(...fields.map(([label, value]) => {
       const field = document.createElement("span");
@@ -52,7 +52,7 @@ const updateTypography = () => {
       heading.className = "design-type-metric-label";
       heading.textContent = label;
       field.append(heading, document.createTextNode(value));
-      if (label === "Font") field.title = `Computed font stack: ${style.fontFamily}`;
+      if (label === "Preferred font") field.title = `Computed font stack (rendered font may differ): ${style.fontFamily}`;
       return field;
     }));
   });

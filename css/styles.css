@@ -8,10 +8,10 @@
  */
 
 /* === Document: visual design atlas === */
-.design-page { padding-top: var(--space-48); padding-bottom: var(--space-48); font-family: var(--font-sans); line-height: 1.65; }
+.design-page { padding-top: var(--space-48); padding-bottom: var(--space-48); }
 .design-hero { padding: var(--space-48) 0; }
 .design-hero h1 { margin: 0 0 var(--space-24); }
-.design-lede { max-width: 40rem; font-size: 1.125rem; margin: 0 0 var(--space-24); }
+.design-lede { max-width: 40rem; margin: 0 0 var(--space-24); }
 .design-eyebrow { color: var(--color-muted); font-size: .75rem; letter-spacing: .08em; font-weight: 600; margin: 0 0 var(--space-12); }
 .design-nav { display: flex; flex-wrap: wrap; gap: var(--space-12) var(--space-24); border-block: 1px solid var(--color-border-warm); padding: var(--space-16) 0; font-size: .875rem; }
 .design-nav a { color: var(--color-muted); text-decoration: none; }
@@ -37,10 +37,12 @@
 .design-swatch code, .design-swatch small, .design-caption, .design-demo small { color: var(--color-muted); }
 .design-caption { font-size: .875rem; margin-top: var(--space-16); }
 .design-section#type > .design-caption { margin-bottom: var(--space-16); }
-.design-type-row { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); grid-template-areas: "name sample" "name metrics"; column-gap: var(--space-24); row-gap: var(--space-8); align-items: center; border-top: 1px solid var(--color-border-warm); padding: var(--space-16) 0; }
+.design-type-row { display: grid; grid-template-columns: minmax(0, 14rem) minmax(0, 1fr); grid-template-areas: "name sample" "name metrics"; column-gap: var(--space-24); row-gap: var(--space-8); align-items: start; border-top: 1px solid var(--color-border-warm); padding: var(--space-16) 0; }
 .design-type-row code { color: var(--color-muted); }
 .design-type-meta { grid-area: name; line-height: 1.5; }
+.design-type-meta p { margin: var(--space-4) 0 0; color: var(--color-muted); font-size: .875rem; }
 .design-type-row > div:nth-child(2) { grid-area: sample; }
+.design-type-row .type-body-bio { max-width: 60ch; }
 .design-type-metrics { grid-area: metrics; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 2fr); gap: var(--space-8) var(--space-12); color: var(--color-muted); font-family: ui-monospace, monospace; font-size: .75rem; line-height: 1.5; }
 .design-type-metric { min-width: 0; overflow-wrap: anywhere; }
 .design-type-metric-label { display: block; }
@@ -1153,7 +1155,7 @@ a {
 }
 
 .type-body-sm {
-  /* Preview helper alias for Caption; not a separate semantic tier. */
+  /* Compact serif supporting information, including profile contact details. */
   font-family: var(--font-serif-sc);
   font-size: var(--type-caption-size);
   font-weight: var(--type-caption-weight);

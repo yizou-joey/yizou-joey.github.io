@@ -19,7 +19,7 @@
 .design-section { padding: var(--space-24) 0; scroll-margin-top: 2rem; }
 .design-section > .section-heading-row { margin-bottom: var(--space-section-heading-content); }
 .design-intro { max-width: 45rem; color: var(--color-muted); margin: 0 0 var(--space-32); }
-.design-page code { font-family: ui-monospace, monospace; font-size: .75rem; overflow-wrap: anywhere; }
+.design-page :not(pre) > code { font-family: ui-monospace, monospace; font-size: .75rem; overflow-wrap: anywhere; }
 .design-palette { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--space-16); }
 .design-swatch { display: flex; flex-direction: column; border: 1px solid var(--color-border-warm); border-radius: 8px; min-width: 0; }
 .design-fill { height: 7rem; flex: none; border-bottom: 1px solid var(--color-border-warm); border-radius: 7px 7px 0 0; }

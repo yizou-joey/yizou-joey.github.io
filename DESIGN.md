@@ -58,7 +58,7 @@ Accent colors are semantic, not arbitrary decoration. Conferences use their corr
 ## Shapes And Corners
 
 - Corners follow responsibility, not a universal card scale. Reading areas remain open and square by default; a 2px radius softens fine link focus outlines, while compact navigation and theme controls use 4px.
-- Project media frames and the visual guide's swatches use 8px. Badges use `--radius-badge` (999px). Swatch framing is for the guide and does not turn ordinary site content into cards.
+- Project media and citation frames and the visual guide's swatches use 8px. Badges use `--radius-badge` (999px). Swatch framing is for the guide and does not turn ordinary site content into cards.
 
 ## Components And Interaction States
 
@@ -68,6 +68,8 @@ Accent colors are semantic, not arbitrary decoration. Conferences use their corr
 - `.site-header-link` is muted without an underline, changes to ink on hover over 160ms ease, and shows a 2px blue focus outline with 2px offset. `aria-current="page"` or `"location"` uses ink; the current homepage item is a non-clickable span.
 - The theme control is one fixed slot and one accessible button whose icon and name indicate the destination. Hover changes only icon color; fine-pointer press scales to 0.97 (160ms in, 100ms out). A supported pointer transition crossfades the whole page over 280ms without a wipe while the circle/crescent morph takes 240ms and rays scale/fade over 180/120ms; without path interpolation, the icon uses a 160ms fade/scale fallback. Keyboard activation, reduced motion, initial paint, storage updates, and unsupported transitions are immediate. Repeated clicks interrupt motion and apply the latest choice without layout shift or duplicated content. See `docs/technical-notes.md` for implementation details.
 - Lists use `.editorial-*`; publications and news use `.publication-*` and `.news-*` respectively. Fix shared behavior in shared primitives rather than copying page-specific states.
+- Project BibTeX citations use `.project-citation-*`: a semantic `<pre><code>` retains authored indentation, with a 1px warm border, `--color-line` background, 8px radius, 16px padding, and 0.875rem/1.6 monospace text. `pre-wrap` and `overflow-wrap: anywhere` wrap long lines visually without changing copied text. These rules are for citations, not a general programming-code standard; the guide's inline identifiers have their own local treatment.
+- The citation's 40px icon button is progressively revealed by JavaScript; without it, text remains selectable. Fine-pointer hover changes surface and ink; keyboard focus has a 2px outline. Successful copy changes the icon and announces status, while failure displays and announces a message. Feedback clears after two seconds, and repeated activation remains possible. The clipboard API is used in secure contexts, with a selection-based fallback when unavailable or rejected; if copying fails, select the citation manually.
 
 ## Accessibility And Motion
 

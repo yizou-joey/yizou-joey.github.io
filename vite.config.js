@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
 import { getProjectEntries, projectTemplateFile, renderProjectPage } from "./build/project-pages.js";
 import { injectStaticContent } from "./build/static-content.js";
+import { fileURLToPath } from "node:url";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
 import news from "./contents/news.js";
@@ -28,6 +29,7 @@ const fail = (message) => {
 
 const projectEntries = getProjectEntries(publications);
 const projectPages = projectEntries.map((entry) => entry.projectUrl);
+const designFile = fileURLToPath(new URL("./DESIGN.md", import.meta.url));
 
 const renderIndexHtml = (html, fileName) => {
   const injections = [
@@ -63,8 +65,20 @@ const renderIndexHtml = (html, fileName) => {
 
 const staticContentHtmlPlugin = () => ({
   name: "static-content-html",
+  configureServer(server) {
+    server.watcher.add(designFile);
+    server.middlewares.use("/DESIGN.md", async (_req, res, next) => {
+      try {
+        res.setHeader("Content-Type", "text/markdown; charset=utf-8");
+        res.end(await readFile(designFile));
+      } catch (error) { next(error); }
+    });
+  },
+  async generateBundle() {
+    this.emitFile({ type: "asset", fileName: "DESIGN.md", source: await readFile(designFile) });
+  },
   handleHotUpdate({ file, server }) {
-    if (file !== projectTemplateFile && !siteShellTemplateFiles.includes(file)) return;
+    if (file !== designFile && file !== projectTemplateFile && !siteShellTemplateFiles.includes(file)) return;
     server.ws.send({ type: "full-reload", path: "*" });
     return [];
   },
@@ -79,8 +93,14 @@ const staticContentHtmlPlugin = () => ({
         const entry = projectEntries.find((entry) => entry.projectUrl === fileName);
         html = await renderProjectPage(entry);
       }
+      if (fileName === "design.html") {
+        html = injectStaticContent({ html, fileName, id: "design-publications", content: renderSelectedPublicationsHtml(publications.filter((item) => item.selected).slice(0, 1)) });
+        html = injectStaticContent({ html, fileName, id: "design-news", content: renderListHtml(news.slice(0, 1), renderNewsItemHtml) });
+        html = injectStaticContent({ html, fileName, id: "design-services", content: renderListHtml(services, renderServicesItemHtml) });
+      }
       const pageType = fileName === "index.html" ? "home"
         : fileName === "404.html" ? "notFound"
+          : fileName === "design.html" ? "document"
           : projectPages.includes(fileName) ? "project" : null;
       if (pageType) html = await renderSiteShell(html, { fileName, pageType });
       if (fileName === "cv.html") {
@@ -91,7 +111,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
+      if (["index.html", "404.html", "design.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -120,6 +140,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         notFound: "404.html",
+        design: "design.html",
         ...Object.fromEntries(projectPages.map((fileName) => [fileName.replace(/\.html$/, ""), fileName])),
       },
     },

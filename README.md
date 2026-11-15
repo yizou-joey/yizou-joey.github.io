@@ -4,6 +4,10 @@ Hi, I'm Yi ZOU, a first-year PhD student in the Computational Media and Arts Thr
 
 ## Development and remote preview
 
+`design.html` is the independently composed visual reference. [DESIGN.md](DESIGN.md)
+is the companion implementation guide and is available for download; `css/styles.css`
+is the implementation source of truth. The visual page is not generated from Markdown.
+
 See [Remote preview and debugging](docs/remote-preview.md) for the direct Tailscale HTTP
 workflow, service lifecycle, SSH fallback, and whole-page verification standard.
 

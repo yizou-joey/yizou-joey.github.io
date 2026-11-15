@@ -5,6 +5,13 @@ import services from "../contents/services.js";
 import { renderListHtml, renderServicesItemHtml } from "../js/renderers.js";
 
 const source = await readFile(new URL("../js/service-tooltip.js", import.meta.url), "utf8");
+const styles = await readFile(new URL("../css/styles.css", import.meta.url), "utf8");
+const serviceStyles = styles.slice(styles.indexOf(".service-event a[aria-describedby]::after"), styles.indexOf("/* === Component: service mascot sticker === */"));
+assert.match(serviceStyles, /height:\s*var\(--link-underline-rest-width\)/);
+assert.equal((serviceStyles.match(/height:\s*var\(--link-underline-rest-width\)/g) || []).length, 2, "Both line segments use the shared width token.");
+assert.doesNotMatch(serviceStyles, /scale(?:Y)?\([^)]*1\.5/);
+assert.match(serviceStyles, /scale\(0,\s*1\)/);
+assert.match(serviceStyles, /scale\(1,\s*1\)/);
 const eventTarget = () => {
   const listeners = new Map();
   return {

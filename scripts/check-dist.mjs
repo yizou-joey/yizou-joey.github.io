@@ -8,7 +8,7 @@ const distRoot = path.join(root, "dist");
 const errors = [];
 
 const projectEntries = publications.filter((entry) => entry.projectUrl);
-const EXPECTED_HTML_FILES = ["index.html", "404.html", ...projectEntries.map((entry) => entry.projectUrl)];
+const EXPECTED_HTML_FILES = ["index.html", "404.html", "design.html", ...projectEntries.map((entry) => entry.projectUrl)];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
   ...Object.fromEntries(projectEntries.map((entry) => [entry.projectUrl, ["project-heading"]])),
@@ -19,6 +19,7 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "services-list",
     "teaching-list",
   ]),
+  "design.html": ["design-publications", "design-news", "design-services"],
 });
 
 const report = (message) => {
@@ -179,6 +180,20 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
+    if (fileName === "design.html") {
+      const source = await readUtf8(path.join(root, "DESIGN.md"));
+      const downloaded = await readUtf8(path.join(distRoot, "DESIGN.md"));
+      const visualSource = await readUtf8(path.join(root, "design.html"));
+      if (downloaded !== source) report("Downloaded DESIGN.md differs from the source.");
+      if (!/<html lang="en">/.test(visualSource) || /[\u3400-\u9fff]/u.test(visualSource + source)) report("Design atlas and companion guide must be authored in English.");
+      for (const id of ["color", "type", "links", "components", "space", "material", "responsive", "accessibility"]) {
+        if (!html.includes(`id="${id}"`)) report(`Design section ${id} is missing.`);
+      }
+      for (const marker of ["design-fill-vr", "design-fill-ismar", "design-fill-mmsys", "design-radii", "design-gap-samples"]) {
+        if (!html.includes(marker)) report(`Design specimen ${marker} is missing.`);
+      }
+      if (!html.includes('href="/DESIGN.md" download')) report("Design Markdown download is missing.");
+    }
     if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {
       report(`${fileName} contains unresolved site or template fields.`);
     }

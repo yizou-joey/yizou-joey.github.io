@@ -21,6 +21,7 @@ const site = {
 const profiles = {
   home: { currentHome: true, decoratedFooter: true, video: false },
   project: { currentHome: false, decoratedFooter: false, video: true },
+  document: { currentHome: false, decoratedFooter: false, video: false },
   notFound: { currentHome: false, decoratedFooter: true, video: false },
 };
 
@@ -57,7 +58,12 @@ export const renderSiteShell = async (html, { fileName, pageType }) => {
       decorationHtml: profile.decoratedFooter ? '<span class="halftone-colophon" aria-hidden="true"></span>' : "",
     }),
   ]);
-  for (const [name, content] of Object.entries({ bootstrap, head, header, footer })) {
+  const shell = { bootstrap, head, header, footer };
+  if (pageType === "document") {
+    shell.header = header.replace('<header class="site-header">', '<header class="site-header" lang="en">');
+    shell.footer = footer.replace("<footer ", '<footer lang="en" ');
+  }
+  for (const [name, content] of Object.entries(shell)) {
     const marker = `<!-- site:${name} -->`;
     if (html.split(marker).length !== 2) {
       throw new Error(`${fileName} must contain exactly one ${marker}.`);

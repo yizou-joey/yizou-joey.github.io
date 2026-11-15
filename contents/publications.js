@@ -23,6 +23,18 @@ export default [
     youtubeLabel: "Presentation Video",
     posterUrl: "files/materials/Poster-1153.pdf",
     doi: "https://doi.org/10.1109/VRW70859.2026.00233",
+    citation: {
+      source: "edited-user-confirmed-export",
+      confirmedOn: "2026-11-14",
+      bibtex: `@INPROCEEDINGS{11489759,
+  author={Zou, Yi and Yu, Ao and Li, Ziming and Liang, Hai-Ning and Hui, Pan},
+  booktitle={2026 IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)},
+  title={DodgeUI: An Adaptive Interface for Mitigating Attentional Conflict via Implicit Motion Cues in Mobile AR},
+  year={2026},
+  pages={1100--1101},
+  doi={10.1109/VRW70859.2026.00233}
+}`,
+    },
     award: "Best Poster Award",
   },
   {
@@ -51,6 +63,18 @@ export default [
     youtubeUrl: "https://www.youtube.com/watch?v=ndLDvRxWMRg&t=1s",
     youtubeLabel: "Demo Video",
     doi: "https://doi.org/10.1109/VRW70859.2026.00072",
+    citation: {
+      source: "edited-user-confirmed-export",
+      confirmedOn: "2026-11-14",
+      bibtex: `@INPROCEEDINGS{11489824,
+  author={Zou, Yi and Li, Ziming and Liang, Hai-Ning and Hu, Zhiming},
+  booktitle={2026 IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)},
+  title={Contextual Recovery: Guiding Hand Tracking Failures Recovery in Mixed Reality via VLM Reasoning},
+  year={2026},
+  pages={368--372},
+  doi={10.1109/VRW70859.2026.00072}
+}`,
+    },
     slidesUrl: "files/materials/2026.03.22 NIDIT Presentation.pdf",
 
     // arxivUrl: "https://arxiv.org/",

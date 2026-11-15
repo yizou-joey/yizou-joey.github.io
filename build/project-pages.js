@@ -30,6 +30,15 @@ export const renderProjectPage = async (entry) => {
   if (project.detailsHtml !== undefined && typeof project.detailsHtml !== "string") {
     fail(`${fileName}: project.detailsHtml must be an authored HTML string.`);
   }
+  const { citation } = entry;
+  const doi = entry.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "");
+  const citationDoi = typeof citation?.bibtex === "string"
+    ? citation.bibtex.match(/\bdoi\s*=\s*\{([^}]+)\}/i)?.[1] : undefined;
+  if (typeof citation?.bibtex !== "string" || !citation.bibtex.trim() || !citation.source
+    || !/^\d{4}-\d{2}-\d{2}$/.test(citation.confirmedOn || "")
+    || !citationDoi || citationDoi.toLowerCase() !== doi.toLowerCase()) {
+    fail(`${fileName} requires a BibTeX citation with source, confirmation date, and matching DOI.`);
+  }
   const values = {
     pageTitle: `${project.name} — Yi Zou`,
     description: project.description,
@@ -39,6 +48,7 @@ export const renderProjectPage = async (entry) => {
     abstract: project.abstract,
     imageSrc: preview.src,
     imageAlt: preview.alt,
+    bibtex: citation.bibtex,
   };
   let html = await readFile(projectTemplateFile, "utf8");
   html = html.replace(/\{\{(\w+)\}\}/g, (_match, key) => {

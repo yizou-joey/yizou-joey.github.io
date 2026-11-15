@@ -79,7 +79,8 @@ for (const fileName of pages) {
     .map((match) => match[1].replace(/^\//, "")).sort();
   assert.deepEqual(moduleSources, (isHome
     ? ["js/favicon.js", "js/publication-preview.js", "js/news-scroll.js", "js/service-tooltip.js"]
-    : isError ? ["js/404.js", "js/favicon.js"] : ["js/favicon.js"]).sort(),
+    : isError ? ["js/404.js", "js/favicon.js"] : isProject
+      ? ["js/favicon.js", "js/project-citation.js"] : ["js/favicon.js"]).sort(),
   `${fileName}: page-specific modules are preserved`);
   assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), !isProject,
     `${fileName}: analytics policy remains unchanged`);

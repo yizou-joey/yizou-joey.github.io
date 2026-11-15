@@ -6,7 +6,7 @@ import publications from "../contents/publications.js";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
-const pages = ["index.html", "404.html", ...projects.map((entry) => entry.projectUrl)];
+const pages = ["index.html", "404.html", "design.html", ...projects.map((entry) => entry.projectUrl)];
 const readPage = (fileName) => readFile(new URL(`../${fileName}`, import.meta.url), "utf8");
 const render = (html, fileName) => plugin.transformIndexHtml.handler(html, { filename: fileName });
 const normalize = (html) => html.replace(/\s+/g, " ").trim();
@@ -29,7 +29,8 @@ let sharedFavicon;
 for (const fileName of pages) {
   const isHome = fileName === "index.html";
   const isError = fileName === "404.html";
-  const isProject = !isHome && !isError;
+  const isDocument = fileName === "design.html";
+  const isProject = !isHome && !isError && !isDocument;
   const html = await render(await readPage(fileName), fileName);
   const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1];
   assert(head, `${fileName}: head exists`);
@@ -50,8 +51,9 @@ for (const fileName of pages) {
   assert.equal(toggles.length, 1, `${fileName}: exactly one theme control`);
   sharedToggle ??= normalize(toggles[0][0]);
   assert.equal(normalize(toggles[0][0]), sharedToggle, `${fileName}: shared theme control markup`);
-  assert.equal(footer.includes("halftone-colophon"), !isProject, `${fileName}: footer illustration variant`);
-  assert.equal(footer.includes("page-colophon-inner--text-only"), isProject, `${fileName}: text-only footer variant`);
+  assert.equal(footer.includes("halftone-colophon"), isHome || isError, `${fileName}: footer illustration variant`);
+  assert.equal(footer.includes("page-colophon-inner--text-only"), isProject || isDocument, `${fileName}: text-only footer variant`);
+  assert(!header.includes("design.html"), `${fileName}: design guide is not in primary navigation`);
   assert.match(footer, /© 2026 Yi Zou/);
   assert.match(footer, /<time datetime="2026-09">Sep 2026<\/time>/);
   assert.deepEqual(footerDivAncestors(html), isError
@@ -79,12 +81,20 @@ for (const fileName of pages) {
     .map((match) => match[1].replace(/^\//, "")).sort();
   assert.deepEqual(moduleSources, (isHome
     ? ["js/favicon.js", "js/publication-preview.js", "js/news-scroll.js", "js/service-tooltip.js"]
-    : isError ? ["js/404.js", "js/favicon.js"] : isProject
-      ? ["js/favicon.js", "js/project-citation.js"] : ["js/favicon.js"]).sort(),
+    : isError ? ["js/404.js", "js/favicon.js"]
+      : isDocument ? ["js/design-atlas.js", "js/favicon.js", "js/publication-preview.js", "js/service-tooltip.js"]
+        : isProject ? ["js/favicon.js", "js/project-citation.js"] : ["js/favicon.js"]).sort(),
   `${fileName}: page-specific modules are preserved`);
-  assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), !isProject,
+  assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), isHome || isError,
     `${fileName}: analytics policy remains unchanged`);
-  assert.equal(head.includes('rel="expect"'), !isError, `${fileName}: transition rendering hint remains scoped`);
+  assert.equal(head.includes('rel="expect"'), isHome || isProject, `${fileName}: transition rendering hint remains scoped`);
+}
+
+{
+  const messages = [];
+  const server = { ws: { send: (message) => messages.push(message) } };
+  assert.deepEqual(plugin.handleHotUpdate({ file: fileURLToPath(new URL("../DESIGN.md", import.meta.url)), server }), []);
+  assert.deepEqual(messages, [{ type: "full-reload", path: "*" }]);
 }
 
 const homeSource = await readPage("index.html");

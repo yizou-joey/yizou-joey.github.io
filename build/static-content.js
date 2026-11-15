@@ -10,5 +10,5 @@ export const injectStaticContent = ({ html, fileName, id, content }) => {
     ? match[1]
     : `${match[1]} data-content-rendered="static"`;
 
-  return html.replace(pattern, `${openTag}>${content}${match[5]}`);
+  return html.replace(pattern, () => `${openTag}>${content}${match[5]}`);
 };

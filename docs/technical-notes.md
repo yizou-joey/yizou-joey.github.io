@@ -1,7 +1,7 @@
 # Technical Notes
 
 This document describes the stable architecture and build pipeline. Visual
-implementation belongs in `css/styles.css`; design intent belongs in
+implementation belongs in `css/styles.css`; the shared design guide belongs in
 `DESIGN.md`; content conventions belong in `docs/content-schema.md`.
 
 ## Architecture
@@ -10,6 +10,7 @@ The site is a Vite multi-page application with these production entry pages:
 
 - `index.html`: homepage and selected research.
 - `404.html`: not-found page.
+- `design.html`: design guide and live specimens, not linked from navigation.
 - Project URLs declared in `contents/publications.js`: currently `dodgeui.html`
   and `contextual-recovery.html`, rendered from `templates/project.html`.
 
@@ -45,6 +46,12 @@ Content is therefore present in the deployed HTML before browser JavaScript
 runs. Crawlers and readers do not need to fetch or interpret source content.
 The content modules remain outside `public/` and are not deployed separately.
 
+`design.html` is the independently authored visual atlas. Its academic examples
+use the same content and renderers as the homepage. `DESIGN.md` is the companion
+implementation guide, emitted as `/DESIGN.md` for download; development serves
+it directly and reloads pages when it changes. CSS remains the implementation
+source of truth.
+
 ## Shared Site Shell
 
 Production pages use `<!-- site:bootstrap -->`, `<!-- site:head -->`,
@@ -61,8 +68,8 @@ content update date, and page-type options live in `build/site-shell.js`.
 Template data is escaped; only markup authored by that module is inserted raw.
 Shared template edits trigger a full page reload during development.
 
-The homepage marks Home as current. Project and error pages link to Home.
-Home and error footers include the illustration; project footers use the
+The homepage marks Home as current. Project, document and error pages link to Home.
+Home and error footers include the illustration; project and document footers use the
 text-only class. Slots stay in their original layout parents, including the
 404 screen-height stack. The error page retains its smaller font request;
 only project pages preconnect to YouTube. Page metadata, analytics, transition
@@ -71,8 +78,7 @@ The bootstrap stays before stylesheets to preserve initial theme selection.
 
 ## Build and Verification
 
-Responsive design frames, device references, and viewport verification rules
-are defined in [Responsive layout baselines](responsive-baselines.md).
+Responsive design and viewport verification rules are in [DESIGN.md](../DESIGN.md).
 
 - `npm run dev` optimizes source images and starts Vite.
 - `npm run build` optimizes images, builds all entry pages, and verifies the
@@ -127,13 +133,7 @@ small presentation behavior:
 GoatCounter is loaded asynchronously for visitor analytics. None of these
 scripts is required for reading the page content.
 
-## Theme Materials
-
-Theme colors and material adjustments live in `css/styles.css`. The same
-sticker files and paper colors are used in both themes; only CSS shadows
-change. Contact SVGs inherit text color. The colophon remains the original
-colored image: multiply on light paper and normal blending on the dark page.
-It is not recolored or used as a mask.
+## Theme implementation
 
 The theme button uses Tabler Outline `sun` and `moon`, matching the existing
 contact icons' 24px grid, 2px stroke, and rounded caps and joins. It shows the
@@ -163,12 +163,6 @@ capture callbacks read the current preference so they cannot restore stale
 state. While captured elements are excluded from native hit testing, clicks
 within the visible button's bounds route to the same toggle handler. Snapshot
 failures fall back to the normal theme update.
-
-Original venue colors remain source tokens. Dark venue text only raises
-lightness while retaining hue and saturation. Award text uses yellow gold:
-warm `#f4b542` on light paper, and bright `#f2cb00` on dark
-backgrounds. Its hue stays close to yellow instead of the red-brown used by
-resource links, which retain a separate color role.
 
 Education logos keep their original colors on hover. Only the resting
 grayscale layer becomes pale in dark mode; no light backing or alternate

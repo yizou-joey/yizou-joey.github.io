@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository is a Vite-powered, multi-page academic website. Entry pages live at the root (`index.html`, `publications.html`, and `404.html`). Edit site content in the single-section ES modules under `contents/*.js`; authoring conventions are documented in `docs/content-schema.md`. Shared rendering helpers live in `js/`, while design tokens and component styles live in `css/styles.css`; `src/styles.css` is the Vite CSS entry point. Put deployable files in `public/files/` and image sources in `assets/original-images/`. Build output is generated in `dist/` and must not be committed.
+This repository is a Vite-powered, multi-page academic website. Entry pages live at the root (`index.html`, `design.html`, and `404.html`); `publications.html` is a retained development archive. Edit site content in the single-section ES modules under `contents/*.js`; authoring conventions are documented in `docs/content-schema.md`. Shared rendering helpers live in `js/`, while design tokens and component styles live in `css/styles.css`; `src/styles.css` is the Vite CSS entry point. Put deployable files in `public/files/` and image sources in `assets/original-images/`. Build output is generated in `dist/` and must not be committed.
 
 ## Build, Test, and Development Commands
 
@@ -23,9 +23,9 @@ This repository is a Vite-powered, multi-page academic website. Entry pages live
 
 ## Coding Style & Naming Conventions
 
-Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, which is the source of truth for visual implementation; use `DESIGN.md` only for intent and boundaries. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
+Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, the implementation source of truth. `design.html` is an independently composed visual reference, not generated from Markdown; keep it and the companion `DESIGN.md` implementation guide aligned with CSS. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
 
-Before changing a style, inventory its semantic behavior family across source entries, renderers, shared styles and overrides, and final build pages. Promote an accepted experiment back to its shared primitive and remove temporary scopes; document exceptions by responsibility rather than copying states into each page. See `docs/link-interactions.md` for the current link family map.
+Before changing a style, inventory its semantic behavior family across source entries, renderers, shared styles and overrides, and final build pages. Promote an accepted experiment back to its shared primitive and remove temporary scopes; document exceptions by responsibility rather than copying states into each page. See `DESIGN.md` for the link family map.
 
 ## Testing Guidelines
 

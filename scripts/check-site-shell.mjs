@@ -82,7 +82,7 @@ for (const fileName of pages) {
   assert.deepEqual(moduleSources, (isHome
     ? ["js/favicon.js", "js/publication-preview.js", "js/news-scroll.js", "js/service-tooltip.js"]
     : isError ? ["js/404.js", "js/favicon.js"]
-      : isDocument ? ["js/design-atlas.js", "js/favicon.js", "js/publication-preview.js", "js/service-tooltip.js"]
+      : isDocument ? ["js/design-atlas.js", "js/favicon.js", "js/project-citation.js", "js/publication-preview.js", "js/service-tooltip.js"]
         : isProject ? ["js/favicon.js", "js/project-citation.js"] : ["js/favicon.js"]).sort(),
   `${fileName}: page-specific modules are preserved`);
   assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), isHome || isError,

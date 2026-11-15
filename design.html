@@ -69,6 +69,7 @@
           <div class="section-heading-row"><h2 class="type-title-section">Academic Components</h2></div><p class="design-intro">Publication and news rows use the homepage data and renderers. The service row is shown in Interaction above; this single news example does not include the homepage scroll container.</p>
           <div class="design-example"><p class="design-eyebrow">SELECTED PUBLICATIONS</p><div id="design-publications"></div></div>
           <div class="design-example"><p class="design-eyebrow">NEWS</p><ul id="design-news" class="news-bullet-list"></ul></div>
+          <div class="design-example"><p class="design-eyebrow">PROJECT CITATION</p><p class="design-intro">A live BibTeX citation from DodgeUI, rendered with the same markup and copy control as the project page. Long lines wrap visually; copying preserves the original text.</p><div id="design-citation"></div><p class="design-rule">A warm border and quiet surface frame the citation. The icon confirms a successful copy; a visible message reports failure. Without JavaScript, the citation remains selectable.</p></div>
         </section>
 
         <section class="design-section" id="space">
@@ -80,7 +81,7 @@
           <div class="design-gap-samples"><figure><div class="design-gap-example design-gap-section"><span></span><span></span></div><figcaption>Between Sections <code>48px</code></figcaption></figure><figure><div class="design-gap-example design-gap-heading"><span></span><span></span></div><figcaption>Heading To Content <code>32px</code></figcaption></figure><figure><div class="design-gap-example design-gap-item"><span></span><span></span></div><figcaption>Between List Items <code>24px</code></figcaption></figure></div>
           <p class="design-caption">Page gutters: 16–32px fluid · Column gap: 20–56px fluid · Centered rails: 1100px / 1060px maximum, not fixed screen widths.</p>
           <div class="design-space-heading"><h3 class="type-title-subsection">Shapes &amp; Corners</h3><p>Radius follows responsibility</p></div>
-          <div class="design-radii"><figure><div class="design-radius-box design-radius-open">0</div><figcaption>Open Layout<br /><code>0px</code></figcaption></figure><figure><div class="design-radius-box design-radius-focus">2</div><figcaption>Fine Focus<br /><code>2px</code></figcaption></figure><figure><div class="design-radius-box design-radius-control">4</div><figcaption>Compact Control<br /><code>4px</code></figcaption></figure><figure><div class="design-radius-box design-radius-media">8</div><figcaption>Media / Swatch<br /><code>8px</code></figcaption></figure><figure><div class="design-radius-box design-radius-badge">∞</div><figcaption>Badge<br /><code>999px</code></figcaption></figure></div>
+          <div class="design-radii"><figure><div class="design-radius-box design-radius-open">0</div><figcaption>Open Layout<br /><code>0px</code></figcaption></figure><figure><div class="design-radius-box design-radius-focus">2</div><figcaption>Fine Focus<br /><code>2px</code></figcaption></figure><figure><div class="design-radius-box design-radius-control">4</div><figcaption>Compact Control<br /><code>4px</code></figcaption></figure><figure><div class="design-radius-box design-radius-media">8</div><figcaption>Media / Citation / Swatch<br /><code>8px</code></figcaption></figure><figure><div class="design-radius-box design-radius-badge">∞</div><figcaption>Badge<br /><code>999px</code></figcaption></figure></div>
         </section>
 
         <section class="design-section" id="material">
@@ -105,5 +106,6 @@
     <script type="module" src="/js/design-atlas.js"></script>
     <script type="module" src="/js/publication-preview.js"></script>
     <script type="module" src="/js/service-tooltip.js"></script>
+    <script type="module" src="/js/project-citation.js"></script>
   </body>
 </html>

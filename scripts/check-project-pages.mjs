@@ -96,6 +96,15 @@ assert((await render(projects[1])).includes('start=1'), "Existing video timestam
 assert.equal(renderProjectVideoHtml({}), "", "Missing video produces no empty section");
 assert.throws(() => renderProjectVideoHtml({ youtubeUrl: "https://example.com/watch?v=6GY7u8pQ9s8" }), /YouTube video/);
 
+const designSource = await readFile(new URL("../design.html", import.meta.url), "utf8");
+const design = await plugin.transformIndexHtml.handler(designSource, { filename: "design.html" });
+const citationSection = (html) => html.match(/<section class="project-section project-citation"[\s\S]*?<\/section>/)?.[0];
+const designCitation = citationSection(design);
+assert(designCitation, "Design guide renders the project citation specimen");
+assert.equal(designCitation.replace(/<\/?h3\b/g, (tag) => tag.replace("h3", "h2")), citationSection(await render(projects[0])),
+  "Guide citation shares the project markup and canonical text, apart from heading level");
+assert(design.includes('src="/js/project-citation.js"'), "Guide citation uses the project copy control");
+
 const citationScript = await readFile(new URL("../js/project-citation.js", import.meta.url), "utf8");
 for (const mode of ["success", "insecure", "rejected", "failure", "throws"]) {
   let handler;

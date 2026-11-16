@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
 import { getProjectEntries, projectTemplateFile, renderProjectPage } from "./build/project-pages.js";
 import { injectStaticContent } from "./build/static-content.js";
+import { renderProjectCitationHtml } from "@site/components/citation/render";
 import { fileURLToPath } from "node:url";
 import bio from "./contents/bio.js";
 import education from "./contents/education.js";
@@ -97,10 +98,9 @@ const staticContentHtmlPlugin = () => ({
         html = injectStaticContent({ html, fileName, id: "design-publications", content: renderSelectedPublicationsHtml(publications.filter((item) => item.selected).slice(0, 1)) });
         html = injectStaticContent({ html, fileName, id: "design-news", content: renderListHtml(news.slice(0, 1), renderNewsItemHtml) });
         html = injectStaticContent({ html, fileName, id: "design-services", content: renderListHtml(services, renderServicesItemHtml) });
-        const citationPage = await renderProjectPage(projectEntries.find((entry) => entry.projectUrl === "dodgeui.html"));
-        const citation = citationPage.match(/<section class="project-section project-citation"[\s\S]*?<\/section>/)?.[0];
-        if (!citation) fail("Project citation specimen is missing from the project template.");
-        html = injectStaticContent({ html, fileName, id: "design-citation", content: citation.replace(/<\/?h2\b/g, (tag) => tag.replace("h2", "h3")) });
+        const citationEntry = projectEntries.find((entry) => entry.projectUrl === "dodgeui.html");
+        if (!citationEntry) fail("Project citation specimen is missing from project publications.");
+        html = injectStaticContent({ html, fileName, id: "design-citation", content: renderProjectCitationHtml(citationEntry.citation.bibtex, { headingLevel: "h3" }) });
       }
       const pageType = fileName === "index.html" ? "home"
         : fileName === "404.html" ? "notFound"

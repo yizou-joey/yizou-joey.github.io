@@ -1,3 +1,5 @@
+import { escapeHtml } from "@site/components/escape-html";
+
 const VENUE_REGISTRY = Object.freeze({
   "ieee-vr": Object.freeze({
     className: "venue-ieee-vr",
@@ -14,13 +16,6 @@ const getVenueConfig = (venueKey) => {
   const normalizedKey = String(venueKey || "").trim().toLowerCase();
   return VENUE_REGISTRY[normalizedKey] || null;
 };
-
-const escapeHtml = (value) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 
 const linkMarkdownPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 const boldMarkdownPattern = /\*\*([^*]+)\*\*/g;

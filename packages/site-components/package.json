@@ -1,0 +1,11 @@
+{
+  "name": "@site/components",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./citation/render": "./src/citation/render.js",
+    "./citation/behavior": "./src/citation/behavior.js",
+    "./escape-html": "./src/escape-html.js"
+  }
+}

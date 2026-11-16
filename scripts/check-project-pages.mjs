@@ -5,12 +5,28 @@ import { runInNewContext } from "node:vm";
 import config from "../vite.config.js";
 import publications from "../contents/publications.js";
 import { getProjectEntries, renderProjectPage } from "../build/project-pages.js";
+import { renderProjectCitationHtml } from "@site/components/citation/render";
+import { initializeProjectCitationBehavior } from "@site/components/citation/behavior";
 import { renderPublicationItemHtml, renderProjectVideoHtml } from "../js/utils.js";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
 const render = (entry) => plugin.transformIndexHtml.handler("", { filename: entry.projectUrl });
 const entry = projects[0];
+for (const callerPath of ["../build/project-pages.js", "../vite.config.js"]) {
+  const caller = await readFile(new URL(callerPath, import.meta.url), "utf8");
+  assert(caller.includes('from "@site/components/citation/render"'), `${callerPath} imports the package public render entry directly`);
+  assert(!caller.includes("build/project-citation.js"), `${callerPath} does not route through an intermediate re-export`);
+}
+const citationHtml = renderProjectCitationHtml(entry.citation.bibtex);
+assert(citationHtml.includes(`<pre class="project-citation-code"><code>${entry.citation.bibtex}</code></pre>`),
+  "Shared citation output preserves the canonical BibTeX text exactly");
+assert(citationHtml.includes('aria-label="Copy BibTeX" hidden') && citationHtml.includes('role="status"'),
+  "Shared citation retains progressive enhancement and accessible status markup");
+assert(renderProjectCitationHtml('<&"').includes("&lt;&amp;&quot;"),
+  "Shared citation escapes special characters");
+assert.throws(() => renderProjectCitationHtml("text", { headingLevel: "h1" }), /Unsupported project citation heading level/);
+assert.doesNotThrow(() => initializeProjectCitationBehavior(), "Package behavior import and no-DOM call are SSR-safe");
 for (const [project, key, pages] of [
   [projects[0], "11489759", "1100--1101"],
   [projects[1], "11489824", "368--372"],
@@ -101,11 +117,13 @@ const design = await plugin.transformIndexHtml.handler(designSource, { filename:
 const citationSection = (html) => html.match(/<section class="project-section project-citation"[\s\S]*?<\/section>/)?.[0];
 const designCitation = citationSection(design);
 assert(designCitation, "Design guide renders the project citation specimen");
-assert.equal(designCitation.replace(/<\/?h3\b/g, (tag) => tag.replace("h3", "h2")), citationSection(await render(projects[0])),
-  "Guide citation shares the project markup and canonical text, apart from heading level");
+assert.equal(designCitation, renderProjectCitationHtml(projects[0].citation.bibtex, { headingLevel: "h3" }),
+  "Guide calls the shared renderer directly at its required heading level");
+assert.equal(citationSection(await render(projects[0])), citationHtml,
+  "Project template calls the shared renderer at its required heading level");
 assert(design.includes('src="/js/project-citation.js"'), "Guide citation uses the project copy control");
 
-const citationScript = await readFile(new URL("../js/project-citation.js", import.meta.url), "utf8");
+const citationScript = `${(await readFile(new URL("../packages/site-components/src/citation/behavior.js", import.meta.url), "utf8")).replace("export const", "const")}\ninitializeProjectCitationBehavior();`;
 for (const mode of ["success", "insecure", "rejected", "failure", "throws"]) {
   let handler;
   let copied;

@@ -180,6 +180,10 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
+    const usesCitationBehavior = fileName === "design.html" || projectEntries.some((entry) => entry.projectUrl === fileName);
+    if (usesCitationBehavior !== /\/assets\/project-citation-[^"\s]+\.js/.test(html)) {
+      report(`${fileName} has an unexpected project-citation behavior bundle reference.`);
+    }
     if (fileName === "design.html") {
       const source = await readUtf8(path.join(root, "DESIGN.md"));
       const downloaded = await readUtf8(path.join(distRoot, "DESIGN.md"));

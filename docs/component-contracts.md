@@ -10,8 +10,8 @@ browser JavaScript enhances only behaviors that need interaction.
 | Example / pages | Source and renderer | Styling, browser script/loading | Checks |
 | --- | --- | --- | --- |
 | Shared header/footer — published `index.html`, `404.html`, `design.html`, and project pages | `templates/site-header.html`, `templates/site-footer.html`; `build/site-shell.js` fills the `site:*` slots | Header/footer families in `css/styles.css` (`.site-header`, `.site-theme-toggle`, `.page-colophon`). The toggle behavior is inline theme bootstrap from `js/theme.js` source, injected in `vite.config.js`; it is not a page module `<script src>`. | `scripts/check-site-shell.mjs`: shell variants, slots, script/module inventory and footer placement. |
-| Publication rows — homepage (`index.html`) and specimen (`design.html`) | `contents/publications.js`; `js/utils.js` (`renderPublicationItemHtml`), called through `js/renderers.js` and injected in `vite.config.js` | Publication styles in `css/styles.css` (`.editorial-publication-item`, `.publication-*`). Homepage declares `js/publication-preview.js` in `index.html`; Design declares it in `design.html`. Those page-level module declarations enhance preview behavior, not static row content. | `scripts/check-dist.mjs`, `scripts/check-publication-preview.mjs`; rendering is also exercised by `scripts/check-project-pages.mjs`. |
-| Service rows — homepage and Design specimen | `contents/services.js`; `js/renderers.js` (`renderServicesItemHtml`), injected in `vite.config.js` | Service rules in `css/styles.css` (`.service-list`, `.service-event`). `index.html` and `design.html` each declare `<script type="module" src=".../js/service-tooltip.js">`; the component does not insert its own script tag. | `scripts/check-service-tooltip.mjs` checks output, interaction states and relevant CSS. |
+| Publication rows — homepage (`index.html`) and specimen (`design.html`) | `contents/publications.js`; public `@site/components/publication/render` renderer, called through `js/renderers.js` and injected in `vite.config.js`. `js/utils.js` retains compatibility exports for shared inline/venue and project-heading helpers. | Publication styles in `css/styles.css` (`.editorial-publication-item`, `.publication-*`). Homepage declares `js/publication-preview.js` in `index.html`; Design declares it in `design.html`. Those page-level module declarations enhance preview behavior, not static row content. | `scripts/check-dist.mjs`, `scripts/check-publication-preview.mjs`; rendering is also exercised by `scripts/check-project-pages.mjs`. |
+| Service rows — homepage and Design specimen | `contents/services.js`; `@site/components/service/render` through `js/renderers.js`, injected in `vite.config.js` | Service rules in `css/styles.css` (`.service-list`, `.service-event`). Both pages declare `js/service-tooltip.js`, the thin initializer for `@site/components/service/behavior`; the component does not insert its own script tag. | `scripts/check-service-tooltip.mjs` checks output, interaction states and relevant CSS. |
 | Project citation (BibTeX) — each generated project page and one Design specimen | `contents/publications.js`; `build/project-pages.js` and `vite.config.js` directly import the private workspace package's public entry point `@site/components/citation/render` | `.project-citation*` rules in `css/styles.css`. `templates/project.html` declares thin `js/project-citation.js`, which imports `@site/components/citation/behavior`; `design.html` declares the same module. The renderer emits static selectable text; the behavior module adds copy behavior. **Fixed IDs and first-instance query limit each page to one citation. Multiple-instance support is not implemented.** | `scripts/check-project-pages.mjs` checks package exports, both callers, escaping, heading levels and the package behavior's copy fallback states; `scripts/check-site-shell.mjs` verifies page module declarations. |
 | Project page — `dodgeui.html` and `contextual-recovery.html` | `templates/project.html`; `build/project-pages.js` validates data and assembles the page; `build/site-shell.js` adds the shell | Project/page families in `css/styles.css` (`.project-*`). The template declares `js/favicon.js` and `js/project-citation.js`; `vite.config.js` expands the shell's theme bootstrap placeholder. Video is static iframe markup, not a project-specific JS module. | `scripts/check-project-pages.mjs`, `scripts/check-site-shell.mjs`, and production `scripts/check-dist.mjs`. |
 
@@ -19,8 +19,8 @@ Module loading follows the owning page: the shared shell adds HTML and the theme
 
 These examples do not imply that every CSS family or interactive behavior has a
 standalone component module. Styles remain in `css/styles.css`; for example,
-service annotation behavior lives in `js/service-tooltip.js` while its CSS stays
-with the `.service-event` family.
+service annotation CSS stays with the `.service-event` family while the package
+owns its browser behavior.
 
 ## Three responsibilities
 
@@ -99,6 +99,13 @@ mean one citation per page; do not add another instance without first changing
 that contract and its tests.
 
 ## Validation
+
+Publication rows on the homepage and Design specimen use the package public
+entry `@site/components/publication/render`, via `js/renderers.js`. Shared
+inline-text and venue rules use `@site/components/shared/render`; date labels
+use `@site/components/shared/date`. `js/utils.js` retains compatibility exports
+for existing callers. Publication data, project video, preview behavior and CSS
+remain site-owned.
 
 Add targeted checks alongside the existing script checks and include them in
 `npm run check`. For a shared renderer, verify both page callers, the intentional

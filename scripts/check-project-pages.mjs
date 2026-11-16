@@ -8,11 +8,50 @@ import { getProjectEntries, renderProjectPage } from "../build/project-pages.js"
 import { renderProjectCitationHtml } from "@site/components/citation/render";
 import { initializeProjectCitationBehavior } from "@site/components/citation/behavior";
 import { renderPublicationItemHtml, renderProjectVideoHtml } from "../js/utils.js";
+import {
+  renderProjectHeadingHtml as renderPackageProjectHeadingHtml,
+  renderPublicationItemHtml as renderPackagePublicationItemHtml,
+  renderSelectedPublicationsHtml as renderPackageSelectedPublicationsHtml,
+} from "@site/components/publication/render";
+import { renderNewsInline as renderPackageNewsInline } from "@site/components/shared/render";
+import { renderNewsItemHtml, renderSelectedPublicationsHtml, renderServicesItemHtml } from "../js/renderers.js";
+import { renderServiceItemHtml as renderPackageServiceItemHtml } from "@site/components/service/render";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
 const render = (entry) => plugin.transformIndexHtml.handler("", { filename: entry.projectUrl });
 const entry = projects[0];
+const headingFixture = {
+  venue: "IEEE VR",
+  venueKey: "ieee-vr",
+  venueUrl: "https://example.test/venue?a=1&b=2",
+  type: "W",
+  workshopLabel: "VR & UX",
+  typeLink: "https://example.test/type?a=1&b=2",
+  award: "Best <Paper> & Demo",
+  title: 'A **bold** <title> & [link](https://example.test/?a=1&b=2)',
+  authors: "A. Author\\*",
+  projectUrl: "sample.html",
+  paperUrl: "https://example.test/paper?a=1&b=2",
+};
+assert.equal(renderPackageProjectHeadingHtml(headingFixture),
+  '<div class="project-heading-copy"><div class="project-labels"><div class="publication-eyebrow venue-ieee-vr"><span class="publication-eyebrow-venue"><a href="https://example.test/venue?a=1&amp;b=2" class="inline-link news-venue-link news-venue-token venue-ieee-vr" data-venue="ieee-vr" target="_blank" rel="noopener noreferrer">IEEE VR</a></span><span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span><span>Workshop<span class="publication-eyebrow-dash">·</span><a href="https://example.test/type?a=1&amp;b=2" target="_blank" rel="noopener noreferrer" class="inline-link news-venue-link venue-ieee-vr">VR &amp; UX</a></span></span><span class="publication-eyebrow-group"><span class="publication-eyebrow-separator" aria-hidden="true"></span><span class="publication-eyebrow-status publication-eyebrow-award">BEST &lt;PAPER&gt; &amp; DEMO</span></span></div></div><h1 class="project-title">A <strong>bold</strong> &lt;title&gt; &amp; <a href="https://example.test/?a=1&amp;b=2" class="inline-link" target="_blank" rel="noopener noreferrer">link</a></h1><p class="publication-authors-serif">A. Author<sup>*</sup></p></div><nav class="project-resources" aria-label="Project resources"><div class="publication-bracket-links"><a href="https://example.test/paper?a=1&amp;b=2" target="_blank" rel="noopener noreferrer">[<span class="bracket-text">Paper</span>]</a></div></nav>',
+  "Migrated project-heading renderer preserves the approved legacy reference fixture exactly");
+assert.equal(renderPackageNewsInline({
+  text: 'Award & **MMSys** <tag>', venue: "MMSys", venueKey: "mmsys",
+  venueUrl: "https://example.test/?a=1&b=2", award: "Not present",
+}), 'Award &amp; <strong><a href="https://example.test/?a=1&amp;b=2" class="inline-link news-venue-link news-venue-token venue-mmsys" data-venue="mmsys" target="_blank" rel="noopener noreferrer">MMSys</a></strong> &lt;tag&gt;',
+"Migrated shared news-inline renderer preserves escaping and venue-link output");
+assert.equal(renderNewsItemHtml({ date: "2026-11-16", text: "MMSys & news", venue: "MMSys", venueKey: "mmsys", venueUrl: "https://example.test/news" }),
+  '<li class="news-entry"><article class="editorial-news-row"><div class="editorial-date-column"><div class="editorial-date-start editorial-news-date"><span>Nov. 16<span class="editorial-news-date-separator">,</span></span> <span>2026</span></div></div><div class="editorial-news-content"><div class="news-copy"><a href="https://example.test/news" class="inline-link news-venue-link news-venue-token venue-mmsys" data-venue="mmsys" target="_blank" rel="noopener noreferrer">MMSys</a> &amp; news</div></div></article></li>',
+  "News caller retains the exact legacy static output through the package shared rules");
+const serviceFixture = {
+  date: "2026-11-16", role: "Program Chair", event: "[MMSys](https://example.test)",
+  eventEdition: "2026", eventFullName: "ACM Multimedia Systems", location: "Somewhere",
+  venueKey: "mmsys",
+};
+assert.equal(renderServicesItemHtml(serviceFixture), renderPackageServiceItemHtml(serviceFixture),
+  "Service list caller and package public service renderer produce identical rows");
 for (const callerPath of ["../build/project-pages.js", "../vite.config.js"]) {
   const caller = await readFile(new URL(callerPath, import.meta.url), "utf8");
   assert(caller.includes('from "@site/components/citation/render"'), `${callerPath} imports the package public render entry directly`);
@@ -106,6 +145,8 @@ for (const project of projects) {
   assert(html.includes('referrerpolicy="strict-origin-when-cross-origin"'));
   assert(html.includes('youtube-nocookie.com/embed/') && !html.includes('autoplay=1'));
   assert(!html.includes('Watch on YouTube'), "No standalone link below the player");
+  assert.equal(renderPublicationItemHtml(project), renderPackagePublicationItemHtml(project),
+    "js/utils.js compatibility export delegates to the public package publication renderer");
   assert(renderPublicationItemHtml(project).includes(project.youtubeUrl.replaceAll('&', '&amp;')), "Homepage retains its original video link");
 }
 assert((await render(projects[1])).includes('start=1'), "Existing video timestamp survives embedding");
@@ -114,6 +155,28 @@ assert.throws(() => renderProjectVideoHtml({ youtubeUrl: "https://example.com/wa
 
 const designSource = await readFile(new URL("../design.html", import.meta.url), "utf8");
 const design = await plugin.transformIndexHtml.handler(designSource, { filename: "design.html" });
+const indexSource = await readFile(new URL("../index.html", import.meta.url), "utf8");
+const homepage = await plugin.transformIndexHtml.handler(indexSource, { filename: "index.html" });
+const selectedRows = publications.filter((item) => item.selected);
+assert.equal(renderSelectedPublicationsHtml(selectedRows), renderPackageSelectedPublicationsHtml(selectedRows),
+  "js/renderers.js forwards homepage/Design publication output to the same package API");
+assert(homepage.includes(renderPackageSelectedPublicationsHtml(selectedRows)),
+  "Homepage output contains the package-rendered selected publication rows");
+assert(design.includes(renderPackageSelectedPublicationsHtml(selectedRows.slice(0, 1))),
+  "Design output contains its package-rendered publication specimen");
+const publicationPackageSource = await readFile(new URL("../packages/site-components/src/publication/render.js", import.meta.url), "utf8");
+assert(!/from\s+["'](?:\.\.\/\.\.\/|\.\.\/\.\.\/\.\.\/)?(?:js|contents|build)\//.test(publicationPackageSource),
+  "Publication package renderer must not import site modules");
+assert(publicationPackageSource.includes('../shared/inline-markdown.js')
+  && publicationPackageSource.includes('../shared/news-inline.js')
+  && publicationPackageSource.includes('../shared/venue.js'),
+"Publication renderer consumes shared rules from responsibility-specific modules");
+const siteRenderersSource = await readFile(new URL("../js/renderers.js", import.meta.url), "utf8");
+assert(siteRenderersSource.includes('from "@site/components/shared/date"'),
+  "Site renderers consume date formatting from its shared package entry");
+const siteUtilsSource = await readFile(new URL("../js/utils.js", import.meta.url), "utf8");
+assert(siteUtilsSource.includes('from "@site/components/shared/render"'),
+  "Site utility compatibility exports consume shared rendering from its shared package entry");
 const citationSection = (html) => html.match(/<section class="project-section project-citation"[\s\S]*?<\/section>/)?.[0];
 const designCitation = citationSection(design);
 assert(designCitation, "Design guide renders the project citation specimen");

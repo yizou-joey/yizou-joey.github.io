@@ -50,6 +50,8 @@
 .design-demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--space-16); }
 .design-demo { min-width: 0; border: 1px solid var(--color-border-warm); padding: var(--space-24); margin: 0; }
 .design-demo p { margin: var(--space-16) 0; }
+.design-prose-link-demo { color: var(--color-link-rest-strong); }
+.design-implementation > .inline-link { --link-text-rest: var(--color-link-rest-strong); }
 .design-interaction { padding-top: var(--space-32); margin-top: var(--space-32); border-top: 1px solid var(--color-border-warm); }
 .design-interaction > h3 { margin-bottom: var(--space-12); }
 .design-interaction-intro, .design-rule { max-width: 60ch; color: var(--color-muted); margin: 0 0 var(--space-24); }
@@ -182,6 +184,9 @@
   /* Inline links */
   --color-link-decoration-muted: rgba(115, 113, 108, 0.4);
   --color-link-decoration-ink: rgba(21, 18, 15, 0.6);
+  --color-link-rest-strong: #4b4640;
+  --color-link-emphasis: var(--color-ink);
+  --color-venue-link-rest: var(--color-link-rest-strong);
 
   /* Contact metadata */
   --color-chip-text-muted: #3c3c3c;
@@ -326,6 +331,10 @@
   --color-resource-link: #bd8c6e;
   --color-link-decoration-muted: rgba(166, 163, 158, 0.4);
   --color-link-decoration-ink: rgba(231, 229, 226, 0.6);
+  --color-link-rest-strong: var(--color-ink);
+  --color-link-emphasis: #fffdf6;
+  --color-venue-link-rest: var(--color-muted);
+  --color-news-venue-link-emphasis: #c5c0fa;
   --color-chip-text-muted: var(--color-ink);
   --education-logo-mono-filter: grayscale(1) brightness(0.8) invert(1) brightness(0.9);
   --education-logo-mono-opacity: 0.9;
@@ -371,21 +380,22 @@ a {
 .inline-link:not(:where(.service-event a[aria-describedby])),
 .contact-link-label,
 .error404-link {
+  color: var(--link-text-rest, inherit);
   text-decoration-line: underline;
   text-decoration-color: var(--color-link-decoration-muted);
   text-decoration-thickness: var(--link-underline-rest-width);
   text-underline-offset: var(--link-underline-rest-offset);
   transition:
     text-decoration-color var(--link-feedback-duration) var(--link-feedback-ease),
-    text-underline-offset var(--link-feedback-duration) var(--link-feedback-ease);
+    text-underline-offset var(--link-feedback-duration) var(--link-feedback-ease),
+    color var(--link-feedback-duration) var(--link-feedback-ease);
 }
-
-.inline-link { color: inherit; }
 
 @media (hover: hover) and (pointer: fine) {
   .inline-link:not(:where(.service-event a[aria-describedby])):hover,
   .contact-link:hover .contact-link-label,
   .error404-link:hover {
+    color: var(--link-text-emphasis, var(--color-link-emphasis));
     text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
     text-underline-offset: var(--link-underline-hover-offset);
   }
@@ -394,6 +404,7 @@ a {
 .inline-link:not(:where(.service-event a[aria-describedby])):focus-visible,
 .contact-link:focus-visible .contact-link-label,
 .error404-link:focus-visible {
+  color: var(--link-text-emphasis, var(--color-link-emphasis));
   text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
   text-underline-offset: var(--link-underline-hover-offset);
   transition: none;
@@ -402,9 +413,10 @@ a {
 .inline-link:not(:where(.service-event a[aria-describedby])):active,
 .contact-link:active .contact-link-label,
 .error404-link:active {
+  color: var(--link-text-emphasis, var(--color-link-emphasis));
   text-decoration-color: var(--color-ink);
   text-underline-offset: var(--link-underline-press-offset);
-  transition-duration: 0s, var(--link-press-duration);
+  transition-duration: 0s, var(--link-press-duration), 0s;
 }
 
 .inline-link:focus-visible {
@@ -919,13 +931,13 @@ a {
   transition: color 0.2s ease;
 }
 
-.publication-eyebrow a:hover,
-.publication-eyebrow a:focus-visible {
+.publication-eyebrow a:where(:not(.inline-link)):hover,
+.publication-eyebrow a:where(:not(.inline-link)):focus-visible {
   color: var(--color-ink);
 }
 
-.publication-eyebrow.venue-ieee-vr a:hover,
-.publication-eyebrow.venue-ieee-vr a:focus-visible {
+.publication-eyebrow.venue-ieee-vr a:where(:not(.inline-link)):hover,
+.publication-eyebrow.venue-ieee-vr a:where(:not(.inline-link)):focus-visible {
   color: var(--color-venue-ieee-vr-text);
 }
 
@@ -1907,7 +1919,7 @@ span.site-header-link {
 .profile-bio {
   container: bio / inline-size;
   width: 100%;
-  color: var(--color-ink);
+  color: var(--color-link-rest-strong);
   text-align: left;
 }
 
@@ -2355,7 +2367,6 @@ span.site-header-link {
 }
 
 :is(.editorial-news-content, .project-labels) .news-venue-token {
-  color: inherit;
   font-weight: 600;
 }
 
@@ -2366,19 +2377,13 @@ span.site-header-link {
 
 :is(.editorial-news-content, .project-labels) .news-venue-link {
   --news-venue-hover-color: var(--color-news-venue-accent);
+  --link-text-rest: var(--color-venue-link-rest);
+  --link-text-emphasis: var(--color-news-venue-link-emphasis, var(--news-venue-hover-color));
+  --link-underline-accent: var(--news-venue-hover-color);
 }
 
 :is(.editorial-news-content, .project-labels) .news-venue-token.venue-ieee-vr {
   --news-venue-hover-color: var(--color-venue-ieee-vr-text);
-}
-
-:is(.editorial-news-content, .project-labels) .news-venue-link { --link-underline-accent: var(--news-venue-hover-color); }
-
-:is(.editorial-news-content, .project-labels) .news-venue-link:focus-visible,
-:is(.editorial-news-content, .project-labels) .news-venue-link:active { color: var(--news-venue-hover-color); }
-
-@media (hover: hover) and (pointer: fine) {
-  :is(.editorial-news-content, .project-labels) .news-venue-link:hover { color: var(--news-venue-hover-color); }
 }
 
 /* A quiet handwritten second line for personal context. */
@@ -2675,16 +2680,12 @@ span.site-header-link {
 }
 
 .error404-link {
+  --link-text-rest: var(--color-muted);
+  --link-text-emphasis: var(--color-ink);
   display: inline-flex;
   align-items: center;
   min-width: 24px;
   min-height: 24px;
-  color: var(--color-muted);
-}
-
-.error404-link:hover,
-.error404-link:focus-visible {
-  color: var(--color-ink);
 }
 
 .error404-link:focus-visible {

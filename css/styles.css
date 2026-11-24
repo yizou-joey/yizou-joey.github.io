@@ -394,7 +394,6 @@
   --color-link-rest-strong: var(--color-ink);
   --color-link-emphasis: #fffdf6;
   --color-venue-link-rest: var(--color-muted);
-  --color-news-venue-link-emphasis: #c5c0fa;
   --color-chip-text-muted: var(--color-ink);
   --education-logo-mono-filter: grayscale(1) brightness(0.8) invert(1) brightness(0.9);
   --education-logo-mono-opacity: 0.9;
@@ -2460,7 +2459,7 @@ span.site-header-link {
 :is(.editorial-news-content, .project-labels) .news-venue-link {
   --news-venue-hover-color: var(--color-news-venue-accent);
   --link-text-rest: var(--color-venue-link-rest);
-  --link-text-emphasis: var(--color-news-venue-link-emphasis, var(--news-venue-hover-color));
+  --link-text-emphasis: var(--news-venue-hover-color);
   --link-underline-accent: var(--news-venue-hover-color);
 }
 

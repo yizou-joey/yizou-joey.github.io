@@ -28,7 +28,7 @@ The [Color page](/design-color.html) shows these tokens live, with copyable name
 | Award text | `--color-award-text` | `#b85a00` | `#f2cb00` |
 | Resource links | `--color-resource-link` | `#92400e` | `#bd8c6e` |
 
-Accent colors are semantic, not arbitrary decoration. Conferences use their corresponding `--color-venue-*-text`; dark mode raises text brightness while preserving the source hue. Stickers use the same image in both themes, with only the shadow adjusted. The footer illustration uses multiply in light mode and normal blending in dark mode. The theme button names its destination; content remains readable without JavaScript.
+Accent colors are semantic, not arbitrary decoration. Conferences use their corresponding `--color-venue-*-text` everywhere they appear, including news links and project labels, so the same conference has one text color per theme; dark mode raises text brightness while preserving the source hue. Stickers use the same image in both themes, with only the shadow adjusted. The footer illustration uses multiply in light mode and normal blending in dark mode. The theme button names its destination; content remains readable without JavaScript.
 
 | Venue | Source token / color | Text token | Light | Dark |
 | --- | --- | --- | --- | --- |

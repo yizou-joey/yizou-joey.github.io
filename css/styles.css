@@ -120,14 +120,23 @@
   gap: var(--space-16) var(--space-24);
   border-block: 1px solid var(--color-border-warm);
   padding: var(--space-16) 0;
-  font-size: .875rem;
 }
 .design-doc-nav-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-4) var(--space-12); min-width: 0; }
-.design-doc-nav-title { margin: 0; color: var(--color-muted); font-size: .75rem; font-weight: 600; letter-spacing: .08em; }
+.design-doc-nav-title { margin: 0; }
 .design-doc-nav-list { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-12); margin: 0; padding: 0; list-style: none; }
-.design-doc-nav a { color: var(--color-muted); text-decoration: none; }
-.design-doc-nav a:hover, .design-doc-nav a:focus-visible { color: var(--color-ink); text-decoration: underline; }
-.design-doc-nav a[aria-current="page"] { color: var(--color-ink); font-weight: 600; }
+.design-doc-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.75rem;
+  border-radius: 4px;
+  color: var(--color-nav-muted);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+.design-doc-nav a:hover { color: var(--color-nav-muted-hover); }
+.design-doc-nav a:focus-visible { outline: 2px solid var(--color-apple-blue); outline-offset: 2px; color: var(--color-nav-muted-hover); }
+.design-doc-nav a[aria-current="page"] { color: var(--color-ink); }
+
 .design-index { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
 .design-index li { display: grid; gap: var(--space-4); }
 .design-index span { color: var(--color-muted); }
@@ -135,7 +144,7 @@
   .design-doc { display: grid; grid-template-columns: 13rem minmax(0, 1fr); column-gap: var(--space-48); align-items: start; }
   .design-doc-nav { position: sticky; top: 4.5rem; flex-direction: column; gap: var(--space-24); border-block: 0; border-inline-end: 1px solid var(--color-border-warm); padding: 0 var(--space-16) 0 0; }
   .design-doc-nav-group { flex-direction: column; align-items: stretch; gap: var(--space-8); }
-  .design-doc-nav-list { flex-direction: column; gap: var(--space-6); }
+  .design-doc-nav-list { flex-direction: column; gap: 0; }
 }
 
 @font-face {

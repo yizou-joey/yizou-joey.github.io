@@ -7,7 +7,7 @@ import { renderDesignNavigationHtml } from "../build/design-navigation.js";
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const source = await readFile(new URL("../design.html", import.meta.url), "utf8");
 const html = await plugin.transformIndexHtml.handler(source, { filename: "design.html" });
-const nav = html.match(/<nav class="design-doc-nav"[\s\S]*?<\/nav>/)?.[0];
+const nav = html.match(/<nav class="design-doc-nav[^"]*"[\s\S]*?<\/nav>/)?.[0];
 
 assert(nav, "design.html renders the design guide navigation");
 assert.equal((nav.match(/aria-current="page"/g) || []).length, 1, "exactly one current page item");
@@ -15,7 +15,7 @@ assert(nav.includes('<a href="/design.html" aria-current="page">Overview</a>'), 
 assert.doesNotMatch(nav, /<a[^>]*href="[^"]*"[^>]*>\s*(Foundations|Guide|Start)\s*<\/a>/, "group titles are not links");
 
 for (const group of navigation) {
-  assert(nav.includes(`<p class="design-doc-nav-title">${group.title}</p>`), `group ${group.title} is rendered as a title`);
+  assert(new RegExp(`<p class="design-doc-nav-title[^"]*">${group.title}</p>`).test(nav), `group ${group.title} is rendered as a title`);
   for (const item of group.items) {
     assert(nav.includes(`href="${item.href}"`), `${item.title} links to ${item.href}`);
     assert(/^\/design(?:-[a-z]+)?\.html(?:#[a-z-]+)?$/.test(item.href), `${item.title} uses a site-local design path`);

@@ -1,11 +1,3 @@
-if (location.pathname === "/design.html") {
-  const followLegacyLinksAnchor = () => {
-    if (location.hash === "#links") location.replace("/design-links.html#links");
-  };
-  followLegacyLinksAnchor();
-  window.addEventListener("hashchange", followLegacyLinksAnchor);
-}
-
 const colorHex = (element) => {
   const values = getComputedStyle(element).backgroundColor.match(/\d+/g);
   return values && values.length >= 3

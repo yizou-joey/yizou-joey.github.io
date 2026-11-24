@@ -41,5 +41,12 @@
     </div>
     <!-- site:footer -->
     <script type="module" src="/js/favicon.js"></script>
+    <script type="module">
+      const followLegacyLinksAnchor = () => {
+        if (location.hash === "#links") location.replace("/design-links.html#links");
+      };
+      followLegacyLinksAnchor();
+      window.addEventListener("hashchange", followLegacyLinksAnchor);
+    </script>
   </body>
 </html>

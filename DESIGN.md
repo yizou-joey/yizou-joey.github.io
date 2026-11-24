@@ -13,7 +13,7 @@ The visual reference is itself an example of this design system, not just a desc
 
 ## Color And Themes
 
-The [Colour page](/design-color.html) shows these tokens live, with copyable names; this table is its written reference.
+The [Color page](/design-color.html) shows these tokens live, with copyable names; this table is its written reference.
 
 | Role | Token | Light | Dark |
 | --- | --- | --- | --- |
@@ -41,7 +41,7 @@ Accent colors are semantic, not arbitrary decoration. Conferences use their corr
 - `.type-body-bio` is the larger serif narrative style, used for the homepage biography, project abstracts and details, and 404 copy. Its historical name does not limit it to biographies. `.type-body-sm` is compact serif supporting text, used for profile location and contacts and for the visual reference's secondary explanations; it is not a universal caption style.
 - `.type-body` remains an available sans-serif primitive but is not used by the homepage or the visual reference. `.type-label` is for compact sans-serif labels. Editorial components own distinct text roles: for example, news uses `.editorial-news-content`, while publication authors and project image captions have their own metrics. Do not unify them solely because their font sizes match.
 - The visual reference uses narrative type for its opening lede and the shared small serif style for most introductions, rules, captions, and specimen descriptions. Headings, navigation, code, metrics, and embedded site components keep their own typography. Its font metric identifies the preferred font in the computed stack, not necessarily the font that rendered each glyph.
-- Colour swatch cards reuse existing primitives rather than defining their own roles. The name uses `.type-title-section` for its visual metrics (1rem, weight 500, ink), matching the characteristic names on the visual reference; this shares metrics only, and `.type-title-section` remains the section heading primitive. The description and the venue source line use `.type-body-sm`. Token names and hex values use the guide's monospace identifier style inside `.design-swatch`.
+- Color swatch cards reuse existing primitives rather than defining their own roles. The name uses `.type-title-section` for its visual metrics (1rem, weight 500, ink), matching the characteristic names on the visual reference; this shares metrics only, and `.type-title-section` remains the section heading primitive. The description and the venue source line use `.type-body-sm`. Token names and hex values use the guide's monospace identifier style inside `.design-swatch`.
 - Guide notes, such as the Heading Case note and pointers to a live example, use `.design-caption`. It shares the `.type-body-sm` serif metrics in `--color-muted`, sits directly under the heading, rule, or specimen it explains, and takes 16px above when it follows other content. A note may contain one inline link. Notes are guide-only explanations; site content must not use `.design-caption`.
 - Write English page, section, and subsection headings with the first letter of every word capitalized, including short words. Author this casing in the source; preserve acronyms, brands, code, and verbatim publication titles as supplied. Body text uses sentence case.
 - At the default 16px root, the hero is 3rem, body text 1rem, and narrative body text 1.125rem. Line-height tokens are unitless ratios. Do not set a root font size; let text containers grow with user settings.

@@ -19,7 +19,7 @@ export default [
   {
     title: "Foundations",
     items: [
-      { id: "color", title: "Colour", href: "/design-color.html" },
+      { id: "color", title: "Color", href: "/design-color.html" },
       { id: "type", title: "Typography", href: "/design-typography.html" },
       { id: "space", title: "Spacing & Shape", href: "/design-space.html" },
       { id: "material", title: "Images & Surfaces", href: "/design-material.html" },

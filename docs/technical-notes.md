@@ -11,7 +11,7 @@ The site is a Vite multi-page application with these production entry pages:
 - `index.html`: homepage and selected research.
 - `404.html`: not-found page.
 - `design.html`: design guide and live specimens, not linked from navigation.
-- `design-color.html`: the Colour page of the design guide, with live token values and copyable names.
+- `design-color.html`: the Color page of the design guide, with live token values and copyable names.
 - Project URLs declared in `contents/publications.js`: currently `dodgeui.html`
   and `contextual-recovery.html`, rendered from `templates/project.html`.
 

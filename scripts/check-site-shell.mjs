@@ -6,7 +6,7 @@ import publications from "../contents/publications.js";
 
 const plugin = config.plugins.find((item) => item.name === "static-content-html");
 const projects = publications.filter((entry) => entry.projectUrl);
-const pages = ["index.html", "404.html", "design.html", ...projects.map((entry) => entry.projectUrl)];
+const pages = ["index.html", "404.html", "design.html", "design-color.html", ...projects.map((entry) => entry.projectUrl)];
 const readPage = (fileName) => readFile(new URL(`../${fileName}`, import.meta.url), "utf8");
 const render = (html, fileName) => plugin.transformIndexHtml.handler(html, { filename: fileName });
 const normalize = (html) => html.replace(/\s+/g, " ").trim();
@@ -29,7 +29,7 @@ let sharedFavicon;
 for (const fileName of pages) {
   const isHome = fileName === "index.html";
   const isError = fileName === "404.html";
-  const isDocument = fileName === "design.html";
+  const isDocument = fileName === "design.html" || fileName === "design-color.html";
   const isProject = !isHome && !isError && !isDocument;
   const html = await render(await readPage(fileName), fileName);
   const head = html.match(/<head>([\s\S]*?)<\/head>/)?.[1];
@@ -82,7 +82,9 @@ for (const fileName of pages) {
   assert.deepEqual(moduleSources, (isHome
     ? ["js/favicon.js", "js/publication-preview.js", "js/news-scroll.js", "js/service-tooltip.js"]
     : isError ? ["js/404.js", "js/favicon.js"]
-      : isDocument ? ["js/design-atlas.js", "js/favicon.js", "js/project-citation.js", "js/publication-preview.js", "js/service-tooltip.js"]
+      : isDocument ? (fileName === "design-color.html"
+        ? ["js/design-atlas.js", "js/design-tokens.js", "js/favicon.js"]
+        : ["js/design-atlas.js", "js/favicon.js", "js/project-citation.js", "js/publication-preview.js", "js/service-tooltip.js"])
         : isProject ? ["js/favicon.js", "js/project-citation.js"] : ["js/favicon.js"]).sort(),
   `${fileName}: page-specific modules are preserved`);
   assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), isHome || isError,

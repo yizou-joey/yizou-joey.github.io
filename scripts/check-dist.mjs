@@ -8,7 +8,7 @@ const distRoot = path.join(root, "dist");
 const errors = [];
 
 const projectEntries = publications.filter((entry) => entry.projectUrl);
-const EXPECTED_HTML_FILES = ["index.html", "404.html", "design.html", ...projectEntries.map((entry) => entry.projectUrl)];
+const EXPECTED_HTML_FILES = ["index.html", "404.html", "design.html", "design-color.html", ...projectEntries.map((entry) => entry.projectUrl)];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
   ...Object.fromEntries(projectEntries.map((entry) => [entry.projectUrl, ["project-heading"]])),
@@ -20,6 +20,7 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "teaching-list",
   ]),
   "design.html": ["design-publications", "design-news", "design-services"],
+  "design-color.html": [],
 });
 
 const report = (message) => {
@@ -193,10 +194,17 @@ if (!errors.length) {
       for (const id of ["color", "type", "links", "components", "space", "material", "responsive", "accessibility"]) {
         if (!html.includes(`id="${id}"`)) report(`Design section ${id} is missing.`);
       }
-      for (const marker of ["design-fill-vr", "design-fill-ismar", "design-fill-mmsys", "design-radii", "design-gap-samples"]) {
+      for (const marker of ["design-radii", "design-gap-samples"]) {
         if (!html.includes(marker)) report(`Design specimen ${marker} is missing.`);
       }
       if (!html.includes('href="/DESIGN.md" download')) report("Design Markdown download is missing.");
+    }
+    if (fileName === "design-color.html") {
+      for (const marker of ["design-fill-vr", "design-fill-ismar", "design-fill-mmsys", "design-token-table"]) {
+        if (!html.includes(marker)) report(`Colour page marker ${marker} is missing.`);
+      }
+      if ((html.match(/data-copy-token="/g) || []).length !== 10) report("Colour page must provide ten copyable token names.");
+      if (!html.includes('<a href="/design-color.html" aria-current="page">Colour</a>')) report("Colour page must mark its navigation item as current.");
     }
     if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {
       report(`${fileName} contains unresolved site or template fields.`);

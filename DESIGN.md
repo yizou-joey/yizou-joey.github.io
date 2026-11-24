@@ -13,6 +13,8 @@ The visual reference is itself an example of this design system, not just a desc
 
 ## Color And Themes
 
+The [Colour page](/design-color.html) shows these tokens live, with copyable names; this table is its written reference.
+
 | Role | Token | Light | Dark |
 | --- | --- | --- | --- |
 | Paper | `--color-page-bg` | `#fdfdfc` | `#191919` |

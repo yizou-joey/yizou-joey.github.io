@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
 import { getProjectEntries, projectTemplateFile, renderProjectPage } from "./build/project-pages.js";
 import { injectStaticContent } from "./build/static-content.js";
+import { renderDesignNavigationHtml } from "./build/design-navigation.js";
 import { renderProjectCitationHtml } from "@site/components/citation/render";
 import { fileURLToPath } from "node:url";
 import bio from "./contents/bio.js";
@@ -94,6 +95,9 @@ const staticContentHtmlPlugin = () => ({
         const entry = projectEntries.find((entry) => entry.projectUrl === fileName);
         html = await renderProjectPage(entry);
       }
+      if (fileName === "design.html" || fileName === "design-color.html") {
+        html = injectStaticContent({ html, fileName, id: "design-doc-nav", content: renderDesignNavigationHtml({ currentId: fileName === "design.html" ? "overview" : "color" }) });
+      }
       if (fileName === "design.html") {
         html = injectStaticContent({ html, fileName, id: "design-publications", content: renderSelectedPublicationsHtml(publications.filter((item) => item.selected).slice(0, 1)) });
         html = injectStaticContent({ html, fileName, id: "design-news", content: renderListHtml(news.slice(0, 1), renderNewsItemHtml) });
@@ -104,7 +108,7 @@ const staticContentHtmlPlugin = () => ({
       }
       const pageType = fileName === "index.html" ? "home"
         : fileName === "404.html" ? "notFound"
-          : fileName === "design.html" ? "document"
+          : fileName === "design.html" || fileName === "design-color.html" ? "document"
           : projectPages.includes(fileName) ? "project" : null;
       if (pageType) html = await renderSiteShell(html, { fileName, pageType });
       if (fileName === "cv.html") {
@@ -115,7 +119,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "design.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
+      if (["index.html", "404.html", "design.html", "design-color.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -145,6 +149,7 @@ export default defineConfig({
         main: "index.html",
         notFound: "404.html",
         design: "design.html",
+        designColor: "design-color.html",
         ...Object.fromEntries(projectPages.map((fileName) => [fileName.replace(/\.html$/, ""), fileName])),
       },
     },

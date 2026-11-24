@@ -9,31 +9,18 @@
   <body class="text-ink">
     <div class="site-shell">
       <!-- site:header -->
-      <main class="design-page page-gutter section-rail-l1">
+      <main class="design-page design-doc page-gutter section-rail-l1">
+        <div id="design-doc-nav"></div>
+        <div class="design-doc-main">
         <header class="design-hero">
           <h1 class="type-title-hero" lang="en">Design Language.</h1>
           <p class="design-lede type-body-bio">A visual guide to research, typography, and space.<br />Real site elements, arranged for a quiet and clear reading experience.</p>
         </header>
-        <nav class="design-nav" aria-label="Guide sections"><a href="#color">01 Color</a><a href="#type">02 Typography</a><a href="#links">03 Links</a><a href="#components">04 Components</a><a href="#space">05 Space</a><a href="#material">06 Material</a><a href="#responsive">07 Responsive</a><a href="#accessibility">08 Principles</a></nav>
 
         <section class="design-section" id="color">
-          <div class="section-heading-row"><h2 class="type-title-section">Color Palette</h2></div><p class="design-intro">Warm paper and ink form the foundation. Accent colors carry meaning, not decoration. Switch the theme to see the live tokens change.</p>
-          <div class="design-palette">
-            <div class="design-swatch"><div class="design-fill design-fill-page"></div><div><strong>Paper</strong><code>--color-page-bg</code><small>Page background</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-ink"></div><div><strong>Ink</strong><code>--color-ink</code><small>Headings and text</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-muted"></div><div><strong>Muted</strong><code>--color-muted</code><small>Supporting information</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-line"></div><div><strong>Line</strong><code>--color-line</code><small>Subtle dividers</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-border"></div><div><strong>Warm Border</strong><code>--color-border-warm</code><small>Edges and dividers</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-award"></div><div><strong>Award</strong><code>--color-award-text</code><small>Award text</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-resource"></div><div><strong>Resource</strong><code>--color-resource-link</code><small>Research resources</small></div></div>
-          </div>
-          <div class="design-palette-heading"><h3 class="type-title-subsection">Venue Colors</h3><p>Theme-aware text colors identify each venue. Source colors are shown for reference, not as general-purpose accents.</p></div>
-          <div class="design-palette design-venue-palette">
-            <div class="design-swatch"><div class="design-fill design-fill-vr"></div><div><strong>IEEE VR</strong><code>--color-venue-ieee-vr-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-vr" aria-hidden="true"></i>Source <code>--color-venue-ieee-vr</code></span></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-ismar"></div><div><strong>ISMAR</strong><code>--color-venue-ismar-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-ismar" aria-hidden="true"></i>Source <code>--color-venue-ismar</code></span></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-mmsys"></div><div><strong>MMSys</strong><code>--color-venue-mmsys-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-mmsys" aria-hidden="true"></i>Source <code>--color-venue-mmsys</code></span></div></div>
-          </div>
-          <p class="design-caption">Colors follow CSS theme variables. See <a class="inline-link" href="/DESIGN.md">DESIGN.md</a> for the light and dark values.</p>
+          <div class="section-heading-row"><h2 class="type-title-section">Colour</h2></div>
+          <p class="design-intro">The palette, venue colours and copyable token names now have their own page.</p>
+          <p><a class="inline-link" href="/design-color.html">Open the Colour page</a></p>
         </section>
 
         <section class="design-section" id="type" lang="en">
@@ -99,6 +86,7 @@
           <div class="design-principle-notes"><div><h3>Content First</h3><p>Let meaning, not decoration, set priority.</p></div><div><h3>Clear Hierarchy</h3><p>Use typography, alignment, and whitespace to guide reading.</p></div><div><h3>Meaningful Color</h3><p>Reserve emphasis for roles such as venues and awards.</p></div><div><h3>Clear Feedback</h3><p>Communicate actions and state changes clearly, with visible focus and motion that supports understanding.</p></div><div><h3>Flexible Layout</h3><p>Allow wrapping, growth, and reflow while supporting zoom and reduced motion.</p></div><div><h3>Shared Rules</h3><p>Reuse shared primitives and make exceptions only for distinct responsibilities.</p></div></div>
           <div class="design-implementation"><h3 class="type-title-subsection">Implementation Contract</h3><p>CSS is the implementation source of truth; keep this visual reference and its companion guide aligned.</p><a class="inline-link" href="/DESIGN.md" download>Download DESIGN.md</a></div>
         </section>
+        </div>
       </main>
     </div>
     <!-- site:footer -->

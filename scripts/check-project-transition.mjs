@@ -116,8 +116,10 @@ assert.equal(offscreen.browser.scrollY, 250, "Do not scroll merely to manufactur
 await finish(offscreenOut); await finish(offscreenIn);
 
 const unrelated = depart(p, "https://elsewhere.test/");
-assert(unrelated.skipped);
-assert.equal(storage.size, 0);
+assert.equal(unrelated.skipped, false, "Other same-site pages use the default root fade");
+assert.equal(JSON.parse(storage.get("dodgeui-transition")).direction, "fade");
+await finish(unrelated);
+storage.clear();
 const failedOut = depart(p, home);
 const failedIn = transition();
 h.events.pagereveal({ viewTransition: failedIn });

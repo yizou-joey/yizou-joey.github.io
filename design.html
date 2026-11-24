@@ -9,7 +9,7 @@
   <body class="text-ink">
     <div class="site-shell">
       <!-- site:header -->
-      <main class="design-page design-doc page-gutter section-rail-l1">
+      <main id="design-content" class="design-page design-doc page-gutter section-rail-l1">
         <div id="design-doc-nav"></div>
         <div class="design-doc-main">
           <header class="design-hero">
@@ -19,33 +19,22 @@
           </header>
 
           <section class="design-section" id="overview">
-            <div class="section-heading-row"><h2 class="type-title-section">Visual Direction</h2></div>
-            <p class="design-intro">Content comes before decoration. Research and personal expression lead; the interface stays out of the way.</p>
-            <div class="design-principle-notes">
-              <div><h3>Content First</h3><p>Let meaning, not decoration, set priority. Establish reading order with type, alignment, whitespace, and fine dividers.</p></div>
-              <div><h3>Shared Rules</h3><p>Reuse visual and interaction rules for the same meaning; make an exception only for a distinct responsibility.</p></div>
-              <div><h3>Meaningful Colour</h3><p>Reserve accents for roles such as venues and awards. Communicate state with visible focus and motion that supports understanding.</p></div>
-              <div><h3>One System, Many Widths</h3><p>Content reflows without clipping. Layout adapts to available width rather than device names.</p></div>
-            </div>
-            <div class="design-implementation">
-              <h3 class="type-title-subsection">Implementation Contract</h3>
-              <p>CSS is the implementation source of truth. This guide and its companion document describe the same values and states.</p>
-              <a class="inline-link" href="/DESIGN.md" download>Download DESIGN.md</a>
-            </div>
+            <div class="section-heading-row"><h2 class="type-title-section">Overview</h2></div>
+            <p class="design-overview-lede type-body-bio">Editorial serif for titles, quiet sans-serif for the interface, and one accent kept for venues and awards.</p>
+            <p class="design-intro">The site sits on warm off-white paper with near-black ink. It uses no default cards, heavy shadows, or decorative motion. Research and personal writing lead; the interface only organises them, and colour appears only where it carries meaning.</p>
+            <ul class="design-characteristics">
+              <li><strong>Paper and ink</strong><span>Warm paper and near-black ink in both themes, with muted text for supporting information.</span></li>
+              <li><strong>Editorial hierarchy</strong><span>Serif titles and narrative text, with quieter sans-serif for interface labels and subsections.</span></li>
+              <li><strong>Meaningful accent</strong><span>Accent colour marks venues and awards only. State changes use visible focus and restrained motion.</span></li>
+              <li><strong>Reflow over breakpoints</strong><span>Content adapts to available width rather than device names, and never clips to keep a composition.</span></li>
+            </ul>
+            <p class="design-intro">Best suited to a research archive, publication list, and long-form personal writing. For the rules behind each idea, see <a class="inline-link" href="/design-principles.html">Design Principles in Practice</a>.</p>
           </section>
 
-          <section class="design-section" id="pages">
-            <div class="section-heading-row"><h2 class="type-title-section">Guide Pages</h2></div>
-            <ul class="design-index">
-              <li id="color"><a class="inline-link" href="/design-color.html">Colour</a><span>Palette, venue colours and their roles.</span></li>
-              <li id="type"><a class="inline-link" href="/design-typography.html">Typography</a><span>Narrative, supporting and label styles.</span></li>
-              <li id="space"><a class="inline-link" href="/design-space.html">Spacing &amp; Shape</a><span>Spacing scale, section rhythm and corners.</span></li>
-              <li id="material"><a class="inline-link" href="/design-material.html">Images &amp; Surfaces</a><span>Stickers, research images and emphasis.</span></li>
-              <li id="links"><a class="inline-link" href="/design-links.html">Links &amp; States</a><span>Text links, navigation, theme control and annotations.</span></li>
-              <li id="components"><a class="inline-link" href="/design-components.html">Academic Components</a><span>Publications, news and project citations.</span></li>
-              <li id="responsive"><a class="inline-link" href="/design-responsive.html">Responsive</a><span>How one system adapts across widths.</span></li>
-              <li id="accessibility"><a class="inline-link" href="/design-principles.html">Principles</a><span>Accessibility and motion in practice.</span></li>
-            </ul>
+          <section class="design-section" id="implementation-reference" aria-labelledby="implementation-reference-heading">
+            <div class="section-heading-row"><h2 class="type-title-section" id="implementation-reference-heading">Implementation Reference</h2></div>
+            <p class="design-intro">Download the companion Markdown file, which records the design tokens, layout rules, and interaction states used across the site.</p>
+            <div class="publication-bracket-links"><a href="/DESIGN.md" download>[<span class="bracket-text">DESIGN.md</span>]</a></div>
           </section>
         </div>
       </main>

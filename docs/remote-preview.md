@@ -62,6 +62,10 @@ or label in isolation.
 Report server-side checks separately from actual Mac-side verification. If the
 page has default browser styles or oversized SVGs, inspect failed stylesheet,
 module and image requests before treating it as a layout regression.
+The image optimizer replaces files in place without deleting the public image
+directory, so builds can run while the preview is open. If a generated image
+already exists on disk but a stale Vite session still returns 404 for it, restart
+that worktree's own Vite instance in place and retest the shared URL.
 
 ## SSH fallback
 

@@ -6,7 +6,6 @@ export const designPages = Object.freeze({
   "design-material.html": "material",
   "design-links.html": "links",
   "design-components.html": "components",
-  "design-responsive.html": "responsive",
   "design-principles.html": "accessibility",
 });
 
@@ -31,7 +30,6 @@ export default [
     items: [
       { id: "links", title: "Links & States", href: "/design-links.html" },
       { id: "components", title: "Academic Components", href: "/design-components.html" },
-      { id: "responsive", title: "Responsive", href: "/design-responsive.html" },
       { id: "accessibility", title: "Principles", href: "/design-principles.html" },
     ],
   },

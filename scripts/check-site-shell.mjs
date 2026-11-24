@@ -14,7 +14,6 @@ const documentModules = {
   "design-material.html": ["js/favicon.js"],
   "design-links.html": ["js/favicon.js", "js/service-tooltip.js"],
   "design-components.html": ["js/favicon.js", "js/project-citation.js", "js/publication-preview.js"],
-  "design-responsive.html": ["js/favicon.js"],
   "design-principles.html": ["js/favicon.js"],
 };
 const pages = ["index.html", "404.html", ...Object.keys(documentModules), ...projects.map((entry) => entry.projectUrl)];
@@ -98,7 +97,7 @@ for (const fileName of pages) {
   `${fileName}: page-specific modules are preserved`);
   assert.equal(html.includes('data-goatcounter="https://joeyzou.goatcounter.com/count"'), isHome || isError,
     `${fileName}: analytics policy remains unchanged`);
-  assert.equal(head.includes('rel="expect"'), isHome || isProject, `${fileName}: transition rendering hint remains scoped`);
+  assert.equal(head.includes('rel="expect"'), isHome || isProject || isDocument, `${fileName}: transition rendering hint remains scoped`);
 }
 
 {

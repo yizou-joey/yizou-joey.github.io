@@ -13,3 +13,19 @@
 {{preconnectHtml}}
 <link rel="preload" href="/files/fonts/site/noto-serif-sc.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/src/styles.css" />
+<script type="speculationrules">
+{
+  "prerender": [
+    {
+      "where": {
+        "and": [
+          { "href_matches": "/*" },
+          { "not": { "href_matches": "/files/*" } },
+          { "not": { "href_matches": "/DESIGN.md" } }
+        ]
+      },
+      "eagerness": "moderate"
+    }
+  ]
+}
+</script>

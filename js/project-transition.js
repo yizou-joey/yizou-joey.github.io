@@ -95,12 +95,8 @@
       root.classList.remove("project-returned");
       if (hasPreview) root.classList.add("project-departing");
     }
-    if (!transfer) {
-      root.dataset.projectTransitionSkippedReason = "unrelated-route";
-      writeTransfer(null);
-      transition.skipTransition();
-      return;
-    }
+    // Other same-site pages use the default root fade (--navigation-fade-duration).
+    transfer ??= { direction: "fade", from: location.href, to: destination };
     writeTransfer({ ...transfer, time: Date.now() });
     activeTransition = transition;
     // This document may enter BFCache. Remove snapshot names once capture ends.
@@ -181,6 +177,87 @@
     // Retain names until pageswap capture finishes; do not use unload handlers,
     // which would prevent BFCache on some browsers.
     if (!activeTransition) clean();
+  });
+})();
+
+// Compatibility fade for browsers without cross-document view transitions.
+(() => {
+  const key = "dodgeui-veil";
+  const root = document.documentElement;
+  const native = "onpageswap" in window && "onpagereveal" in window;
+  const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Fast navigations never flash the veil; slow ones show a progress line instead of a blank page.
+  const veilDelay = 150, progressDelay = 1000, navigationLimit = 10000;
+  const fresh = (value) => value && Date.now() - value.time >= 0 && Date.now() - value.time < navigationLimit;
+  const samePage = (left, right) => {
+    try {
+      const a = new URL(left), b = new URL(right);
+      return a.origin === b.origin && a.pathname === b.pathname && a.search === b.search;
+    } catch { return false; }
+  };
+  const readVeil = () => {
+    try { return JSON.parse(sessionStorage.getItem(key) || "null"); }
+    catch { return null; }
+  };
+  const writeVeil = (value) => {
+    try {
+      if (value) sessionStorage.setItem(key, JSON.stringify(value));
+      else sessionStorage.removeItem(key);
+    } catch { /* The veil is optional; navigation proceeds without it. */ }
+  };
+  const timers = [];
+  const schedule = (callback, delay) => timers.push(setTimeout(callback, delay));
+  const cancel = () => {
+    if (timers.length) timers.splice(0).forEach((timer) => clearTimeout(timer));
+  };
+  const clear = () => {
+    cancel();
+    writeVeil(null);
+    root.classList.remove("navigation-veil", "navigation-veil-covering", "navigation-progress");
+  };
+
+  if (native) return;
+
+  // Cover the outgoing page before the browser replaces it.
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0 || reduced()) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const link = event.target.closest?.("a[href]");
+    if (!link || link.hasAttribute("download") || (link.target && link.target !== "_self")) return;
+    let destination;
+    try { destination = new URL(link.href); }
+    catch { return; }
+    if (destination.origin !== location.origin || samePage(destination.href, location.href)) return;
+    writeVeil({ to: destination.href, time: Date.now() });
+    cancel();
+    root.classList.remove("navigation-progress");
+    schedule(() => root.classList.add("navigation-veil", "navigation-veil-covering"), veilDelay);
+    schedule(() => {
+      root.classList.remove("navigation-veil-covering");
+      if (!reduced()) root.classList.add("navigation-progress");
+    }, progressDelay);
+    schedule(clear, navigationLimit);
+  });
+
+  // Start covered on arrival, then fade the new page in after its first frames.
+  const arriving = readVeil();
+  writeVeil(null);
+  if (fresh(arriving) && samePage(arriving.to, location.href) && !reduced()) {
+    root.classList.add("navigation-veil", "navigation-veil-covering");
+    const reveal = () => requestAnimationFrame(() => requestAnimationFrame(() => {
+      root.classList.remove("navigation-veil-covering");
+    }));
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", reveal, { once: true });
+    else reveal();
+  }
+  document.addEventListener("transitionend", (event) => {
+    if (event.pseudoElement === "::after" && event.propertyName === "opacity" && !root.classList.contains("navigation-veil-covering")) {
+      root.classList.remove("navigation-veil");
+    }
+  });
+  // Restored pages must not keep a veil from the moment they were left.
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) clear();
   });
 })();
 

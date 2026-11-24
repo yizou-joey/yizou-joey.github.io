@@ -135,7 +135,7 @@
 }
 .design-doc-nav a:hover { color: var(--color-nav-muted-hover); }
 .design-doc-nav a:focus-visible { outline: 2px solid var(--color-apple-blue); outline-offset: 2px; color: var(--color-nav-muted-hover); }
-.design-doc-nav a[aria-current="page"] { color: var(--color-ink); }
+.design-doc-nav a[aria-current="page"] { color: var(--color-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .3em; }
 
 .design-index { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
 .design-index li { display: grid; gap: var(--space-4); }

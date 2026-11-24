@@ -194,7 +194,7 @@ if (!errors.length) {
       if (!/<html lang="en">/.test(visualSource) || /[\u3400-\u9fff]/u.test(visualSource + source)) report("Design atlas and companion guide must be authored in English.");
       if (!html.includes('href="/DESIGN.md" download')) report("Design Markdown download is missing.");
     }
-    if (designPages[fileName] && (html.match(/<nav class="design-doc-nav"[\s\S]*?<\/nav>/)?.[0].match(/aria-current="page"/g) || []).length !== 1) {
+    if (designPages[fileName] && (html.match(/<nav class="design-doc-nav[^"]*"[\s\S]*?<\/nav>/)?.[0].match(/aria-current="page"/g) || []).length !== 1) {
       report(`${fileName} must mark exactly one guide navigation item as current.`);
     }
     if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {

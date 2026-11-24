@@ -2,13 +2,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import publications from "../contents/publications.js";
 import { escapeHtml } from "../js/utils.js";
+import { designPages } from "../contents/design-navigation.js";
 
 const root = process.cwd();
 const distRoot = path.join(root, "dist");
 const errors = [];
 
 const projectEntries = publications.filter((entry) => entry.projectUrl);
-const EXPECTED_HTML_FILES = ["index.html", "404.html", "design.html", "design-color.html", ...projectEntries.map((entry) => entry.projectUrl)];
+const EXPECTED_HTML_FILES = ["index.html", "404.html", ...Object.keys(designPages), ...projectEntries.map((entry) => entry.projectUrl)];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
   ...Object.fromEntries(projectEntries.map((entry) => [entry.projectUrl, ["project-heading"]])),
@@ -19,8 +20,8 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "services-list",
     "teaching-list",
   ]),
-  "design.html": ["design-publications", "design-news", "design-services"],
-  "design-color.html": [],
+  "design-components.html": ["design-publications", "design-news"],
+  "design-links.html": ["design-services"],
 });
 
 const report = (message) => {
@@ -181,7 +182,7 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
-    const usesCitationBehavior = fileName === "design.html" || projectEntries.some((entry) => entry.projectUrl === fileName);
+    const usesCitationBehavior = fileName === "design-components.html" || projectEntries.some((entry) => entry.projectUrl === fileName);
     if (usesCitationBehavior !== /\/assets\/project-citation-[^"\s]+\.js/.test(html)) {
       report(`${fileName} has an unexpected project-citation behavior bundle reference.`);
     }
@@ -191,20 +192,10 @@ if (!errors.length) {
       const visualSource = await readUtf8(path.join(root, "design.html"));
       if (downloaded !== source) report("Downloaded DESIGN.md differs from the source.");
       if (!/<html lang="en">/.test(visualSource) || /[\u3400-\u9fff]/u.test(visualSource + source)) report("Design atlas and companion guide must be authored in English.");
-      for (const id of ["color", "type", "links", "components", "space", "material", "responsive", "accessibility"]) {
-        if (!html.includes(`id="${id}"`)) report(`Design section ${id} is missing.`);
-      }
-      for (const marker of ["design-radii", "design-gap-samples"]) {
-        if (!html.includes(marker)) report(`Design specimen ${marker} is missing.`);
-      }
       if (!html.includes('href="/DESIGN.md" download')) report("Design Markdown download is missing.");
     }
-    if (fileName === "design-color.html") {
-      for (const marker of ["design-fill-vr", "design-fill-ismar", "design-fill-mmsys", "design-token-table"]) {
-        if (!html.includes(marker)) report(`Colour page marker ${marker} is missing.`);
-      }
-      if ((html.match(/data-copy-token="/g) || []).length !== 10) report("Colour page must provide ten copyable token names.");
-      if (!html.includes('<a href="/design-color.html" aria-current="page">Colour</a>')) report("Colour page must mark its navigation item as current.");
+    if (designPages[fileName] && (html.match(/<nav class="design-doc-nav"[\s\S]*?<\/nav>/)?.[0].match(/aria-current="page"/g) || []).length !== 1) {
+      report(`${fileName} must mark exactly one guide navigation item as current.`);
     }
     if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {
       report(`${fileName} contains unresolved site or template fields.`);

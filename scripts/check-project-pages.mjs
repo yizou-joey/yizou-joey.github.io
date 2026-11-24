@@ -153,8 +153,8 @@ assert((await render(projects[1])).includes('start=1'), "Existing video timestam
 assert.equal(renderProjectVideoHtml({}), "", "Missing video produces no empty section");
 assert.throws(() => renderProjectVideoHtml({ youtubeUrl: "https://example.com/watch?v=6GY7u8pQ9s8" }), /YouTube video/);
 
-const designSource = await readFile(new URL("../design.html", import.meta.url), "utf8");
-const design = await plugin.transformIndexHtml.handler(designSource, { filename: "design.html" });
+const designSource = await readFile(new URL("../design-components.html", import.meta.url), "utf8");
+const design = await plugin.transformIndexHtml.handler(designSource, { filename: "design-components.html" });
 const indexSource = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const homepage = await plugin.transformIndexHtml.handler(indexSource, { filename: "index.html" });
 const selectedRows = publications.filter((item) => item.selected);

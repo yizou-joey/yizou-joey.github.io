@@ -1,3 +1,15 @@
+export const designPages = Object.freeze({
+  "design.html": "overview",
+  "design-color.html": "color",
+  "design-typography.html": "type",
+  "design-space.html": "space",
+  "design-material.html": "material",
+  "design-links.html": "links",
+  "design-components.html": "components",
+  "design-responsive.html": "responsive",
+  "design-principles.html": "accessibility",
+});
+
 export default [
   {
     title: "Start",
@@ -9,18 +21,18 @@ export default [
     title: "Foundations",
     items: [
       { id: "color", title: "Colour", href: "/design-color.html" },
-      { id: "type", title: "Typography", href: "/design.html#type" },
-      { id: "space", title: "Spacing & Shape", href: "/design.html#space" },
-      { id: "material", title: "Images & Surfaces", href: "/design.html#material" },
+      { id: "type", title: "Typography", href: "/design-typography.html" },
+      { id: "space", title: "Spacing & Shape", href: "/design-space.html" },
+      { id: "material", title: "Images & Surfaces", href: "/design-material.html" },
     ],
   },
   {
     title: "Guide",
     items: [
-      { id: "links", title: "Links & States", href: "/design.html#links" },
-      { id: "components", title: "Academic Components", href: "/design.html#components" },
-      { id: "responsive", title: "Responsive", href: "/design.html#responsive" },
-      { id: "accessibility", title: "Principles", href: "/design.html#accessibility" },
+      { id: "links", title: "Links & States", href: "/design-links.html" },
+      { id: "components", title: "Academic Components", href: "/design-components.html" },
+      { id: "responsive", title: "Responsive", href: "/design-responsive.html" },
+      { id: "accessibility", title: "Principles", href: "/design-principles.html" },
     ],
   },
 ];

@@ -6,6 +6,7 @@ import { renderSiteShell, siteShellTemplateFiles } from "./build/site-shell.js";
 import { getProjectEntries, projectTemplateFile, renderProjectPage } from "./build/project-pages.js";
 import { injectStaticContent } from "./build/static-content.js";
 import { renderDesignNavigationHtml } from "./build/design-navigation.js";
+import { designPages } from "./contents/design-navigation.js";
 import { renderProjectCitationHtml } from "@site/components/citation/render";
 import { fileURLToPath } from "node:url";
 import bio from "./contents/bio.js";
@@ -95,20 +96,22 @@ const staticContentHtmlPlugin = () => ({
         const entry = projectEntries.find((entry) => entry.projectUrl === fileName);
         html = await renderProjectPage(entry);
       }
-      if (fileName === "design.html" || fileName === "design-color.html") {
-        html = injectStaticContent({ html, fileName, id: "design-doc-nav", content: renderDesignNavigationHtml({ currentId: fileName === "design.html" ? "overview" : "color" }) });
+      if (designPages[fileName]) {
+        html = injectStaticContent({ html, fileName, id: "design-doc-nav", content: renderDesignNavigationHtml({ currentId: designPages[fileName] }) });
       }
-      if (fileName === "design.html") {
+      if (fileName === "design-components.html") {
         html = injectStaticContent({ html, fileName, id: "design-publications", content: renderSelectedPublicationsHtml(publications.filter((item) => item.selected).slice(0, 1)) });
         html = injectStaticContent({ html, fileName, id: "design-news", content: renderListHtml(news.slice(0, 1), renderNewsItemHtml) });
-        html = injectStaticContent({ html, fileName, id: "design-services", content: renderListHtml(services, renderServicesItemHtml) });
         const citationEntry = projectEntries.find((entry) => entry.projectUrl === "dodgeui.html");
         if (!citationEntry) fail("Project citation specimen is missing from project publications.");
         html = injectStaticContent({ html, fileName, id: "design-citation", content: renderProjectCitationHtml(citationEntry.citation.bibtex, { headingLevel: "h3" }) });
       }
+      if (fileName === "design-links.html") {
+        html = injectStaticContent({ html, fileName, id: "design-services", content: renderListHtml(services, renderServicesItemHtml) });
+      }
       const pageType = fileName === "index.html" ? "home"
         : fileName === "404.html" ? "notFound"
-          : fileName === "design.html" || fileName === "design-color.html" ? "document"
+          : designPages[fileName] ? "document"
           : projectPages.includes(fileName) ? "project" : null;
       if (pageType) html = await renderSiteShell(html, { fileName, pageType });
       if (fileName === "cv.html") {
@@ -119,7 +122,7 @@ const staticContentHtmlPlugin = () => ({
           content: renderListHtml(education, renderEducationItemHtml),
         });
       }
-      if (["index.html", "404.html", "design.html", "design-color.html", "publications.html", "cv.html", ...projectPages].includes(fileName)) {
+      if (["index.html", "404.html", ...Object.keys(designPages), "publications.html", "cv.html", ...projectPages].includes(fileName)) {
         const placeholder = /<script\b[^>]*\bdata-theme-bootstrap\b[^>]*>[\s\S]*?<\/script>/gi;
         const matches = [...html.matchAll(placeholder)];
         if (matches.length !== 1 || !/^<script\s+data-theme-bootstrap\s*>\s*<\/script>$/i.test(matches[0][0])) {
@@ -148,8 +151,7 @@ export default defineConfig({
       input: {
         main: "index.html",
         notFound: "404.html",
-        design: "design.html",
-        designColor: "design-color.html",
+        ...Object.fromEntries(Object.keys(designPages).map((fileName) => [fileName.replace(/\.html$/, ""), fileName])),
         ...Object.fromEntries(projectPages.map((fileName) => [fileName.replace(/\.html$/, ""), fileName])),
       },
     },

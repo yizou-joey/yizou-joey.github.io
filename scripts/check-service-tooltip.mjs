@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { runInNewContext } from "node:vm";
 import services from "../contents/services.js";
 import { renderListHtml, renderServicesItemHtml } from "../js/renderers.js";
+import { initializeServiceTooltip } from "@site/components/service/behavior";
 
+assert.doesNotThrow(() => initializeServiceTooltip(), "Importing and initializing without a DOM is safe.");
 const source = await readFile(new URL("../js/service-tooltip.js", import.meta.url), "utf8");
+assert.match(source, /import\s*\{\s*initializeServiceTooltip\s*\}\s*from\s*["']@site\/components\/service\/behavior["']/);
+assert.match(source, /initializeServiceTooltip\(\)/);
+assert.equal(source.trim().split("\n").length, 3, "The site entry remains a thin public-API initializer.");
 const styles = await readFile(new URL("../css/styles.css", import.meta.url), "utf8");
 const serviceStyles = styles.slice(styles.indexOf(".service-event a[aria-describedby]::after"), styles.indexOf("/* === Component: service mascot sticker === */"));
 assert.match(serviceStyles, /height:\s*var\(--link-underline-rest-width\)/);
@@ -57,7 +61,7 @@ const createPage = () => {
   let time = 0;
   let nextId = 0;
   const context = {
-    document, window, innerWidth: 1280, innerHeight: 720,
+    document, window,
     matchMedia: (query) => query.includes("reduced") ? reduced : query.includes("min-width") ? wide : fine,
     setTimeout(callback, delay) {
       timers.set(++nextId, { callback, at: time + delay });
@@ -81,7 +85,7 @@ const createPage = () => {
       if (timer.at <= time && timers.delete(id)) timer.callback();
     }
   };
-  runInNewContext(source, context);
+  initializeServiceTooltip(context);
   return { entries, document, window, context, fine, wide, reduced, frame, advance };
 };
 const mouse = { pointerType: "mouse" };

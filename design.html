@@ -3,109 +3,43 @@
   <head>
     <!-- site:bootstrap -->
     <title>Design Guidelines | Yi Zou</title>
-    <meta name="description" content="The design language and component specimens of Yi Zou's academic website." />
+    <meta name="description" content="The design language of Yi Zou's academic website, with its guide pages." />
     <!-- site:head -->
   </head>
   <body class="text-ink">
     <div class="site-shell">
       <!-- site:header -->
-      <main class="design-page page-gutter section-rail-l1">
-        <header class="design-hero">
-          <h1 class="type-title-hero" lang="en">Design Language.</h1>
-          <p class="design-lede type-body-bio">A visual guide to research, typography, and space.<br />Real site elements, arranged for a quiet and clear reading experience.</p>
-        </header>
-        <nav class="design-nav" aria-label="Guide sections"><a href="#color">01 Color</a><a href="#type">02 Typography</a><a href="#links">03 Links</a><a href="#components">04 Components</a><a href="#space">05 Space</a><a href="#material">06 Material</a><a href="#responsive">07 Responsive</a><a href="#accessibility">08 Principles</a></nav>
+      <main id="design-content" class="design-page design-doc page-gutter section-rail-l1">
+        <div id="design-doc-nav"></div>
+        <div class="design-doc-main">
+          <header class="design-hero">
+            <p class="design-eyebrow">Design Guide</p>
+            <h1 class="type-title-hero" lang="en">Design Language.</h1>
+            <p class="design-lede type-body-bio">A quiet personal academic archive: warm paper, editorial typography, and clear hierarchy.</p>
+          </header>
 
-        <section class="design-section" id="color">
-          <div class="section-heading-row"><h2 class="type-title-section">Color Palette</h2></div><p class="design-intro">Warm paper and ink form the foundation. Accent colors carry meaning, not decoration. Switch the theme to see the live tokens change.</p>
-          <div class="design-palette">
-            <div class="design-swatch"><div class="design-fill design-fill-page"></div><div><strong>Paper</strong><code>--color-page-bg</code><small>Page background</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-ink"></div><div><strong>Ink</strong><code>--color-ink</code><small>Headings and text</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-muted"></div><div><strong>Muted</strong><code>--color-muted</code><small>Supporting information</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-line"></div><div><strong>Line</strong><code>--color-line</code><small>Subtle dividers</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-border"></div><div><strong>Warm Border</strong><code>--color-border-warm</code><small>Edges and dividers</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-award"></div><div><strong>Award</strong><code>--color-award-text</code><small>Award text</small></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-resource"></div><div><strong>Resource</strong><code>--color-resource-link</code><small>Research resources</small></div></div>
-          </div>
-          <div class="design-palette-heading"><h3 class="type-title-subsection">Venue Colors</h3><p>Theme-aware text colors identify each venue. Source colors are shown for reference, not as general-purpose accents.</p></div>
-          <div class="design-palette design-venue-palette">
-            <div class="design-swatch"><div class="design-fill design-fill-vr"></div><div><strong>IEEE VR</strong><code>--color-venue-ieee-vr-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-vr" aria-hidden="true"></i>Source <code>--color-venue-ieee-vr</code></span></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-ismar"></div><div><strong>ISMAR</strong><code>--color-venue-ismar-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-ismar" aria-hidden="true"></i>Source <code>--color-venue-ismar</code></span></div></div>
-            <div class="design-swatch"><div class="design-fill design-fill-mmsys"></div><div><strong>MMSys</strong><code>--color-venue-mmsys-text</code><small>Conference text and links</small><span class="design-source"><i class="design-source-mmsys" aria-hidden="true"></i>Source <code>--color-venue-mmsys</code></span></div></div>
-          </div>
-          <p class="design-caption">Colors follow CSS theme variables. See <a class="inline-link" href="/DESIGN.md">DESIGN.md</a> for the light and dark values.</p>
-        </section>
+          <section class="design-section" id="overview">
+            <div class="section-heading-row"><h2 class="type-title-section">Overview</h2></div>
+            <p class="design-overview-lede type-body-bio">Editorial serif for titles, quiet sans-serif for the interface, and one accent kept for venues and awards.</p>
+            <p class="design-intro">The site sits on warm off-white paper with near-black ink. It uses no default cards, heavy shadows, or decorative motion. Research and personal writing lead; the interface only organizes them, and color appears only where it carries meaning.</p>
+            <ul class="design-characteristics">
+              <li><strong>Paper and ink</strong><span>Warm paper and near-black ink in both themes, with muted text for supporting information.</span></li>
+              <li><strong>Editorial hierarchy</strong><span>Serif titles and narrative text, with quieter sans-serif for interface labels and subsections.</span></li>
+              <li><strong>Meaningful accent</strong><span>Accent color marks venues and awards only. State changes use visible focus and restrained motion.</span></li>
+              <li><strong>Reflow over breakpoints</strong><span>Content adapts to available width rather than device names, and never clips to keep a composition.</span></li>
+            </ul>
+            <p class="design-intro">Best suited to a research archive, publication list, and long-form personal writing. For the rules behind each idea, see <a class="inline-link" href="/design-principles.html">Design Principles in Practice</a>.</p>
+          </section>
 
-        <section class="design-section" id="type" lang="en">
-          <div class="section-heading-row"><h2 class="type-title-section">Typography</h2></div><p class="design-intro">Styles follow the role of the content. Serif type carries narrative and supporting prose; sans serif structures headings and labels. The examples report computed styles, not necessarily the font actually rendered.</p>
-          <p class="design-caption"><strong>Heading Case:</strong> Capitalize every word, including short words; preserve names, acronyms, code, and published titles as supplied. Body text uses sentence case.</p>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-title-hero</code></div><div class="type-title-hero">Research &amp; Ideas</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-title-hero-sub</code></div><div class="type-title-hero-sub">A Thoughtful Practice</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-title-section</code></div><div class="type-title-section">Selected Publications</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-title-subsection</code></div><div class="type-title-subsection">Research Resources</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-body-bio</code><p>Narrative prose · biography, project abstracts, and error copy</p></div><div class="type-body-bio">I explore how interactive systems can help people navigate complex situations. My research brings together human-computer interaction, extended reality, and adaptive interfaces to support thoughtful experiences in context.</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-body-sm</code><p>Supporting information · profile contacts and guide explanations</p></div><div class="type-body-sm">Guangzhou, China · Email · GitHub · Scholar<br />Supporting text offers context without competing with the main narrative. Use the same compact serif style for the guide's explanations and notes.</div></div>
-          <div class="design-type-row"><div class="design-type-meta"><code>.type-label</code><p>Compact sans-serif labels</p></div><div class="type-label">RESEARCH / 2026</div></div>
-          <p class="design-caption">Editorial text also belongs to its component: see the <a class="inline-link" href="#components">live News example</a>. Image captions and other small text may use different metrics; they are not automatically <code>.type-body-sm</code>.</p>
-        </section>
-
-        <section class="design-section" id="links">
-          <div class="section-heading-row"><h2 class="type-title-section">Links &amp; States</h2></div><p class="design-intro">Shared behavior, distinct responsibilities. The examples are live; use the page header for the theme control.</p>
-          <div class="design-interaction"><h3 class="type-title-subsection">Text Links</h3><p class="design-interaction-intro">On hover, link text darkens in light mode and brightens in dark mode as the underline shifts down.</p>
-            <div class="design-demo-grid"><div class="design-demo"><span class="design-eyebrow">IN PROSE</span><p class="type-body-bio design-prose-link-demo">Read the <a class="inline-link" href="/">academic homepage</a> or explore <a class="inline-link" href="/contextual-recovery.html">a research project about contextual recovery and reflective interaction</a>.</p><small>Hover just one link: its text gains contrast as the underline shifts down, even across wrapped lines.</small></div>
-            <div class="design-demo"><span class="design-eyebrow">ICON + LABEL</span><p><a class="contact-link profile-contact-compact-link" href="mailto:yzou906@connect.hkust-gz.edu.cn"><svg class="contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"/><path d="M3 7l9 6l9 -6"/></svg><span class="contact-link-label">Email</span></a></p><small>Hover the icon, gap, or label: only the label changes color and is underlined. The whole link receives focus.</small></div></div>
-            <p class="design-rule"><strong>Shared States</strong> · The 1px underline moves from 0.15em to 0.2em on hover or focus and to 0.175em on press. Text and underline respond together on hover over 140ms; the press offset takes 100ms. Keyboard focus is immediate. Reduced motion keeps the resting offset and applies color changes immediately.</p>
-          </div>
-          <div class="design-interaction"><h3 class="type-title-subsection">Service Annotation</h3><p class="design-interaction-intro">The homepage service list uses a coordinated underline and tooltip connector instead of the ordinary native underline.</p><div id="design-services" class="service-list"></div><p class="design-rule">At ≥64em with a fine hover pointer, hover or keyboard focus opens the floating annotation; keyboard focus is immediate. Escape, scroll, or resize dismisses it. On touch or narrow layouts the annotation is visually hidden and the link remains navigable. Its text is referenced by <code>aria-describedby</code>.</p></div>
-          <div class="design-interaction"><h3 class="type-title-subsection">Research Resources</h3><div class="design-demo"><span class="design-eyebrow">BRACKET LINKS</span><div class="publication-bracket-links"><a href="/dodgeui.html">[<span class="bracket-text">Project</span>]</a></div><p class="design-rule">Brackets and an interactive arrow identify resources; this family owns its own underline and focus behavior.</p></div></div>
-          <div class="design-interaction"><h3 class="type-title-subsection">Navigation</h3><div class="design-demo"><span class="design-eyebrow">SITE HEADER LINKS</span><nav class="design-nav-sample type-nav" aria-label="Header link example"><a class="site-header-link" href="/">Home</a><span class="site-header-link" aria-current="page">Design</span></nav><p class="design-rule">Muted without an underline; hover changes to ink over 160ms ease. Keyboard focus gets a 2px blue outline, offset 2px. The current page or location is ink; this current-page example is non-clickable.</p></div></div>
-          <div class="design-interaction"><h3 class="type-title-subsection">Theme Control</h3><p class="design-interaction-intro">Try the single button in the header. It keeps one fixed slot and names the destination theme; these marks are a non-interactive diagram.</p>
-            <figure class="design-theme-figure"><figcaption>ONE SLOT · DESTINATION ICON <span>Moon on light / sun on dark</span></figcaption><div class="design-theme-diagram" aria-hidden="true"><span>☾</span><span class="design-theme-arrow">→</span><span>☼</span><span class="design-theme-note">continuous circle ↔ crescent</span></div><div class="design-timings"><div><span>Page Crossfade</span><i class="design-time-page"></i><b>280ms</b></div><div><span>Disc Morph</span><i class="design-time-disc"></i><b>240ms</b></div><div><span>Rays Scale / Fade</span><i class="design-time-rays"></i><b>180 / 120ms</b></div><div><span>Icon Fallback</span><i class="design-time-fallback"></i><b>160ms</b></div></div><p class="design-caption">Durations overlap; these are not sequential steps.</p></figure>
-            <p class="design-rule">Hover changes ink only, with no fill. A fine-pointer press scales to 0.97 (160ms in / 100ms out). Supported pointer transitions crossfade the whole page without a wipe; unsupported path interpolation uses icon fade/scale. Keyboard, reduced motion, initial paint, storage updates and unsupported transitions are immediate. A repeated click interrupts motion and applies the latest choice; the slot does not move or duplicate content.</p>
-          </div>
-        </section>
-
-        <section class="design-section" id="components">
-          <div class="section-heading-row"><h2 class="type-title-section">Academic Components</h2></div><p class="design-intro">Publication and news rows use the homepage data and renderers. The service row is shown in Interaction above; this single news example does not include the homepage scroll container.</p>
-          <div class="design-example"><p class="design-eyebrow">SELECTED PUBLICATIONS</p><div id="design-publications"></div></div>
-          <div class="design-example"><p class="design-eyebrow">NEWS</p><ul id="design-news" class="news-bullet-list"></ul></div>
-          <div class="design-example"><p class="design-eyebrow">PROJECT CITATION</p><p class="design-intro">A live BibTeX citation from DodgeUI, rendered with the same markup and copy control as the project page. Long lines wrap visually; copying preserves the original text.</p><div id="design-citation"></div><p class="design-rule">A warm border and quiet surface frame the citation. The icon confirms a successful copy; a visible message reports failure. Without JavaScript, the citation remains selectable.</p></div>
-        </section>
-
-        <section class="design-section" id="space">
-          <div class="section-heading-row"><h2 class="type-title-section">Spacing &amp; Shape</h2></div><p class="design-intro">A small spacing scale supports a generous reading rhythm. Corners follow the role of each element, not a universal card style.</p>
-          <div class="design-space-heading"><h3 class="type-title-subsection">Spacing Scale</h3><p>Blocks shown at 2× their token width</p></div>
-          <div class="design-scale"><div><span class="design-bar-8"></span><code>xs</code><small>8px</small></div><div><span class="design-bar-12"></span><code>sm</code><small>12px</small></div><div><span class="design-bar-16"></span><code>md</code><small>16px</small></div><div><span class="design-bar-24"></span><code>lg</code><small>24px</small></div><div><span class="design-bar-32"></span><code>xl</code><small>32px</small></div><div><span class="design-bar-48"></span><code>2xl</code><small>48px</small></div></div>
-          <p class="design-caption">Preview labels only; existing CSS tokens remain unchanged.</p>
-          <div class="design-space-heading"><h3 class="type-title-subsection">Space In Use</h3><p>Empty space shown at 1:1</p></div>
-          <div class="design-gap-samples"><figure><div class="design-gap-example design-gap-section"><span></span><span></span></div><figcaption>Between Sections <code>48px</code></figcaption></figure><figure><div class="design-gap-example design-gap-heading"><span></span><span></span></div><figcaption>Heading To Content <code>32px</code></figcaption></figure><figure><div class="design-gap-example design-gap-item"><span></span><span></span></div><figcaption>Between List Items <code>24px</code></figcaption></figure></div>
-          <p class="design-caption">Page gutters: 16–32px fluid · Column gap: 20–56px fluid · Centered rails: 1100px / 1060px maximum, not fixed screen widths.</p>
-          <div class="design-space-heading"><h3 class="type-title-subsection">Shapes &amp; Corners</h3><p>Radius follows responsibility</p></div>
-          <div class="design-radii"><figure><div class="design-radius-box design-radius-open">0</div><figcaption>Open Layout<br /><code>0px</code></figcaption></figure><figure><div class="design-radius-box design-radius-focus">2</div><figcaption>Fine Focus<br /><code>2px</code></figcaption></figure><figure><div class="design-radius-box design-radius-control">4</div><figcaption>Compact Control<br /><code>4px</code></figcaption></figure><figure><div class="design-radius-box design-radius-media">8</div><figcaption>Media / Citation / Swatch<br /><code>8px</code></figcaption></figure><figure><div class="design-radius-box design-radius-badge">∞</div><figcaption>Badge<br /><code>999px</code></figcaption></figure></div>
-        </section>
-
-        <section class="design-section" id="material">
-          <div class="section-heading-row"><h2 class="type-title-section">Images &amp; Surfaces</h2></div><p class="design-intro">Images serve the content. Stickers retain their silhouette, while borders and shadows stay understated.</p>
-          <div class="design-demo-grid design-material"><figure class="design-demo"><img class="news-mascot-sticker" src="/files/generated/logos/ieee-vr-26-mascot-sticker.webp" width="80" height="80" alt="IEEE VR otter mascot sticker" /><figcaption><strong>Sticker</strong><br />Original colors, white edge, subtle paper shadow</figcaption></figure><figure class="design-demo"><img src="/files/generated/projects/dodgeui.webp" width="960" height="540" alt="Illustration of the DodgeUI research project" /><figcaption><strong>Research Image</strong><br />Imagery supports the research narrative</figcaption></figure><div class="design-demo"><span class="design-award">Best Poster Award</span><p>Semantic emphasis, not a decorative accent.</p></div></div>
-        </section>
-
-        <section class="design-section" id="responsive">
-          <div class="section-heading-row"><h2 class="type-title-section">One System, Many Widths</h2></div><p class="design-intro">Content reflows without clipping or assuming an input method from device width. These diagrams are schematic, not exact viewport screenshots.</p>
-          <div class="design-devices"><div><div class="design-device design-device-desktop"><i></i><b></b><b></b></div><strong>Desktop</strong><small>Wide rail / two columns</small></div><div><div class="design-device design-device-tablet"><i></i><b></b><b></b></div><strong>Tablet</strong><small>Single column below 56.25em</small></div><div><div class="design-device design-device-mobile"><i></i><b></b><b></b></div><strong>Mobile</strong><small>Identity layout adjusts below 37.5em</small></div></div>
-        </section>
-
-        <section class="design-section" id="accessibility">
-          <div class="section-heading-row"><h2 class="type-title-section">Design Principles In Practice</h2></div>
-          <div class="design-principle-notes"><div><h3>Content First</h3><p>Let meaning, not decoration, set priority.</p></div><div><h3>Clear Hierarchy</h3><p>Use typography, alignment, and whitespace to guide reading.</p></div><div><h3>Meaningful Color</h3><p>Reserve emphasis for roles such as venues and awards.</p></div><div><h3>Clear Feedback</h3><p>Communicate actions and state changes clearly, with visible focus and motion that supports understanding.</p></div><div><h3>Flexible Layout</h3><p>Allow wrapping, growth, and reflow while supporting zoom and reduced motion.</p></div><div><h3>Shared Rules</h3><p>Reuse shared primitives and make exceptions only for distinct responsibilities.</p></div></div>
-          <div class="design-implementation"><h3 class="type-title-subsection">Implementation Contract</h3><p>CSS is the implementation source of truth; keep this visual reference and its companion guide aligned.</p><a class="inline-link" href="/DESIGN.md" download>Download DESIGN.md</a></div>
-        </section>
+          <section class="design-section" id="implementation-reference" aria-labelledby="implementation-reference-heading">
+            <div class="section-heading-row"><h2 class="type-title-section" id="implementation-reference-heading">Implementation Reference</h2></div>
+            <p class="design-intro">Download the companion Markdown file, which records the design tokens, layout rules, and interaction states used across the site.</p>
+            <div class="publication-bracket-links"><a href="/DESIGN.md" download>[<span class="bracket-text">DESIGN.md</span>]</a></div>
+          </section>
+        </div>
       </main>
     </div>
     <!-- site:footer -->
     <script type="module" src="/js/favicon.js"></script>
-    <script type="module" src="/js/design-atlas.js"></script>
-    <script type="module" src="/js/publication-preview.js"></script>
-    <script type="module" src="/js/service-tooltip.js"></script>
-    <script type="module" src="/js/project-citation.js"></script>
   </body>
 </html>

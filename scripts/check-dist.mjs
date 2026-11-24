@@ -2,13 +2,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import publications from "../contents/publications.js";
 import { escapeHtml } from "../js/utils.js";
+import { designPages } from "../contents/design-navigation.js";
 
 const root = process.cwd();
 const distRoot = path.join(root, "dist");
 const errors = [];
 
 const projectEntries = publications.filter((entry) => entry.projectUrl);
-const EXPECTED_HTML_FILES = ["index.html", "404.html", "design.html", ...projectEntries.map((entry) => entry.projectUrl)];
+const EXPECTED_HTML_FILES = ["index.html", "404.html", ...Object.keys(designPages), ...projectEntries.map((entry) => entry.projectUrl)];
 
 const STATIC_CONTENT_TARGETS = Object.freeze({
   ...Object.fromEntries(projectEntries.map((entry) => [entry.projectUrl, ["project-heading"]])),
@@ -19,7 +20,8 @@ const STATIC_CONTENT_TARGETS = Object.freeze({
     "services-list",
     "teaching-list",
   ]),
-  "design.html": ["design-publications", "design-news", "design-services"],
+  "design-components.html": ["design-publications", "design-news"],
+  "design-links.html": ["design-services"],
 });
 
 const report = (message) => {
@@ -180,19 +182,38 @@ if (!errors.length) {
 
     validateStaticTargets(html, fileName);
     validateTheme(html, fileName);
+    if (!html.includes("dodgeui-transition") || !html.includes("dodgeui-veil") || !html.includes("@view-transition")) {
+      report(`${fileName} is missing the navigation transition bootstrap.`);
+    }
+    const usesCitationBehavior = fileName === "design-components.html" || projectEntries.some((entry) => entry.projectUrl === fileName);
+    if (usesCitationBehavior !== /\/assets\/project-citation-[^"\s]+\.js/.test(html)) {
+      report(`${fileName} has an unexpected project-citation behavior bundle reference.`);
+    }
+    const designDownloadCount = (html.match(/<a\b(?=[^>]*\shref="\/DESIGN\.md")(?=[^>]*\sdownload(?=[\s=>]))[^>]*>/g) || []).length;
+    if (designDownloadCount !== (fileName === "design.html" ? 1 : 0)) {
+      report(`${fileName} must ${fileName === "design.html" ? "offer exactly one DESIGN.md download" : "not duplicate the Overview's DESIGN.md download"}.`);
+    }
     if (fileName === "design.html") {
       const source = await readUtf8(path.join(root, "DESIGN.md"));
       const downloaded = await readUtf8(path.join(distRoot, "DESIGN.md"));
       const visualSource = await readUtf8(path.join(root, "design.html"));
       if (downloaded !== source) report("Downloaded DESIGN.md differs from the source.");
       if (!/<html lang="en">/.test(visualSource) || /[\u3400-\u9fff]/u.test(visualSource + source)) report("Design atlas and companion guide must be authored in English.");
-      for (const id of ["color", "type", "links", "components", "space", "material", "responsive", "accessibility"]) {
-        if (!html.includes(`id="${id}"`)) report(`Design section ${id} is missing.`);
+    }
+    if (designPages[fileName]) {
+      const sidebar = html.match(/<nav class="design-doc-nav[^"]*"[\s\S]*?<\/nav>/)?.[0] || "";
+      const links = sidebar.match(/<a\b[^>]*>/g) || [];
+      const current = links.filter((link) => link.includes('aria-current="page"'));
+      if (current.length !== 1 || !current[0].includes(`href="/${fileName}"`)) {
+        report(`${fileName} must mark itself as the only current guide navigation item.`);
       }
-      for (const marker of ["design-fill-vr", "design-fill-ismar", "design-fill-mmsys", "design-radii", "design-gap-samples"]) {
-        if (!html.includes(marker)) report(`Design specimen ${marker} is missing.`);
+      if (fileName === "design.html") {
+        const destinations = links.map((link) => link.match(/\bhref="([^"]+)"/)?.[1]).sort();
+        const expected = Object.keys(designPages).map((page) => `/${page}`).sort();
+        if (destinations.join("\n") !== expected.join("\n")) {
+          report("Overview navigation must link to each guide page exactly once.");
+        }
       }
-      if (!html.includes('href="/DESIGN.md" download')) report("Design Markdown download is missing.");
     }
     if (/<!--\s*site:|\{\{\w+\}\}/.test(html)) {
       report(`${fileName} contains unresolved site or template fields.`);

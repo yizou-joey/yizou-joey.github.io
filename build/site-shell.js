@@ -28,7 +28,8 @@ const profiles = {
 const bootstrap = `<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="text-scale" content="scale" />
-<script data-theme-bootstrap></script>`;
+<script data-theme-bootstrap></script>
+<script data-project-transition></script>`;
 
 const renderTemplate = async (name, values, markup = {}) => {
   const source = await readFile(templates[name], "utf8");
@@ -60,6 +61,7 @@ export const renderSiteShell = async (html, { fileName, pageType }) => {
   ]);
   const shell = { bootstrap, head, header, footer };
   if (pageType === "document") {
+    shell.head = `${head}\n<link rel="expect" href="#design-content" blocking="render" />`;
     shell.header = header.replace('<header class="site-header">', '<header class="site-header" lang="en">');
     shell.footer = footer.replace("<footer ", '<footer lang="en" ');
   }

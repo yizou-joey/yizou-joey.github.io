@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- site:bootstrap -->
+    <title>Academic Components | Design Guide | Yi Zou</title>
+    <meta name="description" content="Academic Components in the design guide of Yi Zou's academic website." />
+    <!-- site:head -->
+  </head>
+  <body class="text-ink">
+    <div class="site-shell">
+      <!-- site:header -->
+      <main id="design-content" class="design-page design-doc page-gutter section-rail-l1">
+        <div id="design-doc-nav"></div>
+        <div class="design-doc-main">
+          <header class="design-hero">
+            <p class="design-eyebrow">Guide</p>
+            <h1 class="type-title-hero" lang="en">Academic Components</h1>
+            <p class="design-lede type-body-bio">Publication and news rows use the homepage data and renderers. The news example omits the homepage scroll container. See <a class="inline-link" href="/design-links.html#service-annotation">Service Annotation</a> for the service row.</p>
+          </header>
+          <section class="design-section" id="components">
+          
+          <div class="design-example"><p class="design-eyebrow">SELECTED PUBLICATIONS</p><div id="design-publications"></div></div>
+          <div class="design-example"><p class="design-eyebrow">NEWS</p><ul id="design-news" class="news-bullet-list"></ul></div>
+          <div class="design-example"><p class="design-eyebrow">PROJECT CITATION</p><p class="design-intro">A live BibTeX citation from DodgeUI, rendered with the same markup and copy control as the project page. Long lines wrap visually; copying preserves the original text.</p><div id="design-citation"></div><p class="design-rule">A warm border and quiet surface frame the citation. The icon confirms a successful copy; a visible message reports failure. Without JavaScript, the citation remains selectable.</p></div>
+        </section>
+        </div>
+      </main>
+    </div>
+    <!-- site:footer -->
+    <script type="module" src="/js/favicon.js"></script>
+    <script type="module" src="/js/project-citation.js"></script>
+    <script type="module" src="/js/publication-preview.js"></script>
+  </body>
+</html>

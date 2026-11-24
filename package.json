@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": ["packages/site-components"],
+  "dependencies": {
+    "@site/components": "file:packages/site-components"
+  },
   "scripts": {
     "preview:stickers": "node tools/sticker/scripts/export.mjs",
     "dev": "npm run optimize:images && vite",

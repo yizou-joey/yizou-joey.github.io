@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- site:bootstrap -->
+    <title>Links &amp; States | Design Guide | Yi Zou</title>
+    <meta name="description" content="Links &amp; States in the design guide of Yi Zou's academic website." />
+    <!-- site:head -->
+  </head>
+  <body class="text-ink">
+    <div class="site-shell">
+      <!-- site:header -->
+      <main id="design-content" class="design-page design-doc page-gutter section-rail-l1">
+        <div id="design-doc-nav"></div>
+        <div class="design-doc-main">
+          <header class="design-hero">
+            <p class="design-eyebrow">Guide</p>
+            <h1 class="type-title-hero" lang="en">Links &amp; States</h1>
+            <p class="design-lede type-body-bio">Shared behavior, distinct responsibilities. The examples are live; use the page header for the theme control.</p>
+          </header>
+          <section class="design-section" id="links">
+          
+          <div class="design-interaction"><h3 class="type-title-subsection">Text Links</h3><p class="design-interaction-intro">On hover, link text darkens in light mode and brightens in dark mode as the underline shifts down.</p>
+            <div class="design-demo-grid"><div class="design-demo"><span class="design-eyebrow">IN PROSE</span><p class="type-body-bio design-prose-link-demo">Read the <a class="inline-link" href="/">academic homepage</a> or explore <a class="inline-link" href="/contextual-recovery.html">a research project about contextual recovery and reflective interaction</a>.</p><small>Hover just one link: its text gains contrast as the underline shifts down, even across wrapped lines.</small></div>
+            <div class="design-demo"><span class="design-eyebrow">ICON + LABEL</span><p><a class="contact-link profile-contact-compact-link" href="mailto:yzou906@connect.hkust-gz.edu.cn"><svg class="contact-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"/><path d="M3 7l9 6l9 -6"/></svg><span class="contact-link-label">Email</span></a></p><small>Hover the icon, gap, or label: the icon and label change color together; only the label is underlined. The whole link receives focus.</small></div></div>
+            <p class="design-rule"><strong>Shared States</strong> · The 1px underline moves from 0.15em to 0.2em on hover or focus and to 0.175em on press. Text and underline respond together on hover over 140ms; the press offset takes 100ms. Keyboard focus is immediate. Reduced motion keeps the resting offset and applies color changes immediately.</p>
+          </div>
+          <div class="design-interaction" id="service-annotation"><h3 class="type-title-subsection">Service Annotation</h3><p class="design-interaction-intro">The homepage service list uses a coordinated underline and tooltip connector instead of the ordinary native underline.</p><div id="design-services" class="service-list"></div><p class="design-rule">At ≥64em with a fine hover pointer, hover or keyboard focus opens the floating annotation; keyboard focus is immediate. Escape, scroll, or resize dismisses it. On touch or narrow layouts the annotation is visually hidden and the link remains navigable. Its text is referenced by <code>aria-describedby</code>.</p></div>
+          <div class="design-interaction"><h3 class="type-title-subsection">Research Resources</h3><div class="design-demo"><span class="design-eyebrow">BRACKET LINKS</span><div class="publication-bracket-links"><a href="/dodgeui.html">[<span class="bracket-text">Project</span>]</a></div><p class="design-rule">Brackets and an interactive arrow identify resources. The label holds only the resource name; verbs such as Download stay in the surrounding text. This family owns its own underline and focus behavior.</p></div></div>
+          <div class="design-interaction"><h3 class="type-title-subsection">Navigation</h3><div class="design-demo"><span class="design-eyebrow">SITE HEADER LINKS</span><nav class="design-nav-sample type-nav" aria-label="Header link example"><a class="site-header-link" href="/">Home</a><span class="site-header-link" aria-current="page">Design</span></nav><p class="design-rule">Muted without an underline; hover changes to ink over 160ms ease. Keyboard focus gets a 2px blue outline, offset 2px. The current page or location is ink; this current-page example is non-clickable.</p></div></div>
+          <div class="design-interaction"><h3 class="type-title-subsection">Theme Control</h3><p class="design-interaction-intro">Try the single button in the header. It keeps one fixed slot and names the destination theme; these marks are a non-interactive diagram.</p>
+            <figure class="design-theme-figure"><figcaption>ONE SLOT · DESTINATION ICON <span>Moon on light / sun on dark</span></figcaption><div class="design-theme-diagram" aria-hidden="true"><span>☾</span><span class="design-theme-arrow">→</span><span>☼</span><span class="design-theme-note">continuous circle ↔ crescent</span></div><div class="design-timings"><div><span>Page Crossfade</span><i class="design-time-page"></i><b>280ms</b></div><div><span>Disc Morph</span><i class="design-time-disc"></i><b>240ms</b></div><div><span>Rays Scale / Fade</span><i class="design-time-rays"></i><b>180 / 120ms</b></div><div><span>Icon Fallback</span><i class="design-time-fallback"></i><b>160ms</b></div></div><p class="design-caption">Durations overlap; these are not sequential steps.</p></figure>
+            <p class="design-rule">Hover changes ink only, with no fill. A fine-pointer press scales to 0.97 (160ms in / 100ms out). Supported pointer transitions crossfade the whole page without a wipe; unsupported path interpolation uses icon fade/scale. Keyboard, reduced motion, initial paint, storage updates and unsupported transitions are immediate. A repeated click interrupts motion and applies the latest choice; the slot does not move or duplicate content.</p>
+          </div>
+        </section>
+        </div>
+      </main>
+    </div>
+    <!-- site:footer -->
+    <script type="module" src="/js/favicon.js"></script>
+    <script type="module" src="/js/service-tooltip.js"></script>
+  </body>
+</html>

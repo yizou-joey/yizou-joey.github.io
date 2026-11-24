@@ -1,74 +1,22 @@
 import {
   escapeHtml,
   getDateSortValue,
-  getVenueConfig,
   normalizeInlineText,
   renderInlineMarkdown,
   renderNewsInline,
-  renderPublicationItemHtml,
 } from "./utils.js";
-
-const MONTH_SHORT_LABEL = {
-  january: "Jan.",
-  february: "Feb.",
-  march: "Mar.",
-  april: "Apr.",
-  may: "May",
-  june: "Jun.",
-  july: "Jul.",
-  august: "Aug.",
-  september: "Sep.",
-  october: "Oct.",
-  november: "Nov.",
-  december: "Dec.",
-  jan: "Jan.",
-  feb: "Feb.",
-  mar: "Mar.",
-  apr: "Apr.",
-  jun: "Jun.",
-  jul: "Jul.",
-  aug: "Aug.",
-  sep: "Sep.",
-  sept: "Sep.",
-  oct: "Oct.",
-  nov: "Nov.",
-  dec: "Dec.",
-};
+import { formatIsoDateLabel } from "@site/components/shared/date";
+import { renderServiceItemHtml as renderServicesItemHtml } from "@site/components/service/render";
+import {
+  renderPublicationItemHtml,
+  renderSelectedPublicationsHtml,
+} from "@site/components/publication/render";
 
 const compareByDateDesc = (a, b) => {
   const aTime = getDateSortValue(a?.date);
   const bTime = getDateSortValue(b?.date);
   if (aTime === bTime) return 0;
   return bTime - aTime;
-};
-
-const formatIsoDateLabel = (value) => {
-  const text = normalizeInlineText(value || "");
-  if (!text) return "";
-  const match = text.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/);
-  if (!match) return text;
-
-  const [, year, monthValue, dayValue] = match;
-  if (!monthValue) return year;
-
-  const monthKeys = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
-  const month = MONTH_SHORT_LABEL[monthKeys[Number(monthValue) - 1]];
-  if (!month) return text;
-  if (!dayValue) return `${month} ${year}`;
-  return `${month} ${Number(dayValue)}, ${year}`;
 };
 
 const splitNewsDateLabel = (value) => {
@@ -179,45 +127,8 @@ const renderTeachingItemHtml = (item) => {
   return `<div class="editorial-grid-row"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${subtitleHtml}</div></div>`;
 };
 
-const renderServicesItemHtml = (item, index = 0) => {
-  const entry = item || {};
-  const venueConfig = getVenueConfig(entry.venueKey);
-  const venueClass = venueConfig ? ` ${venueConfig.className}` : "";
-  const datePeriod = normalizeInlineText(entry.dateLabel) || formatIsoDateLabel(entry.date);
-  let eventContent = renderInlineMarkdown(entry.event);
-  const fullName = normalizeInlineText(entry.eventFullName);
-  if (fullName && eventContent.includes("<a ")) {
-    const descriptionId = `service-event-description-${index}`;
-    const description = [normalizeInlineText(entry.eventEdition), fullName].filter(Boolean).join(" ");
-    eventContent = eventContent.replace("<a ", `<a aria-describedby="${descriptionId}" `);
-    eventContent += `<span class="service-event-tooltip" id="${descriptionId}" role="tooltip"><span class="service-event-note">${escapeHtml(description)}</span></span>`;
-  }
-  const eventHtml = entry.event
-    ? `<div class="editorial-inst-name service-event">${eventContent}</div>`
-    : entry.detail
-      ? `<div class="editorial-inst-name">${renderInlineMarkdown(entry.detail || "")}</div>`
-      : "";
-  const locationHtml = entry.location
-    ? `<div class="editorial-inst-sub">${renderInlineMarkdown(entry.location)}</div>`
-    : "";
-  const detailHtml = eventHtml || locationHtml
-    ? `<div class="editorial-item-subtitle">${eventHtml}${locationHtml}</div>`
-    : "";
-  const logoHtml = entry.logo
-    ? `<div class="editorial-media-column service-mascot-column"><img class="service-mascot-sticker" src="${escapeHtml(entry.logo)}" alt="${escapeHtml(entry.logoAlt || "Conference mascot")}" loading="eager" decoding="async" width="80" height="80" /></div>`
-    : "";
-
-  return `<div class="editorial-media-row editorial-service-row${venueClass}"><div class="editorial-date-column"><div class="editorial-date-start">${escapeHtml(datePeriod)}</div></div><div class="editorial-detail-column"><h3 class="editorial-item-title">${escapeHtml(entry.role || "")}</h3>${detailHtml}</div>${logoHtml}</div>`;
-};
-
 const renderListHtml = (items, renderItemHtml) =>
   (items || []).map((item, index) => renderItemHtml(item || {}, index)).join("");
-
-const renderSelectedPublicationsHtml = (items) =>
-  renderListHtml(
-    (items || []).filter((item) => item?.selected === true),
-    renderPublicationItemHtml
-  );
 
 const groupPublicationsByYear = (items) => {
   const groups = new Map();

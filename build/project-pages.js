@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { escapeHtml, renderProjectHeadingHtml, renderProjectVideoHtml } from "../js/utils.js";
 import { injectStaticContent } from "./static-content.js";
+import { renderProjectCitationHtml } from "@site/components/citation/render";
 
 export const projectTemplateFile = fileURLToPath(new URL("../templates/project.html", import.meta.url));
 
@@ -48,12 +49,13 @@ export const renderProjectPage = async (entry) => {
     abstract: project.abstract,
     imageSrc: preview.src,
     imageAlt: preview.alt,
-    bibtex: citation.bibtex,
+    citationHtml: renderProjectCitationHtml(citation.bibtex),
   };
   let html = await readFile(projectTemplateFile, "utf8");
   html = html.replace(/\{\{(\w+)\}\}/g, (_match, key) => {
-    // Only repository-authored details may contain markup; metadata stays escaped.
+    // Renderer-owned fragments are markup; metadata stays escaped. Authored details are the only raw content field.
     if (key === "videoHtml") return renderProjectVideoHtml(entry);
+    if (key === "citationHtml") return values.citationHtml;
     if (key === "detailsHtml") return project.detailsHtml?.trim()
       ? `<div class="project-details type-body-bio">${project.detailsHtml}</div>` : "";
     if (key === "imageClass") return preview.fit === "contain" ? ' class="project-image--contain"' : "";

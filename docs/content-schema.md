@@ -190,9 +190,11 @@ normal restart/reload behavior.
 ### Navigation behavior
 
 A ready preview can become the shared image during navigation. Clicking starts
-navigation immediately. Cold images, unavailable placements, keyboard, touch,
-and reduced motion use ordinary navigation. Native cross-document transitions
-have a compatibility animation when unavailable or unsuccessful.
+navigation immediately. Cold images and unavailable placements use the default page fade instead of
+the shared image. Keyboard and touch navigation use the same fade. Reduced
+motion navigates immediately. Other same-site pages use the 200ms default
+fade; native cross-document transitions are used where supported, and browsers
+without them fade a page-background veil.
 
 Home returns to the saved homepage scroll position. Direct visits without saved
 context return to the matching paper title. The return transition connects the

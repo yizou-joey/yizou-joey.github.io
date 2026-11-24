@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
@@ -48,7 +49,14 @@ const writeImage = async ({ input, outputPath, width, format, options = {}, stic
     throw new Error(`Unsupported format: ${format}`);
   }
 
-  await image.toFile(outputPath);
+  // Keep live preview URLs readable while a production check regenerates them.
+  const temporaryPath = `${outputPath}.${randomUUID()}.tmp`;
+  try {
+    await image.toFile(temporaryPath);
+    await fs.rename(temporaryPath, outputPath);
+  } finally {
+    await fs.rm(temporaryPath, { force: true });
+  }
   return {
     outputPath,
     bytes: await getSize(outputPath),
@@ -132,9 +140,6 @@ const tasks = [
     ],
   },
 ];
-
-await fs.rm(outputRoot, { recursive: true, force: true });
-await fs.mkdir(outputRoot, { recursive: true });
 
 const rows = [];
 for (const task of tasks) {

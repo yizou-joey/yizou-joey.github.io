@@ -1,0 +1,16 @@
+{
+  "name": "@site/components",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./citation/render": "./src/citation/render.js",
+    "./citation/behavior": "./src/citation/behavior.js",
+    "./escape-html": "./src/escape-html.js",
+    "./publication/render": "./src/publication/render.js",
+    "./shared/render": "./src/shared/render.js",
+    "./shared/date": "./src/shared/date.js",
+    "./service/render": "./src/service/render.js",
+    "./service/behavior": "./src/service/behavior.js"
+  }
+}

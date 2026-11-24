@@ -25,6 +25,8 @@ This repository is a Vite-powered, multi-page academic website. Entry pages live
 
 Use ES modules, two-space indentation, semicolons, and double quotes in JavaScript. Prefer `camelCase` for functions and variables, `UPPER_SNAKE_CASE` for exported constants, and kebab-case for semantic CSS classes. Before changing UI, inspect and reuse the tokens and semantic class families in `css/styles.css`, the implementation source of truth. `design.html` is an independently composed visual reference, not generated from Markdown; keep it and the companion `DESIGN.md` implementation guide aligned with CSS. Do not add inline styles, arbitrary Tailwind values, or raw layout utility classes to HTML. Content modules export plain arrays or strings; use ISO `YYYY`, `YYYY-MM`, or `YYYY-MM-DD` dates and public-relative asset paths such as `files/materials/paper.pdf`.
 
+All site and design-guide content must follow `DESIGN.md`. Before adding or changing text, markup, or styles, find the matching rule there and use its named class. If no rule covers the role, do not invent a local style in the page: propose the rule and its class to the user, then record it in `DESIGN.md` together with the change, so the CSS, the guide pages, and the spec stay consistent.
+
 Before changing a style, inventory its semantic behavior family across source entries, renderers, shared styles and overrides, and final build pages. Promote an accepted experiment back to its shared primitive and remove temporary scopes; document exceptions by responsibility rather than copying states into each page. See `DESIGN.md` for the link family map.
 
 ## Testing Guidelines

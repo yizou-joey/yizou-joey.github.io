@@ -13,7 +13,7 @@ separate Chinese typography worktree's Google Fonts `text`-subset approach;
 it reads this checkout only and requests ASCII, extended Latin, and characters
 in the current content, HTML, styles and rendering scripts. Google Fonts may
 update its source versions, so regeneration is repeatable but not guaranteed
-byte-identical over time. Review the resulting WOFF2 files and licences, and
+byte-identical over time. Review the resulting WOFF2 files and licenses, and
 run `npm run check`. New characters require regeneration; unsupported glyphs
 fall back to the next font rather than triggering a remote font request.
 

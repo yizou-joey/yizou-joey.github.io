@@ -11,6 +11,7 @@ The site is a Vite multi-page application with these production entry pages:
 - `index.html`: homepage and selected research.
 - `404.html`: not-found page.
 - `design.html`: design guide and live specimens, not linked from navigation.
+- `design-color.html`: the Color page of the design guide, with live token values and copyable names.
 - Project URLs declared in `contents/publications.js`: currently `dodgeui.html`
   and `contextual-recovery.html`, rendered from `templates/project.html`.
 
@@ -132,6 +133,28 @@ small presentation behavior:
 
 GoatCounter is loaded asynchronously for visitor analytics. None of these
 scripts is required for reading the page content.
+
+## Navigation transitions
+
+Same-site navigation between published pages uses a 200ms root fade. The site
+shell injects `js/project-transition.js` and its critical opt-in CSS into every
+published page, so native `@view-transition` applies to all of them. Without
+cross-document view transitions, a click on a same-origin link schedules a
+`navigation-veil` state on the outgoing page: after 150ms a fixed `::after`
+layer filled with `--color-page-bg` fades in. Fast navigations finish before
+that and never flash it. After 1s the layer fades out and `navigation-progress`
+draws a 2px ink hairline, so a slow load keeps the old page visible instead of
+a blank surface. The next page starts covered and fades the layer out after its
+first frames. The stored handoff and all timers stop after 10 seconds, and a
+restored page from the back-forward cache clears the state. Reduced motion
+never adds either layer.
+
+Same-site published pages are listed in a `speculationrules` prerender
+(`eagerness: "moderate"`) in the shared head, so supporting browsers usually
+start the next page on hover. Design guide pages mark `#design-content` with
+`<link rel="expect">` and `blocking="render"`, so native transitions capture
+rendered content rather than a blank page. The `@view-transition` opt-in is
+disabled under reduced motion.
 
 ## Theme implementation
 

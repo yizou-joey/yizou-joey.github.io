@@ -60,9 +60,9 @@
 .design-demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: var(--space-16); }
 .design-demo { min-width: 0; border: 1px solid var(--color-border-warm); padding: var(--space-24); margin: 0; }
 .design-demo p { margin: var(--space-16) 0; }
-.design-prose-link-demo { color: var(--color-link-rest-strong); }
-.design-fill-link-rest { background: var(--color-link-rest-strong); }
-.design-fill-link-emphasis { background: var(--color-link-emphasis); }
+.design-prose-link-demo { color: var(--color-ink); }
+.design-fill-link-hover { background: var(--color-link-hover); }
+.design-fill-focus { background: var(--color-apple-blue); }
 .design-fill-contact-rest { background: var(--color-chip-text-muted); }
 .design-interaction { padding-top: var(--space-32); border-top: 1px solid var(--color-border-warm); }
 .design-interaction:not(:first-child) { margin-block-start: var(--space-32); }
@@ -244,9 +244,7 @@
   /* Inline links */
   --color-link-decoration-muted: rgba(115, 113, 108, 0.4);
   --color-link-decoration-ink: rgba(21, 18, 15, 0.6);
-  --color-link-rest-strong: #4b4640;
-  --color-link-emphasis: var(--color-ink);
-  --color-venue-link-rest: var(--color-link-rest-strong);
+  --color-link-hover: #0066cc;
 
   /* Contact metadata */
   --color-chip-text-muted: #3c3c3c;
@@ -382,7 +380,7 @@
   --color-border-warm: #3b3a37;
   --color-selection-highlight: #665126;
   --color-selection-ink: #fff4da;
-  --color-apple-blue: #70b5ff;
+  --color-apple-blue: #0071e3;
   /* Lift text lightness without redefining the source brand colors. */
   --color-venue-ieee-vr-text: #7c77de;
   --color-venue-mmsys-text: #2c9cbf;
@@ -391,9 +389,7 @@
   --color-resource-link: #bd8c6e;
   --color-link-decoration-muted: rgba(166, 163, 158, 0.4);
   --color-link-decoration-ink: rgba(231, 229, 226, 0.6);
-  --color-link-rest-strong: var(--color-ink);
-  --color-link-emphasis: #fffdf6;
-  --color-venue-link-rest: var(--color-link-rest-strong);
+  --color-link-hover: #2997ff;
   --color-chip-text-muted: var(--color-ink);
   --education-logo-mono-filter: grayscale(1) brightness(0.8) invert(1) brightness(0.9);
   --education-logo-mono-opacity: 0.9;
@@ -441,7 +437,7 @@ a {
 .error404-link {
   color: var(--link-text-rest, inherit);
   text-decoration-line: underline;
-  text-decoration-color: var(--color-link-decoration-muted);
+  text-decoration-color: var(--color-link-decoration-ink);
   text-decoration-thickness: var(--link-underline-rest-width);
   text-underline-offset: var(--link-underline-rest-offset);
   transition:
@@ -454,8 +450,8 @@ a {
   .inline-link:not(:where(.service-event a[aria-describedby])):hover,
   .contact-link:hover .contact-link-label,
   .error404-link:hover {
-    color: var(--link-text-emphasis, var(--color-link-emphasis));
-    text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
+    color: var(--link-text-emphasis, var(--color-link-hover));
+    text-decoration-color: var(--link-underline-accent, var(--color-link-hover));
     text-underline-offset: var(--link-underline-hover-offset);
   }
 }
@@ -463,8 +459,8 @@ a {
 .inline-link:not(:where(.service-event a[aria-describedby])):focus-visible,
 .contact-link:focus-visible .contact-link-label,
 .error404-link:focus-visible {
-  color: var(--link-text-emphasis, var(--color-link-emphasis));
-  text-decoration-color: var(--link-underline-accent, var(--color-link-decoration-ink));
+  color: var(--link-text-emphasis, var(--color-link-hover));
+  text-decoration-color: var(--link-underline-accent, var(--color-link-hover));
   text-underline-offset: var(--link-underline-hover-offset);
   transition: none;
 }
@@ -472,8 +468,8 @@ a {
 .inline-link:not(:where(.service-event a[aria-describedby])):active,
 .contact-link:active .contact-link-label,
 .error404-link:active {
-  color: var(--link-text-emphasis, var(--color-link-emphasis));
-  text-decoration-color: var(--color-ink);
+  color: var(--link-text-emphasis, var(--color-link-hover));
+  text-decoration-color: var(--link-underline-accent, var(--color-link-hover));
   text-underline-offset: var(--link-underline-press-offset);
   transition-duration: 0s, var(--link-press-duration), 0s;
 }
@@ -1861,12 +1857,12 @@ span.site-header-link {
 
 @media (hover: hover) and (pointer: fine) {
   .contact-link:hover .contact-icon {
-    color: var(--link-text-emphasis, var(--color-link-emphasis));
+    color: var(--link-text-emphasis, var(--color-link-hover));
   }
 }
 
 .contact-link:is(:active, :focus-visible) .contact-icon {
-  color: var(--link-text-emphasis, var(--color-link-emphasis));
+  color: var(--link-text-emphasis, var(--color-link-hover));
   transition: none;
 }
 
@@ -2004,7 +2000,7 @@ span.site-header-link {
 .profile-bio {
   container: bio / inline-size;
   width: 100%;
-  color: var(--color-link-rest-strong);
+  color: var(--color-ink);
   text-align: left;
 }
 
@@ -2443,7 +2439,7 @@ span.site-header-link {
 .editorial-news-content {
   margin: 0;
   min-width: 0;
-  color: var(--color-link-rest-strong);
+  color: var(--color-ink);
   text-wrap: pretty;
 }
 
@@ -2463,7 +2459,7 @@ span.site-header-link {
 
 :is(.editorial-news-content, .project-labels) .news-venue-link {
   --news-venue-hover-color: var(--color-news-venue-accent);
-  --link-text-rest: var(--color-venue-link-rest);
+  --link-text-rest: var(--color-ink);
   --link-text-emphasis: var(--news-venue-hover-color);
   --link-underline-accent: var(--news-venue-hover-color);
 }
@@ -2766,8 +2762,7 @@ span.site-header-link {
 }
 
 .error404-link {
-  --link-text-rest: var(--color-muted);
-  --link-text-emphasis: var(--color-ink);
+  --link-text-rest: var(--color-ink);
   display: inline-flex;
   align-items: center;
   min-width: 24px;

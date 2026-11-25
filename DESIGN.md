@@ -9,7 +9,7 @@ The visual reference is itself an example of this design system, not just a desc
 - Content comes before decoration. Establish reading order with type, alignment, whitespace, and fine dividers, not default cards, heavy shadows, glows, or animation.
 - Reuse visual and interaction rules for the same semantics. Scope an exception only when its distinct responsibility cannot be met by the shared rule.
 - Treat a page as a continuous reading space. On narrow screens, allow wrapping, growth, and reflow rather than clipping essential content to preserve a composition.
-- Reserve emphasis for meaningful roles such as venue and award. Communicate actions and state changes clearly, with visible focus and motion that supports understanding.
+- Reserve decorative emphasis for meaningful roles such as venue and award. `--color-link-hover` is interaction feedback for links, not decoration. Communicate actions and state changes clearly, with visible focus and motion that supports understanding.
 
 ## Color And Themes
 
@@ -19,8 +19,8 @@ The [Color page](/design-color.html) shows these tokens live, with copyable name
 | --- | --- | --- | --- |
 | Paper | `--color-page-bg` | `#fdfdfc` | `#191919` |
 | Text | `--color-ink` | `#15120f` | `#e7e5e2` |
-| Biography, news text and their resting links | `--color-link-rest-strong` | `#4b4640` | `#e7e5e2` |
-| Link emphasis | `--color-link-emphasis` | `#15120f` | `#fffdf6` |
+| Link hover and keyboard focus text and underline | `--color-link-hover` | `#0066cc` | `#2997ff` |
+| Focus ring | `--color-apple-blue` | `#0071e3` | `#0071e3` |
 | Contact icon and label at rest | `--color-chip-text-muted` | `#3c3c3c` | `#e7e5e2` |
 | Supporting information | `--color-muted` | `#73716c` | `#a6a39e` |
 | Subtle divider | `--color-line` | `#f2f1ee` | `#2f2e2b` |
@@ -74,8 +74,8 @@ Accent colors are semantic, not arbitrary decoration. Conferences use their corr
 
 ## Components And Interaction States
 
-- Ordinary `.inline-link`, `.contact-link-label`, and `.error404-link` share one native 1px underline family that wraps: offset `0.15em` at rest, `0.2em` on hover or focus, and `0.175em` when pressed. On hover, link text darkens in light mode and brightens in dark mode over the same 140ms as the underline. Press updates the colors immediately and moves the underline over 100ms; keyboard focus feedback is immediate. Reduced motion keeps the resting offset and applies color feedback immediately.
-- The ordinary link itself is the target. Hover, press, and focus belong to the entire `.contact-link` including icon and gap, and its icon and label change color together; only the label is underlined. Use `--link-text-rest` and `--link-text-emphasis` for contextual text tones when needed. Conference links retain their underline accent and can use a higher-contrast text tone in the same hue. Keep underline colors independent of the text tokens.
+- Ordinary `.inline-link`, `.contact-link-label`, and `.error404-link` share one native 1px underline family that wraps: offset `0.15em` at rest, `0.2em` on hover or focus, and `0.175em` when pressed. At rest, link text is `--color-ink`, the same as body text, and the underline is `--color-link-decoration-ink`. On hover or keyboard focus, link text and underline change to `--color-link-hover` (`#0066cc` light, `#2997ff` dark) over the same 140ms as the underline; press uses the same color. Focus outlines use `--color-apple-blue` (`#0071e3`) in both themes. External links follow the same rules, with no extra icon or resting color. Press updates the colors immediately and moves the underline over 100ms; keyboard focus feedback is immediate. Reduced motion keeps the resting offset and applies color feedback immediately.
+- The ordinary link itself is the target. Hover, press, and focus belong to the entire `.contact-link` including icon and gap, and its icon and label change color together; only the label is underlined. Use `--link-text-rest` and `--link-text-emphasis` for contextual text tones when needed. Conference links keep their venue color for hover text and underline accent, and their resting text is ink like other links. Keep underline colors independent of the text tokens.
 - `.service-event a[aria-describedby]` replaces the native underline with a pseudo-element coordinated with the tooltip connector. Both remain 1px in every state; the exception is the connecting line, not a thicker underline. Floating annotations open on hover or focus only at `min-width: 64em` with a fine hover pointer; keyboard focus is immediate. Escape, scroll, and resize dismiss them. On touch or narrow layouts the annotation is visually hidden and the link remains navigable; its text is referenced by `aria-describedby`. `.publication-project-link` owns the preview. Do not override these exceptions with global `a` states.
 - `.publication-bracket-links` is the resource label, used for research resources such as papers, posters, videos, and downloadable files. Its brackets enclose only the resource name, such as `[DESIGN.md]`; verbs such as Download belong to the surrounding text. The label is `--color-resource-link`, pressed text mixes that color 65% with ink, and the label is not underlined at rest. Hover and keyboard focus reveal a 1px `::after` underline from left to right in 260ms, and an up-arrow appears in 260ms. The underline is not `text-decoration`, so the `--link-underline-*` offset tokens do not apply. Pressing lifts the underline by `-0.025em` in 100ms, the difference between the press and hover offsets, and only when motion is allowed. Reduced motion shows the final state immediately.
 - `.service-list` owns the centered level-2 rail, list spacing, homepage base text metrics, and service link states. Reuse it around rendered service rows in other contexts; do not let a surrounding specimen heading or prose style redefine the rows.

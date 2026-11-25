@@ -1943,6 +1943,10 @@ span.site-header-link {
   line-height: var(--type-caption-line-height);
 }
 
+.profile-location {
+  color: var(--color-chip-text-muted);
+}
+
 .profile-contact-links {
   display: flex;
   flex-wrap: wrap;

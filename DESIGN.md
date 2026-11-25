@@ -19,7 +19,7 @@ The [Color page](/design-color.html) shows these tokens live, with copyable name
 | --- | --- | --- | --- |
 | Paper | `--color-page-bg` | `#fdfdfc` | `#191919` |
 | Text | `--color-ink` | `#15120f` | `#e7e5e2` |
-| Biography and its resting links | `--color-link-rest-strong` | `#4b4640` | `#e7e5e2` |
+| Biography, news text and their resting links | `--color-link-rest-strong` | `#4b4640` | `#e7e5e2` |
 | Link emphasis | `--color-link-emphasis` | `#15120f` | `#fffdf6` |
 | Contact icon and label at rest | `--color-chip-text-muted` | `#3c3c3c` | `#e7e5e2` |
 | Supporting information | `--color-muted` | `#73716c` | `#a6a39e` |

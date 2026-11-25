@@ -21,7 +21,6 @@ The [Color page](/design-color.html) shows these tokens live, with copyable name
 | Text | `--color-ink` | `#15120f` | `#e7e5e2` |
 | Link hover and keyboard focus text and underline | `--color-link-hover` | `#0066cc` | `#2997ff` |
 | Focus ring | `--color-apple-blue` | `#0071e3` | `#0071e3` |
-| Contact icon and label at rest | `--color-chip-text-muted` | `#3c3c3c` | `#e7e5e2` |
 | Supporting information | `--color-muted` | `#73716c` | `#a6a39e` |
 | Subtle divider | `--color-line` | `#f2f1ee` | `#2f2e2b` |
 | Warm divider | `--color-border-warm` | `#dfdcd4` | `#3b3a37` |

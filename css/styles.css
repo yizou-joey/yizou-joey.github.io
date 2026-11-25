@@ -63,7 +63,6 @@
 .design-prose-link-demo { color: var(--color-ink); }
 .design-fill-link-hover { background: var(--color-link-hover); }
 .design-fill-focus { background: var(--color-apple-blue); }
-.design-fill-contact-rest { background: var(--color-chip-text-muted); }
 .design-interaction { padding-top: var(--space-32); border-top: 1px solid var(--color-border-warm); }
 .design-interaction:not(:first-child) { margin-block-start: var(--space-32); }
 .design-interaction > h3 { margin-bottom: var(--space-12); }
@@ -247,7 +246,6 @@
   --color-link-hover: #0066cc;
 
   /* Contact metadata */
-  --color-chip-text-muted: #3c3c3c;
   --color-footer-note: var(--color-muted);
   --education-logo-mono-filter: grayscale(100%) brightness(80%) contrast(200%);
   --education-logo-mono-opacity: 0.85;
@@ -390,7 +388,6 @@
   --color-link-decoration-muted: rgba(166, 163, 158, 0.4);
   --color-link-decoration-ink: rgba(231, 229, 226, 0.6);
   --color-link-hover: #2997ff;
-  --color-chip-text-muted: var(--color-ink);
   --education-logo-mono-filter: grayscale(1) brightness(0.8) invert(1) brightness(0.9);
   --education-logo-mono-opacity: 0.9;
   --sticker-shadow-base:
@@ -506,7 +503,7 @@ a {
 }
 
 .text-resource-muted {
-  color: var(--color-chip-text-muted);
+  color: var(--color-ink);
 }
 
 /* === Primitive: editorial grid and timeline rows === */
@@ -1846,7 +1843,7 @@ span.site-header-link {
   min-height: 24px;
   display: inline-flex;
   align-items: center;
-  color: var(--color-chip-text-muted);
+  color: var(--color-ink);
   text-decoration: none;
 }
 
@@ -1940,7 +1937,7 @@ span.site-header-link {
 }
 
 .profile-location {
-  color: var(--color-chip-text-muted);
+  color: var(--color-ink);
 }
 
 .profile-contact-links {
@@ -1949,7 +1946,7 @@ span.site-header-link {
   justify-content: center;
   column-gap: var(--space-12);
   row-gap: var(--space-6);
-  color: var(--color-chip-text-muted);
+  color: var(--color-ink);
   line-height: var(--type-caption-line-height);
   text-align: center;
 }
